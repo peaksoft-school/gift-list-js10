@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { useState } from 'react'
+import React from 'react'
 import { ShirtIcon, UserDataIcon, UserWait } from '../assets'
 import { Field } from './Field'
 
@@ -60,18 +60,6 @@ const ContainerIcon = styled('div')({
 })
 
 export function AdminState() {
-   const [isState, setIsState] = useState('Забронировано')
-   const [isIcon, setIsIcon] = useState(true)
-
-   const toggleState = () => {
-      if (isState === 'Забронировано') {
-         setIsState('В ожидании')
-      } else {
-         setIsState('Забронировано')
-      }
-      setIsIcon(!isIcon)
-   }
-
    return (
       <Container>
          <Icon src={ShirtIcon} alt="shirt" />
@@ -81,9 +69,9 @@ export function AdminState() {
                <span>Аида Каримова</span>
                <div>
                   <Span>+996 705 86 95 44</Span>
-                  <Title onClick={toggleState}>{isState}</Title>
+                  <Title>Забронировано</Title>
                   <ContainerIcon>
-                     {isIcon && <Img src={UserWait} alt="user-wait" />}
+                     <Img src={UserWait} alt="user-wait" />
                   </ContainerIcon>
                </div>
             </FrowContent>
