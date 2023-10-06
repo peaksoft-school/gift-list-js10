@@ -1,12 +1,21 @@
 import React from 'react'
-import { Checkbox as MuiCheckbox, styled } from '@mui/material'
+import {
+   FormControlLabel,
+   Checkbox as MuiCheckbox,
+   styled,
+} from '@mui/material'
 
-export const Checkbox = ({ disabled, onChange, value }) => {
+export const Checkbox = ({ disabled, onChange, value, labelTitle }) => {
    return (
-      <StyledMuiCheckbox
-         disabled={disabled}
-         onChange={onChange}
-         value={value}
+      <FormControlLabel
+         control={
+            <StyledMuiCheckbox
+               disabled={disabled}
+               onChange={onChange}
+               value={value}
+            />
+         }
+         label={labelTitle}
       />
    )
 }
