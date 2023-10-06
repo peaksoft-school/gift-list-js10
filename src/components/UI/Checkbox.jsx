@@ -1,12 +1,12 @@
 import React from 'react'
 import { Checkbox as MuiCheckbox, styled } from '@mui/material'
 
-export const Checkbox = ({ disabled = false }) => {
+export const Checkbox = ({ disabled }) => {
    return <StyledMuiCheckbox disabled={disabled} />
 }
 
 const StyledMuiCheckbox = styled(MuiCheckbox)`
-   .MuiSvgIcon-root {
+   .MuiSvgIcon {
       width: 1.25rem;
       height: 1.25rem;
    }
