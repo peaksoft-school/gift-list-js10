@@ -41,7 +41,6 @@
          }
       ],
       "import/no-extraneous-dependencies": "off",
-      "react/prop-types": "off",
-      "import/no-unresolved": "off"
+      "react/prop-types": "off"
    }
 }
