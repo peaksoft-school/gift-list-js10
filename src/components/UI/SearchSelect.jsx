@@ -7,16 +7,40 @@ import {
    styled,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { ReactComponent as CancelIcon } from '../../assets/icons/search-cancel-icon.svg'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/select-arrow-icon.svg'
-import { ReactComponent as CancelIcon } from '../../assets/icons/search-cancel-icon.svg'
 
 const selectOptions = [
-   { title: 'Состояние', fieldName: 'state' },
-   { title: 'Категория', fieldName: 'category' },
+   { title: 'Состояние', fieldName: 'state', options: ['Все', 'Б/У', 'Новое'] },
+   { title: 'Категория', fieldName: 'category', options: ['Електроника'] },
    { title: 'Подкатегория', fieldName: 'subCategory' },
-   { title: 'Страна', fieldName: 'country' },
+   {
+      title: 'Страна',
+      fieldName: 'country',
+      options: [
+         'Кыргызстан',
+         'Азербайджан',
+         'Россия',
+         'Казахстан',
+         'Узбекистан',
+         'Таджикистан',
+      ],
+   },
 ]
+
+const subCategoryOptions = {
+   Електроника: {
+      subCategories: [
+         'Смартфоны и телефоны',
+         'Аудиотехника',
+         'Фото и видеокамеры',
+         'Автоэлектроника',
+         'ТВ и видео',
+         'Компьютеры, ноутбуки и планшеты',
+      ],
+   },
+}
 
 export const SearchSelect = ({
    variant = {},
@@ -54,9 +78,9 @@ export const SearchSelect = ({
             ),
             endAdornment: (
                <InputAdornment position="end">
-                  {variant === 'search' &&
-                     selectOptions.map(({ title, fieldName }) => (
-                        <FormControl variant="filled" key={title}>
+                  {variant === 'select' &&
+                     selectOptions.map(({ title, fieldName, options }) => (
+                        <FormControl key={title}>
                            <StyledSelect
                               IconComponent={ArrowIcon}
                               value={values[fieldName]}
@@ -68,14 +92,21 @@ export const SearchSelect = ({
                               <MenuItem value="" style={{ display: 'none' }}>
                                  {title}
                               </MenuItem>
-                              <MenuItem
-                                 style={{
-                                    fontSize: '0.875rem',
-                                 }}
-                                 value={10}
-                              >
-                                 Type
-                              </MenuItem>
+                              {(fieldName === 'subCategory'
+                                 ? subCategoryOptions[values.category]
+                                      ?.subCategories
+                                 : options
+                              )?.map((title) => (
+                                 <MenuItem
+                                    style={{
+                                       fontSize: '0.875rem',
+                                    }}
+                                    value={title}
+                                    key={title}
+                                 >
+                                    {title}
+                                 </MenuItem>
+                              ))}
                            </StyledSelect>
                         </FormControl>
                      ))}
@@ -93,7 +124,7 @@ export const SearchSelect = ({
 }
 const Form = styled(TextField)({
    '& input': {
-      paddingLeft: '14px',
+      paddingLeft: '10px',
       height: '0.4375em',
       fontSize: '0.875rem',
       fontFamily: `'Inter', sans-serif`,
@@ -111,24 +142,11 @@ const StyledSelect = styled(Select)({
       outline: '0',
       border: 'none',
    },
-   backgroundColor: 'initial',
-   '&::before': {
-      borderBottom: 'none',
-   },
-   '&:hover': {
-      backgroundColor: 'initial',
-   },
-   '&.Mui-focused': {
-      backgroundColor: 'initial',
-   },
-   '& .css-d9oaum-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input:focus':
+   '&, &:hover, &.Mui-focused, & .css-d9oaum-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input:focus':
       {
          backgroundColor: 'initial',
       },
-   '&:after': {
-      borderBottom: 'none',
-   },
-   '&:hover:not(.Mui-disabled, .Mui-error):before': {
+   '&:after, &:hover:not(.Mui-disabled, .Mui-error):before, &::before': {
       borderBottom: 'none',
    },
    '.css-d9oaum-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input': {
