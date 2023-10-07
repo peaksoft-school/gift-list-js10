@@ -45,7 +45,6 @@ export const AboutProject = () => {
 const AboutProjectPart = styled.div`
    margin: 0 auto;
    width: 73rem;
-   background-color: aqua;
    font-family: 'Inter';
    font-weight: 500;
 `
