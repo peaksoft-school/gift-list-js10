@@ -9,10 +9,13 @@ import {
 
 import Empty from '../assets/images/Empty.png'
 
-export const EmptyComponent = () => {
+export const EmptyComponent = ({ variant }) => {
    return (
       <Container>
-         <Typography variant="h6">Список желаний</Typography>
+         <Typography variant="h6">
+            {variant ? 'Список желаний' : 'Название праздника'}
+         </Typography>
+
          <EmptyContent>
             <CardMedia
                image={Empty}
@@ -21,7 +24,11 @@ export const EmptyComponent = () => {
                alt="empty-image"
             />
 
-            <CardContent>Вы пока не добавили желание!</CardContent>
+            <CardContent>
+               {variant
+                  ? 'Вы пока не добавили желание!'
+                  : ' Вы пока не добавили желаемый подарок на этот праздник'}
+            </CardContent>
             <Button variant="contained">+ Добавить желание</Button>
             {/* // azyryncha mui button koshup turdum kiyin Button componneta merge
          bolgondo oshonu chakyryp koiobuz// */}
