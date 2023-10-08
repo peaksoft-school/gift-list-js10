@@ -122,13 +122,14 @@ export const SearchSelect = ({
       />
    )
 }
+
 const Form = styled(TextField)({
    '& input': {
       paddingLeft: '10px',
       height: '0.4375em',
       fontSize: '0.875rem',
-      fontFamily: `'Inter', sans-serif`,
       fontWeight: '400',
+      caretColor: '#8639B5',
    },
    width: '51.3125rem',
    margin: '20px',
@@ -151,6 +152,5 @@ const StyledSelect = styled(Select)({
    },
    '.css-d9oaum-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input': {
       paddingTop: '10px',
-      fontFamily: `'Inter', sans-serif`,
    },
 })
