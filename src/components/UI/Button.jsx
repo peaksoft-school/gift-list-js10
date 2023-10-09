@@ -1,12 +1,7 @@
 import { Button as UiButton, styled } from '@mui/material'
 import React from 'react'
 
-export const Button = ({
-   children,
-   variant = 'outlined',
-   onClick,
-   ...rest
-}) => {
+export const Button = ({ children, variant = 'primary', onClick, ...rest }) => {
    return (
       <StyledButton variant={variant} onClick={onClick} {...rest}>
          {children}
@@ -18,7 +13,7 @@ const StyledVariants = {
    primary: {
       backgroundColor: '#8639b5',
       color: 'white',
-      fontSize: '16px',
+      fontSize: '1rem',
       fontWeight: 500,
       border: 'none',
       ':hover': { backgroundColor: '#612386' },
@@ -28,7 +23,7 @@ const StyledVariants = {
    outlined: {
       backgroundColor: '#fafafa',
       color: '#8D949E',
-      fontSize: '14px',
+      fontSize: '0.875',
       fontWeight: 500,
       border: '1px solid #8D949E',
       ':hover': { backgroundColor: '#612386', color: 'white' },
@@ -42,7 +37,7 @@ const StyledVariants = {
    contained: {
       backgroundColor: '#FA2B56',
       color: 'white',
-      fontSize: '16px',
+      fontSize: '1rem',
       fontWeight: 600,
       border: 'none',
       ':hover': { backgroundColor: '#DD0B37' },

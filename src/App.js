@@ -1,3 +1,9 @@
+import { Button } from './components/UI/Button'
+
 export function App() {
-   return <div className="App">App</div>
+   return (
+      <div className="App">
+         <Button>hello</Button>
+      </div>
+   )
 }
