@@ -16,6 +16,7 @@ const StyledVariants = {
       fontSize: '1rem',
       fontWeight: 500,
       border: 'none',
+      textTransform: 'capitalize',
       ':hover': { backgroundColor: '#612386' },
       ':active': { backgroundColor: '#793686' },
       ':disabled': { backgroundColor: 'rgba(28, 27, 31, 0.12)' },
@@ -25,6 +26,7 @@ const StyledVariants = {
       color: '#8D949E',
       fontSize: '0.875',
       fontWeight: 500,
+      textTransform: 'capitalize',
       border: '1px solid #8D949E',
       ':hover': { backgroundColor: '#612386', color: 'white' },
       ':active': { backgroundColor: '#AB62D8', color: 'white' },
@@ -56,5 +58,5 @@ const StyledButton = styled(UiButton)`
    border-radius: 6px;
    outline: none;
    cursor: pointer;
-   ${getVariants}
+   ${getVariants};
 `
