@@ -15,7 +15,7 @@ export const SecondEmptyComponent = () => {
                component="img"
                alt="empty-image"
             />
-            <CardContent sx={{ fontSize: '20px' }}>Ничего нет</CardContent>
+            <CardText>Ничего нет</CardText>
             <p>Здесь будет отображен список желаемых подарков ваших друзей.</p>
          </EmptyContent>
       </Container>
@@ -39,4 +39,8 @@ const EmptyContent = styled('div')({
    '& > p': {
       width: '335px',
    },
+})
+
+const CardText = styled(CardContent)({
+   fontSize: '1.25rem',
 })
