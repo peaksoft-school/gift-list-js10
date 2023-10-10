@@ -5,8 +5,8 @@ export const globalTheme = createTheme({
       primary: {
          main: '#8639B5',
          aliceBlue: '#F7F8FA',
-         light: '#FFFFFF',
-         dark: '#020202',
+         white: '#FFFFFF',
+         black: '#020202',
       },
       secondary: {
          main: '#8D949E',
@@ -23,37 +23,5 @@ export const globalTheme = createTheme({
    },
    typography: {
       fontFamily: `'Inter', sans-serif`,
-      h1: {
-         fontSize: '3.375rem',
-         fontWeight: '500',
-      },
-      h2: {
-         fontSize: '2.875rem',
-         fontWeight: '500',
-      },
-      h3: {
-         fontSize: '1.5rem',
-         fontWeight: '500',
-      },
-      h4: {
-         fontSize: '1.25rem',
-         fontWeight: '500',
-      },
-      h5: {
-         fontSize: '1.125rem',
-         fontWeight: '500',
-      },
-      body1: {
-         fontSize: '1rem',
-         fontWeight: '400',
-      },
-      body2: {
-         fontSize: '0.875rem',
-         fontWeight: '400',
-      },
-      subtitle1: {
-         fontSize: '0.75rem',
-         fontWeight: '400',
-      },
    },
 })
