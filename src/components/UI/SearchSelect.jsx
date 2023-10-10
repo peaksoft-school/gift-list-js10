@@ -7,9 +7,7 @@ import {
    styled,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { ReactComponent as CancelIcon } from '../../assets/icons/search-cancel-icon.svg'
-import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg'
-import { ReactComponent as ArrowIcon } from '../../assets/icons/select-arrow-icon.svg'
+import { CancelIcon, SearchIcon, ArrowIcon } from '../../assets'
 
 const selectOptions = [
    { title: 'Состояние', fieldName: 'state', options: ['Все', 'Б/У', 'Новое'] },
@@ -85,43 +83,40 @@ export const SearchSelect = ({
                               IconComponent={ArrowIcon}
                               value={values[fieldName]}
                               name={fieldName}
-                              style={{ fontSize: '0.875rem' }}
                               onChange={handleChange}
                               displayEmpty
                            >
-                              <MenuItem value="" style={{ display: 'none' }}>
+                              <StyledMenuItem value="" unvisible>
                                  {title}
-                              </MenuItem>
+                              </StyledMenuItem>
                               {(fieldName === 'subCategory'
                                  ? subCategoryOptions[values.category]
                                       ?.subCategories
                                  : options
                               )?.map((title) => (
-                                 <MenuItem
-                                    style={{
-                                       fontSize: '0.875rem',
-                                    }}
-                                    value={title}
-                                    key={title}
-                                 >
+                                 <StyledMenuItem value={title} key={title}>
                                     {title}
-                                 </MenuItem>
+                                 </StyledMenuItem>
                               ))}
                            </StyledSelect>
                         </FormControl>
                      ))}
-                  {isShowX && (
-                     <CancelIcon
-                        onClick={onResetValues}
-                        style={{ cursor: 'pointer' }}
-                     />
-                  )}
+                  {isShowX && <StyledCancelIcon onClick={onResetValues} />}
                </InputAdornment>
             ),
          }}
       />
    )
 }
+
+const StyledMenuItem = styled(MenuItem)(({ unvisible }) => ({
+   fontSize: '0.875rem',
+   display: unvisible && 'none',
+}))
+
+const StyledCancelIcon = styled(CancelIcon)({
+   cursor: 'pointer',
+})
 
 const Form = styled(TextField)({
    '& input': {
@@ -139,6 +134,7 @@ const Form = styled(TextField)({
 })
 
 const StyledSelect = styled(Select)({
+   fontSize: '0.875rem',
    fieldset: {
       outline: '0',
       border: 'none',
