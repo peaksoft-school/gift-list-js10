@@ -35,8 +35,16 @@ const StyledVariants = {
       textTransform: 'capitalize',
       padding: ' 0.625rem 1.625rem',
       border: '1px solid #8D949E',
-      ':hover': { backgroundColor: '#612386', color: 'white', border: 'none' },
-      ':active': { backgroundColor: '#AB62D8', color: 'white', border: 'none' },
+      ':hover': {
+         backgroundColor: '#612386',
+         color: 'white',
+         border: '1px solid white',
+      },
+      ':active': {
+         backgroundColor: '#AB62D8',
+         color: 'white',
+         border: '1px solid white',
+      },
       ':disabled': {
          backgroundColor: 'white',
          border: '1px solid rgba(28, 27, 31, 0.12)',
