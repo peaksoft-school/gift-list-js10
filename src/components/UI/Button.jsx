@@ -71,7 +71,6 @@ const getVariants = (props) => {
 }
 
 const StyledButton = styled(UiButton)`
-   padding: 16px 18px 16px 18px;
    border-radius: 6px;
    outline: none;
    cursor: pointer;
