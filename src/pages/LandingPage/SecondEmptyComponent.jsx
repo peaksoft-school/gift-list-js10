@@ -2,7 +2,7 @@ import React from 'react'
 
 import { styled, Typography, CardMedia, CardContent } from '@mui/material'
 
-import EmptyState from '../assets/images/EmptyState.png'
+import EmptyState from '../../assets/images/EmptyState.png'
 
 export const SecondEmptyComponent = () => {
    return (

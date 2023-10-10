@@ -7,7 +7,7 @@ import {
    Box,
 } from '@mui/material'
 
-import Empty from '../assets/images/Empty.png'
+import Empty from '../../assets/images/Empty.png'
 
 export const EmptyComponent = ({ variant }) => {
    return (
