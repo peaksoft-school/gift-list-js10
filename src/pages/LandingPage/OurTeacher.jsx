@@ -4,11 +4,11 @@ import React from 'react'
 
 export const OurTeacher = ({ teacher }) => {
    return (
-      <TeacherCard component="div" style={teacher.styles}>
+      <TeacherCard component="div">
          <img style={teacher.styles} src={teacher.url} alt={teacher.name} />
          <TeacherInfo component="div">
-            <p>{teacher.name}</p>
-            <p>{teacher.special}</p>
+            <p>{teacher.nameAndSpecial}</p>
+            <p>{teacher.company}</p>
          </TeacherInfo>
       </TeacherCard>
    )

@@ -1,87 +1,87 @@
 import React from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import Macbookpro from '../assets/images/Device - Macbook Pro.png'
+import Macbookpro from '../../assets/images/Device - Macbook Pro.png'
 import { OurTeacher } from './OurTeacher'
 
-import Manager from '../assets/images/manager.jpg'
-import ProjectManager from '../assets/images/project-manager.jpg'
-import FullStackDeveloper from '../assets/images/fullstack-developer.jpg'
-import SeniorDeveloper from '../assets/images/senior-developer.jpg'
-import MiddleDeveloper from '../assets/images/middle-developer.jpg'
-import JuniorDeveloper from '../assets/images/junior-developer.jpg'
+import KatyaDesigner from '../../assets/images/Katya_designer.png'
+import MarinaMarketer from '../../assets/images/Marina_marketer.png'
+import SavaPRmanager from '../../assets/images/Sava_PR_manager.png'
+import PashaFounder from '../../assets/images/Pasha_founder.png'
+import SashaChiefEditor from '../../assets/images/Sasha_chief_editor.png'
+import LenyaDeveloper from '../../assets/images/Lenya_developer.png'
 
 const teachers = [
    {
       id: 1,
-      url: Manager,
+      url: KatyaDesigner,
       styles: {
          borderRadius: '0px 0px 0px 100px',
          marginBottom: '0.94rem',
          width: '10.625rem',
          height: '10.625rem',
       },
-      name: 'Рон',
-      special: 'Менеджер Headers Market',
+      nameAndSpecial: 'Катя, ведущий',
+      company: 'дизайнер TailGroup',
    },
    {
       id: 2,
-      url: FullStackDeveloper,
+      url: MarinaMarketer,
       styles: {
          borderRadius: '100px 0px 100px 0px',
          marginBottom: '0.94rem',
          width: '10.625rem',
          height: '10.625rem',
       },
-      name: 'Джамал',
-      special: 'Фуллстек Central Media',
+      nameAndSpecial: 'Марина, маркетолог',
+      company: 'Headers Market',
    },
    {
       id: 3,
-      url: SeniorDeveloper,
+      url: SavaPRmanager,
       styles: {
          borderRadius: '0px 0px 75px 0px',
          marginBottom: '0.94rem',
          width: '10.625rem',
          height: '10.625rem',
       },
-      name: 'Брюс',
-      special: 'Старший разработчик LeadCompany',
+      nameAndSpecial: 'Сава, PR-менеджер',
+      company: 'Central-Media',
    },
    {
       id: 4,
-      url: MiddleDeveloper,
+      url: PashaFounder,
       styles: {
          borderRadius: '100px 0px 0px 0px',
          marginBottom: '0.94rem',
          width: '10.625rem',
          height: '10.625rem',
       },
-      name: 'Линь-Сяо',
-      special: 'Разработчик Just Journal',
+      nameAndSpecial: 'Паша, Основатель ',
+      company: 'LeadCompany',
    },
    {
       id: 5,
-      url: JuniorDeveloper,
+      url: SashaChiefEditor,
       styles: {
          borderRadius: '100px 0px 100px 0px',
          marginBottom: '0.94rem',
          width: '10.625rem',
          height: '10.625rem',
       },
-      name: 'Джек',
-      special: 'Младший разработчик Yamail',
+      nameAndSpecial: 'Саша, главный редактор',
+      company: 'Just Journal',
    },
    {
       id: 6,
-      url: ProjectManager,
+      url: LenyaDeveloper,
       styles: {
          borderRadius: '0px 100px 0px 0px',
          marginBottom: '0.94rem',
          width: '10.625rem',
          height: '10.625rem',
       },
-      name: 'Кайла',
-      special: 'Проект менеджер',
+      nameAndSpecial: 'Лёня, ведущий',
+      company: 'разработчик Ymail',
    },
 ]
 
