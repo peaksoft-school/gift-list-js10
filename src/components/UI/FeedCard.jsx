@@ -28,7 +28,7 @@ const card = {
    },
 }
 
-export const Card = ({ list = false }) => {
+export const FeedCard = ({ list = false }) => {
    const {
       owner: { name: ownerName, image: ownerImage },
       status,
