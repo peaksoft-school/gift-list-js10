@@ -1,24 +1,28 @@
 import { Box, Card, CardContent, CardMedia, styled } from '@mui/material'
 import React from 'react'
 
-import CardImage from '../../assets/images/Card-Image.png'
+import { CardImage } from '../../assets'
 
 const myFriends = [
    {
       name: 'Annette Black',
+      wish: 12,
       textWish: 'Желаний',
+      holidays: 10,
       textHolidays: 'Праздников',
       id: '1',
    },
    {
       name: 'Annette Black',
+      wish: 12,
       textWish: 'Желаний',
+      holidays: 10,
       textHolidays: 'Праздников',
       id: '2',
    },
 ]
 
-export const MyFriendsCard = ({ wish = '12', holidays = '10' }) => {
+export const MyFriendsCard = () => {
    return (
       <Container>
          {myFriends.map((item) => {
@@ -28,11 +32,11 @@ export const MyFriendsCard = ({ wish = '12', holidays = '10' }) => {
                   <CardContent>{item.name}</CardContent>
                   <Text>
                      <Holidays>
-                        <P>{wish}</P>
+                        <P>{item.wish}</P>
                         <P2>{item.textWish}</P2>
                      </Holidays>
                      <Holidays>
-                        <P>{holidays}</P>
+                        <P>{item.holidays}</P>
                         <P2>{item.textHolidays}</P2>
                      </Holidays>
                   </Text>
@@ -45,17 +49,17 @@ export const MyFriendsCard = ({ wish = '12', holidays = '10' }) => {
 
 const Container = styled('div')({
    display: 'flex',
-   gap: '20px',
+   gap: '1.25rem',
 
-   borderRadius: '8px',
+   borderRadius: '0.5rem',
    background: '#F7F8FA',
    width: '100%',
    height: '100%',
 })
 
 const CardContainer = styled(Card)({
-   width: '257px',
-   height: '257px',
+   width: '18%',
+   height: '35vh',
    margin: '1rem',
    boxShadow: 'none',
    display: 'flex',
@@ -68,14 +72,14 @@ const CardContainer = styled(Card)({
 })
 
 const Image = styled(CardMedia)({
-   width: '130px',
+   width: '50%',
    margin: '0 auto',
 })
 
 const Text = styled('div')({
    display: 'flex',
-   gap: '26px',
-   marginTop: '10px',
+   gap: '1.625rem',
+   marginTop: '0.625rem',
 })
 
 const Holidays = styled(Box)({
@@ -91,5 +95,5 @@ const P = styled('p')({
 
 const P2 = styled('p')({
    color: '#606060',
-   fontSize: '12px',
+   fontSize: '0.75rem',
 })
