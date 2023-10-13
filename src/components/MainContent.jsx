@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import img from '../assets/images/main-page.png'
+import { MainPageIcon } from '../assets'
 
 const Div = styled('div')`
    width: 90rem;
@@ -12,7 +12,6 @@ const P = styled('p')`
    color: white;
    margin-left: 56.25rem;
    font-size: 2.188rem;
-   font-family: Arial, Helvetica, sans-serif;
    padding-top: 9.375rem;
 `
 const Ps = styled('P')`
@@ -44,7 +43,7 @@ export function MainContent() {
                   вещей, забронировав, вы связываетесь с их обладателем.
                </Ps>
             </Dives>
-            <Img src={img} alt="picture" />
+            <Img src={MainPageIcon} alt="children" />
          </Div>
       </div>
    )

@@ -4,19 +4,9 @@ import { styled } from '@mui/material'
 
 import { MainContent } from './MainContent'
 
-import img from '../assets/images/main-like.png'
-
-import images from '../assets/images/main-dis.png'
-
-import image from '../assets/images/main-loy.png'
+import { MainDisIcon, MainLike, MainLoyIcon } from '../assets'
 
 const DivContainer = styled('div')`
-   display: flex;
-`
-const DivContent = styled('div')`
-   display: flex;
-`
-const DivContext = styled('div')`
    display: flex;
 `
 
@@ -61,21 +51,18 @@ const Paragrap = styled('p')`
 const Par = styled('p')`
    color: #8639b5;
    font-size: 2.5rem;
-   font-family: Arial, Helvetica, sans-serif;
    margin-left: 5.625rem;
    padding-right: 3.125rem;
 `
 const Pteg = styled('p')`
    color: #8639b5;
    font-size: 2.5rem;
-   font-family: Arial, Helvetica, sans-serif;
    margin-left: 5.625rem;
    padding-right: 6.25rem;
 `
 const Para = styled('p')`
    color: #8639b5;
    font-size: 2.5rem;
-   font-family: Arial, Helvetica, sans-serif;
    margin-left: 11.875rem;
 `
 
@@ -93,18 +80,15 @@ const DivBlock = styled('div')`
 `
 
 const B = styled('b')`
-   font-family: Arial, Helvetica, sans-serif;
    margin-left: 0.5rem;
    font-size: 1.438rem;
 `
 const Bo = styled('b')`
-   font-family: Arial, Helvetica, sans-serif;
    margin-left: -3.613rem;
    font-size: 1.438rem;
    margin-top: -1.45rem;
 `
 const Bl = styled('b')`
-   font-family: Arial, Helvetica, sans-serif;
    margin-left: 0.625rem;
    font-size: 1.438rem;
 `
@@ -201,7 +185,7 @@ export function MainPage() {
          <DivBlock>
             <DivContainer>
                <div>
-                  <Img src={img} alt="" />
+                  <Img src={MainLike} alt="heart" />
                </div>
                <ul>
                   <Bo>Дари то что, необходимо</Bo>
@@ -211,19 +195,19 @@ export function MainPage() {
                </ul>
             </DivContainer>
             <div>
-               <Image src={images} alt="" />
+               <Image src={MainDisIcon} alt="like" />
             </div>
-            <DivContent>
+            <DivContainer>
                <ul>
                   <B>Удобство в использовании</B>
                   <Liss>Создавай неограниченное колчичество желаний </Liss>
                   <Liss>Добавляй подарки которые ты действительно хочешь</Liss>
                   <Liss>Делись с своими желаниями с другими</Liss>
                </ul>
-            </DivContent>
-            <DivContext>
+            </DivContainer>
+            <DivContainer>
                <div>
-                  <Images src={image} alt="" />
+                  <Images src={MainLoyIcon} alt="brush" />
                </div>
                <ul>
                   <Bl>Твори добро</Bl>
@@ -231,7 +215,7 @@ export function MainPage() {
                   <Lis>Делись своими вещами</Lis>
                   <Lis>Помогай другим приобрести необходимое</Lis>
                </ul>
-            </DivContext>
+            </DivContainer>
          </DivBlock>
          <Button type="button">ЗАРЕГЕСТРИРОВАТСЯ</Button>
          <MainContent />
