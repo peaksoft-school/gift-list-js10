@@ -28,7 +28,9 @@ const card = {
    },
 }
 
-export const FeedCard = ({ list = false }) => {
+// variants: primary, secondary, tertiary
+
+export const Card = ({ variant = 'primary', list = false }) => {
    const {
       owner: { name: ownerName, image: ownerImage },
       status,
@@ -44,44 +46,71 @@ export const FeedCard = ({ list = false }) => {
             <CardMedia component="img" image={cardImage} alt={cardName} />
          )}
          <ContentContainer className={listClassName}>
-            <CardHeader
-               avatar={
-                  ownerImage ? (
-                     <StyledAvatarIcon alt={ownerName} src={ownerImage} />
-                  ) : (
-                     <StyledAvatarIcon aria-label="recipe">
-                        {ownerName.charAt(0)}
-                     </StyledAvatarIcon>
-                  )
-               }
-               title={ownerName}
-               subheader={holiday}
-            />
+            {variant === 'primary' && (
+               <CardHeader
+                  avatar={
+                     ownerImage ? (
+                        <StyledAvatarIcon alt={ownerName} src={ownerImage} />
+                     ) : (
+                        <StyledAvatarIcon aria-label="recipe">
+                           {ownerName.charAt(0)}
+                        </StyledAvatarIcon>
+                     )
+                  }
+                  title={ownerName}
+                  subheader={holiday}
+               />
+            )}
             <StyledCardContent className={listClassName}>
-               <StyledTypography variant="h6">{cardName}</StyledTypography>
+               {variant === 'primary' && (
+                  <StyledTypography variant="h6">{cardName}</StyledTypography>
+               )}
                {!listClassName && (
                   <CardMedia component="img" image={cardImage} alt={cardName} />
                )}
             </StyledCardContent>
+            {variant !== 'primary' && (
+               <Description>
+                  <Title>{variant === 'secondary' ? cardName : holiday}</Title>
+                  {variant === 'secondary' && <Subheader>{holiday}</Subheader>}
+               </Description>
+            )}
             <CardActions>
                <Date>{card.date}</Date>
-               <StyledCardActionsPar1>
-                  {!bookerImage && status === 'Забронирован' && (
-                     <StyledAvatarIcon aria-label="recipe">
-                        {bookerName.charAt(0)}
-                     </StyledAvatarIcon>
-                  )}
-                  {bookerImage && (
-                     <StyledAvatarIcon alt={bookerName} src={bookerImage} />
-                  )}
-                  <span>{status}</span>
-                  <MoreHorizIcon />
-               </StyledCardActionsPar1>
+               {variant !== 'tertiary' && (
+                  <StyledCardActionsPar1>
+                     {!bookerImage && status === 'Забронирован' && (
+                        <StyledAvatarIcon aria-label="recipe">
+                           {bookerName.charAt(0)}
+                        </StyledAvatarIcon>
+                     )}
+                     {bookerImage && (
+                        <StyledAvatarIcon alt={bookerName} src={bookerImage} />
+                     )}
+                     <span>{status}</span>
+                  </StyledCardActionsPar1>
+               )}
+               <MoreHorizIcon />
             </CardActions>
          </ContentContainer>
       </StyledCard>
    )
 }
+
+const Description = styled('div')({
+   display: 'flex',
+   justifyContent: 'space-between',
+})
+
+const Title = styled('p')({
+   fontSize: '0.875rem',
+   fontWeight: '600',
+})
+
+const Subheader = styled('span')({
+   fontSize: '0.8125rem',
+   color: `${globalTheme.palette.secondary.green}`,
+})
 
 const ContentContainer = styled('div')({
    display: 'grid',
@@ -129,17 +158,17 @@ const StyledCard = styled(MUICard)(() => {
       '.css-185gdzj-MuiCardHeader-root': {
          padding: '0',
       },
+      '.css-1d8ay1-MuiTypography-root': {
+         fontSize: '0.8125rem',
+         color: `${globalTheme.palette.secondary.green}`,
+      },
       '.css-1qbkelo-MuiCardHeader-content': {
          display: 'flex',
          justifyContent: 'space-between',
-         '.css-1d8ay1-MuiTypography-root': {
-            fontSize: '0.8125rem',
-            color: `${globalTheme.palette.secondary.green}`,
-         },
-         '.css-1xpibb5-MuiTypography-root': {
-            fontSize: '1rem',
-            fontWeight: '500',
-         },
+      },
+      '.css-1xpibb5-MuiTypography-root': {
+         fontSize: '1rem',
+         fontWeight: '500',
       },
       '.css-1t6e9jv-MuiCardActions-root': {
          display: 'flex',
