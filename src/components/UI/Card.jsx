@@ -22,13 +22,14 @@ const card = {
    image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
    status: 'Забронирован',
    date: '12.04.22',
+   newOrOld: 'Б/У',
    booker: {
       name: 'Anybody',
       image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
    },
 }
 
-// variants: primary, secondary, tertiary
+// variants: primary, secondary, tertiary, quaternary, withStatusBottom, withStatusTop
 
 export const Card = ({ variant = 'primary', list = false }) => {
    const {
@@ -37,6 +38,7 @@ export const Card = ({ variant = 'primary', list = false }) => {
       holiday,
       name: cardName,
       image: cardImage,
+      newOrOld,
       booker: { name: bookerName, image: bookerImage },
    } = card
    const listClassName = list && 'list'
@@ -46,7 +48,7 @@ export const Card = ({ variant = 'primary', list = false }) => {
             <CardMedia component="img" image={cardImage} alt={cardName} />
          )}
          <ContentContainer className={listClassName}>
-            {variant === 'primary' && (
+            {(variant === 'primary' || variant === 'withStatusTop') && (
                <CardHeader
                   avatar={
                      ownerImage ? (
@@ -58,8 +60,24 @@ export const Card = ({ variant = 'primary', list = false }) => {
                      )
                   }
                   title={ownerName}
-                  subheader={holiday}
+                  subheader={variant !== 'withStatusTop' && holiday}
                />
+            )}
+            {variant === 'withStatusTop' && (
+               <Description>
+                  <Title>{variant === 'secondary' ? cardName : holiday}</Title>
+                  {variant !== 'tertiary' && variant !== 'quaternary' && (
+                     <Subheader
+                        className={
+                           variant === 'withStatusTop' &&
+                           newOrOld === 'Б/У' &&
+                           'orange'
+                        }
+                     >
+                        {variant === 'secondary' ? holiday : newOrOld}
+                     </Subheader>
+                  )}
+               </Description>
             )}
             <StyledCardContent className={listClassName}>
                {variant === 'primary' && (
@@ -69,28 +87,43 @@ export const Card = ({ variant = 'primary', list = false }) => {
                   <CardMedia component="img" image={cardImage} alt={cardName} />
                )}
             </StyledCardContent>
-            {variant !== 'primary' && (
+            {variant !== 'primary' && variant !== 'withStatusTop' && (
                <Description>
                   <Title>{variant === 'secondary' ? cardName : holiday}</Title>
-                  {variant === 'secondary' && <Subheader>{holiday}</Subheader>}
+                  {variant !== 'tertiary' && variant !== 'quaternary' && (
+                     <Subheader
+                        className={
+                           variant === 'withStatusBottom' &&
+                           newOrOld === 'Б/У' &&
+                           'orange'
+                        }
+                     >
+                        {variant === 'secondary' ? holiday : newOrOld}
+                     </Subheader>
+                  )}
                </Description>
             )}
             <CardActions>
                <Date>{card.date}</Date>
-               {variant !== 'tertiary' && (
-                  <StyledCardActionsPar1>
-                     {!bookerImage && status === 'Забронирован' && (
-                        <StyledAvatarIcon aria-label="recipe">
-                           {bookerName.charAt(0)}
-                        </StyledAvatarIcon>
-                     )}
-                     {bookerImage && (
-                        <StyledAvatarIcon alt={bookerName} src={bookerImage} />
-                     )}
-                     <span>{status}</span>
-                  </StyledCardActionsPar1>
-               )}
-               <MoreHorizIcon />
+               {variant !== 'tertiary' &&
+                  variant !== 'quaternary' &&
+                  variant !== 'withStatusTop' && (
+                     <StyledCardActionsPar1>
+                        {!bookerImage && status === 'Забронирован' && (
+                           <StyledAvatarIcon aria-label="recipe">
+                              {bookerName.charAt(0)}
+                           </StyledAvatarIcon>
+                        )}
+                        {bookerImage && (
+                           <StyledAvatarIcon
+                              alt={bookerName}
+                              src={bookerImage}
+                           />
+                        )}
+                        <span>{status}</span>
+                     </StyledCardActionsPar1>
+                  )}
+               {variant !== 'quaternary' && <MoreHorizIcon />}
             </CardActions>
          </ContentContainer>
       </StyledCard>
@@ -110,6 +143,9 @@ const Title = styled('p')({
 const Subheader = styled('span')({
    fontSize: '0.8125rem',
    color: `${globalTheme.palette.secondary.green}`,
+   '&.orange': {
+      color: `${globalTheme.palette.secondary.orange}`,
+   },
 })
 
 const ContentContainer = styled('div')({
