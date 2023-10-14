@@ -29,7 +29,9 @@ const card = {
    },
 }
 
-// variants: primary, secondary, tertiary, quaternary, withStatusBottom, withStatusTop
+// variants:
+// primary, secondary, tertiary, quaternary,
+// withStatusBottom, withStatusTop
 
 export const Card = ({ variant = 'primary', list = false }) => {
    const {
@@ -47,7 +49,11 @@ export const Card = ({ variant = 'primary', list = false }) => {
          {listClassName && (
             <CardMedia component="img" image={cardImage} alt={cardName} />
          )}
-         <ContentContainer className={listClassName}>
+         <ContentContainer
+            className={`${listClassName} ${
+               list && variant === 'secondary' && 'listWithoutHeader'
+            }`}
+         >
             {(variant === 'primary' || variant === 'withStatusTop') && (
                <CardHeader
                   avatar={
@@ -79,7 +85,8 @@ export const Card = ({ variant = 'primary', list = false }) => {
                   )}
                </Description>
             )}
-            <StyledCardContent className={listClassName}>
+
+            <StyledCardContent>
                {variant === 'primary' && (
                   <StyledTypography variant="h6">{cardName}</StyledTypography>
                )}
@@ -87,6 +94,7 @@ export const Card = ({ variant = 'primary', list = false }) => {
                   <CardMedia component="img" image={cardImage} alt={cardName} />
                )}
             </StyledCardContent>
+
             {variant !== 'primary' && variant !== 'withStatusTop' && (
                <Description>
                   <Title>{variant === 'secondary' ? cardName : holiday}</Title>
@@ -103,32 +111,52 @@ export const Card = ({ variant = 'primary', list = false }) => {
                   )}
                </Description>
             )}
-            <CardActions>
-               <Date>{card.date}</Date>
-               {variant !== 'tertiary' &&
-                  variant !== 'quaternary' &&
-                  variant !== 'withStatusTop' && (
-                     <StyledCardActionsPar1>
-                        {!bookerImage && status === 'Забронирован' && (
-                           <StyledAvatarIcon aria-label="recipe">
-                              {bookerName.charAt(0)}
-                           </StyledAvatarIcon>
-                        )}
-                        {bookerImage && (
-                           <StyledAvatarIcon
-                              alt={bookerName}
-                              src={bookerImage}
-                           />
-                        )}
-                        <span>{status}</span>
-                     </StyledCardActionsPar1>
-                  )}
+            <CardActions
+               className={
+                  list && variant === 'secondary' && 'listWithoutHeader'
+               }
+            >
+               <ActionsWrapper
+                  className={
+                     list && variant === 'secondary' && 'listWithoutHeader'
+                  }
+               >
+                  <Date>{card.date}</Date>
+                  {variant !== 'tertiary' &&
+                     variant !== 'quaternary' &&
+                     variant !== 'withStatusTop' && (
+                        <StyledCardActionsPar1>
+                           {!bookerImage && status === 'Забронирован' && (
+                              <StyledAvatarIcon aria-label="recipe">
+                                 {bookerName.charAt(0)}
+                              </StyledAvatarIcon>
+                           )}
+                           {bookerImage && (
+                              <StyledAvatarIcon
+                                 alt={bookerName}
+                                 src={bookerImage}
+                              />
+                           )}
+                           <span>{status}</span>
+                        </StyledCardActionsPar1>
+                     )}
+               </ActionsWrapper>
                {variant !== 'quaternary' && <MoreHorizIcon />}
             </CardActions>
          </ContentContainer>
       </StyledCard>
    )
 }
+
+const ActionsWrapper = styled('div')({
+   display: 'flex',
+   justifyContent: 'space-between',
+   gap: '95px',
+   '&.listWithoutHeader': {
+      flexDirection: 'row-reverse',
+      gap: '127px',
+   },
+})
 
 const Description = styled('div')({
    display: 'flex',
@@ -150,6 +178,9 @@ const Subheader = styled('span')({
 
 const ContentContainer = styled('div')({
    display: 'grid',
+   '&.listWithoutHeader': {
+      display: 'flex',
+   },
    flexDirection: 'column',
    '&.list': {
       gap: '21px',
@@ -173,6 +204,7 @@ const StyledCardContent = styled(CardContent)(() => ({
    padding: '0',
    img: {
       maxHeight: '9.5625rem',
+      borderRadius: '7px',
    },
    width: '19.8125rem',
 }))
@@ -188,6 +220,7 @@ const StyledCard = styled(MUICard)(() => {
          gap: '7px',
          img: {
             minWidth: '30%',
+            borderRadius: '7px',
          },
          padding: '15px',
       },
@@ -211,6 +244,10 @@ const StyledCard = styled(MUICard)(() => {
          justifyContent: 'space-between',
          padding: '0',
          color: `${globalTheme.palette.secondary.waikawaGrey}`,
+         '&.listWithoutHeader': {
+            flexDirection: 'column',
+            alignItems: 'end',
+         },
       },
       '.css-1ssile9-MuiCardHeader-avatar': {
          marginRight: '10px',
