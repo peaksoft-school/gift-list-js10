@@ -1,12 +1,11 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const DarkMode = styled('div')({
    top: '0',
    left: '0',
    width: '100%',
-   height: '100%',
+   height: '50rem',
    backgroundColor: '#23262f',
    zIndex: '100',
    justifyContent: 'center',
@@ -21,21 +20,17 @@ const LightMode = styled('div')({
    height: '35.875rem',
    borderRadius: '0.625rem',
 })
-const modalRoot = document.getElementById('modal-root')
 
 export function ModalWindow({ children, onClose, isOpen }) {
-   if (!isOpen) {
-      return null
-   }
-
-   return ReactDOM.createPortal(
+   return (
       <div>
-         <DarkMode onClick={onClose}>
-            <LightMode onClick={(e) => e.stopPropagation()}>
-               {children}
-            </LightMode>
-         </DarkMode>
-      </div>,
-      modalRoot
+         {isOpen && (
+            <DarkMode onClick={onClose}>
+               <LightMode onClick={(e) => e.stopPropagation()}>
+                  {children}
+               </LightMode>
+            </DarkMode>
+         )}
+      </div>
    )
 }
