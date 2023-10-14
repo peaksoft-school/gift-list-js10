@@ -1,12 +1,14 @@
 import { Box, Typography, styled } from '@mui/material'
 import React from 'react'
 import { Button } from '../../components/UI/Button'
-import FacebookIcon from '../../assets/icons/facebook-con.svg'
-import VkIcon from '../../assets/icons/vk-icon.svg'
-import InstagramIcon from '../../assets/icons/instagram-icon.svg'
-import GirlsImage from '../../assets/images/one-girl-with-glasses-and-two-girl-without-glasses.png'
-import FriendsMakeASelphyImage from '../../assets/images/friends-make-a-selphy.png'
-import ArrowDown from '../../assets/icons/arrow_down.svg'
+import {
+   FriendsMakeASelphyImage,
+   FacebookIcon,
+   InstagramIcon,
+   VkIcon,
+   GirlsImage,
+   ArrowDown,
+} from '../../assets'
 
 export const MainPage = () => {
    return (
