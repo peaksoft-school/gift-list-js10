@@ -15,7 +15,7 @@ const DarkMode = styled('div')({
 
 const LightMode = styled('div')({
    backgroundColor: '#ffffff',
-   marginTop: '3.125rem',
+   marginTop: '3.126rem',
    width: '34rem',
    height: '35.875rem',
    borderRadius: '0.625rem',
