@@ -9,3 +9,7 @@ export { ReactComponent as WishListIcon } from './icons/aside-wish-list-icon.svg
 export { ReactComponent as MailingIcon } from './icons/aside-mailing.svg'
 export { default as ComplaintsIcon } from './images/aside-complaints-image.png'
 export { default as BookingIcon } from './images/booking-image.png'
+export { ReactComponent as ErrorIcon } from './icons/notify-error-icon.svg'
+export { ReactComponent as InfoIcon } from './icons/notify-info-icon.svg'
+export { ReactComponent as WarningIcon } from './icons/notify-warning-icon.svg'
+export { ReactComponent as SuccessIcon } from './icons/notify-success-icon.svg'
