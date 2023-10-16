@@ -1,29 +1,23 @@
-import { FormControl, TextField as MuiTextField, styled } from '@mui/material'
+import { TextareaAutosize, styled } from '@mui/material'
 import React from 'react'
 
 export const TextArea = ({ value, onChange, labelText }) => {
    return (
-      <StyledMuiFormControl>
-         <StyledMuiTextField
-            value={value}
-            onChange={onChange}
-            label={labelText}
-         />
-      </StyledMuiFormControl>
+      <StyledMuiTextArea value={value} onChange={onChange} label={labelText} />
    )
 }
 
-const StyledMuiTextField = styled(MuiTextField)`
-   width: 50.5rem;
-   height: 6.938rem;
-`
-
-const StyledMuiFormControl = styled(FormControl)`
-   .css-wxa1hi-MuiInputBase-root-MuiOutlinedInput-root {
-      display: inline-block;
-      padding: 8px 18px;
-      width: 100%;
-      height: 100%;
-      border-radius: 6px;
-   }
-`
+const StyledMuiTextArea = styled(TextareaAutosize)({
+   position: 'static !important',
+   width: '50.5rem !important',
+   height: '6.938rem !important',
+   fontSize: '1.2rem',
+   padding: '8px 18px',
+   borderRadius: '6px',
+   '&::-webkit-resizer': {
+      display: 'none',
+   },
+   '&:focus': {
+      outline: 'none',
+   },
+})
