@@ -9,4 +9,3 @@ export { ReactComponent as WishListIcon } from './icons/aside-wish-list-icon.svg
 export { ReactComponent as MailingIcon } from './icons/aside-mailing.svg'
 export { default as ComplaintsIcon } from './images/aside-complaints-image.png'
 export { default as BookingIcon } from './images/booking-image.png'
-export { default as CardImage } from './images/Card-Image.png'
