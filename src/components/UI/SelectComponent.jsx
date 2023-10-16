@@ -6,7 +6,7 @@ import {
    MenuItem,
 } from '@mui/material'
 
-import { React, useState } from 'react'
+import React from 'react'
 
 const selectItems = [
    {
@@ -35,17 +35,11 @@ const selectItems = [
    },
 ]
 
-export const SelectComponent = ({ label = 'Категория' }) => {
-   const [state, setState] = useState('iausydtgf')
-
-   const handleChange = (e) => {
-      setState(e.target.value)
-   }
-
+export const SelectComponent = ({ onChange, value, label = 'Категория' }) => {
    return (
       <StyledFormControl fullWidth>
          <InputLabel>{label}</InputLabel>
-         <StyledSelect onChange={handleChange} value={state} label={label}>
+         <StyledSelect onChange={onChange} value={value} label={label}>
             {selectItems.map((i) => {
                return (
                   <SelectContainer key={i.id} value={i.text}>
@@ -69,15 +63,11 @@ const SelectContainer = styled(MenuItem)({
    gap: '16px',
    listStyle: 'none',
    alignItems: 'flex-start',
-   '& ': {
-      fontSize: '0.875rem',
-      width: '100%',
-      height: '5.5vh',
-      padding: '9px 16px',
-
-      ':hover': { backgroundColor: ' rgba(112, 46, 153, 0.4)' },
-      ':active': { backgroundColor: '#9b6db7' },
-   },
+   fontSize: '0.875rem',
+   height: '5.5vh',
+   padding: '9px 16px',
+   ':hover': { backgroundColor: ' rgba(112, 46, 153, 0.4)' },
+   ':active': { backgroundColor: '#9b6db7' },
 })
 
 const StyledSelect = styled(Select)({
