@@ -101,7 +101,7 @@ const StyledErrorIcon = styled(ErrorIcon)(({ valid }) => ({
    color: valid ? 'red' : '',
 }))
 const StyledIconButton = styled(IconButton)`
-   margin-right: -18px;
+   margin-right: -17px;
    padding: 0;
    svg: {
       margin-right: -35px;
