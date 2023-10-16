@@ -3,46 +3,29 @@ import React from 'react'
 
 import { CardImage } from '../../assets'
 
-const myFriends = [
-   {
-      name: 'Annette Black',
-      wish: 12,
-      textWish: 'Желаний',
-      holidays: 10,
-      textHolidays: 'Праздников',
-      id: '1',
-   },
-   {
-      name: 'Annette Black',
-      wish: 12,
-      textWish: 'Желаний',
-      holidays: 10,
-      textHolidays: 'Праздников',
-      id: '2',
-   },
-]
-
-export const MyFriendsCard = () => {
+export const FriendCard = ({
+   name,
+   wish,
+   textWish,
+   holidays,
+   textHolidays,
+}) => {
    return (
       <Container>
-         {myFriends.map((item) => {
-            return (
-               <CardContainer key={item.id}>
-                  <Image image={CardImage} component="img" title="card-image" />
-                  <CardContent>{item.name}</CardContent>
-                  <Text>
-                     <Holidays>
-                        <P>{item.wish}</P>
-                        <P2>{item.textWish}</P2>
-                     </Holidays>
-                     <Holidays>
-                        <P>{item.holidays}</P>
-                        <P2>{item.textHolidays}</P2>
-                     </Holidays>
-                  </Text>
-               </CardContainer>
-            )
-         })}
+         <CardContainer>
+            <Image image={CardImage} component="img" title="card-image" />
+            <CardContent>{name}</CardContent>
+            <Text>
+               <Holidays>
+                  <P>{wish}</P>
+                  <P2>{textWish}</P2>
+               </Holidays>
+               <Holidays>
+                  <P>{holidays}</P>
+                  <P2>{textHolidays}</P2>
+               </Holidays>
+            </Text>
+         </CardContainer>
       </Container>
    )
 }
