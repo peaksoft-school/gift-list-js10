@@ -9,7 +9,6 @@ import { MainDisIcon, MainLike, MainLoyIcon } from '../assets'
 const DivContainer = styled('div')`
    display: flex;
 `
-
 const Img = styled('img')`
    margin-left: -8.125rem;
    margin-top: -20px;
