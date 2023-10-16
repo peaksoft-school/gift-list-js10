@@ -10,7 +10,8 @@ import {
    styled,
 } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import { globalTheme } from '../../theme/globalTheme'
+import { globalTheme } from '../../../theme/globalTheme'
+import { CardDescription } from './CardDescription'
 
 const card = {
    owner: {
@@ -70,20 +71,12 @@ export const Card = ({ variant = 'primary', list = false }) => {
                />
             )}
             {variant === 'withStatusTop' && (
-               <Description>
-                  <Title>{variant === 'secondary' ? cardName : holiday}</Title>
-                  {variant !== 'tertiary' && variant !== 'quaternary' && (
-                     <Subheader
-                        className={
-                           variant === 'withStatusTop' &&
-                           newOrOld === 'Б/У' &&
-                           'orange'
-                        }
-                     >
-                        {variant === 'secondary' ? holiday : newOrOld}
-                     </Subheader>
-                  )}
-               </Description>
+               <CardDescription
+                  text1={variant === 'secondary' ? cardName : holiday}
+                  text2={variant === 'secondary' ? holiday : newOrOld}
+                  newOrOld={newOrOld}
+                  variant={variant}
+               />
             )}
 
             <StyledCardContent>
@@ -96,20 +89,12 @@ export const Card = ({ variant = 'primary', list = false }) => {
             </StyledCardContent>
 
             {variant !== 'primary' && variant !== 'withStatusTop' && (
-               <Description>
-                  <Title>{variant === 'secondary' ? cardName : holiday}</Title>
-                  {variant !== 'tertiary' && variant !== 'quaternary' && (
-                     <Subheader
-                        className={
-                           variant === 'withStatusBottom' &&
-                           newOrOld === 'Б/У' &&
-                           'orange'
-                        }
-                     >
-                        {variant === 'secondary' ? holiday : newOrOld}
-                     </Subheader>
-                  )}
-               </Description>
+               <CardDescription
+                  text1={variant === 'secondary' ? cardName : holiday}
+                  text2={variant === 'secondary' ? holiday : newOrOld}
+                  newOrOld={newOrOld}
+                  variant={variant}
+               />
             )}
             <CardActions
                className={
@@ -155,24 +140,6 @@ const ActionsWrapper = styled('div')({
    '&.listWithoutHeader': {
       flexDirection: 'row-reverse',
       gap: '127px',
-   },
-})
-
-const Description = styled('div')({
-   display: 'flex',
-   justifyContent: 'space-between',
-})
-
-const Title = styled('p')({
-   fontSize: '0.875rem',
-   fontWeight: '600',
-})
-
-const Subheader = styled('span')({
-   fontSize: '0.8125rem',
-   color: `${globalTheme.palette.secondary.green}`,
-   '&.orange': {
-      color: `${globalTheme.palette.secondary.orange}`,
    },
 })
 
