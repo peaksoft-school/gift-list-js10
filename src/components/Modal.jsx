@@ -2,10 +2,11 @@ import { styled } from '@mui/material'
 import React from 'react'
 
 const DarkMode = styled('div')({
+   position: 'fixed',
    top: '0',
    left: '0',
    width: '100%',
-   height: '50rem',
+   height: '100%',
    backgroundColor: '#23262f',
    zIndex: '100',
    justifyContent: 'center',
@@ -16,12 +17,12 @@ const DarkMode = styled('div')({
 const LightMode = styled('div')({
    backgroundColor: '#ffffff',
    marginTop: '3.126rem',
-   width: '34rem',
-   height: '35.875rem',
+   padding: '18.625rem',
    borderRadius: '0.625rem',
+   maxHeight: '1rem',
 })
 
-export function ModalWindow({ children, onClose, isOpen }) {
+export function Modal({ children, onClose, isOpen }) {
    return (
       <div>
          {isOpen && (
