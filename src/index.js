@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { App } from './App'
 import './index.css'
 import { globalTheme } from './theme/globalTheme'
+import { StyledToastContainer } from './utils/helpers/notify'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -12,6 +13,7 @@ root.render(
       <BrowserRouter>
          <ThemeProvider theme={globalTheme}>
             <App />
+            <StyledToastContainer />
          </ThemeProvider>
       </BrowserRouter>
    </React.StrictMode>
