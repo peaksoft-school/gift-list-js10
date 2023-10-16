@@ -11,16 +11,25 @@ import {
 } from '../../assets'
 
 export const MainPage = () => {
+   const scrollToAboutProjectComponentHandler = () => {}
+   const scrollToMainPagePartOneComponentHandler = () => {}
+
    return (
       <StyledMuiMainPage component="div">
          <MainPageContainer component="div">
             <MainPageHeader component="header">
                <MainPageNav component="nav">
-                  <AboutProjectAndCharityTitle variant="p">
+                  <AboutProjectAndCharityTitle
+                     onClick={scrollToAboutProjectComponentHandler}
+                     variant="p"
+                  >
                      О проекте
                   </AboutProjectAndCharityTitle>
                   <ProjectTitle variant="h1">GIFT LIST</ProjectTitle>
-                  <AboutProjectAndCharityTitle variant="p">
+                  <AboutProjectAndCharityTitle
+                     onClick={scrollToMainPagePartOneComponentHandler}
+                     variant="p"
+                  >
                      Благотворительность
                   </AboutProjectAndCharityTitle>
                </MainPageNav>
@@ -28,11 +37,16 @@ export const MainPage = () => {
             <MainPageInfoBlock>
                <SocialMediasAndFriendMakeASelphyContainer>
                   <SocialMediasContainer>
-                     <img src={FacebookIcon} alt="facebook" />
-                     <img src={VkIcon} alt="vk" />
-                     <img src={InstagramIcon} alt="instagram" />
+                     <a href="https://www.facebook.com/">
+                        <img src={FacebookIcon} alt="facebook" />
+                     </a>
+                     <a href="https://vk.com/feed">
+                        <img src={VkIcon} alt="vk" />
+                     </a>
+                     <a href="https://www.instagram.com/">
+                        <img src={InstagramIcon} alt="instagram" />
+                     </a>
                   </SocialMediasContainer>
-
                   <FriendsMakeASelphyImageContainer>
                      <img src={FriendsMakeASelphyImage} alt="friends" />
                   </FriendsMakeASelphyImageContainer>
@@ -97,6 +111,7 @@ const ProjectTitle = styled(Typography)`
 const AboutProjectAndCharityTitle = styled(Typography)`
    font-size: 1rem;
    font-weight: 500;
+   cursor: pointer;
 `
 
 const ProjectInfo = styled(Box)`
