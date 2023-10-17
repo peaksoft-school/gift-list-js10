@@ -14,19 +14,22 @@ const ModalContainer = styled('div')({
    justifyContent: 'center',
 })
 
-const ModalContent = styled('div')({
+const ModalContent = styled('div')(({ padding }) => ({
    backgroundColor: '#ffffff',
    position: 'relative',
    borderRadius: '0.625rem',
-   padding: '19rem',
-})
+   padding,
+}))
 
-export function Modal({ children, isOpen }) {
+export function Modal({ children, handleClose, isOpen, padding = '1rem' }) {
    return (
       <div>
          {isOpen && (
-            <ModalContainer>
-               <ModalContent onClick={(e) => e.stopPropagation()}>
+            <ModalContainer onClick={handleClose}>
+               <ModalContent
+                  padding={padding}
+                  onClick={(e) => e.stopPropagation()}
+               >
                   {children}
                </ModalContent>
             </ModalContainer>
