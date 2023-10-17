@@ -12,13 +12,13 @@ export const SelectComponent = ({
    onChange,
    value,
    label = 'Категория',
-   props,
+   data,
 }) => {
    return (
       <StyledFormControl fullWidth>
          <InputLabel>{label}</InputLabel>
          <StyledSelect onChange={onChange} value={value} label={label}>
-            {props.map((i) => {
+            {data.map((i) => {
                return (
                   <SelectContainer key={i.id} value={i.text}>
                      {i.text}
