@@ -1,36 +1,35 @@
 import { styled } from '@mui/material'
 import React from 'react'
 
-const DarkMode = styled('div')({
+const ModalContainer = styled('div')({
    position: 'fixed',
    top: '0',
    left: '0',
    width: '100%',
    height: '100%',
-   backgroundColor: '#23262f',
+   backgroundColor: 'rgba(59, 64, 79, 0.7)',
    zIndex: '100',
-   justifyContent: 'center',
    display: 'flex',
-   margin: '0',
+   alignItems: 'center',
+   justifyContent: 'center',
 })
 
-const LightMode = styled('div')({
+const ModalContent = styled('div')({
    backgroundColor: '#ffffff',
-   marginTop: '3.126rem',
-   padding: '18.625rem',
+   position: 'relative',
    borderRadius: '0.625rem',
-   maxHeight: '1rem',
+   padding: '19rem',
 })
 
-export function Modal({ children, onClose, isOpen }) {
+export function Modal({ children, isOpen }) {
    return (
       <div>
          {isOpen && (
-            <DarkMode onClick={onClose}>
-               <LightMode onClick={(e) => e.stopPropagation()}>
+            <ModalContainer>
+               <ModalContent onClick={(e) => e.stopPropagation()}>
                   {children}
-               </LightMode>
-            </DarkMode>
+               </ModalContent>
+            </ModalContainer>
          )}
       </div>
    )
