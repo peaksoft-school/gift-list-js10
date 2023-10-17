@@ -6,7 +6,7 @@ import { CancelIcon, UploadImageIcon } from '../assets'
 export const UploadImage = ({ preview, setPreview }) => {
    const onDrop = useCallback((acceptedFiles) => {
       const file = new FileReader()
-      file.onload = function () {
+      file.onload = () => {
          setPreview(file.result)
       }
       file.readAsDataURL(acceptedFiles[0])
