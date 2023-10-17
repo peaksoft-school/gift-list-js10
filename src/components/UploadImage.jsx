@@ -1,10 +1,67 @@
-import { TextField } from '@mui/material'
-import React, { useState } from 'react'
+import { Container, styled } from '@mui/material'
+import React, { useCallback, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
 import { Button } from './UI/Button'
+import { UploadImageIcon } from '../assets'
 
 export const UploadImage = () => {
-   const [file, setFile] = useState()
+   const [preview, setPreview] = useState(null)
+   const onDrop = useCallback((acceptedFiles) => {
+      const file = new FileReader()
+      file.onload = function () {
+         setPreview(file.result)
+      }
+      file.readAsDataURL(acceptedFiles[0])
+   }, [])
+   const { getRootProps, getInputProps } = useDropzone({ onDrop })
+   return (
+      <>
+         <StyledContainer {...getRootProps()}>
+            <input {...getInputProps()} /* accept="images/*" */ />
+            {/* <Content> */}
+            {!preview && (
+               <>
+                  <UploadImageIcon />
+                  <p>Нажмите для добавления фотографии</p>
+               </>
+            )}
+            {/* </Content> */}
+            {preview && <img src={preview} alt="test" />}
+         </StyledContainer>
+         <Button onClick={() => setPreview(null)}>Delete</Button>
+      </>
+   )
+}
+
+const StyledContainer = styled(Container)({
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   justifyContent: 'center',
+   backgroundColor: '#F6F6F9',
+   border: '1px solid #DCDCE4',
+   textAlign: 'center',
+   gap: '20px',
+   width: '17%',
+   height: '25vh',
+   borderRadius: '9px',
+   img: {
+      width: '100%',
+   },
+})
+
+/* 
+
+upbload image 
+   const [file, setFile] = useState(null)
+   function handleOnChange(e) {
+      const {
+         target: { files },
+      } = e
+      setFile(files[0])
+   }
    async function handlOnSubmit(e) {
+      handleOnChange()
       e.preventDefault()
       if (typeof file === 'undefined') return
       const formData = new FormData()
@@ -20,22 +77,7 @@ export const UploadImage = () => {
       ).then((r) => r.json())
       console.log('results', results)
    }
-   function handleOnChange(e) {
-      const {
-         target: { files },
-      } = e
-      setFile(files[0])
-   }
-   return (
-      <>
-         <TextField
-            type="file"
-            name="image"
-            className="image"
-            onChange={(e) => handleOnChange(e)}
-            multiline
-         />
          <Button onClick={(e) => handlOnSubmit(e)}>Trasnform</Button>
-      </>
-   )
-}
+
+
+*/
