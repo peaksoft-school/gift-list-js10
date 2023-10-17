@@ -1,11 +1,9 @@
-import { Container, styled } from '@mui/material'
-import React, { useCallback, useState } from 'react'
+import { styled } from '@mui/material'
+import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Button } from './UI/Button'
-import { UploadImageIcon } from '../assets'
+import { CancelIcon, UploadImageIcon } from '../assets'
 
-export const UploadImage = () => {
-   const [preview, setPreview] = useState(null)
+export const UploadImage = ({ preview, setPreview }) => {
    const onDrop = useCallback((acceptedFiles) => {
       const file = new FileReader()
       file.onload = function () {
@@ -15,25 +13,36 @@ export const UploadImage = () => {
    }, [])
    const { getRootProps, getInputProps } = useDropzone({ onDrop })
    return (
-      <>
-         <StyledContainer {...getRootProps()}>
-            <input {...getInputProps()} /* accept="images/*" */ />
-            {/* <Content> */}
-            {!preview && (
-               <>
-                  <UploadImageIcon />
-                  <p>Нажмите для добавления фотографии</p>
-               </>
-            )}
-            {/* </Content> */}
-            {preview && <img src={preview} alt="test" />}
-         </StyledContainer>
-         <Button onClick={() => setPreview(null)}>Delete</Button>
-      </>
+      <StyledContainer {...getRootProps()}>
+         <input {...getInputProps()} />
+         {!preview && (
+            <>
+               <UploadImageIcon />
+               <p>Нажмите для добавления фотографии</p>
+            </>
+         )}
+         {preview && (
+            <>
+               <img src={preview} alt="test" />
+               <StyledCancelIcon
+                  onClick={(e) => {
+                     e.stopPropagation()
+                     setPreview(null)
+                  }}
+               />
+            </>
+         )}
+      </StyledContainer>
    )
 }
 
-const StyledContainer = styled(Container)({
+const StyledCancelIcon = styled(CancelIcon)({
+   position: 'absolute',
+   top: '0',
+   right: '0',
+})
+
+const StyledContainer = styled('div')({
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
@@ -42,42 +51,13 @@ const StyledContainer = styled(Container)({
    border: '1px solid #DCDCE4',
    textAlign: 'center',
    gap: '20px',
-   width: '17%',
-   height: '25vh',
+   width: '19%',
+   height: '27vh',
    borderRadius: '9px',
+   position: 'relative',
    img: {
+      objectFit: 'cover',
       width: '100%',
+      height: '100%',
    },
 })
-
-/* 
-
-upbload image 
-   const [file, setFile] = useState(null)
-   function handleOnChange(e) {
-      const {
-         target: { files },
-      } = e
-      setFile(files[0])
-   }
-   async function handlOnSubmit(e) {
-      handleOnChange()
-      e.preventDefault()
-      if (typeof file === 'undefined') return
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('upload_preset', 'test-react-uploads-unsigned')
-      formData.append('api_key', process.env.VITE_CLOUDINARY_API_KEY)
-      const results = await fetch(
-         'https://api.cloudinary.com/v1_1/dglxnavah/image/upload',
-         {
-            method: 'POST',
-            body: formData,
-         }
-      ).then((r) => r.json())
-      console.log('results', results)
-   }
-         <Button onClick={(e) => handlOnSubmit(e)}>Trasnform</Button>
-
-
-*/
