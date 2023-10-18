@@ -25,7 +25,7 @@ export const SizesSelect = ({
    return (
       <FormControl fullWidth>
          <StyledLabel id="demo-simple-select-label">{labelName}</StyledLabel>
-         <Select
+         <StyledSelect
             IconComponent={ArrowIcon}
             placeholder={placeholder}
             labelId="demo-simple-select-label"
@@ -43,10 +43,16 @@ export const SizesSelect = ({
             {sizes.map((size) => (
                <StyledMenuItem value={size}>{size}</StyledMenuItem>
             ))}
-         </Select>
+         </StyledSelect>
       </FormControl>
    )
 }
+
+const StyledSelect = styled(Select)({
+   '& svg': {
+      right: '15px',
+   },
+})
 
 const StyledPlaceholder = styled('span')({
    color: '#8D949E',
@@ -57,14 +63,17 @@ const StyledLabel = styled(FormLabel)({
 })
 
 const StyledMenuItem = styled(MenuItem)(({ selected }) => ({
-   background: '#FBFBFB',
+   backgroundColor: '#FBFBFB',
    '&:hover': {
-      background: '#8639B5',
+      backgroundColor: '#8639B5',
       color: '#fff',
    },
    '&:active': {
       color: '#8639B5',
-      background: '#FBFBFB',
+      backgroundColor: '#FBFBFB',
+   },
+   '&:focus': {
+      backgroundColor: '#AB62D8',
    },
    display: selected && 'none',
 }))
