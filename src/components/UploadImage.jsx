@@ -3,11 +3,14 @@ import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { CancelIcon, UploadImageIcon } from '../assets'
 
-export const UploadImage = ({ preview, setPreview }) => {
+export const UploadImage = ({
+   preview = { file: '', url: '' },
+   setPreview,
+}) => {
    const onDrop = useCallback((acceptedFiles) => {
       const file = new FileReader()
       file.onload = () => {
-         setPreview(file.result)
+         setPreview({ file: acceptedFiles[0], url: file.result })
       }
       file.readAsDataURL(acceptedFiles[0])
    }, [])
@@ -15,15 +18,15 @@ export const UploadImage = ({ preview, setPreview }) => {
    return (
       <StyledContainer {...getRootProps()}>
          <input {...getInputProps()} />
-         {!preview && (
+         {!preview?.url && (
             <>
                <UploadImageIcon />
                <p>Нажмите для добавления фотографии</p>
             </>
          )}
-         {preview && (
+         {preview?.url && (
             <>
-               <img src={preview} alt="test" />
+               <img src={preview.url} alt="test" />
                <StyledCancelIcon
                   onClick={(e) => {
                      e.stopPropagation()
