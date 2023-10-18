@@ -4,29 +4,29 @@ import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../../assets'
 import 'react-toastify/dist/ReactToastify.css'
 
 export const notifyTypes = {
-   NOTIFY_TYPE_INFO: 'info',
-   NOTIFY_TYPE_SUCCESS: 'success',
-   NOTIFY_TYPE_WARNING: 'warn',
-   NOTIFY_TYPE_ERROR: 'error',
+   NOTIFY_TYPE_SUCCESS_INFO: 'info',
+   NOTIFY_TYPE_SUCCESS_SUCCESS: 'success',
+   NOTIFY_TYPE_ERROR_WARNING: 'warn',
+   NOTIFY_TYPE_ERROR_ERROR: 'error',
 }
 
 const notifyStyles = {
-   [notifyTypes.NOTIFY_TYPE_ERROR]: {
+   [notifyTypes.NOTIFY_TYPE_ERROR_ERROR]: {
       mainColor: '#E53535',
       backgroundColor: '#ffebeb',
       borderColor: '#BC2C2C',
    },
-   [notifyTypes.NOTIFY_TYPE_INFO]: {
+   [notifyTypes.NOTIFY_TYPE_SUCCESS_INFO]: {
       mainColor: '#3772FF',
       borderColor: '#375BB0',
       backgroundColor: '#EBEFF7',
    },
-   [notifyTypes.NOTIFY_TYPE_WARNING]: {
+   [notifyTypes.NOTIFY_TYPE_ERROR_WARNING]: {
       mainColor: '#FF8800',
       borderColor: '#ED9E44',
       backgroundColor: '#FFF3D8',
    },
-   [notifyTypes.NOTIFY_TYPE_SUCCESS]: {
+   [notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS]: {
       mainColor: '#328048',
       borderColor: '#C6F0C2',
       backgroundColor: '#EAFBE7',
@@ -34,20 +34,33 @@ const notifyStyles = {
 }
 
 const notifyIcons = {
-   [notifyTypes.NOTIFY_TYPE_ERROR]: <ErrorIcon />,
-   [notifyTypes.NOTIFY_TYPE_INFO]: <InfoIcon />,
-   [notifyTypes.NOTIFY_TYPE_WARNING]: <WarningIcon />,
-   [notifyTypes.NOTIFY_TYPE_SUCCESS]: <SuccessIcon />,
+   [notifyTypes.NOTIFY_TYPE_ERROR_ERROR]: <ErrorIcon />,
+   [notifyTypes.NOTIFY_TYPE_SUCCESS_INFO]: <InfoIcon />,
+   [notifyTypes.NOTIFY_TYPE_ERROR_WARNING]: <WarningIcon />,
+   [notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS]: <SuccessIcon />,
 }
 
-export const notifyWithPromise = (
-   type,
-   promise,
-   titleOfMessage,
-   descriptionOfMessage
+export const toastWithPromise = (
+   notifyTypeForError,
+   notifyTypeForSuccess,
+   successTitleOfMessage,
+   successDescriptionOfMessage,
+   errorTitleOfMessage,
+   promise
 ) => {
-   const notifyStyleType = notifyStyles[type]
-   toast.promise(promise, {
+   const {
+      mainColor: successMainColor,
+      backgroundColor: successBackgroundColor,
+      borderColor: succcessBorderColor,
+   } = notifyStyles[notifyTypeForSuccess]
+
+   const {
+      mainColor: errorMainColor,
+      backgroundColor: errorBackgroundColor,
+      borderColor: errorBorderColor,
+   } = notifyStyles[notifyTypeForError]
+
+   return toast.promise(promise, {
       pending: {
          render() {
             return 'Loading...'
@@ -57,42 +70,42 @@ export const notifyWithPromise = (
          render() {
             return (
                <Container>
-                  <IconWrapper>{notifyIcons[type]}</IconWrapper>
-                  <TextContainer notifyStyle={notifyStyleType}>
-                     <p>{titleOfMessage}</p>
-                     <p>{descriptionOfMessage}</p>
+                  <IconWrapper>{notifyIcons[notifyTypeForSuccess]}</IconWrapper>
+                  <TextContainer mainColor={successMainColor}>
+                     <p>{successTitleOfMessage}</p>
+                     <p>{successDescriptionOfMessage}</p>
                   </TextContainer>
                </Container>
             )
          },
          style: {
-            backgroundColor: notifyStyleType.backgroundColor,
-            border: `1px solid ${notifyStyleType.borderColor}`,
+            backgroundColor: successBackgroundColor,
+            border: `1px solid ${succcessBorderColor}`,
          },
          icon: false,
          progressStyle: {
-            background: notifyStyleType.mainColor,
+            background: successMainColor,
          },
       },
       error: {
-         render() {
+         render({ data }) {
             return (
                <Container>
-                  <IconWrapper>{notifyIcons[type]}</IconWrapper>
-                  <TextContainer notifyStyle={notifyStyleType}>
-                     <p>{titleOfMessage}</p>
-                     <p>{descriptionOfMessage}</p>
+                  <IconWrapper>{notifyIcons[notifyTypeForError]}</IconWrapper>
+                  <TextContainer mainColor={errorMainColor}>
+                     <p>{errorTitleOfMessage}</p>
+                     <p>{data.message}</p>
                   </TextContainer>
                </Container>
             )
          },
          style: {
-            backgroundColor: notifyStyleType.backgroundColor,
-            border: `1px solid ${notifyStyleType.borderColor}`,
+            backgroundColor: errorBackgroundColor,
+            border: `1px solid ${errorBorderColor}`,
          },
          icon: false,
          progressStyle: {
-            background: notifyStyleType.mainColor,
+            background: errorMainColor,
          },
       },
    })
@@ -108,13 +121,13 @@ const Container = styled('div')({
    gap: '10px',
 })
 
-const TextContainer = styled('div')(({ notifyStyle }) => {
+const TextContainer = styled('div')(({ mainColor }) => {
    return {
       display: 'flex',
       flexDirection: 'column',
       gap: '7px',
       'p:first-of-type': {
-         color: notifyStyle.mainColor,
+         color: mainColor,
          fontWeight: '500',
       },
       'p:last-of-type': {
