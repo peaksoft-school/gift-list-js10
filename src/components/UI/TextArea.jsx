@@ -1,19 +1,31 @@
-import { TextareaAutosize, styled } from '@mui/material'
-import React from 'react'
+import { TextField as MuiTextField, styled } from '@mui/material'
+import React, { forwardRef } from 'react'
 
-export const TextArea = ({ value, onChange, labelText }) => {
-   return (
-      <StyledMuiTextArea value={value} onChange={onChange} label={labelText} />
-   )
-}
+export const TextArea = forwardRef(
+   ({ helperText, error, value, onChange, placeholder, labelText }, ref) => {
+      return (
+         <StyledMuiTextArea
+            helperText={helperText}
+            error={error}
+            placeholder={placeholder}
+            ref={ref}
+            multiline
+            value={value}
+            onChange={onChange}
+            label={labelText}
+         />
+      )
+   }
+)
 
-const StyledMuiTextArea = styled(TextareaAutosize)({
+const StyledMuiTextArea = styled(MuiTextField)({
    position: 'static !important',
    width: '50.5rem !important',
-   height: '6.938rem !important',
    fontSize: '1.2rem',
-   padding: '8px 18px',
    borderRadius: '6px',
+   '.css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input': {
+      height: '6.938rem !important',
+   },
    '&::-webkit-resizer': {
       display: 'none',
    },
