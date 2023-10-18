@@ -1,19 +1,18 @@
 import { Box, Card, CardContent, CardMedia, styled } from '@mui/material'
 import React from 'react'
 
-import { CardImage } from '../../assets'
-
 export const FriendCard = ({
    name,
    wish,
    textWish,
    holidays,
    textHolidays,
+   image,
 }) => {
    return (
       <Container>
          <CardContainer>
-            <Image image={CardImage} component="img" title="card-image" />
+            <Image image={image} component="img" title="card-image" />
             <CardContent>{name}</CardContent>
             <Text>
                <Holidays>
