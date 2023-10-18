@@ -65,6 +65,7 @@ export const toastWithPromise = (
          render() {
             return 'Loading...'
          },
+         toastId: 'toastPending',
       },
       success: {
          render() {
@@ -86,6 +87,7 @@ export const toastWithPromise = (
          progressStyle: {
             background: successMainColor,
          },
+         toastId: 'toastSuccess',
       },
       error: {
          render({ data }) {
@@ -107,6 +109,7 @@ export const toastWithPromise = (
          progressStyle: {
             background: errorMainColor,
          },
+         toastId: 'toastError',
       },
    })
 }
@@ -130,6 +133,7 @@ export const toastWithoutPromise = (type, title, message) => {
          progressStyle: {
             background: mainColor,
          },
+         toastId: 'toast1',
       }
    )
 }
