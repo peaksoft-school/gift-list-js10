@@ -111,6 +111,29 @@ export const toastWithPromise = (
    })
 }
 
+export const toastWithoutPromise = (type, title, message) => {
+   const { mainColor, backgroundColor, borderColor } = notifyStyles[type]
+   return toast[type](
+      <Container>
+         <IconWrapper>{notifyIcons[type]}</IconWrapper>
+         <TextContainer mainColor={mainColor}>
+            <p>{title}</p>
+            <p>{message}</p>
+         </TextContainer>
+      </Container>,
+      {
+         icon: false,
+         style: {
+            backgroundColor,
+            border: `1px solid ${borderColor}`,
+         },
+         progressStyle: {
+            background: mainColor,
+         },
+      }
+   )
+}
+
 const IconWrapper = styled('div')({
    width: '1.50rem',
    height: '1.25rem',
