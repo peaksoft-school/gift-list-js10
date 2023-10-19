@@ -1,25 +1,22 @@
-import * as React from 'react'
-import { styled } from '@mui/material/styles'
-import { IconButton } from '@mui/material'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputAdornment from '@mui/material/InputAdornment'
 import FormHelperText from '@mui/material/FormHelperText'
-import { ReactComponent as ErrorIcon } from '../../../assets/icons/ErrorIcon.svg'
+import InputAdornment from '@mui/material/InputAdornment'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import { styled } from '@mui/material/styles'
+import * as React from 'react'
+import { ErrorIcon } from '../../../assets'
 
 export const Input = React.forwardRef(
    (
       {
          id,
-         inputLabel,
          placeholder,
-         text,
+         helperText,
          value,
          error,
          onChange,
          icon,
          name,
          onBlur,
-         valid,
          borderError,
          ...rest
       },
@@ -27,26 +24,20 @@ export const Input = React.forwardRef(
    ) => {
       return (
          <>
-            <StyledFormHelperText valid={valid} id={inputLabel}>
-               {text}
-            </StyledFormHelperText>
             <StyledOutlinedInput
                value={value}
                name={name}
                bordercolor={borderError?.toString()}
                onChange={onChange}
                placeholder={placeholder}
-               aria-describedby={inputLabel}
                onBlur={onBlur}
                classes={{ focused: 'focused' }}
                id={id}
                ref={ref}
-               valid={valid}
+               error={error}
                endAdornment={
                   <StyledInputAbornment position="end">
-                     <StyledIconButton>{icon}</StyledIconButton>
-
-                     {valid && <StyledErrorIcon valid={valid} />}
+                     {error && <StyledErrorIcon error={error} />}
                   </StyledInputAbornment>
                }
                {...rest}
@@ -54,33 +45,34 @@ export const Input = React.forwardRef(
                autoFocus={false}
                fullWidth
             />
+            <StyledFormHelperText error={error}>
+               {helperText}
+            </StyledFormHelperText>
          </>
       )
    }
 )
 
-const StyledFormHelperText = styled(FormHelperText)(({ valid }) => ({
+const StyledFormHelperText = styled(FormHelperText)(({ error }) => ({
    fontFamily: 'Inter',
    fontWeight: 400,
-   fontSize: '14px',
-   lineHeight: '15px',
+   fontSize: '0.8rem',
    display: 'flex',
    alignItems: 'center',
-   marginBottom: '6px',
-   color: valid ? 'red' : '#464444',
+   marginBottom: '0.3rem',
+   color: error ? 'red' : '#464444',
 }))
 
-const StyledOutlinedInput = styled(OutlinedInput)(({ valid, bordercolor }) => ({
-   width: '100%',
-   height: '30px',
-   marginBottom: '15px',
-   border: valid ? '1px solid red!important' : '',
-   borderRadius: '6px',
-   color: valid ? 'red' : '',
-   paddingTop: '2px',
+const StyledOutlinedInput = styled(OutlinedInput)(({ error, bordercolor }) => ({
+   height: '1.9rem',
+   marginBottom: '0.9rem',
+   border: error ? '1px solid red!important' : '',
+   borderRadius: '0.3rem',
+   color: error ? 'red' : '',
+   paddingTop: '0.1rem',
 
    '&.MuiOutlinedInput-root': {
-      height: '32px',
+      height: '2rem',
       border: bordercolor === 'true' ? '1px solid red' : '1px solid grey',
       '&:hover ': {
          border: bordercolor === 'true' ? '1px solid red' : '1px solid #6200EE',
@@ -93,24 +85,14 @@ const StyledOutlinedInput = styled(OutlinedInput)(({ valid, bordercolor }) => ({
       border: 'none',
    },
    '&:hover': {
-      webkitBoxShadow: '0 0 0 30px white inset !important',
+      webkitBoxShadow: '0 0 0 1.9rem white inset !important',
    },
 }))
 
-const StyledErrorIcon = styled(ErrorIcon)(({ valid }) => ({
-   color: valid ? 'red' : '',
+const StyledErrorIcon = styled(ErrorIcon)(({ error }) => ({
+   color: error ? 'red' : '',
 }))
-const StyledIconButton = styled(IconButton)`
-   margin-right: -17px;
-   padding: 0;
-   svg: {
-      margin-right: -35px;
-      circle: {
-         fill: #6200ee;
-         fill-opacity: 100%;
-      }
-   }
-`
+
 const StyledInputAbornment = styled(InputAdornment)`
    padding: 0;
 `
