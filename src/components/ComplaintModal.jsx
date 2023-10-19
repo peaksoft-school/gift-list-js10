@@ -6,23 +6,58 @@ import {
    RadioGroup,
    styled,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from './Modal'
 import { Button } from './UI/Button'
+import { TextArea } from './UI/TextArea'
 
 const causes = [
-   'Жестокость и шокирующий контент',
-   'Проявление ненависти',
-   'Нелегальные действия или регламентированные товары',
-   'Спам',
-   'Призывы к насилию, опасные действия',
-   'Сцены порнографического характера',
-   'Прочее',
+   {
+      complaintId: 1,
+      textComplaint: 'Жестокость и шокирующий контент',
+   },
+   {
+      complaintId: 2,
+      textComplaint: 'Проявление ненависти',
+   },
+   {
+      complaintId: 3,
+      textComplaint: 'Нелегальные действия или регламентированные товары',
+   },
+   {
+      complaintId: 4,
+      textComplaint: 'Спам',
+   },
+   {
+      complaintId: 5,
+      textComplaint: 'Призывы к насилию, опасные действия',
+   },
+   {
+      complaintId: 6,
+      textComplaint: 'Сцены порнографического характера',
+   },
+   {
+      complaintId: 7,
+      textComplaint: 'Прочее',
+   },
 ]
 
 export const ComplaintModal = ({ toggleModal, isOpen, onSend }) => {
    const [cause, setCause] = useState('')
-   const handleChange = (e) => setCause(e.target.value)
+   const [newCause, setNewCause] = useState('')
+   const isNewCauseValid = newCause.trim().length >= 10
+   const handleReadyCause = (e) => setCause(e.target.value)
+   const handleNewCause = (e) => setNewCause(e.target.value)
+   useEffect(() => {
+      if (cause !== 'Прочее') {
+         setNewCause('')
+      }
+   }, [cause])
+   const handleClickToggleModalAndClearStates = () => {
+      toggleModal()
+      setCause('')
+      setNewCause('')
+   }
    return (
       <Modal isOpen={isOpen} handleClose={toggleModal} padding="30px">
          <Heading>Пожаловаться</Heading>
@@ -30,35 +65,45 @@ export const ComplaintModal = ({ toggleModal, isOpen, onSend }) => {
             <SubHeading>
                Почему вы хотите пожаловаться на эту публикацию?
             </SubHeading>
-            <StyledRadioGroup value={cause} onChange={handleChange}>
-               {causes.map((cause) => (
+            <StyledRadioGroup value={cause} onChange={handleReadyCause}>
+               {causes.map(({ complaintId, textComplaint }) => (
                   <FormControlLabel
-                     key={cause}
-                     value={cause}
+                     key={complaintId}
+                     value={textComplaint}
                      control={
                         <Radio
                            checkedIcon={<BpCheckedIcon />}
                            icon={<BpIcon />}
                         />
                      }
-                     label={cause}
+                     label={textComplaint}
                   />
                ))}
             </StyledRadioGroup>
+            {cause === 'Прочее' && (
+               <TextArea
+                  helperText={
+                     !isNewCauseValid &&
+                     `Длина причины жалобы должна быть больше 10 букв.`
+                  }
+                  placeholder="Введите причину жалобы сюда..."
+                  error={!isNewCauseValid}
+                  value={newCause}
+                  onChange={handleNewCause}
+               />
+            )}
             <ButtonActions>
                <StyledButton
                   onClick={() => {
-                     toggleModal()
-                     setCause('')
+                     handleClickToggleModalAndClearStates()
                   }}
                >
                   Отмена
                </StyledButton>
                <StyledButton
                   onClick={() => {
-                     onSend(cause)
-                     toggleModal()
-                     setCause('')
+                     onSend(isNewCauseValid ? newCause : cause)
+                     handleClickToggleModalAndClearStates()
                   }}
                   variant="primary"
                >
@@ -118,6 +163,7 @@ const StyledButton = styled(Button)(({ variant }) => ({
 const ButtonActions = styled('div')({
    display: 'flex',
    justifyContent: 'space-between',
+   paddingTop: '20px',
 })
 
 const Heading = styled('p')({
