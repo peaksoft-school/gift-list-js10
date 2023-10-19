@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { App } from './App'
 import './index.css'
 import { globalTheme } from './theme/globalTheme'
-import { StyledToastContainer } from './utils/helpers/notify'
+import { StyledToastContainer } from './utils/helpers/toast'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
