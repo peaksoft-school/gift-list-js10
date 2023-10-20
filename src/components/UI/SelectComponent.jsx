@@ -8,12 +8,7 @@ import {
 
 import React from 'react'
 
-export const SelectComponent = ({
-   onChange,
-   value,
-   label = 'Категория',
-   data,
-}) => {
+export const SelectComponent = ({ onChange, value, label, data }) => {
    return (
       <StyledFormControl fullWidth>
          <InputLabel>{label}</InputLabel>
