@@ -43,19 +43,19 @@ const causes = [
 ]
 
 export const ComplaintModal = ({ toggleModal, isOpen, onSend }) => {
-   const [cause, setCause] = useState('')
+   const [cause, setCause] = useState(0)
    const [newCause, setNewCause] = useState('')
    const isNewCauseValid = newCause.trim().length >= 10
-   const handleReadyCause = (e) => setCause(e.target.value)
+   const handleReadyCause = (e) => setCause(+e.target.value)
    const handleNewCause = (e) => setNewCause(e.target.value)
    useEffect(() => {
-      if (cause !== 'Прочее') {
+      if (cause !== 7) {
          setNewCause('')
       }
    }, [cause])
    const handleClickToggleModalAndClearStates = () => {
       toggleModal()
-      setCause('')
+      setCause(0)
       setNewCause('')
    }
    return (
@@ -69,7 +69,7 @@ export const ComplaintModal = ({ toggleModal, isOpen, onSend }) => {
                {causes.map(({ complaintId, textComplaint }) => (
                   <FormControlLabel
                      key={complaintId}
-                     value={textComplaint}
+                     value={complaintId}
                      control={
                         <Radio
                            checkedIcon={<BpCheckedIcon />}
@@ -80,7 +80,7 @@ export const ComplaintModal = ({ toggleModal, isOpen, onSend }) => {
                   />
                ))}
             </StyledRadioGroup>
-            {cause === 'Прочее' && (
+            {cause === 7 && (
                <TextArea
                   helperText={
                      !isNewCauseValid &&
@@ -105,7 +105,7 @@ export const ComplaintModal = ({ toggleModal, isOpen, onSend }) => {
                      onSend(isNewCauseValid ? newCause : cause)
                      handleClickToggleModalAndClearStates()
                   }}
-                  disabled={!isNewCauseValid}
+                  disabled={cause === 7 && !isNewCauseValid}
                   variant="primary"
                >
                   Отправить
