@@ -1,3 +1,9 @@
+import { MainPage } from './components/MainPage'
+
 export function App() {
-   return <div>App</div>
+   return (
+      <div>
+         <MainPage />
+      </div>
+   )
 }

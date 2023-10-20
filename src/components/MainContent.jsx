@@ -3,12 +3,11 @@ import { styled } from '@mui/material'
 import { MainPageIcon } from '../assets'
 
 const MainContainer = styled('div')`
-   width: 100%;
    height: 100%;
    background-color: #8639b5;
    display: flex;
    align-items: center;
-   justify-content: space-between;
+   justify-content: center;
 `
 
 const TextContainer = styled('div')`
