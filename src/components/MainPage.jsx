@@ -1,110 +1,81 @@
 import React, { useState, useEffect } from 'react'
-
 import { styled } from '@mui/material'
-
 import { MainContent } from './MainContent'
-
 import { MainDisIcon, MainLike, MainLoyIcon } from '../assets'
 
-const DivContainer = styled('div')`
+const Container = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+`
+
+const PartStage = styled('div')`
+   display: flex;
+   justify-content: space-between;
+`
+
+const Block = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 4rem;
+`
+
+const Label = styled('p')`
+   font-size: 0.875rem;
+`
+
+const Value = styled('p')`
+   color: #8639b5;
+   font-size: 2.675rem;
+`
+
+const BlockStage = styled('div')`
+   display: flex;
+   justify-content: center;
+   padding: 1rem;
+`
+
+const Feature = styled('div')`
+   text-align: center;
+   margin: 2rem;
+`
+
+const Icon = styled('img')`
+   margin: 2rem;
+   margin-left: -15%;
+   display: block;
+`
+
+const Title = styled('b')`
+   font-size: 1.5rem;
    display: flex;
 `
-const Img = styled('img')`
-   margin-left: -8.125rem;
-   margin-top: -20px;
+
+const Description = styled('li')`
+   font-size: 1rem;
+   margin: 1rem;
+   display: flex;
+   margin-top: 1rem;
 `
-const Image = styled('img')`
-   margin-left: 2.313rem;
-   margin-top: -20px;
-`
-const Images = styled('img')`
-   margin-left: -1.875rem;
-   margin-top: -20px;
+const Conter = styled('div')`
+   margin-top: -5rem;
+   padding: 0.5rem;
 `
 
 const Button = styled('button')`
    width: 18.188rem;
-   padding: 0.438rem 1.5rem 0.438rem 1.5rem;
+   padding: 0.625rem;
    background-color: #8639b5;
    color: white;
    border: none;
    border-radius: 0.313rem;
-   margin-left: 34.375rem;
-   margin-top: 9.375rem;
-   height: 2.438rem;
+   margin: 7rem;
+   cursor: pointer;
    &:hover {
       background-color: #6a1f99;
-      cursor: pointer;
    }
-`
-const Paragraph = styled('p')`
-   margin-top: 0.625rem;
-   padding-left: 16.875rem;
-   margin-left: -13.125rem;
-`
-const Paragrap = styled('p')`
-   margin-left: 11.875rem;
-   font-size: 1.063rem;
-   margin-top: 0.625rem;
-`
-const Par = styled('p')`
-   color: #8639b5;
-   font-size: 2.5rem;
-   margin-left: 5.625rem;
-   padding-right: 3.125rem;
-`
-const Pteg = styled('p')`
-   color: #8639b5;
-   font-size: 2.5rem;
-   margin-left: 5.625rem;
-   padding-right: 6.25rem;
-`
-const Para = styled('p')`
-   color: #8639b5;
-   font-size: 2.5rem;
-   margin-left: 11.875rem;
-`
-
-const Div = styled('div')`
-   justify-content: center;
-   display: flex;
-   padding: 1.25rem 3.125rem 1.25rem 3.125rem;
-   margin-right: 70px;
-`
-const DivBlock = styled('div')`
-   justify-content: center;
-   display: flex;
-   margin-top: 9.375rem;
-   margin-left: 10.525rem;
-`
-
-const B = styled('b')`
-   margin-left: 0.5rem;
-   font-size: 1.438rem;
-`
-const Bo = styled('b')`
-   margin-left: -3.613rem;
-   font-size: 1.438rem;
-   margin-top: -1.45rem;
-`
-const Bl = styled('b')`
-   margin-left: 0.625rem;
-   font-size: 1.438rem;
-`
-const Li = styled('li')`
-   margin-top: 1.875rem;
-   margin-left: -2.75rem;
-   padding: 3.75rem -3.75rem 3.75rem 3.75rem;
-`
-const Lis = styled('li')`
-   margin-top: 1.875rem;
-   margin-left: 2.125rem;
-   padding: 3.75rem -3.75rem 3.75rem 3.75rem;
-`
-const Liss = styled('li')`
-   margin-top: 1.875rem;
-   margin-left: 1.75rem;
-   padding: 3.75rem -3.75rem 3.75rem 3.75rem;
 `
 
 export function MainPage() {
@@ -162,62 +133,62 @@ export function MainPage() {
    }, [userCount, giftCount, donationCount])
 
    return (
-      <div>
-         <Div>
-            <div>
-               <Para>{userCount} K+</Para>
-               <Paragrap>Пользоватей</Paragrap>
-            </div>
-            <div>
-               <Par>{giftCount} K+</Par>
-               <Paragraph>Размещение подарков</Paragraph>
-            </div>
-            <div>
-               <Pteg>{donationCount} K+</Pteg>
-               <Paragraph>Подаренных подарков</Paragraph>
-            </div>
-            <div>
-               <Par>{checkCount} K+</Par>
-               <Paragraph>Реализованный благотворительной помощи</Paragraph>
-            </div>
-         </Div>
-         <DivBlock>
-            <DivContainer>
-               <div>
-                  <Img src={MainLike} alt="heart" />
-               </div>
-               <ul>
-                  <Bo>Дари то что, необходимо</Bo>
-                  <Li>Находи своих близких</Li>
-                  <Li>Просматривай их списки желаний</Li>
-                  <Li>Узнавай о ближайших мероприятиях</Li>
-               </ul>
-            </DivContainer>
-            <div>
-               <Image src={MainDisIcon} alt="like" />
-            </div>
-            <DivContainer>
-               <ul>
-                  <B>Удобство в использовании</B>
-                  <Liss>Создавай неограниченное колчичество желаний </Liss>
-                  <Liss>Добавляй подарки которые ты действительно хочешь</Liss>
-                  <Liss>Делись с своими желаниями с другими</Liss>
-               </ul>
-            </DivContainer>
-            <DivContainer>
-               <div>
-                  <Images src={MainLoyIcon} alt="brush" />
-               </div>
-               <ul>
-                  <Bl>Твори добро</Bl>
-                  <Lis>Дари благотворительные подарки</Lis>
-                  <Lis>Делись своими вещами</Lis>
-                  <Lis>Помогай другим приобрести необходимое</Lis>
-               </ul>
-            </DivContainer>
-         </DivBlock>
-         <Button type="button">ЗАРЕГЕСТРИРОВАТСЯ</Button>
+      <Container>
+         <PartStage>
+            <Block>
+               <Value>{userCount} K+</Value>
+               <Label>Пользоватей</Label>
+            </Block>
+            <Block>
+               <Value>{giftCount} K+</Value>
+               <Label>Размещение подарков</Label>
+            </Block>
+            <Block>
+               <Value>{donationCount} K+</Value>
+               <Label>Подаренных подарков</Label>
+            </Block>
+            <Block>
+               <Value>{checkCount} K+</Value>
+               <Label>Реализованный благотворительной помощи</Label>
+            </Block>
+         </PartStage>
+         <BlockStage>
+            <Feature>
+               <Icon src={MainLike} alt="heart" />
+               <Conter>
+                  <Title>Дари то, что необходимо</Title>
+                  <Description>Находи своих близких</Description>
+                  <Description>Просматривай их списки желаний</Description>
+                  <Description>Узнавай о ближайших мероприятиях</Description>
+               </Conter>
+            </Feature>
+            <Feature>
+               <Icon src={MainDisIcon} alt="like" />
+               <Conter>
+                  <Title>Удобство в использовании</Title>
+                  <Description>
+                     Создавай неограниченное количество желаний
+                  </Description>
+                  <Description>
+                     Добавляй подарки которые ты действительно хочешь
+                  </Description>
+                  <Description>Делись своими желаниями с другими</Description>
+               </Conter>
+            </Feature>
+            <Feature>
+               <Icon src={MainLoyIcon} alt="brush" />
+               <Conter>
+                  <Title>Твори добро</Title>
+                  <Description>Дари благотворительные подарки</Description>
+                  <Description>Делись своими вещами</Description>
+                  <Description>
+                     Помогай другим приобрести необходимое
+                  </Description>
+               </Conter>
+            </Feature>
+         </BlockStage>
+         <Button type="button">ЗАРЕГИСТРИРОВАТЬСЯ</Button>
          <MainContent />
-      </div>
+      </Container>
    )
 }
