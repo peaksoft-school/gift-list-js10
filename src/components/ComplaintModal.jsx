@@ -105,6 +105,7 @@ export const ComplaintModal = ({ toggleModal, isOpen, onSend }) => {
                      onSend(isNewCauseValid ? newCause : cause)
                      handleClickToggleModalAndClearStates()
                   }}
+                  disabled={!isNewCauseValid}
                   variant="primary"
                >
                   Отправить
