@@ -1,3 +1,9 @@
+import { AdminState } from './components/AdminState'
+
 export function App() {
-   return <div className="App">App</div>
+   return (
+      <div>
+         <AdminState />
+      </div>
+   )
 }
