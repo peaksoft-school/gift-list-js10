@@ -16,12 +16,12 @@ export const FriendCard = ({
             <CardContent>{name}</CardContent>
             <Text>
                <Holidays>
-                  <P>{wish}</P>
-                  <P2>{textWish}</P2>
+                  <Span>{wish}</Span>
+                  <Span2>{textWish}</Span2>
                </Holidays>
                <Holidays>
-                  <P>{holidays}</P>
-                  <P2>{textHolidays}</P2>
+                  <Span>{holidays}</Span>
+                  <Span2>{textHolidays}</Span2>
                </Holidays>
             </Text>
          </CardContainer>
@@ -70,12 +70,12 @@ const Holidays = styled(Box)({
    alignItems: 'center',
 })
 
-const P = styled('p')({
+const Span = styled('span')({
    fontSize: '1rem',
    color: '#000',
 })
 
-const P2 = styled('p')({
+const Span2 = styled('span')({
    color: '#606060',
    fontSize: '0.75rem',
 })
