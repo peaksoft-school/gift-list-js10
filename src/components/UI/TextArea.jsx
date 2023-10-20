@@ -13,6 +13,7 @@ export const TextArea = forwardRef(
             value={value}
             onChange={onChange}
             label={labelText}
+            fullWidth
          />
       )
    }
@@ -20,7 +21,6 @@ export const TextArea = forwardRef(
 
 const StyledMuiTextArea = styled(MuiTextField)({
    position: 'static !important',
-   width: '50.5rem !important',
    fontSize: '1.2rem',
    borderRadius: '6px',
    '.css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input': {
