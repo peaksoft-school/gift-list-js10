@@ -26,7 +26,6 @@ const Tile = styled('p')`
 `
 
 const Img = styled('img')`
-   width: 50%;
    height: 100%;
    padding: 5rem;
 `
