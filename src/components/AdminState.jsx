@@ -1,11 +1,12 @@
 import { styled } from '@mui/material'
-import { ShirtIcon, UserDataIcon } from '../assets'
-
+import { useState } from 'react'
+import { ShirtIcon, UserDataIcon, UserWait } from '../assets'
 import { Field } from './Field'
 
 const Container = styled('div')({
    display: 'flex',
    alignItems: 'flex-start',
+   position: 'fixed',
 })
 
 const Icon = styled('img')({
@@ -48,9 +49,29 @@ const FieldText = styled('p')({
 const Title = styled('span')({
    color: '#3774d0',
    margin: '7.5rem',
+   cursor: 'pointer',
+})
+
+const Img = styled('img')({
+   marginLeft: '15rem',
+})
+const ContainerIcon = styled('div')({
+   marginTop: '-1.25rem',
 })
 
 export function AdminState() {
+   const [isState, setIsState] = useState('Забронировано')
+   const [isIcon, setIsIcon] = useState(true)
+
+   const toggleState = () => {
+      if (isState === 'Забронировано') {
+         setIsState('В ожидании')
+      } else {
+         setIsState('Забронировано')
+      }
+      setIsIcon(!isIcon)
+   }
+
    return (
       <Container>
          <Icon src={ShirtIcon} alt="shirt" />
@@ -60,7 +81,10 @@ export function AdminState() {
                <span>Аида Каримова</span>
                <div>
                   <Span>+996 705 86 95 44</Span>
-                  <Title>в ожидании</Title>
+                  <Title onClick={toggleState}>{isState}</Title>
+                  <ContainerIcon>
+                     {isIcon && <Img src={UserWait} alt="user-wait" />}
+                  </ContainerIcon>
                </div>
             </FrowContent>
             <Main>

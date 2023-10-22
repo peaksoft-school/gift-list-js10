@@ -14,7 +14,7 @@ const FLowContent = styled('div')({
    marginLeft: '-1.875rem',
 })
 const DefContent = styled('div')({
-   marginLeft: '-51.25rem',
+   marginLeft: '-52.25rem',
 })
 const Paragraph = styled('p')({
    padding: '1.25rem',
@@ -51,7 +51,7 @@ export function Field() {
                </Around>
             </DefContent>
             <ButtonContainer>
-               <Button variant="containeds" type="button">
+               <Button variant="text" type="button">
                   Удалить
                </Button>
                <Button variant="contained" type="button">
