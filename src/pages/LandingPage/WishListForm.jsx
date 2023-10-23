@@ -17,12 +17,13 @@ export const WishListForm = () => {
             <Typography>Добавление желаемого подарка</Typography>
 
             <div>
-               <input type="text" placeholder="Введите название подарка" />{' '}
+               <input type="text" placeholder="Введите название подарка" />
                <input type="text" placeholder="Вставьте ссылку на подарок" />
                <SelectComponent data={options} label="Праздник" />
                {/* <LocalizationProvider>
                   <DatePicker label="Укажите дату праздника" />
                </LocalizationProvider> */}
+
                <TextArea
                   placeholder="Введите описание подарка"
                   labelText="Описание подарка"
@@ -46,6 +47,10 @@ const BlockOne = styled('div')({
    // width: '217px',
    width: '16%',
 })
+
+// const StyledUploadImage = styled(UploadImage)({
+//    width: '100% !important',
+// })
 
 const BlockTwo = styled('div')({
    display: 'flex',
