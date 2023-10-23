@@ -7,6 +7,7 @@ import {
 } from '@mui/material'
 
 import React from 'react'
+import { Button } from './Button'
 
 export const SelectComponent = ({ onChange, value, label, data }) => {
    return (
@@ -20,6 +21,7 @@ export const SelectComponent = ({ onChange, value, label, data }) => {
                   </SelectContainer>
                )
             })}
+            <Button>+ Создать новый праздник</Button>
          </StyledSelect>
       </StyledFormControl>
    )

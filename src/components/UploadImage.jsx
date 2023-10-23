@@ -54,7 +54,7 @@ const StyledContainer = styled('div')({
    border: '1px solid #DCDCE4',
    textAlign: 'center',
    gap: '20px',
-   width: '19%',
+   // width: '19%',
    height: '27vh',
    borderRadius: '9px',
    position: 'relative',
