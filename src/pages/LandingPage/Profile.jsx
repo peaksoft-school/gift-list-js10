@@ -12,6 +12,7 @@ import {
 
 const userInfo = [
    {
+      id: 1,
       userName: 'Аида Каримова',
       userPicture: ProfilePicture,
       socialMedias: {
@@ -35,7 +36,8 @@ export const Profile = () => {
    return (
       <ProfileContainer component="div">
          {userInfo.map((user) => (
-            <>
+            // eslint-disable-next-line react/jsx-fragments
+            <React.Fragment key={user.id}>
                <UserProfilePictureAndUserNameAndSocialsMediaContainer component="div">
                   <UserProfilePictureContainer component="div">
                      <img src={user.userPicture} alt={user.userName} />
@@ -179,7 +181,7 @@ export const Profile = () => {
                      </InformationRightPart>
                   </AdditionalInformation>
                </UserInfoContainer>
-            </>
+            </React.Fragment>
          ))}
       </ProfileContainer>
    )
