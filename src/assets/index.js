@@ -19,3 +19,12 @@ export { default as InstagramIcon } from './icons/instagram-icon.svg'
 export { default as VkIcon } from './icons/vk-icon.svg'
 export { default as GirlsImage } from './images/one-girl-with-glasses-and-two-girl-without-glasses.png'
 export { default as ArrowDown } from './icons/arrow_down.svg'
+
+// user profile social media links
+
+export { default as ProfileFacebook } from './icons/profile_facebook.svg'
+export { default as ProfileInstagram } from './icons/profile_instagram.svg'
+export { default as ProfileTelegram } from './icons/profile_telegram.svg'
+export { default as ProfileVk } from './icons/profile_vk.svg'
+
+export { default as ProfilePicture } from './images/profile-picture.png'
