@@ -14,11 +14,9 @@ export { ReactComponent as InfoIcon } from './icons/notify-info-icon.svg'
 export { ReactComponent as WarningIcon } from './icons/notify-warning-icon.svg'
 export { ReactComponent as SuccessIcon } from './icons/notify-success-icon.svg'
 export { default as FriendsMakeASelphyImage } from './images/friends-make-a-selphy.png'
-export { default as FacebookIcon } from './icons/facebook-con.svg'
-export { default as InstagramIcon } from './icons/instagram-icon.svg'
-export { default as VkIcon } from './icons/vk-icon.svg'
 export { default as GirlsImage } from './images/one-girl-with-glasses-and-two-girl-without-glasses.png'
 export { default as ArrowDown } from './icons/arrow_down.svg'
+<<<<<<< HEAD
 
 // user profile social media links
 
@@ -28,3 +26,6 @@ export { default as ProfileTelegram } from './icons/profile_telegram.svg'
 export { default as ProfileVk } from './icons/profile_vk.svg'
 
 export { default as ProfilePicture } from './images/profile-picture.png'
+=======
+export { ReactComponent as UploadImageIcon } from './icons/upload-image-icon.svg'
+>>>>>>> fe7752e1f4e30bccf59c6ee335c8def2922a2699

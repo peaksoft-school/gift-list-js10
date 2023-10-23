@@ -1,23 +1,53 @@
-import { TextareaAutosize, styled } from '@mui/material'
-import React from 'react'
+import {
+   FormControl,
+   FormLabel,
+   TextField as MuiTextField,
+   styled,
+} from '@mui/material'
+import React, { forwardRef } from 'react'
 
-export const TextArea = ({ value, onChange, labelText }) => {
-   return (
-      <StyledMuiTextArea value={value} onChange={onChange} label={labelText} />
-   )
-}
+export const TextArea = forwardRef(
+   (
+      { helperText, error, value, onChange, placeholder, labelText, name },
+      ref
+   ) => {
+      return (
+         <FormControl fullWidth>
+            {labelText && (
+               <StyledFormLabel htmlFor="text-area" error={error}>
+                  {labelText}
+               </StyledFormLabel>
+            )}
+            <StyledMuiTextArea
+               id="text-area"
+               helperText={error && helperText}
+               error={error}
+               placeholder={placeholder}
+               ref={ref}
+               multiline
+               value={value}
+               onChange={onChange}
+               name={name}
+            />
+         </FormControl>
+      )
+   }
+)
 
-const StyledMuiTextArea = styled(TextareaAutosize)({
+const StyledFormLabel = styled(FormLabel)({
+   paddingBottom: '7px',
+})
+
+const StyledMuiTextArea = styled(MuiTextField)({
    position: 'static !important',
-   width: '50.5rem !important',
-   height: '6.938rem !important',
    fontSize: '1.2rem',
-   padding: '8px 18px',
    borderRadius: '6px',
-   '&::-webkit-resizer': {
-      display: 'none',
+   '.css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input': {
+      height: '6.938rem !important',
+      overflow: 'inherit !important',
    },
-   '&:focus': {
-      outline: 'none',
+   '.css-7sakbj-MuiFormHelperText-root': {
+      textAlign: 'end',
+      marginRight: '5px',
    },
 })
