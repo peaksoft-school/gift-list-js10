@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { Button } from '../../components/UI/Button'
@@ -32,7 +31,7 @@ const userInfo = [
    },
 ]
 
-export const Profile = () => {
+export const Profile = ({ variant }) => {
    return (
       <ProfileContainer component="div">
          {userInfo.map((user) => (
@@ -43,7 +42,34 @@ export const Profile = () => {
                      <img src={user.userPicture} alt={user.userName} />
                   </UserProfilePictureContainer>
                   <UserName variant="p">{user.userName}</UserName>
-                  <Button variant="primary">Добавить в друзья</Button>
+                  {variant !== 'roleAdmin' &&
+                     (() => {
+                        switch (variant) {
+                           case 'applicationToFriends':
+                              return (
+                                 <ApplicationToFriendsContainer>
+                                    <StyledButton variant="primary">
+                                       Принять заявку
+                                    </StyledButton>
+                                    <StyledButton variant="outlined">
+                                       Отклонить
+                                    </StyledButton>
+                                 </ApplicationToFriendsContainer>
+                              )
+                           case 'removeFromFriends':
+                              return (
+                                 <StyledButton variant="outlined">
+                                    Удалить из друзей
+                                 </StyledButton>
+                              )
+                           default:
+                              return (
+                                 <StyledButton variant="primary">
+                                    Добавить в друзья
+                                 </StyledButton>
+                              )
+                        }
+                     })()}
                   <UserSocialMediaContainer component="div">
                      <a href={user.socialMedias.facebook} target="blank">
                         <ProfileFacebook />
@@ -114,10 +140,8 @@ export const Profile = () => {
                         </UserOneInformationContainer>
                      </InformationRightPart>
                   </BasicInformation>
-
                   {/* user's interest and hobbies */}
                   <InformationText variant="p">Интересы, хобби</InformationText>
-
                   <InteresAndHobbiesInformation component="div">
                      {/* interest and hobbies left part */}
                      <InformationLeftPart component="div">
@@ -146,11 +170,8 @@ export const Profile = () => {
                         </UserOneInformationContainer>
                      </InformationRightPart>
                   </InteresAndHobbiesInformation>
-
                   {/* additional information */}
-
                   <InformationText variant="p">Доп.инфа</InformationText>
-
                   <AdditionalInformation>
                      {/* additional information left part */}
 
@@ -180,12 +201,27 @@ export const Profile = () => {
                         </UserOneInformationContainer>
                      </InformationRightPart>
                   </AdditionalInformation>
+                  {variant === 'roleAdmin' && (
+                     <RemoveOrBlockContainer component="div">
+                        <StyledButton variant="outlined">Удалить</StyledButton>
+                        <StyledButton variant="primary">
+                           Заблокировать
+                        </StyledButton>
+                     </RemoveOrBlockContainer>
+                  )}
                </UserInfoContainer>
             </React.Fragment>
          ))}
       </ProfileContainer>
    )
 }
+
+const RemoveOrBlockContainer = styled(Box)({
+   marginTop: '1rem',
+   display: 'flex',
+   gap: '0.625rem',
+   justifyContent: 'end',
+})
 
 const ProfileContainer = styled(Box)({
    width: '73rem',
@@ -201,6 +237,10 @@ const UserProfilePictureAndUserNameAndSocialsMediaContainer = styled(Box)({
    width: '13rem',
    gap: '20px',
    textAlign: 'center',
+})
+
+const StyledButton = styled(Button)({
+   textTransform: 'none',
 })
 
 const UserProfilePictureContainer = styled(Box)({
@@ -287,4 +327,10 @@ const UserOneInformationContainer = styled(Box)({
    display: 'flex',
    flexDirection: 'column',
    gap: '0.5rem',
+})
+
+const ApplicationToFriendsContainer = styled(Box)({
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '1rem',
 })
