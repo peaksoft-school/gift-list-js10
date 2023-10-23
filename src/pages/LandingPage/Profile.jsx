@@ -45,16 +45,16 @@ export const Profile = () => {
                   <UserName variant="p">{user.userName}</UserName>
                   <Button variant="primary">Добавить в друзья</Button>
                   <UserSocialMediaContainer component="div">
-                     <a href={user.socialMedias.facebook}>
+                     <a href={user.socialMedias.facebook} target="blank">
                         <ProfileFacebook />
                      </a>
-                     <a href={user.socialMedias.instagram}>
+                     <a href={user.socialMedias.instagram} target="blank">
                         <ProfileInstagram />
                      </a>
-                     <a href={user.socialMedias.telegram}>
+                     <a href={user.socialMedias.telegram} target="blank">
                         <ProfileTelegram />
                      </a>
-                     <a href={user.socialMedias.vk}>
+                     <a href={user.socialMedias.vk} target="blank">
                         <ProfileVk />
                      </a>
                   </UserSocialMediaContainer>
