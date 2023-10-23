@@ -35,7 +35,6 @@ export const Profile = () => {
    return (
       <ProfileContainer component="div">
          {userInfo.map((user) => (
-            // eslint-disable-next-line react/jsx-no-useless-fragment
             <>
                <UserProfilePictureAndUserNameAndSocialsMediaContainer component="div">
                   <UserProfilePictureContainer component="div">
