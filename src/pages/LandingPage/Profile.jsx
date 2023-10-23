@@ -1,24 +1,24 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react'
 import { Box, Typography, styled } from '@mui/material'
+import { Button } from '../../components/UI/Button'
 import {
    ProfileFacebook,
    ProfileInstagram,
    ProfilePicture,
    ProfileTelegram,
    ProfileVk,
-} from '../../assets'
-import { Button } from '../../components/UI/Button'
+} from '../../assets/index'
 
 const userInfo = [
    {
       userName: 'Аида Каримова',
       userPicture: ProfilePicture,
       socialMedias: {
-         facebook: ProfileFacebook,
-         instagram: ProfileInstagram,
-         telegram: ProfileTelegram,
-         vk: ProfileVk,
+         facebook: 'https://www.facebook.com/',
+         instagram: 'https://www.instagram.com/',
+         telegram: 'https://web.telegram.org/',
+         vk: 'https://vk.com/feed',
       },
       city: 'Бишкек',
       email: 'Aika1998@gmail.com',
@@ -43,20 +43,17 @@ export const Profile = () => {
                   <UserName variant="p">{user.userName}</UserName>
                   <Button variant="primary">Добавить в друзья</Button>
                   <UserSocialMediaContainer component="div">
-                     <a href="https://www.facebook.com/">
-                        <img src={user.socialMedias.facebook} alt="facebook" />
+                     <a href={user.socialMedias.facebook}>
+                        <ProfileFacebook />
                      </a>
-                     <a href="https://www.instagram.com/">
-                        <img
-                           src={user.socialMedias.instagram}
-                           alt="instagram"
-                        />
+                     <a href={user.socialMedias.instagram}>
+                        <ProfileInstagram />
                      </a>
-                     <a href="https://web.telegram.org/">
-                        <img src={user.socialMedias.telegram} alt="telegram" />
+                     <a href={user.socialMedias.telegram}>
+                        <ProfileTelegram />
                      </a>
-                     <a href="https://vk.com/feed">
-                        <img src={user.socialMedias.vk} alt="vk" />
+                     <a href={user.socialMedias.vk}>
+                        <ProfileVk />
                      </a>
                   </UserSocialMediaContainer>
                </UserProfilePictureAndUserNameAndSocialsMediaContainer>

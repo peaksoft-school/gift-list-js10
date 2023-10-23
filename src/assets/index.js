@@ -19,9 +19,9 @@ export { default as ArrowDown } from './icons/arrow_down.svg'
 
 // user profile social media links
 
-export { default as ProfileFacebook } from './icons/profile_facebook.svg'
-export { default as ProfileInstagram } from './icons/profile_instagram.svg'
-export { default as ProfileTelegram } from './icons/profile_telegram.svg'
-export { default as ProfileVk } from './icons/profile_vk.svg'
+export { ReactComponent as ProfileFacebook } from './icons/profile_facebook.svg'
+export { ReactComponent as ProfileInstagram } from './icons/profile_instagram.svg'
+export { ReactComponent as ProfileTelegram } from './icons/profile_telegram.svg'
+export { ReactComponent as ProfileVk } from './icons/profile_vk.svg'
 
 export { default as ProfilePicture } from './images/profile-picture.png'
