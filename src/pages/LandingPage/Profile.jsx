@@ -216,13 +216,6 @@ export const Profile = ({ variant }) => {
    )
 }
 
-const RemoveOrBlockContainer = styled(Box)({
-   marginTop: '1rem',
-   display: 'flex',
-   gap: '0.625rem',
-   justifyContent: 'end',
-})
-
 const ProfileContainer = styled(Box)({
    width: '73rem',
    margin: '0 auto',
@@ -267,10 +260,18 @@ const UserSocialMediaContainer = styled(Box)({
 // user information
 
 const UserInfoContainer = styled(Box)({
-   padding: '48px 0px 0px 68px',
-
+   padding: '48px 70px 0px 68px',
+   width: '100%',
    display: 'flex',
    flexDirection: 'column',
+})
+
+const RemoveOrBlockContainer = styled(Box)({
+   marginTop: '1rem',
+   display: 'flex',
+   justifyContent: 'end',
+   width: '100%',
+   gap: '0.625rem',
 })
 
 const BasicInformation = styled(Box)({
@@ -285,7 +286,7 @@ const InformationText = styled(Typography)({
    letterSpacing: '0.013rem',
    fontWeight: '500',
    fontSize: '1.125rem',
-   marginBottom: '2rem',
+   marginBottom: '1rem',
 })
 
 const UserInformationArea = styled(Typography)({
