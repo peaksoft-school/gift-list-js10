@@ -203,7 +203,7 @@ export const Profile = ({ variant }) => {
                   </AdditionalInformation>
                   {variant === 'roleAdmin' && (
                      <RemoveOrBlockContainer component="div">
-                        <StyledButton variant="outlined">Удалить</StyledButton>
+                        <RemoveButton variant="outlined">Удалить</RemoveButton>
                         <StyledButton variant="primary">
                            Заблокировать
                         </StyledButton>
@@ -233,7 +233,16 @@ const UserProfilePictureAndUserNameAndSocialsMediaContainer = styled(Box)({
 })
 
 const StyledButton = styled(Button)({
+   borderRadius: '10px',
    textTransform: 'none',
+})
+
+const RemoveButton = styled(Button)({
+   textTransform: 'none',
+   border: 'none',
+   ':hover': {
+      border: 'none',
+   },
 })
 
 const UserProfilePictureContainer = styled(Box)({
