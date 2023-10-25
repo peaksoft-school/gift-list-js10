@@ -235,6 +235,7 @@ const UserProfilePictureAndUserNameAndSocialsMediaContainer = styled(Box)({
 const StyledButton = styled(Button)({
    borderRadius: '10px',
    textTransform: 'none',
+   backgroundColor: '#8639B5',
 })
 
 const RemoveButton = styled(Button)({
