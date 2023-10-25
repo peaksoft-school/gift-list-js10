@@ -1,84 +1,95 @@
 import { styled } from '@mui/material'
 
-import { HumanIcon } from '../assets'
-
 const Display = styled('div')({
    display: 'flex',
+   gap: '14rem',
 })
 
 const Around = styled('div')({
    display: 'flex',
+   gap: '12rem',
 })
 
-const FLowContent = styled('div')({
-   padding: '12.5rem',
-   marginTop: '1.25rem',
-   marginLeft: '-1.875rem',
-})
+const FLowContent = styled('div')({})
+
 const DefContent = styled('div')({
-   marginLeft: '-67.25rem',
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '0.990rem',
 })
+
 const Paragraph = styled('p')({
-   padding: '1.25rem',
-   marginTop: '1.25rem',
    color: '#5c5c5c',
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '0.438rem',
 })
 
 const TextFeature = styled('p')({
    color: '#000',
 })
+
 const IconContainer = styled('div')({
-   marginLeft: '-55.625rem',
-   marginTop: '-12.5rem',
+   display: 'flex',
+   gap: '0.938rem',
+   paddingTop: '3.313rem',
 })
 
 const SpanContent = styled('div')({
-   marginTop: '-2.5rem',
-   marginLeft: '3.438rem',
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '5px',
 })
 
 const Span = styled('span')({
    color: '#fd5200',
 })
 
-const user = {
-   role: 'user',
-}
+const ImgSoft = styled('img')({
+   width: '2.5rem',
+   height: '2.5rem',
+})
 
-export function Field() {
+export function Field({
+   complaints,
+   categoryName,
+   subCategoryName,
+   state,
+   createdDate,
+   role,
+}) {
    return (
       <div>
          <FLowContent>
             <DefContent>
                <Display>
                   <Paragraph>
-                     Категория: <TextFeature>Школьные</TextFeature>
+                     Категория: <TextFeature>{categoryName}</TextFeature>
                   </Paragraph>
                   <Paragraph>
-                     Состояние: <TextFeature>Б/У</TextFeature>
+                     Состояние: <TextFeature>{state}</TextFeature>
                   </Paragraph>
                </Display>
                <Around>
                   <Paragraph>
-                     Подкатегория: <TextFeature>Сумка</TextFeature>
+                     Подкатегория: <TextFeature>{subCategoryName}</TextFeature>
                   </Paragraph>
                   <Paragraph>
-                     Дата добавления: <TextFeature>12.04.2022</TextFeature>
+                     Дата добавления: <TextFeature>{createdDate}</TextFeature>
                   </Paragraph>
                </Around>
             </DefContent>
          </FLowContent>
-         {user.role === 'user' && (
-            <IconContainer>
-               <img src={HumanIcon} alt="human" />
-               <SpanContent>
-                  <span>Аида Каримова</span>
-                  <div>
-                     <Span>Причина жалобы</Span>
-                  </div>
-               </SpanContent>
-            </IconContainer>
-         )}
+         {role !== 'user' &&
+            complaints.map((complaint) => (
+               <IconContainer key={complaint.id}>
+                  <ImgSoft src={complaint.userImg} alt="human" />
+                  <SpanContent>
+                     <span>{complaint.userName}</span>
+                     <Span>{complaint.reasonForComplaint}</Span>
+                  </SpanContent>
+               </IconContainer>
+            ))}
       </div>
    )
 }
