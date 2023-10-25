@@ -14,12 +14,10 @@ const userInfo = [
       id: 1,
       userName: 'Аида Каримова',
       userPicture: ProfilePicture,
-      socialMedias: {
-         facebook: 'https://www.facebook.com/',
-         instagram: 'https://www.instagram.com/',
-         telegram: 'https://web.telegram.org/',
-         vk: 'https://vk.com/feed',
-      },
+      facebook: 'https://www.facebook.com/',
+      instagram: 'https://www.instagram.com/',
+      telegram: 'https://web.telegram.org/',
+      vk: 'https://vk.com/feed',
       city: 'Бишкек',
       email: 'Aika1998@gmail.com',
       birthdate: '12.04.1998',
@@ -71,16 +69,16 @@ export const Profile = ({ variant }) => {
                         }
                      })()}
                   <UserSocialMediaContainer component="div">
-                     <a href={user.socialMedias.facebook} target="blank">
+                     <a href={user.facebook} target="blank">
                         <ProfileFacebook />
                      </a>
-                     <a href={user.socialMedias.instagram} target="blank">
+                     <a href={user.instagram} target="blank">
                         <ProfileInstagram />
                      </a>
-                     <a href={user.socialMedias.telegram} target="blank">
+                     <a href={user.telegram} target="blank">
                         <ProfileTelegram />
                      </a>
-                     <a href={user.socialMedias.vk} target="blank">
+                     <a href={user.vk} target="blank">
                         <ProfileVk />
                      </a>
                   </UserSocialMediaContainer>
