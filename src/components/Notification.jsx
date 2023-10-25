@@ -1,9 +1,9 @@
 import { MoreVert } from '@mui/icons-material'
-import { Box, IconButton, Menu, styled } from '@mui/material'
+import { Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { notifications } from '../utils/helpers/constants'
 
-export const Notification = () => {
+export const Notification = ({ onClick }) => {
    const [anchorEl, setAnchorEl] = useState(null)
    const openReadAll = (event) => {
       setAnchorEl(event.currentTarget)
@@ -28,12 +28,14 @@ export const Notification = () => {
                <MoreVert />
             </IconButton>
             <StyledMenu
-               anchorEl={anchorEl}
-               keepMounted
-               onClose={handleClose}
                open={open}
+               keepMounted
+               anchorEl={anchorEl}
+               onClose={handleClose}
             >
-               Отметить все как прочитанные
+               <MenuItem onClick={onClick}>
+                  Отметить все как прочитанные
+               </MenuItem>
             </StyledMenu>
          </FirstBlock>
          <ul>
@@ -92,8 +94,8 @@ const List = styled('li')({
       background: 'rgba(134, 57, 181, 0.10)',
    },
    '& > img': {
-      width: '36px',
-      height: '36px',
+      width: '11%',
+      height: '4vh',
    },
 })
 
@@ -116,6 +118,10 @@ const Date = styled('span')({
 })
 
 const StyledMenu = styled(Menu)({
-   padding: '16px 16px',
-   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.16)',
+   '& .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper': {
+      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.16)',
+   },
+   position: 'absolute',
+   left: '70px',
+   top: '0',
 })
