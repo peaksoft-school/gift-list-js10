@@ -2,33 +2,33 @@ import React from 'react'
 import { styled } from '@mui/material'
 import { MainPageIcon } from '../assets'
 
-const MainContainer = styled('div')`
-   height: 100%;
-   background-color: #8639b5;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-`
+const MainContainer = styled('div')({
+   height: '100%',
+   backgroundColor: '#8639b5',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'center',
+})
 
-const TextContainer = styled('div')`
-   flex: 1;
-   padding: 10rem;
-`
+const TextContainer = styled('div')({
+   flex: '1',
+   padding: '10rem',
+})
 
-const Paragraph = styled('p')`
-   color: white;
-   font-size: 2.188rem;
-`
+const Paragraph = styled('p')({
+   color: 'white',
+   fontSize: '2.188rem',
+})
 
-const Tile = styled('p')`
-   color: white;
-   padding: 2rem;
-`
+const Tile = styled('p')({
+   color: 'white',
+   padding: '2rem',
+})
 
-const Img = styled('img')`
-   height: 100%;
-   padding: 5rem;
-`
+const Img = styled('img')({
+   height: '100%',
+   padding: '5rem',
+})
 
 export function MainContent() {
    return (

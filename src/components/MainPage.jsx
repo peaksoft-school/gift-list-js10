@@ -3,80 +3,86 @@ import { styled } from '@mui/material'
 import { MainContent } from './MainContent'
 import { MainDisIcon, MainLike, MainLoyIcon } from '../assets'
 
-const Container = styled('div')`
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   text-align: center;
-`
+const Container = styled('div')({
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   textAlign: 'center',
+})
 
-const PartStage = styled('div')`
-   display: flex;
-   justify-content: space-between;
-`
+const PartStage = styled('div')({
+   display: 'flex',
+   justifyContent: 'space-between',
+})
 
-const Block = styled('div')`
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   margin: 4rem;
-`
+const Block = styled('div')({
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   padding: '4rem',
+})
 
-const Label = styled('p')`
-   font-size: 0.875rem;
-`
+const Label = styled('p')({
+   fontSize: '0.875rem',
+})
 
-const Value = styled('p')`
-   color: #8639b5;
-   font-size: 2.675rem;
-`
+const Value = styled('p')({
+   color: '#8639b5',
+   fontSize: '2.675rem',
+})
 
-const BlockStage = styled('div')`
-   display: flex;
-   justify-content: center;
-   padding: 1rem;
-`
+const BlockStage = styled('div')({
+   display: 'flex',
+   justifyContent: 'center',
+   padding: '1rem',
+   gap: '1.25rem',
+})
 
-const Feature = styled('div')`
-   text-align: center;
-   margin: 2rem;
-`
+const Feature = styled('div')({
+   textAlign: 'start',
+   display: 'flex',
+   alignItems: 'start',
+   gap: '0.313rem',
+   padding: '2rem',
+})
 
-const Icon = styled('img')`
-   margin: 2rem;
-   margin-left: -15%;
-   display: block;
-`
+const Icon = styled('img')({
+   marginLeft: '-2%',
+   display: 'block',
+})
 
-const Title = styled('b')`
-   font-size: 1.5rem;
-   display: flex;
-`
+const Title = styled('b')({
+   fontSize: '1.5rem',
+   display: 'flex',
+   paddingBottom: '0.938rem',
+})
 
-const Description = styled('li')`
-   font-size: 1rem;
-   margin: 1rem;
-   display: flex;
-   margin-top: 1rem;
-`
-const Conter = styled('div')`
-   margin-top: -5rem;
-   padding: 0.5rem;
-`
+const Description = styled('li')({
+   fontSize: '1rem',
+   marginTop: '1rem',
+   display: 'list-item',
+})
+const Conter = styled('div')({
+   padding: '0.5rem',
+})
 
-const Button = styled('button')`
-   width: 18.188rem;
-   padding: 0.625rem;
-   background-color: #8639b5;
-   color: white;
-   border: none;
-   border-radius: 0.313rem;
-   margin: 7rem;
-   cursor: pointer;
-   &:hover {
-      background-color: #6a1f99;
-   }
-`
+const Button = styled('button')({
+   width: '18.188rem',
+   padding: '0.625rem',
+   backgroundColor: '#8639b5',
+   color: 'white',
+   border: 'none',
+   borderRadius: '0.313rem',
+   margin: '7rem',
+   cursor: 'pointer',
+   ':hover': {
+      backgroundColor: '#6a1f99',
+   },
+})
+const UlContainer = styled('ul')({
+   display: 'flex',
+   flexDirection: 'column',
+})
 
 export function MainPage() {
    const [userCount, setUserCount] = useState(0)
@@ -157,33 +163,41 @@ export function MainPage() {
                <Icon src={MainLike} alt="heart" />
                <Conter>
                   <Title>Дари то, что необходимо</Title>
-                  <Description>Находи своих близких</Description>
-                  <Description>Просматривай их списки желаний</Description>
-                  <Description>Узнавай о ближайших мероприятиях</Description>
+                  <UlContainer>
+                     <Description>Находи своих близких</Description>
+                     <Description>Просматривай их списки желаний</Description>
+                     <Description>Узнавай о ближайших мероприятиях</Description>
+                  </UlContainer>
                </Conter>
             </Feature>
             <Feature>
                <Icon src={MainDisIcon} alt="like" />
                <Conter>
                   <Title>Удобство в использовании</Title>
-                  <Description>
-                     Создавай неограниченное количество желаний
-                  </Description>
-                  <Description>
-                     Добавляй подарки которые ты действительно хочешь
-                  </Description>
-                  <Description>Делись своими желаниями с другими</Description>
+                  <UlContainer>
+                     <Description>
+                        Создавай неограниченное количество желаний
+                     </Description>
+                     <Description>
+                        Добавляй подарки которые ты действительно хочешь
+                     </Description>
+                     <Description>
+                        Делись своими желаниями с другими
+                     </Description>
+                  </UlContainer>
                </Conter>
             </Feature>
             <Feature>
                <Icon src={MainLoyIcon} alt="brush" />
                <Conter>
                   <Title>Твори добро</Title>
-                  <Description>Дари благотворительные подарки</Description>
-                  <Description>Делись своими вещами</Description>
-                  <Description>
-                     Помогай другим приобрести необходимое
-                  </Description>
+                  <UlContainer>
+                     <Description>Дари благотворительные подарки</Description>
+                     <Description>Делись своими вещами</Description>
+                     <Description>
+                        Помогай другим приобрести необходимое
+                     </Description>
+                  </UlContainer>
                </Conter>
             </Feature>
          </BlockStage>
