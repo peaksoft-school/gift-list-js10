@@ -32,7 +32,6 @@ export const SizesSelect = ({
             onChange={handleChange}
             displayEmpty
             renderValue={(selected) => {
-               console.log(selected)
                return selected.length === 0 ? (
                   <StyledPlaceholder>{placeholder}</StyledPlaceholder>
                ) : (
