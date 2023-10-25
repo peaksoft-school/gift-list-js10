@@ -16,8 +16,12 @@ export { ReactComponent as SuccessIcon } from './icons/notify-success-icon.svg'
 export { default as FriendsMakeASelphyImage } from './images/friends-make-a-selphy.png'
 export { default as GirlsImage } from './images/one-girl-with-glasses-and-two-girl-without-glasses.png'
 export { default as ArrowDown } from './icons/arrow_down.svg'
-export { ReactComponent as UploadImageIcon } from './icons/upload-image-icon.svg'
-export { default as SamatOkenov } from './images/SamatOkenov.png'
-export { default as Ellipse } from './images/Ellipse 54.png'
-export { default as Aida } from './images/Aida.png'
-export { default as Askar } from './images/Askar.png'
+
+// user profile social media links
+
+export { ReactComponent as ProfileFacebook } from './icons/profile_facebook.svg'
+export { ReactComponent as ProfileInstagram } from './icons/profile_instagram.svg'
+export { ReactComponent as ProfileTelegram } from './icons/profile_telegram.svg'
+export { ReactComponent as ProfileVk } from './icons/profile_vk.svg'
+
+export { default as ProfilePicture } from './images/profile-picture.png'
