@@ -1,4 +1,4 @@
-import { styled } from '@mui/material'
+import { Button, styled } from '@mui/material'
 import React from 'react'
 import { ShirtIcon, UserDataIcon, UserWait } from '../assets'
 import { Field } from './Field'
@@ -48,18 +48,28 @@ const FieldText = styled('p')({
 
 const Title = styled('span')({
    color: '#3774d0',
-   margin: '7.5rem',
    cursor: 'pointer',
+   marginLeft: '17rem',
 })
 
 const Img = styled('img')({
-   marginLeft: '15rem',
+   marginLeft: '24rem',
 })
 const ContainerIcon = styled('div')({
    marginTop: '-1.25rem',
 })
+const ButtonContainer = styled('div')({
+   display: 'flex',
+   marginTop: '28rem',
+})
 
 export function AdminState() {
+   const user = {
+      role: 'user',
+   }
+
+   const status = user.role === 'admin' ? 'В ожидании' : 'Забронирован'
+
    return (
       <Container>
          <Icon src={ShirtIcon} alt="shirt" />
@@ -69,10 +79,12 @@ export function AdminState() {
                <span>Аида Каримова</span>
                <div>
                   <Span>+996 705 86 95 44</Span>
-                  <Title>Забронировано</Title>
-                  <ContainerIcon>
-                     <Img src={UserWait} alt="user-wait" />
-                  </ContainerIcon>
+                  <Title>{status}</Title>
+                  {user.role === 'user' && (
+                     <ContainerIcon>
+                        <Img src={UserWait} alt="user-wait" />
+                     </ContainerIcon>
+                  )}
                </div>
             </FrowContent>
             <Main>
@@ -88,6 +100,20 @@ export function AdminState() {
                </div>
             </Main>
          </div>
+         <ButtonContainer>
+            <Button variant="text" type="button">
+               Удалить
+            </Button>
+            {user.role === 'admin' ? (
+               <Button variant="contained" type="button">
+                  Редактировать
+               </Button>
+            ) : (
+               <Button variant="contained" type="button">
+                  Заблокировать
+               </Button>
+            )}
+         </ButtonContainer>
          <Field />
       </Container>
    )

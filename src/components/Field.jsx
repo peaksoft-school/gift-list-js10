@@ -1,4 +1,6 @@
-import { Button, styled } from '@mui/material'
+import { styled } from '@mui/material'
+
+import { HumanIcon } from '../assets'
 
 const Display = styled('div')({
    display: 'flex',
@@ -14,19 +16,34 @@ const FLowContent = styled('div')({
    marginLeft: '-1.875rem',
 })
 const DefContent = styled('div')({
-   marginLeft: '-52.25rem',
+   marginLeft: '-67.25rem',
 })
 const Paragraph = styled('p')({
    padding: '1.25rem',
    marginTop: '1.25rem',
    color: '#5c5c5c',
 })
-const ButtonContainer = styled('div')({
-   display: 'flex',
-})
+
 const TextFeature = styled('p')({
    color: '#000',
 })
+const IconContainer = styled('div')({
+   marginLeft: '-55.625rem',
+   marginTop: '-12.5rem',
+})
+
+const SpanContent = styled('div')({
+   marginTop: '-2.5rem',
+   marginLeft: '3.438rem',
+})
+
+const Span = styled('span')({
+   color: '#fd5200',
+})
+
+const user = {
+   role: 'user',
+}
 
 export function Field() {
    return (
@@ -50,15 +67,18 @@ export function Field() {
                   </Paragraph>
                </Around>
             </DefContent>
-            <ButtonContainer>
-               <Button variant="text" type="button">
-                  Удалить
-               </Button>
-               <Button variant="contained" type="button">
-                  Заблокировать
-               </Button>
-            </ButtonContainer>
          </FLowContent>
+         {user.role === 'user' && (
+            <IconContainer>
+               <img src={HumanIcon} alt="human" />
+               <SpanContent>
+                  <span>Аида Каримова</span>
+                  <div>
+                     <Span>Причина жалобы</Span>
+                  </div>
+               </SpanContent>
+            </IconContainer>
+         )}
       </div>
    )
 }
