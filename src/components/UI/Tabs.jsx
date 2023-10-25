@@ -2,15 +2,20 @@ import { styled } from '@mui/material'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-export const Tabs = ({ friendsCount, requestCount }) => {
+export const Tabs = ({
+   friendsCount,
+   requestCount,
+   routeToMyFriends,
+   routeToRequest,
+}) => {
    return (
       <StyledTabs>
-         <StyledNavLink>
+         <StyledNavLink to={routeToMyFriends} className="tabs">
             Мои друзья
-            <Paragraph>{friendsCount}</Paragraph>
+            <Counter>{friendsCount}</Counter>
          </StyledNavLink>
-         <StyledNavLink>
-            Запросы в друзья <Paragraph>{requestCount}</Paragraph>
+         <StyledNavLink to={routeToRequest} className="tabs">
+            Запросы в друзья <Counter>{requestCount}</Counter>
          </StyledNavLink>
       </StyledTabs>
    )
@@ -24,21 +29,34 @@ const StyledTabs = styled('div')({
    padding: '3px',
 })
 
-// const StyledNavLink = styled(NavLink)({
-//    width: '50%',
-//    height: '3.6vh',
-//    textAlign: 'center',
-//    borderRadius: '7px',
-//    textDecoration: 'none',
-//    color: '#8D949E',
-//    display: 'flex',
-//    alignItems: 'center',
-//    justifyContent: 'center',
-//    gap: '6px',
-//    background: isActive ? '#8639B5' : 'white',
-// })
+const StyledNavLink = styled(NavLink)({
+   width: '50%',
+   height: '3.6vh',
+   textAlign: 'center',
+   borderRadius: '7px',
+   textDecoration: 'none',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'center',
+   gap: '6px',
+   '&.tabs': {
+      color: '#8D949E',
+      '&> span': {
+         color: 'white',
+         background: '#595656',
+      },
+   },
+   '&.active': {
+      background: '#8639b5',
+      color: 'white',
+      '&> span': {
+         background: 'white',
+         color: '#8639B5',
+      },
+   },
+})
 
-const Paragraph = styled('span')({
+const Counter = styled('span')({
    width: '3%',
    height: '2.5vh',
    borderRadius: '50px',
@@ -46,21 +64,4 @@ const Paragraph = styled('span')({
    fontWeight: 400,
    textAlign: 'center',
    paddingTop: '3px',
-   background: 'white',
-   // background: isActive ? 'white' : '#595656',
-   // color: isActive ? '#8639B5' : 'white',
 })
-
-const StyledNavLink = styled(NavLink)(({ isActive }) => ({
-   width: '50%',
-   height: '3.6vh',
-   textAlign: 'center',
-   borderRadius: '7px',
-   textDecoration: 'none',
-   color: '#8D949E',
-   display: 'flex',
-   alignItems: 'center',
-   justifyContent: 'center',
-   gap: '6px',
-   background: isActive ? '#8639B5' : 'white',
-}))
