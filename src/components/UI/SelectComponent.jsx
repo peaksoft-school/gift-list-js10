@@ -1,19 +1,33 @@
-import {
-   Select,
-   styled,
-   FormControl,
-   InputLabel,
-   MenuItem,
-} from '@mui/material'
+import { Select, styled, FormControl, MenuItem, FormLabel } from '@mui/material'
 
 import React from 'react'
 import { Button } from './Button'
 
-export const SelectComponent = ({ onChange, value, label, data }) => {
+export const SelectComponent = ({
+   onChange,
+   value,
+   label,
+   data,
+   isButton,
+   placeholder,
+}) => {
    return (
-      <StyledFormControl fullWidth>
-         <InputLabel>{label}</InputLabel>
-         <StyledSelect onChange={onChange} value={value} label={label}>
+      <FormControl fullWidth>
+         <FormLabel>{label}</FormLabel>
+         <StyledSelect
+            labelId="demo-simple-select-label"
+            onChange={onChange}
+            value={value}
+            label={label}
+            displayEmpty
+            renderValue={(selected) => {
+               return selected.length === 0 ? (
+                  <StyledPlaceholder>{placeholder}</StyledPlaceholder>
+               ) : (
+                  selected
+               )
+            }}
+         >
             {data.map((i) => {
                return (
                   <SelectContainer key={i.id} value={i.text}>
@@ -21,15 +35,11 @@ export const SelectComponent = ({ onChange, value, label, data }) => {
                   </SelectContainer>
                )
             })}
-            <Button>+ Создать новый праздник</Button>
+            {isButton ? <StyledBtn>+ Создать новый праздник</StyledBtn> : null}
          </StyledSelect>
-      </StyledFormControl>
+      </FormControl>
    )
 }
-
-const StyledFormControl = styled(FormControl)({
-   width: '28%',
-})
 
 const SelectContainer = styled(MenuItem)({
    width: '100%',
@@ -47,4 +57,17 @@ const SelectContainer = styled(MenuItem)({
 
 const StyledSelect = styled(Select)({
    width: '100%',
+})
+
+const StyledBtn = styled(Button)({
+   background: 'white',
+   color: '#8639B5',
+   border: 'none',
+   textTransform: 'capitalize',
+   fontWeight: '400',
+})
+
+const StyledPlaceholder = styled('span')({
+   color: '#8D949E',
+   opacity: 0.6,
 })
