@@ -10,8 +10,6 @@ const Around = styled('div')({
    gap: '12rem',
 })
 
-const FLowContent = styled('div')({})
-
 const DefContent = styled('div')({
    display: 'flex',
    flexDirection: 'column',
@@ -60,7 +58,7 @@ export function Field({
 }) {
    return (
       <div>
-         <FLowContent>
+         <div>
             <DefContent>
                <Display>
                   <Paragraph>
@@ -79,7 +77,7 @@ export function Field({
                   </Paragraph>
                </Around>
             </DefContent>
-         </FLowContent>
+         </div>
          {role !== 'user' &&
             complaints.map((complaint) => (
                <IconContainer key={complaint.id}>

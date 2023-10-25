@@ -56,8 +56,6 @@ const Img = styled('img')({
    height: '1.25rem',
 })
 
-const ContainerIcon = styled('div')({})
-
 const ButtonContainer = styled('div')({
    display: 'flex',
    gap: '0.625rem',
@@ -151,9 +149,9 @@ export function AdminState({ role = 'user' }) {
                </BlockContent>
                <UserContainer>
                   {complaint.status && (
-                     <ContainerIcon>
+                     <div>
                         <Img src={complaint.buker.image} alt="user-wait" />
-                     </ContainerIcon>
+                     </div>
                   )}
                   <Title>
                      {complaint.status ? 'Забронирован' : 'В ожидании'}
