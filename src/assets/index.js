@@ -17,3 +17,5 @@ export { default as FriendsMakeASelphyImage } from './images/friends-make-a-selp
 export { default as GirlsImage } from './images/one-girl-with-glasses-and-two-girl-without-glasses.png'
 export { default as ArrowDown } from './icons/arrow_down.svg'
 export { ReactComponent as UploadImageIcon } from './icons/upload-image-icon.svg'
+export { ReactComponent as DatePickerIcon } from './icons/date-picker-icon.svg'
+export { ReactComponent as FacebookIcon } from './icons/facebook-con.svg'
