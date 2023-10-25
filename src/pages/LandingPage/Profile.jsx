@@ -33,7 +33,6 @@ export const Profile = ({ variant }) => {
    return (
       <ProfileContainer component="div">
          {userInfo.map((user) => (
-            // eslint-disable-next-line react/jsx-fragments
             <React.Fragment key={user.id}>
                <UserProfilePictureAndUserNameAndSocialsMediaContainer component="div">
                   <UserProfilePictureContainer component="div">
@@ -225,13 +224,12 @@ const UserProfilePictureAndUserNameAndSocialsMediaContainer = styled(Box)({
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
-   width: '13rem',
+   width: '16rem',
    gap: '20px',
    textAlign: 'center',
 })
 
 const StyledButton = styled(Button)({
-   borderRadius: '10px',
    textTransform: 'none',
 })
 
@@ -245,7 +243,7 @@ const RemoveButton = styled(Button)({
 })
 
 const UserProfilePictureContainer = styled(Box)({
-   width: '11.688rem',
+   width: '11.898rem',
    height: '11.875rem',
    img: {
       width: '100%',
