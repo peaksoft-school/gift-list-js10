@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, styled } from '@mui/material'
 import { DatePicker as MUIDatePicker, PickersLayout } from '@mui/x-date-pickers'
 import React from 'react'
+import { useController } from 'react-hook-form'
 import { DatePickerIcon } from '../assets'
 
 const StyledPickersLayout = styled(PickersLayout)({
@@ -37,26 +38,32 @@ const StyledDatePicker = styled(MUIDatePicker)({
 
 export const DatePicker = ({
    label,
-   value,
-   onChange,
    placeholder,
    onError,
    errorMessage,
    isBirthdate = false,
+   name,
+   control,
+   ref,
 }) => {
+   const { field } = useController({ control, name, defaultValue: null })
    return (
       <FormControl>
-         <FormLabel error={errorMessage}>{label}</FormLabel>
+         <FormLabel error={Boolean(errorMessage)}>{label}</FormLabel>
          <StyledDatePicker
-            onChange={onChange}
-            value={value}
+            ref={ref}
+            onChange={field.onChange}
+            value={field.value}
             slots={{
                openPickerIcon: DatePickerIcon,
                layout: StyledPickersLayout,
             }}
             onError={onError}
             slotProps={{
-               textField: { placeholder, helperText: errorMessage },
+               textField: {
+                  placeholder,
+                  helperText: errorMessage,
+               },
             }}
             disableFuture={isBirthdate}
             dayOfWeekFormatter={(_day, date) => date.format('dd')}
