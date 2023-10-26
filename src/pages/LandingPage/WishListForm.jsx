@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import { UploadImage } from '../../components/UploadImage'
 import { SelectComponent } from '../../components/UI/SelectComponent'
 import { TextArea } from '../../components/UI/TextArea'
@@ -8,16 +8,14 @@ import { Button } from '../../components/UI/Button'
 import { Input } from '../../components/UI/input/Input'
 import { DateInput } from '../../components/UI/input/DateInput'
 
-export const WishListForm = () => {
+export const WishListForm = ({ onClose, onClick }) => {
    return (
       <Container>
          <BlockOne>
             <UploadImage />
          </BlockOne>
          <BlockTwo>
-            <Typography sx={{ fontSize: '18px' }}>
-               Добавление желаемого подарка
-            </Typography>
+            <h3>Добавление желаемого подарка</h3>
 
             <InputContainer>
                <Input
@@ -46,8 +44,8 @@ export const WishListForm = () => {
                labelText="Описание подарка"
             />
             <ButtonContainer>
-               <Button>Отмена</Button>
-               <Button>Добавить</Button>
+               <Button onClick={onClose}>Отмена</Button>
+               <Button onClick={onClick}>Добавить</Button>
             </ButtonContainer>
          </BlockTwo>
       </Container>
@@ -70,6 +68,10 @@ const BlockTwo = styled('div')({
    flexDirection: 'column',
    gap: '20px',
    width: '80%',
+   '& > h3': {
+      fontSize: '1.125rem',
+      fontWeight: 400,
+   },
 })
 
 const InputContainer = styled('div')({

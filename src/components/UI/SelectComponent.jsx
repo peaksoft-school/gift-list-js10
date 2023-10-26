@@ -10,6 +10,7 @@ export const SelectComponent = ({
    data,
    isButton,
    placeholder,
+   onClick,
 }) => {
    return (
       <FormControl fullWidth>
@@ -35,7 +36,9 @@ export const SelectComponent = ({
                   </SelectContainer>
                )
             })}
-            {isButton ? <StyledBtn>+ Создать новый праздник</StyledBtn> : null}
+            {isButton ? (
+               <StyledBtn onClick={onClick}>+ Создать новый праздник</StyledBtn>
+            ) : null}
          </StyledSelect>
       </FormControl>
    )
