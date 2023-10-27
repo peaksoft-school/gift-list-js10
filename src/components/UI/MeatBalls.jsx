@@ -26,7 +26,7 @@ export const MeatBalls = ({ variant = 'horiz', handleChange, options }) => {
                   }}
                   value={title}
                >
-                  <StyledImage src={icon} alt={title} />
+                  {icon}
                   {title}
                </StyledMenuItem>
             ))}
@@ -45,8 +45,8 @@ const StyledMenuItem = styled(MenuItem)({
    gap: '10px',
 })
 
-const StyledImage = styled('img')({
-   objectFit: 'contain',
-   height: '1rem',
-   width: '1rem',
-})
+// const StyledImage = styled('img')({
+//    objectFit: 'contain',
+//    height: '1rem',
+//    width: '1rem',
+// })
