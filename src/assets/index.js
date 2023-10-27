@@ -16,12 +16,8 @@ export { ReactComponent as SuccessIcon } from './icons/notify-success-icon.svg'
 export { default as FriendsMakeASelphyImage } from './images/friends-make-a-selphy.png'
 export { default as GirlsImage } from './images/one-girl-with-glasses-and-two-girl-without-glasses.png'
 export { default as ArrowDown } from './icons/arrow_down.svg'
-
-// user profile social media links
-
-export { ReactComponent as ProfileFacebook } from './icons/profile_facebook.svg'
-export { ReactComponent as ProfileInstagram } from './icons/profile_instagram.svg'
-export { ReactComponent as ProfileTelegram } from './icons/profile_telegram.svg'
-export { ReactComponent as ProfileVk } from './icons/profile_vk.svg'
-
-export { default as ProfilePicture } from './images/profile-picture.png'
+export { ReactComponent as UploadImageIcon } from './icons/upload-image-icon.svg'
+export { default as MainPageIcon } from './images/main-page.png'
+export { default as MainDisIcon } from './images/main-dis.png'
+export { default as MainLike } from './images/main-like.png'
+export { default as MainLoyIcon } from './images/main-loy.png'
