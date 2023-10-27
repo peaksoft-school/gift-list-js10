@@ -1,6 +1,7 @@
 import { Box, Typography, styled } from '@mui/material'
 import React from 'react'
 import { Button } from '../../components/UI/Button'
+import { MainPagePartFirst } from '../../components/MainPagePartFirst'
 import {
    FriendsMakeASelphyImage,
    FacebookIcon,
@@ -10,7 +11,7 @@ import {
    ArrowDown,
 } from '../../assets'
 
-export const MainPage = () => {
+export const MainPagePartSecond = () => {
    const scrollToAboutProjectComponentHandler = () => {}
    const scrollToMainPagePartOneComponentHandler = () => {}
 
@@ -37,14 +38,26 @@ export const MainPage = () => {
             <MainPageInfoBlock>
                <SocialMediasAndFriendMakeASelphyContainer>
                   <SocialMediasContainer>
-                     <a href="https://www.facebook.com/">
-                        <img src={FacebookIcon} alt="facebook" />
+                     <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://www.facebook.com/"
+                     >
+                        <FacebookIcon />
                      </a>
-                     <a href="https://vk.com/feed">
-                        <img src={VkIcon} alt="vk" />
+                     <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://vk.com/feed"
+                     >
+                        <VkIcon />
                      </a>
-                     <a href="https://www.instagram.com/">
-                        <img src={InstagramIcon} alt="instagram" />
+                     <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://www.instagram.com/"
+                     >
+                        <InstagramIcon />
                      </a>
                   </SocialMediasContainer>
                   <FriendsMakeASelphyImageContainer>
@@ -69,12 +82,13 @@ export const MainPage = () => {
                      <img src={GirlsImage} alt="girls img" />
                   </ImageWithGirlsContainer>
                   <ScrollDown component="div">
-                     <img src={ArrowDown} alt="arrow down" />
+                     <ArrowDown />
                      <ScrollDownText variant="p">Листайте вниз</ScrollDownText>
                   </ScrollDown>
                </ScrollDownAndGirlsImageContainer>
             </MainPageInfoBlock>
          </MainPageContainer>
+         <MainPagePartFirst />
       </StyledMuiMainPage>
    )
 }
@@ -202,7 +216,7 @@ const ScrollDown = styled(Box)`
    transform: rotate(270deg);
    align-self: flex-end;
    img {
-      transform: rotate(90deg);
+      transform: rotate(0deg);
    }
 `
 

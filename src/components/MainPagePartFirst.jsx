@@ -84,7 +84,7 @@ const UlContainer = styled('ul')({
    flexDirection: 'column',
 })
 
-export function MainPage() {
+export function MainPagePartFirst() {
    const [userCount, setUserCount] = useState(0)
    const [giftCount, setGiftCount] = useState(0)
    const [donationCount, setDonationCount] = useState(0)
