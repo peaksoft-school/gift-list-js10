@@ -6,11 +6,12 @@ import {
    ProfileTelegram,
    ProfileVk,
 } from '../assets'
+import { DatePicker } from '../components/DatePicker'
 import { SizesSelect } from '../components/SizesSelect'
+import { Button } from '../components/UI/Button'
 import { TextArea } from '../components/UI/TextArea'
 import { Input } from '../components/UI/input/Input'
 import { UploadImage } from '../components/UploadImage'
-import { Button } from '../components/UI/Button'
 
 export const UpdateProfile = ({
    register,
@@ -25,7 +26,6 @@ export const UpdateProfile = ({
       setClothingSelectedSize(e.target.value)
    const [shoeSelectedSize, setShoeSelectedSize] = useState('')
    const changeShoeSelectedSize = (e) => setShoeSelectedSize(e.target.value)
-
    return (
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
          <UploadImage />
@@ -47,10 +47,15 @@ export const UpdateProfile = ({
                   labelText="Страна"
                   {...register('country')}
                />
-               {/* <DatePicker
+               <StyledDatePicker
                   label="Дата рождения"
                   placeholder="Укажите дату рождения"
-               /> */}
+                  // onError={onError}
+                  // errorMessage={error}
+                  isBirthdate
+                  name="dateofbirth"
+                  control={control}
+               />
                <StyledInput
                   placeholder="Введите почту"
                   labelText="Email"
@@ -140,6 +145,13 @@ export const UpdateProfile = ({
       </StyledForm>
    )
 }
+
+const StyledDatePicker = styled(DatePicker)({
+   '& .MuiInputBase-input': {
+      padding: '5px 20px !important',
+      backgroundColor: 'red',
+   },
+})
 
 const MainForm = styled('div')({
    display: 'flex',
