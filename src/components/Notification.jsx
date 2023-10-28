@@ -2,58 +2,80 @@ import { MoreVert } from '@mui/icons-material'
 import { Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { notifications } from '../utils/helpers/constants'
+import { NotificationIcon } from '../assets'
 
-export const Notification = ({ onClick }) => {
+export const Notification = () => {
    const [anchorEl, setAnchorEl] = useState(null)
+   const [state, setSate] = useState(false)
+   const [current, setCurrent] = useState(true)
+
    const openReadAll = (event) => {
       setAnchorEl(event.currentTarget)
    }
 
+   const markAsReadHandle = () => {
+      setCurrent(false)
+   }
+
+   const isRead = (id) => {
+      notifications.find((notif) => notif.id === id)
+      return true
+   }
    const open = Boolean(anchorEl)
 
    const handleClose = () => {
       setAnchorEl(null)
    }
+   const isOpenNotificationItem = () => {
+      setSate(!state)
+   }
 
    return (
-      <Container>
-         <FirstBlock>
-            <h3>Уведомления</h3>
-            <IconButton
-               aria-label="more"
-               aria-haspopup="true"
-               aria-controls="long-menu"
-               onClick={openReadAll}
-            >
-               <MoreVert />
-            </IconButton>
-            <StyledMenu
-               open={open}
-               keepMounted
-               anchorEl={anchorEl}
-               onClose={handleClose}
-            >
-               <MenuItem onClick={onClick}>
-                  Отметить все как прочитанные
-               </MenuItem>
-            </StyledMenu>
-         </FirstBlock>
-         <ul>
-            {notifications.map((item) => {
-               return (
-                  <List key={item.id}>
-                     <img src={item.image} alt={item.name} />
-                     <div>
-                        <Name>{item.name}</Name>
-                        <Para>{item.description}</Para>
-                        <br />
-                        <Date>{item.date}</Date>
-                     </div>
-                  </List>
-               )
-            })}
-         </ul>
-      </Container>
+      <>
+         <NotificationIcon onClick={isOpenNotificationItem} />
+
+         {state ? (
+            <Container>
+               <FirstBlock>
+                  <h3>Уведомления</h3>
+                  <IconButton
+                     aria-label="more"
+                     aria-haspopup="true"
+                     aria-controls="long-menu"
+                     onClick={openReadAll}
+                  >
+                     <MoreVert />
+                  </IconButton>
+                  <StyledMenu
+                     open={open}
+                     keepMounted
+                     anchorEl={anchorEl}
+                     onClose={handleClose}
+                  >
+                     <MenuItem onClick={markAsReadHandle}>
+                        Отметить все как прочитанные
+                     </MenuItem>
+                  </StyledMenu>
+               </FirstBlock>
+               <ul>
+                  {notifications.map((item) => {
+                     return (
+                        <List key={item.id} onClick={() => isRead(item.id)}>
+                           <img src={item.image} alt={item.name} />
+                           <div>
+                              <Name>{item.name}</Name>
+                              <Para>{item.description}</Para>
+                              <br />
+                              <Date>{item.date}</Date>
+                           </div>
+                           {current ? <Circle /> : isRead ? null : <Circle />}
+                        </List>
+                     )
+                  })}
+               </ul>
+            </Container>
+         ) : null}
+      </>
    )
 }
 
@@ -67,7 +89,7 @@ const Container = styled(Box)({
    gap: '16px',
    position: 'absolute',
    top: '20px',
-   left: '20px',
+   right: '300px',
 })
 
 const FirstBlock = styled('div')({
@@ -124,4 +146,13 @@ const StyledMenu = styled(Menu)({
    position: 'absolute',
    left: '70px',
    top: '0',
+})
+
+const Circle = styled('p')({
+   width: '15px',
+   height: '15px',
+   borderRadius: '50px',
+   background: '#8639B5',
+
+   // marginLeft: '300px',
 })

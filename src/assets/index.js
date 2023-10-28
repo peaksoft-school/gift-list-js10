@@ -25,3 +25,8 @@ export { ReactComponent as ProfileTelegram } from './icons/profile_telegram.svg'
 export { ReactComponent as ProfileVk } from './icons/profile_vk.svg'
 
 export { default as ProfilePicture } from './images/profile-picture.png'
+export { default as SamatOkenov } from './images/SamatOkenov.png'
+export { default as Ellipse } from './images/Ellipse 54.png'
+export { default as Aida } from './images/Aida.png'
+export { default as Askar } from './images/Askar.png'
+export { ReactComponent as NotificationIcon } from './icons/notification-icon.svg'

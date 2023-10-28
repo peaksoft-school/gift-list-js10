@@ -1,3 +1,9 @@
+import { Notification } from './components/Notification'
+
 export function App() {
-   return <div>App</div>
+   return (
+      <div>
+         <Notification />
+      </div>
+   )
 }
