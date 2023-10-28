@@ -85,7 +85,7 @@ const teachers = [
    },
 ]
 
-export const AboutProject = () => {
+export const MainPagePartThird = () => {
    return (
       <AboutProjectPart component="div">
          <AboutProjectInfo component="div">
@@ -125,9 +125,10 @@ export const AboutProject = () => {
 
 const AboutProjectPart = styled(Box)`
    margin: 0 auto;
-   width: 73rem;
+   width: 80rem;
    font-family: 'Inter';
    font-weight: 500;
+   padding-top: 150px;
 `
 
 const AboutProjectInfo = styled(Box)`
@@ -141,11 +142,13 @@ const AboutProjectMainTitleAndDiscripton = styled(Box)``
 const AboutProjectMainTitle = styled(Typography)`
    font-size: 3rem;
    margin-bottom: 2rem;
+   display: flex;
 `
 
 const AboutProjectDescriptionText = styled(Typography)`
    font-size: 1rem;
    font-weight: 400;
+   text-align: start;
 `
 
 const AboutProjectDescription = styled(Box)`

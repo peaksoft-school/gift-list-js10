@@ -1,7 +1,7 @@
 import { Box, Typography, styled } from '@mui/material'
 import React from 'react'
 import { Button } from '../../components/UI/Button'
-import { MainPagePartFirst } from '../../components/MainPagePartFirst'
+import { MainPagePartSecond } from '../../components/MainPagePartSecond'
 import {
    FriendsMakeASelphyImage,
    FacebookIcon,
@@ -11,7 +11,7 @@ import {
    ArrowDown,
 } from '../../assets'
 
-export const MainPagePartSecond = () => {
+export const MainPagePartFirst = () => {
    const scrollToAboutProjectComponentHandler = () => {}
    const scrollToMainPagePartOneComponentHandler = () => {}
 
@@ -82,20 +82,20 @@ export const MainPagePartSecond = () => {
                      <img src={GirlsImage} alt="girls img" />
                   </ImageWithGirlsContainer>
                   <ScrollDown component="div">
-                     <ArrowDown />
+                     <ArrowImg />
                      <ScrollDownText variant="p">Листайте вниз</ScrollDownText>
                   </ScrollDown>
                </ScrollDownAndGirlsImageContainer>
             </MainPageInfoBlock>
          </MainPageContainer>
-         <MainPagePartFirst />
+         <MainPagePartSecond />
       </StyledMuiMainPage>
    )
 }
 
 const StyledMuiMainPage = styled(Box)`
    background-color: #8639b5;
-   color: white;
+   height: 800px;
 `
 
 const MainPageContainer = styled(Box)`
@@ -103,6 +103,7 @@ const MainPageContainer = styled(Box)`
    width: 73rem;
    height: 50rem;
    margin: 0 auto;
+   color: white;
 `
 
 const MainPageHeader = styled(Box)``
@@ -215,9 +216,6 @@ const ScrollDown = styled(Box)`
    gap: 1rem;
    transform: rotate(270deg);
    align-self: flex-end;
-   img {
-      transform: rotate(0deg);
-   }
 `
 
 const ScrollDownText = styled(Typography)`
@@ -231,3 +229,6 @@ const ScrollDownAndGirlsImageContainer = styled(Box)`
    justify-content: space-between;
    width: 20rem;
 `
+const ArrowImg = styled(ArrowDown)({
+   transform: 'rotate(90deg)',
+})

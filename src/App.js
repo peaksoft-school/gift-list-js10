@@ -1,9 +1,9 @@
-import { MainPagePartSecond } from './pages/LandingPage/MainPagePartSecond'
+import { MainPagePartFirst } from './pages/LandingPage/MainPagePartFirst'
 
 export function App() {
    return (
       <div>
-         <MainPagePartSecond />
+         <MainPagePartFirst />
       </div>
    )
 }
