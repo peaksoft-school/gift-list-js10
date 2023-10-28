@@ -95,7 +95,7 @@ export const MainPagePartFirst = () => {
 
 const StyledMuiMainPage = styled(Box)`
    background-color: #8639b5;
-   height: 800px;
+   height: 50rem;
 `
 
 const MainPageContainer = styled(Box)`
