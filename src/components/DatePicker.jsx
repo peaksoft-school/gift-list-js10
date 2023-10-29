@@ -45,6 +45,7 @@ export const DatePicker = ({
    name,
    control,
    ref,
+   ...rest
 }) => {
    const { field } = useController({ control, name, defaultValue: null })
    return (
@@ -67,6 +68,7 @@ export const DatePicker = ({
             }}
             disableFuture={isBirthdate}
             dayOfWeekFormatter={(_day, date) => date.format('dd')}
+            {...rest}
          />
       </FormControl>
    )
