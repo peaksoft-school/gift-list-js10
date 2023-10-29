@@ -8,6 +8,7 @@ export const Notification = () => {
    const [anchorEl, setAnchorEl] = useState(null)
    const [state, setSate] = useState(false)
    const [current, setCurrent] = useState(true)
+   const [isRead, setIsRead] = useState(true)
 
    const openReadAll = (event) => {
       setAnchorEl(event.currentTarget)
@@ -17,9 +18,18 @@ export const Notification = () => {
       setCurrent(false)
    }
 
-   const isRead = (id) => {
-      notifications.find((notif) => notif.id === id)
-      return true
+   const isReadHandle = (id, e) => {
+      // notifications.filter((notif) => {
+      //    if (notif.id === id) {
+      //
+      //    }
+      //    return setIsRead(true)
+      // })
+      const newState = notifications.filter((notif) => notif.id === id)
+      newState.map(() => {
+         return setIsRead(false)
+      })
+      e.preventDefault()
    }
    const open = Boolean(anchorEl)
 
@@ -60,7 +70,10 @@ export const Notification = () => {
                <ul>
                   {notifications.map((item) => {
                      return (
-                        <List key={item.id} onClick={() => isRead(item.id)}>
+                        <List
+                           key={item.id}
+                           onClick={() => isReadHandle(item.id)}
+                        >
                            <img src={item.image} alt={item.name} />
                            <div>
                               <Name>{item.name}</Name>
@@ -68,7 +81,8 @@ export const Notification = () => {
                               <br />
                               <Date>{item.date}</Date>
                            </div>
-                           {current ? <Circle /> : isRead ? null : <Circle />}
+                           {isRead ? <Circle /> : null}
+                           {current ? <Circle /> : null}
                         </List>
                      )
                   })}
