@@ -1,35 +1,62 @@
 import { MoreVert } from '@mui/icons-material'
 import { Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { notifications } from '../utils/helpers/constants'
 import { NotificationIcon } from '../assets'
 
 export const Notification = () => {
    const [anchorEl, setAnchorEl] = useState(null)
    const [state, setSate] = useState(false)
-   const [current, setCurrent] = useState(true)
-   const [isRead, setIsRead] = useState(true)
+   const [isRead, setIsRead] = useState([])
+   const [isNotReadenNotificationExist, setIsNotReadenNotificationExist] =
+      useState(0)
+
+   useEffect(() => {
+      setIsRead((prevState) => {
+         const newArray = prevState
+         notifications.forEach((notification, index) => {
+            if (prevState[index]?.id !== notification.id)
+               newArray.push({ id: notification.id, isRead: false })
+         })
+         return newArray
+      })
+
+      setIsNotReadenNotificationExist(
+         isRead.filter((notification) => {
+            return !notification.isRead
+         }).length
+      )
+   }, [notifications, isRead])
 
    const openReadAll = (event) => {
       setAnchorEl(event.currentTarget)
    }
 
    const markAsReadHandle = () => {
-      setCurrent(false)
+      setIsRead((prevState) => {
+         const newArray = prevState
+         return newArray.map((notification) => {
+            return {
+               ...notification,
+               isRead: true,
+            }
+         })
+      })
    }
 
-   const isReadHandle = (id, e) => {
-      // notifications.filter((notif) => {
-      //    if (notif.id === id) {
-      //
-      //    }
-      //    return setIsRead(true)
-      // })
-      const newState = notifications.filter((notif) => notif.id === id)
-      newState.map(() => {
-         return setIsRead(false)
+   const isReadHandle = (id) => {
+      setIsRead((prevState) => {
+         const newArray = prevState
+         return newArray.map((notification) => {
+            if (notification.id === id) {
+               return {
+                  ...notification,
+                  isRead: true,
+               }
+            }
+            return notification
+         })
       })
-      e.preventDefault()
    }
    const open = Boolean(anchorEl)
 
@@ -42,7 +69,10 @@ export const Notification = () => {
 
    return (
       <>
-         <NotificationIcon onClick={isOpenNotificationItem} />
+         <NotificationContainer>
+            <NotificationIcon onClick={isOpenNotificationItem} />
+            {isNotReadenNotificationExist > 0 ? <Circle /> : null}
+         </NotificationContainer>
 
          {state ? (
             <Container>
@@ -68,21 +98,21 @@ export const Notification = () => {
                   </StyledMenu>
                </FirstBlock>
                <ul>
-                  {notifications.map((item) => {
+                  {notifications.map((item, i) => {
                      return (
                         <List
                            key={item.id}
                            onClick={() => isReadHandle(item.id)}
                         >
                            <img src={item.image} alt={item.name} />
+
                            <div>
                               <Name>{item.name}</Name>
                               <Para>{item.description}</Para>
                               <br />
                               <Date>{item.date}</Date>
                            </div>
-                           {isRead ? <Circle /> : null}
-                           {current ? <Circle /> : null}
+                           <div> {!isRead[i].isRead && <Circle />}</div>
                         </List>
                      )
                   })}
@@ -94,8 +124,8 @@ export const Notification = () => {
 }
 
 const Container = styled(Box)({
-   width: '23%',
-   height: '40vh',
+   width: '24%',
+   height: '42vh',
    borderRadius: '6px',
    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.16)',
    display: 'flex',
@@ -124,7 +154,7 @@ const List = styled('li')({
    width: '100%',
    height: '8vh',
    display: 'flex',
-   gap: '12px',
+   gap: '15px',
    padding: '16px',
    ':active': {
       background: 'rgba(134, 57, 181, 0.10)',
@@ -163,10 +193,15 @@ const StyledMenu = styled(Menu)({
 })
 
 const Circle = styled('p')({
-   width: '15px',
-   height: '15px',
+   width: '12px',
+   height: '12px',
    borderRadius: '50px',
+   padding: '5px',
    background: '#8639B5',
+})
 
-   // marginLeft: '300px',
+const NotificationContainer = styled('div')({
+   width: '50px',
+   height: '50px',
+   display: 'flex',
 })
