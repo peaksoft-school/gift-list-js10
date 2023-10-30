@@ -1,5 +1,7 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import {
    FacebookIcon,
    ProfileInstagram,
@@ -17,16 +19,49 @@ import {
    countries,
    shoeSizes,
 } from '../utils/constants/constants'
+import { schema } from '../utils/helpers/update-profile'
 
-export const UpdateProfile = ({
-   register,
-   handleSubmit,
-   reset,
-   onSubmit,
-   errors,
-   control,
-   isSubmitSuccessful,
-}) => {
+const sizesSelect = [
+   {
+      name: 'clothingSelectedSize',
+      labelName: 'Размер одежды',
+      placeholder: 'Выберите размер одежды',
+      data: clothingSizes,
+   },
+   {
+      name: 'shoeSelectedSize',
+      labelName: 'Размер обуви',
+      placeholder: 'Выберите размер обуви',
+      data: shoeSizes,
+   },
+]
+
+export const UpdateProfile = ({ functionForGetValues }) => {
+   const {
+      register,
+      handleSubmit,
+      reset,
+      formState: { errors, isSubmitSuccessful },
+      control,
+      setValue,
+   } = useForm({
+      defaultValues: {
+         name: 'Айзада',
+         surname: 'Абдукулова',
+         email: 'Aizada@gmail.com',
+         previewImg: { file: '', url: '' },
+      },
+      resolver: yupResolver(schema),
+   })
+   const onSubmit = (values, previewImg) => {
+      setValue('previewImg', previewImg)
+      functionForGetValues(values)
+   }
+   useEffect(() => {
+      if (isSubmitSuccessful) {
+         reset()
+      }
+   }, [isSubmitSuccessful, reset])
    const [preview, setPreview] = useState({ file: '', url: '' })
    const [error, setError] = useState(null)
    const onError = (error) => {
@@ -112,25 +147,18 @@ export const UpdateProfile = ({
             <StyledFieldset>
                <StyledLegend>Размеры</StyledLegend>
 
-               <Select
-                  control={control}
-                  name="clothingSelectedSize"
-                  labelName="Размер одежды"
-                  placeholder="Выберите размер одежды"
-                  data={clothingSizes}
-                  error={Boolean(errors.clothingSelectedSize)}
-                  helperText={errors.clothingSelectedSize?.message}
-               />
-
-               <Select
-                  control={control}
-                  name="shoeSelectedSize"
-                  labelName="Размер обуви"
-                  placeholder="Выберите размер обуви"
-                  data={shoeSizes}
-                  error={Boolean(errors.shoeSelectedSize)}
-                  helperText={errors.shoeSelectedSize?.message}
-               />
+               {sizesSelect.map(({ name, labelName, placeholder, data }) => (
+                  <Select
+                     key={name}
+                     control={control}
+                     name={name}
+                     labelName={labelName}
+                     placeholder={placeholder}
+                     data={data}
+                     error={Boolean(errors[name])}
+                     helperText={errors[name]?.message}
+                  />
+               ))}
             </StyledFieldset>
 
             <StyledFieldsetOfTextArea>
@@ -156,12 +184,12 @@ export const UpdateProfile = ({
             </StyledFieldsetOfTextArea>
 
             <StyledFieldset
-               error={
+               error={Boolean(
                   errors.facebookLink ||
-                  errors.vkLink ||
-                  errors.instagramLink ||
-                  errors.telegramLink
-               }
+                     errors.vkLink ||
+                     errors.instagramLink ||
+                     errors.telegramLink
+               )}
             >
                <StyledLegend>Социальные сети</StyledLegend>
 
