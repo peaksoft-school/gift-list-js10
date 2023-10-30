@@ -11,6 +11,7 @@ export const SelectComponent = ({
    isButton,
    placeholder,
    onClick,
+   name,
 }) => {
    return (
       <FormControl fullWidth>
@@ -21,6 +22,7 @@ export const SelectComponent = ({
             value={value}
             label={label}
             displayEmpty
+            name={name}
             renderValue={(selected) => {
                return selected.length === 0 ? (
                   <StyledPlaceholder>{placeholder}</StyledPlaceholder>
