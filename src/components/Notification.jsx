@@ -6,7 +6,7 @@ import { NotificationIcon } from '../assets'
 
 export const Notification = () => {
    const [anchorEl, setAnchorEl] = useState(null)
-   const [state, setSate] = useState(false)
+   const [isOpenNotifications, setIsOpenNotifications] = useState(false)
    const [isRead, setIsRead] = useState([])
    const [isNotReadenNotificationExist, setIsNotReadenNotificationExist] =
       useState(0)
@@ -64,7 +64,7 @@ export const Notification = () => {
       setAnchorEl(null)
    }
    const isOpenNotificationItem = () => {
-      setSate(!state)
+      setIsOpenNotifications(!isOpenNotifications)
    }
 
    return (
@@ -74,7 +74,7 @@ export const Notification = () => {
             {isNotReadenNotificationExist > 0 ? <Circle /> : null}
          </NotificationContainer>
 
-         {state ? (
+         {isOpenNotifications ? (
             <Container>
                <FirstBlock>
                   <h3>Уведомления</h3>
@@ -97,7 +97,7 @@ export const Notification = () => {
                      </MenuItem>
                   </StyledMenu>
                </FirstBlock>
-               <ul>
+               <ScrollContainer>
                   {notifications.map((item, i) => {
                      return (
                         <List
@@ -106,17 +106,17 @@ export const Notification = () => {
                         >
                            <img src={item.image} alt={item.name} />
 
-                           <div>
+                           <Description>
                               <Name>{item.name}</Name>
                               <Para>{item.description}</Para>
                               <br />
                               <Date>{item.date}</Date>
-                           </div>
+                           </Description>
                            <div> {!isRead[i].isRead && <Circle />}</div>
                         </List>
                      )
                   })}
-               </ul>
+               </ScrollContainer>
             </Container>
          ) : null}
       </>
@@ -124,8 +124,8 @@ export const Notification = () => {
 }
 
 const Container = styled(Box)({
-   width: '24%',
-   height: '42vh',
+   width: '25%',
+   height: '45%',
    borderRadius: '6px',
    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.16)',
    display: 'flex',
@@ -134,6 +134,10 @@ const Container = styled(Box)({
    position: 'absolute',
    top: '20px',
    right: '300px',
+})
+
+const ScrollContainer = styled('div')({
+   overflow: 'auto',
 })
 
 const FirstBlock = styled('div')({
@@ -152,10 +156,11 @@ const FirstBlock = styled('div')({
 const List = styled('li')({
    listStyle: 'none',
    width: '100%',
-   height: '8vh',
+   height: '10vh',
    display: 'flex',
-   gap: '15px',
+   gap: '16px',
    padding: '16px',
+   overscrollBehavior: 'contain',
    ':active': {
       background: 'rgba(134, 57, 181, 0.10)',
    },
@@ -164,6 +169,8 @@ const List = styled('li')({
       height: '4vh',
    },
 })
+
+const Description = styled('div')({})
 
 const Para = styled('p')({
    display: 'inline',

@@ -29,4 +29,18 @@ export const notifications = [
       description: 'отправил запрос в друзья',
       date: '25.05.2022',
    },
+   {
+      name: 'Аскар Оморов ',
+      id: '5',
+      image: Askar,
+      description: 'отправил запрос в друзья',
+      date: '25.05.2022',
+   },
+   {
+      name: 'Аскар Оморов ',
+      id: '6',
+      image: Askar,
+      description: 'отправил запрос в друзья',
+      date: '25.05.2022',
+   },
 ]
