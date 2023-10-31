@@ -47,7 +47,7 @@ export const WishListForm = ({ onClose }) => {
                   placeholder="Введите название подарка"
                   {...register('wishName')}
                   error={errors.wishName}
-                  helperText="poiuyg"
+                  helperText={errors.wishName?.message}
                />
 
                <Input
@@ -55,7 +55,7 @@ export const WishListForm = ({ onClose }) => {
                   placeholder="Вставьте ссылку на подарок"
                   {...register('link')}
                   error={errors.link}
-                  helperText="poiuyg"
+                  helperText={errors.link?.message}
                />
 
                <SelectComponent
@@ -82,7 +82,7 @@ export const WishListForm = ({ onClose }) => {
                labelText="Описание подарка"
                {...register('description')}
                error={errors.description}
-               helperText="jhgfdcvbnmkl"
+               helperText={errors.description?.message}
             />
             <ButtonContainer>
                <Button onClick={onClose}>Отмена</Button>
