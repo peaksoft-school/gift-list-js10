@@ -106,12 +106,12 @@ export const Notification = () => {
                         >
                            <img src={item.image} alt={item.name} />
 
-                           <Description>
+                           <div>
                               <Name>{item.name}</Name>
                               <Para>{item.description}</Para>
                               <br />
                               <Date>{item.date}</Date>
-                           </Description>
+                           </div>
                            <div> {!isRead[i].isRead && <Circle />}</div>
                         </List>
                      )
@@ -169,8 +169,6 @@ const List = styled('li')({
       height: '4vh',
    },
 })
-
-const Description = styled('div')({})
 
 const Para = styled('p')({
    display: 'inline',
