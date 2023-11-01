@@ -1,92 +1,109 @@
-import React, { useState } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { UploadImage } from '../../components/UploadImage'
-import { SelectComponent } from '../../components/UI/SelectComponent'
-import { TextArea } from '../../components/UI/TextArea'
-import { options } from '../../utils/constants/options'
+import { wishListSchema } from '../../utils/helpers/validate'
+// import { SelectComponent } from '../../components/UI/SelectComponent'
+// import { TextArea } from '../../components/UI/TextArea'
+// import { options } from '../../utils/constants/options'
+// import { DatePicker } from '../../components/DatePicker'
 import { Button } from '../../components/UI/Button'
 import { Input } from '../../components/UI/input/Input'
-import { DatePicker } from '../../components/DatePicker'
 
 export const WishListForm = ({ onClose }) => {
-   const [error, setError] = useState(null)
+   // const [error, setError] = useState(null)
+   const [preview, setPreview] = useState({ file: '' })
    const {
       register,
       handleSubmit,
       formState: { errors },
-      control,
       reset,
+      // control,
    } = useForm({
+      defaultValues: {
+         wishName: '',
+      },
       mode: 'onBlur',
+      resolver: yupResolver(wishListSchema),
    })
 
    const onSubmit = (data) => {
       console.log(data)
       reset()
+      setPreview(null)
    }
 
-   const onError = (error) => {
-      if (error === 'invalidDate') {
-         setError('Неверный формат даты')
-      }
-   }
-
+   // const onError = (error) => {
+   //    if (error === 'invalidDate') {
+   //       setError('Неверный формат даты')
+   //    } else if (error === '') {
+   //       setError('Укажите дату')
+   //    }
+   // }
+   console.log(errors.wishName, '"save"')
+   console.log(errors.wishName?.message)
    return (
       <Container>
          <BlockOne>
-            <UploadImage />
+            <UploadImage preview={preview} setPreview={setPreview} />
          </BlockOne>
-         <BlockTwo onSubmit={handleSubmit(onSubmit)}>
+         <BlockTwo
+            onSubmit={handleSubmit((data) => {
+               onSubmit(data, preview)
+               console.log('hjhjhj')
+            })}
+         >
             <h3>Добавление желаемого подарка</h3>
 
             <InputContainer>
-               <Input
+               <StyledInput
                   labelText="Название подарка"
-                  name="Название подарка"
                   placeholder="Введите название подарка"
                   {...register('wishName')}
-                  error={errors.wishName}
+                  error={!!errors.wishName}
                   helperText={errors.wishName?.message}
                />
 
-               <Input
+               {/* <StyledInput
                   labelText="Ссылка на подарок"
                   placeholder="Вставьте ссылку на подарок"
                   {...register('link')}
-                  error={errors.link}
+                  error={Boolean(errors.link)}
                   helperText={errors.link?.message}
-               />
-
+               /> */}
+               {/* 
                <SelectComponent
                   data={options}
                   label="Праздник"
                   isButton="true"
                   placeholder="Выберите праздник "
-                  value=""
-                  name="Праздник"
-                  {...register('select')}
+                  name="holiday"
+                  control={control}
+                  // {...register('select')}
                />
-               <DatePicker
+               <StyledDatePicker
                   placeholder="Укажите дату праздника"
                   control={control}
                   label="Дата праздника"
                   name="Дата праздника"
                   errorMessage={error}
                   onError={onError}
-               />
+               /> */}
             </InputContainer>
-
+            {/* 
             <TextArea
-               placeholder="Введите описание подарка"
                labelText="Описание подарка"
+               placeholder="Введите описание подарка"
                {...register('description')}
-               error={errors.description}
+               error={Boolean()}
                helperText={errors.description?.message}
-            />
+            /> */}
             <ButtonContainer>
                <Button onClick={onClose}>Отмена</Button>
-               <Button type="submit">Добавить</Button>
+               <Button type="submit" variant="primary">
+                  Добавить
+               </Button>
             </ButtonContainer>
          </BlockTwo>
       </Container>
@@ -128,10 +145,17 @@ const ButtonContainer = styled('div')({
    paddingTop: '36px',
    '& > Button': {
       borderRadius: '10px',
-      background: 'white',
+      textTransform: 'uppercase',
    },
 })
-
 // const StyledDatePicker = styled(DatePicker)({
-
+//    input: {
+//       height: '3.2vh',
+//    },
 // })
+
+const StyledInput = styled(Input)({
+   input: {
+      height: '2vh',
+   },
+})
