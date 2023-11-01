@@ -1,4 +1,11 @@
-import { Select, styled, FormControl, MenuItem, FormLabel } from '@mui/material'
+import {
+   Select,
+   styled,
+   FormControl,
+   MenuItem,
+   FormLabel,
+   FormHelperText,
+} from '@mui/material'
 import { useController } from 'react-hook-form'
 import React from 'react'
 import { Button } from './Button'
@@ -11,6 +18,8 @@ export const SelectComponent = ({
    onClick,
    name,
    control,
+   error,
+   helperText,
 }) => {
    const {
       field: { onChange, value },
@@ -29,6 +38,7 @@ export const SelectComponent = ({
             displayEmpty
             name={name}
             value={value}
+            error={error}
             renderValue={(selected) => {
                return selected.length === 0 ? (
                   <StyledPlaceholder>{placeholder}</StyledPlaceholder>
@@ -48,6 +58,7 @@ export const SelectComponent = ({
                <StyledBtn onClick={onClick}>+ Создать новый праздник</StyledBtn>
             ) : null}
          </StyledSelect>
+         {error && <StyledError>{helperText}</StyledError>}
       </FormControl>
    )
 }
@@ -81,4 +92,11 @@ const StyledBtn = styled(Button)({
 const StyledPlaceholder = styled('span')({
    color: '#8D949E',
    opacity: 0.6,
+})
+
+const StyledError = styled(FormHelperText)({
+   color: '#F83B3B',
+   fontWeight: 500,
+   textAlign: 'right',
+   marginRight: '4px',
 })
