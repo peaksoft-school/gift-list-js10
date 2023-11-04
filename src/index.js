@@ -12,6 +12,9 @@ import './index.css'
 import { store } from './store'
 import { globalTheme } from './theme/globalTheme'
 import { StyledToastContainer } from './utils/helpers/toast'
+import { injectStore } from './config/axiosInstance'
+
+injectStore(store)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
