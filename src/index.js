@@ -12,11 +12,12 @@ import { injectStore } from './config/axiosInstance'
 import './index.css'
 import { globalTheme } from './theme/globalTheme'
 import { StyledToastContainer } from './utils/helpers/toast'
+import { store } from './store'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
    <React.StrictMode>
-      <Provider store={injectStore()}>
+      <Provider store={injectStore(store)}>
          <BrowserRouter>
             <ThemeProvider theme={globalTheme}>
                <LocalizationProvider

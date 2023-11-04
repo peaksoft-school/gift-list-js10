@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use(
 
 let storeForInject
 
-export const injectStore = () => {
-   storeForInject = store
+export const injectStore = (_store) => {
+   storeForInject = _store
    return storeForInject
 }
