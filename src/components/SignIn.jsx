@@ -25,14 +25,16 @@ export const SignIn = () => {
       setVisibleAndInvisiblePasswordState,
    ] = useState(false)
 
+   // password state
+
    const changePasswordVisibleInvisibleStateHandler = () => {
       setVisibleAndInvisiblePasswordState((prevState) => !prevState)
    }
    return (
       <SignInForm component="div" onSubmit={handleSubmit(onSubmit)}>
          <FormTitleAndCloseIcon>
-            <FormTitle variant="h1">Вход</FormTitle>
-            <CloseModalIcon />
+            <FormTitle variant="h4">Вход</FormTitle>
+            <CloseModalIcon style={{ cursor: 'pointer' }} />
          </FormTitleAndCloseIcon>
          <SignInInput
             type="email"
