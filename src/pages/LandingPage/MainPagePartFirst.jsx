@@ -95,14 +95,17 @@ export const MainPagePartFirst = () => {
 
 const StyledMuiMainPage = styled(Box)`
    background-color: #8639b5;
-   height: 50rem;
+   height: 54rem;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 250px;
 `
 
 const MainPageContainer = styled(Box)`
    padding-top: 1.5rem;
    width: 73rem;
    height: 50rem;
-   margin: 0 auto;
    color: white;
 `
 

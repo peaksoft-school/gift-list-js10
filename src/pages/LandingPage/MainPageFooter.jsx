@@ -38,10 +38,8 @@ export const MainPageFooter = () => {
 }
 
 const FooterContainer = styled('div')({
-   padding: '0.5rem',
    paddingTop: '7rem',
-   width: '102.8rem',
-   marginLeft: '-12rem',
+   width: '100%',
 })
 
 const FooterIcon = styled('div')({
@@ -80,6 +78,7 @@ const ParagraphSt = styled('p')({
 const IconButtonComponent = styled('button')({
    borderRadius: '1.563rem',
    border: 'none',
+   cursor: 'pointer',
 })
 
 const InputContainer = styled('div')({

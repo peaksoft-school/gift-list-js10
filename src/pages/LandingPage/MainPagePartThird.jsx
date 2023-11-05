@@ -89,7 +89,7 @@ export const MainPagePartThird = () => {
    return (
       <AboutProjectPart component="div">
          <AboutProjectInfo component="div">
-            <AboutProjectMainTitleAndDiscripton component="div">
+            <div>
                <AboutProjectMainTitle variant="h1">
                   О проекте
                </AboutProjectMainTitle>
@@ -109,7 +109,7 @@ export const MainPagePartThird = () => {
                      обладателем.
                   </AboutProjectDescriptionText>
                </AboutProjectDescription>
-            </AboutProjectMainTitleAndDiscripton>
+            </div>
             <AboutProjectImageContainer component="div">
                <img src={Macbookpro} alt="Macbookpro" />
             </AboutProjectImageContainer>
@@ -125,20 +125,20 @@ export const MainPagePartThird = () => {
 }
 
 const AboutProjectPart = styled(Box)`
-   margin: 0 auto;
-   width: 80rem;
+   width: 100%;
    font-family: 'Inter';
    font-weight: 500;
    padding-top: 150px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 `
 
 const AboutProjectInfo = styled(Box)`
-   width: 100%;
+   width: 80%;
    display: flex;
    gap: 11rem;
 `
-
-const AboutProjectMainTitleAndDiscripton = styled(Box)``
 
 const AboutProjectMainTitle = styled(Typography)`
    font-size: 3rem;
@@ -163,7 +163,7 @@ const AboutProjectImageContainer = styled(Box)`
 `
 
 const Teachers = styled(Box)`
-   width: 100%;
+   width: 80%;
    display: flex;
    gap: 1.88rem;
    margin-top: 7.5rem;
