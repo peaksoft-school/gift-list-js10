@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import Macbookpro from '../../assets/images/Device - Macbook Pro.png'
 import { OurTeacher } from './OurTeacher'
-
+import { MainPageFooter } from './MainPageFooter'
 import KatyaDesigner from '../../assets/images/Katya_designer.png'
 import MarinaMarketer from '../../assets/images/Marina_marketer.png'
 import SavaPRmanager from '../../assets/images/Sava_PR_manager.png'
@@ -119,6 +119,7 @@ export const MainPagePartThird = () => {
                <OurTeacher key={teacher.id} teacher={teacher} />
             ))}
          </Teachers>
+         <MainPageFooter />
       </AboutProjectPart>
    )
 }
