@@ -117,7 +117,6 @@ const ResetPasswordForm = styled(Box)({
    flexDirection: 'column',
    gap: '1rem',
    width: '30.125rem',
-   margin: '0 auto',
 })
 
 const StyledOpenedEye = styled(EyeOpen)({

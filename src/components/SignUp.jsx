@@ -158,7 +158,6 @@ const SignUpForm = styled(Box)({
    flexDirection: 'column',
    gap: '1rem',
    width: '30.125rem',
-   margin: '0 auto',
 })
 
 const FormTitleAndCloseIcon = styled(Box)({
