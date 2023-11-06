@@ -1,16 +1,20 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Typography, styled } from '@mui/material'
 import { CloseModalIcon } from '../assets'
 import { Input } from './UI/input/Input'
 import { Button } from './UI/Button'
+import { schema } from '../utils/helpers/update-profile'
 
 export const ForgotPassword = () => {
    const {
       handleSubmit,
       register,
       formState: { errors },
-   } = useForm()
+   } = useForm({
+      resolver: yupResolver(schema),
+   })
 
    const onSubmit = () => {}
 
@@ -27,9 +31,7 @@ export const ForgotPassword = () => {
             <Input
                type="email"
                placeholder="Введите ваш Email"
-               {...register('email', {
-                  required: 'Это обзятельное поле',
-               })}
+               {...register('email')}
                helperText={errors.email?.message}
                error={Boolean(errors.email)}
             />

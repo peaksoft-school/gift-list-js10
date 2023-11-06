@@ -1,17 +1,20 @@
 import { Box, Typography, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { CloseModalIcon, EyeClose, EyeOpen } from '../assets'
 import { Input } from './UI/input/Input'
 import { Button } from './UI/Button'
+import { schema } from '../utils/helpers/update-profile'
 
 export const ResetPassword = () => {
    const {
       register,
       handleSubmit,
       formState: { errors },
-      watch,
-   } = useForm()
+   } = useForm({
+      resolver: yupResolver(schema),
+   })
 
    const onSubmit = () => {}
 
@@ -47,9 +50,7 @@ export const ResetPassword = () => {
             <Input
                type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
                placeholder="Введите новый пароль"
-               {...register('password', {
-                  required: 'Это обязательное поле',
-               })}
+               {...register('password')}
                helperText={errors.password?.message}
                error={Boolean(errors.password)}
                InputProps={{
@@ -69,17 +70,9 @@ export const ResetPassword = () => {
                   visibleAndInvisibleRepeatPasswordState ? 'text' : 'password'
                }
                placeholder="Повторите пароль"
-               {...register('repeatPassword', {
-                  required: 'Это обязательное поле',
-                  validate: (password) => {
-                     if (watch('password') !== password) {
-                        return 'Пароли не совпадают'
-                     }
-                     return true
-                  },
-               })}
-               helperText={errors.repeatPassword?.message}
-               error={Boolean(errors.repeatPassword)}
+               {...register('confirmPassword')}
+               helperText={errors.confirmPassword?.message}
+               error={Boolean(errors.confirmPassword)}
                InputProps={{
                   endAdornment: visibleAndInvisibleRepeatPasswordState ? (
                      <StyledOpenedEye

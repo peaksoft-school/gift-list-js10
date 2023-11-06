@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Link, Typography, styled } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
    CloseModalIcon,
    ContinueWithGoogle,
@@ -10,14 +11,16 @@ import {
 import { Button } from './UI/Button'
 import { Input } from './UI/input/Input'
 import { Checkbox } from './UI/Checkbox'
+import { schema } from '../utils/helpers/update-profile'
 
 export const SignUp = () => {
    const {
       register,
       handleSubmit,
       formState: { errors },
-      watch,
-   } = useForm()
+   } = useForm({
+      resolver: yupResolver(schema),
+   })
 
    const onSubmit = () => {}
 
@@ -52,36 +55,28 @@ export const SignUp = () => {
             <Input
                placeholder="Имя"
                type="text"
-               {...register('firstName', {
-                  required: 'Это обязательное поле',
-               })}
-               helperText={errors.firstName?.message}
-               error={Boolean(errors.firstName)}
+               {...register('name')}
+               helperText={errors.name?.message}
+               error={Boolean(errors.name)}
             />
             <Input
                placeholder="Фамилия"
                type="text"
-               {...register('lastName', {
-                  required: 'Это обязательное поле',
-               })}
-               helperText={errors.lastName?.message}
-               error={Boolean(errors.lastName)}
+               {...register('surname')}
+               helperText={errors.surname?.message}
+               error={Boolean(errors.surname)}
             />
             <Input
                placeholder="Email"
                type="email"
-               {...register('email', {
-                  required: 'Это обязательное поле',
-               })}
+               {...register('email')}
                helperText={errors.email?.message}
                error={Boolean(errors.email)}
             />
             <Input
                placeholder="password"
                type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
-               {...register('password', {
-                  required: 'Это обязательное поле',
-               })}
+               {...register('password')}
                helperText={errors.password?.message}
                error={Boolean(errors.password)}
                InputProps={{
@@ -101,15 +96,7 @@ export const SignUp = () => {
                type={
                   visibleAndInvisibleConfirmPasswordState ? 'text' : 'password'
                }
-               {...register('confirmPassword', {
-                  required: 'Это обязательное поле',
-                  validate: (value) => {
-                     if (watch('password') !== value) {
-                        return 'Пароли не совпадают'
-                     }
-                     return true
-                  },
-               })}
+               {...register('confirmPassword')}
                helperText={errors.confirmPassword?.message}
                error={Boolean(errors.confirmPassword)}
                InputProps={{

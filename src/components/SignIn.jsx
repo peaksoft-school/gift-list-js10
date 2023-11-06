@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Box, Link, Typography, styled } from '@mui/material'
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
    CloseModalIcon,
    ContinueWithGoogle,
@@ -10,13 +11,16 @@ import {
 import { Input } from './UI/input/Input'
 import { Checkbox } from './UI/Checkbox'
 import { Button } from './UI/Button'
+import { schema } from '../utils/helpers/update-profile'
 
 export const SignIn = () => {
    const {
       register,
       handleSubmit,
       formState: { errors },
-   } = useForm()
+   } = useForm({
+      resolver: yupResolver(schema),
+   })
 
    const onSubmit = () => {}
 
@@ -40,18 +44,14 @@ export const SignIn = () => {
             <SignInInput
                type="email"
                placeholder="Email"
-               {...register('email', {
-                  required: 'Поле обязательно к заполнению',
-               })}
+               {...register('email')}
                helperText={errors.email?.message}
                error={Boolean(errors.email)}
             />
             <SignInInput
                type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
                placeholder="Пароль"
-               {...register('password', {
-                  required: 'Поле обязательно к заполнению',
-               })}
+               {...register('password')}
                InputProps={{
                   endAdornment: visibleAndInvisiblePasswordState ? (
                      <StyledOpenedEye
