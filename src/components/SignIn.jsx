@@ -31,71 +31,75 @@ export const SignIn = () => {
       setVisibleAndInvisiblePasswordState((prevState) => !prevState)
    }
    return (
-      <SignInForm component="div" onSubmit={handleSubmit(onSubmit)}>
-         <FormTitleAndCloseIcon>
-            <FormTitle variant="h4">Вход</FormTitle>
-            <CloseModalIcon style={{ cursor: 'pointer' }} />
-         </FormTitleAndCloseIcon>
-         <SignInInput
-            type="email"
-            placeholder="Email"
-            {...register('email', {
-               required: 'Поле обязательно к заполнению',
-            })}
-            helperText={errors.email?.message}
-            error={Boolean(errors.email)}
-         />
-         <SignInInput
-            type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
-            placeholder="Пароль"
-            {...register('password', {
-               required: 'Поле обязательно к заполнению',
-            })}
-            InputProps={{
-               endAdornment: visibleAndInvisiblePasswordState ? (
-                  <EyeOpen
-                     style={{ cursor: 'pointer' }}
-                     onClick={changePasswordVisibleInvisibleStateHandler}
-                  />
-               ) : (
-                  <EyeClose
-                     style={{ cursor: 'pointer' }}
-                     onClick={changePasswordVisibleInvisibleStateHandler}
-                  />
-               ),
-            }}
-            helperText={errors.password?.message}
-            error={Boolean(errors.password)}
-         />
-         <Checkbox labelTitle="Запомнить меня" />
-         <SignInButton onClick={handleSubmit(onSubmit)} variant="primary">
-            Войти
-         </SignInButton>
-         <ForgotPasswordLink variant="a" href="/">
-            Забыли пароль?
-         </ForgotPasswordLink>
-         <OrContainer component="div">
-            <Line component="div" />
-            <p>или</p>
-            <Line component="div" />
-         </OrContainer>
-         <ContinueWithGoogleButton>
-            <ContinueWithGoogle />
-            Продолжить с Google
-         </ContinueWithGoogleButton>
-         <SignUpLink>
-            Нет аккаунта? <Link href="/">Зарегистрироваться</Link>
-         </SignUpLink>
-      </SignInForm>
+      <MainContainer component="div">
+         <SignInForm component="div" onSubmit={handleSubmit(onSubmit)}>
+            <FormTitleAndCloseIcon>
+               <FormTitle variant="h4">Вход</FormTitle>
+               <StyledCloseModalIcon />
+            </FormTitleAndCloseIcon>
+            <SignInInput
+               type="email"
+               placeholder="Email"
+               {...register('email', {
+                  required: 'Поле обязательно к заполнению',
+               })}
+               helperText={errors.email?.message}
+               error={Boolean(errors.email)}
+            />
+            <SignInInput
+               type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
+               placeholder="Пароль"
+               {...register('password', {
+                  required: 'Поле обязательно к заполнению',
+               })}
+               InputProps={{
+                  endAdornment: visibleAndInvisiblePasswordState ? (
+                     <StyledOpenedEye
+                        onClick={changePasswordVisibleInvisibleStateHandler}
+                     />
+                  ) : (
+                     <StyledClosedEye
+                        onClick={changePasswordVisibleInvisibleStateHandler}
+                     />
+                  ),
+               }}
+               helperText={errors.password?.message}
+               error={Boolean(errors.password)}
+            />
+            <Checkbox labelTitle="Запомнить меня" />
+            <SignInButton onClick={handleSubmit(onSubmit)} variant="primary">
+               Войти
+            </SignInButton>
+            <ForgotPasswordLink variant="a" href="/">
+               Забыли пароль?
+            </ForgotPasswordLink>
+            <OrContainer component="div">
+               <Line component="div" />
+               <p>или</p>
+               <Line component="div" />
+            </OrContainer>
+            <ContinueWithGoogleButton>
+               <ContinueWithGoogle />
+               Продолжить с Google
+            </ContinueWithGoogleButton>
+            <SignUpLink>
+               Нет аккаунта? <Link href="/">Зарегистрироваться</Link>
+            </SignUpLink>
+         </SignInForm>
+      </MainContainer>
    )
 }
+
+const MainContainer = styled(Box)({
+   display: 'flex',
+   justifyContent: 'center',
+})
 
 const SignInForm = styled(Box)({
    display: 'flex',
    flexDirection: 'column',
    gap: '1rem',
    width: '30.125rem',
-   margin: '0 auto',
 })
 
 const SignInButton = styled(Button)({
@@ -109,6 +113,18 @@ const SignInButton = styled(Button)({
 
 const SignInInput = styled(Input)({
    padding: '0',
+})
+
+const StyledOpenedEye = styled(EyeOpen)({
+   cursor: 'pointer',
+})
+
+const StyledClosedEye = styled(EyeClose)({
+   cursor: 'pointer',
+})
+
+const StyledCloseModalIcon = styled(CloseModalIcon)({
+   cursor: 'pointer',
 })
 
 const ContinueWithGoogleButton = styled(Button)({
@@ -140,7 +156,7 @@ const SignUpLink = styled(Typography)({
 
 const FormTitle = styled(Typography)({
    fontWeight: '500',
-   fontSize: '24px',
+   fontSize: '1.5rem',
 })
 
 const FormTitleAndCloseIcon = styled(Box)({

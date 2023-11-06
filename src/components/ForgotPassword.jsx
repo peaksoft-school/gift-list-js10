@@ -15,37 +15,43 @@ export const ForgotPassword = () => {
    const onSubmit = () => {}
 
    return (
-      <ForgotPasswordForm component="form">
-         <FormTitleAndCloseIcon>
-            <FormTitle variant="h4">Забыли пароль?</FormTitle>
-            <CloseModalIcon style={{ cursor: 'pointer' }} />
-         </FormTitleAndCloseIcon>
-         <ResetPasswordText variant="p">
-            Вам будет отправлена ссылка для сброса пароля
-         </ResetPasswordText>
-         <Input
-            type="email"
-            placeholder="Введите ваш Email"
-            {...register('email', {
-               required: 'Это обзятельное поле',
-            })}
-            helperText={errors.email?.message}
-            error={Boolean(errors.email)}
-         />
-         <Button onClick={handleSubmit(onSubmit)} variant="primary">
-            Отправить
-         </Button>
-         <CancelButton variant="outlined">Отмена</CancelButton>
-      </ForgotPasswordForm>
+      <MainContainer component="div">
+         <ForgotPasswordForm component="form">
+            <FormTitleAndCloseIcon>
+               <FormTitle variant="h4">Забыли пароль?</FormTitle>
+               <StyledCloseModalIcon />
+            </FormTitleAndCloseIcon>
+            <ResetPasswordText variant="p">
+               Вам будет отправлена ссылка для сброса пароля
+            </ResetPasswordText>
+            <Input
+               type="email"
+               placeholder="Введите ваш Email"
+               {...register('email', {
+                  required: 'Это обзятельное поле',
+               })}
+               helperText={errors.email?.message}
+               error={Boolean(errors.email)}
+            />
+            <Button onClick={handleSubmit(onSubmit)} variant="primary">
+               Отправить
+            </Button>
+            <CancelButton variant="outlined">Отмена</CancelButton>
+         </ForgotPasswordForm>
+      </MainContainer>
    )
 }
+
+const MainContainer = styled(Box)({
+   display: 'flex',
+   justifyContent: 'center',
+})
 
 const ForgotPasswordForm = styled(Box)({
    display: 'flex',
    flexDirection: 'column',
    gap: '1rem',
    width: '30.125rem',
-   margin: '0 auto',
 })
 
 const FormTitleAndCloseIcon = styled(Box)({
@@ -57,13 +63,17 @@ const FormTitleAndCloseIcon = styled(Box)({
 
 const FormTitle = styled(Typography)({
    fontWeight: '500',
-   fontSize: '24px',
+   fontSize: '1.5rem',
 })
 
 const ResetPasswordText = styled(Typography)({
    fontSize: '0.875rem',
    color: '#87898E',
    marginBottom: '0.8rem',
+})
+
+const StyledCloseModalIcon = styled(CloseModalIcon)({
+   cursor: 'pointer',
 })
 
 const CancelButton = styled(Button)({

@@ -39,71 +39,76 @@ export const ResetPassword = () => {
       setVisibleAndInvisibleRepeatPasswordState((prevState) => !prevState)
    }
    return (
-      <ResetPasswordForm component="form">
-         <FormTitleAndCloseIcon>
-            <FormTitle variant="h4">Смена пароля</FormTitle>
-            <CloseModalIcon style={{ cursor: 'pointer' }} />
-         </FormTitleAndCloseIcon>
+      <MainContainer component="div">
+         <ResetPasswordForm component="form">
+            <FormTitleAndCloseIcon>
+               <FormTitle variant="h4">Смена пароля</FormTitle>
+               <StyledCloseModalIcon />
+            </FormTitleAndCloseIcon>
 
-         <Input
-            type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
-            placeholder="Введите новый пароль"
-            {...register('password', {
-               required: 'Это обязательное поле',
-            })}
-            helperText={errors.password?.message}
-            error={Boolean(errors.password)}
-            InputProps={{
-               endAdornment: visibleAndInvisiblePasswordState ? (
-                  <EyeOpen
-                     style={{ cursor: 'pointer' }}
-                     onClick={changePasswordVisibleInvisibleStateHandler}
-                  />
-               ) : (
-                  <EyeClose
-                     style={{ cursor: 'pointer' }}
-                     onClick={changePasswordVisibleInvisibleStateHandler}
-                  />
-               ),
-            }}
-         />
-         <Input
-            type={visibleAndInvisibleRepeatPasswordState ? 'text' : 'password'}
-            placeholder="Повторите пароль"
-            {...register('repeatPassword', {
-               required: 'Это обязательное поле',
-               validate: (password) => {
-                  if (watch('password') !== password) {
-                     return 'Пароли не совпадают'
-                  }
-               },
-            })}
-            helperText={errors.repeatPassword?.message}
-            error={Boolean(errors.repeatPassword)}
-            InputProps={{
-               endAdornment: visibleAndInvisibleRepeatPasswordState ? (
-                  <EyeOpen
-                     style={{ cursor: 'pointer' }}
-                     onClick={changeRepeatVisibleInvisibleStateHandler}
-                  />
-               ) : (
-                  <EyeClose
-                     style={{ cursor: 'pointer' }}
-                     onClick={changeRepeatVisibleInvisibleStateHandler}
-                  />
-               ),
-            }}
-         />
-         <Button
-            style={{ marginTop: '0.5rem' }}
-            variant="primary"
-            onClick={handleSubmit(onSubmit)}
-         >
-            Подтвердить
-         </Button>
-      </ResetPasswordForm>
+            <Input
+               type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
+               placeholder="Введите новый пароль"
+               {...register('password', {
+                  required: 'Это обязательное поле',
+               })}
+               helperText={errors.password?.message}
+               error={Boolean(errors.password)}
+               InputProps={{
+                  endAdornment: visibleAndInvisiblePasswordState ? (
+                     <StyledOpenedEye
+                        onClick={changePasswordVisibleInvisibleStateHandler}
+                     />
+                  ) : (
+                     <StyledClosedEye
+                        onClick={changePasswordVisibleInvisibleStateHandler}
+                     />
+                  ),
+               }}
+            />
+            <Input
+               type={
+                  visibleAndInvisibleRepeatPasswordState ? 'text' : 'password'
+               }
+               placeholder="Повторите пароль"
+               {...register('repeatPassword', {
+                  required: 'Это обязательное поле',
+                  validate: (password) => {
+                     if (watch('password') !== password) {
+                        return 'Пароли не совпадают'
+                     }
+                  },
+               })}
+               helperText={errors.repeatPassword?.message}
+               error={Boolean(errors.repeatPassword)}
+               InputProps={{
+                  endAdornment: visibleAndInvisibleRepeatPasswordState ? (
+                     <StyledOpenedEye
+                        onClick={changeRepeatVisibleInvisibleStateHandler}
+                     />
+                  ) : (
+                     <StyledClosedEye
+                        onClick={changeRepeatVisibleInvisibleStateHandler}
+                     />
+                  ),
+               }}
+            />
+            <Button
+               style={{ marginTop: '0.5rem' }}
+               variant="primary"
+               onClick={handleSubmit(onSubmit)}
+            >
+               Подтвердить
+            </Button>
+         </ResetPasswordForm>
+      </MainContainer>
    )
 }
+
+const MainContainer = styled(Box)({
+   display: 'flex',
+   justifyContent: 'center',
+})
 
 const ResetPasswordForm = styled(Box)({
    display: 'flex',
@@ -111,6 +116,18 @@ const ResetPasswordForm = styled(Box)({
    gap: '1rem',
    width: '30.125rem',
    margin: '0 auto',
+})
+
+const StyledOpenedEye = styled(EyeOpen)({
+   cursor: 'pointer',
+})
+
+const StyledClosedEye = styled(EyeClose)({
+   cursor: 'pointer',
+})
+
+const StyledCloseModalIcon = styled(CloseModalIcon)({
+   cursor: 'pointer',
 })
 
 const FormTitleAndCloseIcon = styled(Box)({
@@ -122,5 +139,5 @@ const FormTitleAndCloseIcon = styled(Box)({
 
 const FormTitle = styled(Typography)({
    fontWeight: '500',
-   fontSize: '24px',
+   fontSize: '1.5rem',
 })

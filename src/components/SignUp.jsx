@@ -44,109 +44,114 @@ export const SignUp = () => {
       setVisibleAndInvisibleConfirmPasswordState((prevState) => !prevState)
    }
    return (
-      <SignUpForm component="form">
-         <FormTitleAndCloseIcon>
-            <FormTitle variant="h4">Регистрация</FormTitle>
-            <CloseModalIcon style={{ cursor: 'pointer' }} />
-         </FormTitleAndCloseIcon>
-         <Input
-            placeholder="Имя"
-            type="text"
-            {...register('firstName', {
-               required: 'Это обязательное поле',
-            })}
-            helperText={errors.firstName?.message}
-            error={Boolean(errors.firstName)}
-         />
-         <Input
-            placeholder="Фамилия"
-            type="text"
-            {...register('lastName', {
-               required: 'Это обязательное поле',
-            })}
-            helperText={errors.lastName?.message}
-            error={Boolean(errors.lastName)}
-         />
-         <Input
-            placeholder="Email"
-            type="email"
-            {...register('email', {
-               required: 'Это обязательное поле',
-            })}
-            helperText={errors.email?.message}
-            error={Boolean(errors.email)}
-         />
-         <Input
-            placeholder="password"
-            type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
-            {...register('password', {
-               required: 'Это обязательное поле',
-            })}
-            helperText={errors.password?.message}
-            error={Boolean(errors.password)}
-            InputProps={{
-               endAdornment: visibleAndInvisiblePasswordState ? (
-                  <EyeOpen
-                     style={{ cursor: 'pointer' }}
-                     onClick={changePasswordVisibleInvisibleStateHandler}
-                  />
-               ) : (
-                  <EyeClose
-                     style={{ cursor: 'pointer' }}
-                     onClick={changePasswordVisibleInvisibleStateHandler}
-                  />
-               ),
-            }}
-         />
-         <Input
-            placeholder="Потдвердите пароль"
-            type={visibleAndInvisibleConfirmPasswordState ? 'text' : 'password'}
-            {...register('confirmPassword', {
-               required: 'Это обязательное поле',
-               validate: (value) => {
-                  if (watch('password') !== value) {
-                     return 'Пароли не совпадают'
-                  }
-               },
-            })}
-            helperText={errors.confirmPassword?.message}
-            error={Boolean(errors.confirmPassword)}
-            InputProps={{
-               endAdornment: visibleAndInvisibleConfirmPasswordState ? (
-                  <EyeOpen
-                     style={{ cursor: 'pointer' }}
-                     onClick={changeConfirmVisibleInvisibleStateHandler}
-                  />
-               ) : (
-                  <EyeClose
-                     style={{ cursor: 'pointer' }}
-                     onClick={changeConfirmVisibleInvisibleStateHandler}
-                  />
-               ),
-            }}
-         />
-         <Checkbox labelTitle="Подписаться на рассылку" />
-         <SignInButton onClick={handleSubmit(onSubmit)} variant="primary">
-            Создать аккаунт
-         </SignInButton>
-         <ForgotPasswordLink variant="a" href="/">
-            Забыли пароль?
-         </ForgotPasswordLink>
-         <OrContainer component="div">
-            <Line component="div" />
-            <p>или</p>
-            <Line component="div" />
-         </OrContainer>
-         <ContinueWithGoogleButton>
-            <ContinueWithGoogle />
-            Продолжить с Google
-         </ContinueWithGoogleButton>
-         <SignUpLink>
-            Нет аккаунта? <Link href="/">Зарегистрироваться</Link>
-         </SignUpLink>
-      </SignUpForm>
+      <MainContainer component="div">
+         <SignUpForm component="form">
+            <FormTitleAndCloseIcon>
+               <FormTitle variant="h4">Регистрация</FormTitle>
+               <StyledCloseModalIcon />
+            </FormTitleAndCloseIcon>
+            <Input
+               placeholder="Имя"
+               type="text"
+               {...register('firstName', {
+                  required: 'Это обязательное поле',
+               })}
+               helperText={errors.firstName?.message}
+               error={Boolean(errors.firstName)}
+            />
+            <Input
+               placeholder="Фамилия"
+               type="text"
+               {...register('lastName', {
+                  required: 'Это обязательное поле',
+               })}
+               helperText={errors.lastName?.message}
+               error={Boolean(errors.lastName)}
+            />
+            <Input
+               placeholder="Email"
+               type="email"
+               {...register('email', {
+                  required: 'Это обязательное поле',
+               })}
+               helperText={errors.email?.message}
+               error={Boolean(errors.email)}
+            />
+            <Input
+               placeholder="password"
+               type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
+               {...register('password', {
+                  required: 'Это обязательное поле',
+               })}
+               helperText={errors.password?.message}
+               error={Boolean(errors.password)}
+               InputProps={{
+                  endAdornment: visibleAndInvisiblePasswordState ? (
+                     <StyledOpenedEye
+                        onClick={changePasswordVisibleInvisibleStateHandler}
+                     />
+                  ) : (
+                     <StyledClosedEye
+                        onClick={changePasswordVisibleInvisibleStateHandler}
+                     />
+                  ),
+               }}
+            />
+            <Input
+               placeholder="Потдвердите пароль"
+               type={
+                  visibleAndInvisibleConfirmPasswordState ? 'text' : 'password'
+               }
+               {...register('confirmPassword', {
+                  required: 'Это обязательное поле',
+                  validate: (value) => {
+                     if (watch('password') !== value) {
+                        return 'Пароли не совпадают'
+                     }
+                  },
+               })}
+               helperText={errors.confirmPassword?.message}
+               error={Boolean(errors.confirmPassword)}
+               InputProps={{
+                  endAdornment: visibleAndInvisibleConfirmPasswordState ? (
+                     <StyledOpenedEye
+                        onClick={changeConfirmVisibleInvisibleStateHandler}
+                     />
+                  ) : (
+                     <StyledClosedEye
+                        onClick={changeConfirmVisibleInvisibleStateHandler}
+                     />
+                  ),
+               }}
+            />
+            <Checkbox labelTitle="Подписаться на рассылку" />
+            <SignInButton onClick={handleSubmit(onSubmit)} variant="primary">
+               Создать аккаунт
+            </SignInButton>
+            <ForgotPasswordLink variant="a" href="/">
+               Забыли пароль?
+            </ForgotPasswordLink>
+            <OrContainer component="div">
+               <Line component="div" />
+               <p>или</p>
+               <Line component="div" />
+            </OrContainer>
+            <ContinueWithGoogleButton>
+               <ContinueWithGoogle />
+               Продолжить с Google
+            </ContinueWithGoogleButton>
+            <SignUpLink>
+               Нет аккаунта? <Link href="/">Зарегистрироваться</Link>
+            </SignUpLink>
+         </SignUpForm>
+      </MainContainer>
    )
 }
+
+const MainContainer = styled(Box)({
+   display: 'flex',
+   justifyContent: 'center',
+})
 
 const SignUpForm = styled(Box)({
    display: 'flex',
@@ -162,9 +167,21 @@ const FormTitleAndCloseIcon = styled(Box)({
    alignItems: 'center',
 })
 
+const StyledOpenedEye = styled(EyeOpen)({
+   cursor: 'pointer',
+})
+
+const StyledClosedEye = styled(EyeClose)({
+   cursor: 'pointer',
+})
+
+const StyledCloseModalIcon = styled(CloseModalIcon)({
+   cursor: 'pointer',
+})
+
 const FormTitle = styled(Typography)({
    fontWeight: '500',
-   fontSize: '24px',
+   fontSize: '1.5rem',
 })
 
 const ForgotPasswordLink = styled(Link)({
