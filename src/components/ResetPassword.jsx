@@ -1,5 +1,3 @@
-/* eslint-disable consistent-return */
-
 import { Box, Typography, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -77,6 +75,7 @@ export const ResetPassword = () => {
                      if (watch('password') !== password) {
                         return 'Пароли не совпадают'
                      }
+                     return true
                   },
                })}
                helperText={errors.repeatPassword?.message}
@@ -93,13 +92,12 @@ export const ResetPassword = () => {
                   ),
                }}
             />
-            <Button
-               style={{ marginTop: '0.5rem' }}
+            <StyledConfirmButton
                variant="primary"
                onClick={handleSubmit(onSubmit)}
             >
                Подтвердить
-            </Button>
+            </StyledConfirmButton>
          </ResetPasswordForm>
       </MainContainer>
    )
@@ -108,6 +106,10 @@ export const ResetPassword = () => {
 const MainContainer = styled(Box)({
    display: 'flex',
    justifyContent: 'center',
+})
+
+const StyledConfirmButton = styled(Button)({
+   marginTop: '0.5rem',
 })
 
 const ResetPasswordForm = styled(Box)({

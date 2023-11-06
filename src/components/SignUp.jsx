@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import React, { useState } from 'react'
 import { Box, Link, Typography, styled } from '@mui/material'
 import { useForm } from 'react-hook-form'
@@ -108,6 +107,7 @@ export const SignUp = () => {
                      if (watch('password') !== value) {
                         return 'Пароли не совпадают'
                      }
+                     return true
                   },
                })}
                helperText={errors.confirmPassword?.message}
