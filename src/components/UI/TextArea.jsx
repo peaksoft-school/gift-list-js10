@@ -38,10 +38,15 @@ const StyledFormLabel = styled(FormLabel)({
    paddingBottom: '7px',
 })
 
-const StyledMuiTextArea = styled(MuiTextField)({
+const StyledMuiTextArea = styled(MuiTextField)(({ error }) => ({
    position: 'static !important',
    fontSize: '1.2rem',
    borderRadius: '6px',
+   textarea: {
+      '::placeholder': {
+         color: error && '#F83B3B',
+      },
+   },
    '.css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input': {
       height: '6.938rem !important',
       overflow: 'inherit !important',
@@ -50,4 +55,4 @@ const StyledMuiTextArea = styled(MuiTextField)({
       textAlign: 'end',
       marginRight: '5px',
    },
-})
+}))

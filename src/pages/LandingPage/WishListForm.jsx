@@ -1,25 +1,54 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { UploadImage } from '../../components/UploadImage'
-import { wishListSchema } from '../../utils/helpers/validate'
-import { SelectComponent } from '../../components/UI/SelectComponent'
-import { TextArea } from '../../components/UI/TextArea'
-import { options } from '../../utils/constants/options'
 import { DatePicker } from '../../components/DatePicker'
 import { Button } from '../../components/UI/Button'
+import { SelectComponent } from '../../components/UI/SelectComponent'
+import { TextArea } from '../../components/UI/TextArea'
 import { Input } from '../../components/UI/input/Input'
+import { UploadImage } from '../../components/UploadImage'
+import {
+   category,
+   selectOptions,
+   stateOptions,
+   subcategory,
+} from '../../utils/constants/options'
+import { wishListSchema } from '../../utils/helpers/validate'
 
-export const WishListForm = ({ onClose }) => {
+const array = [
+   {
+      name: 'Состояние',
+      labelName: 'state',
+
+      placeholder: 'Укажите состояние',
+      options: stateOptions,
+   },
+   {
+      name: 'Категория',
+      labelName: 'category',
+      placeholder: 'Выберите категорию',
+      options: category,
+   },
+   {
+      name: 'Подкатегория',
+      labelName: 'subCategory',
+      placeholder: 'Выберите подкатегорию',
+      options: subcategory,
+   },
+]
+
+export const WishListForm = ({ onClose, variant }) => {
    const [error, setError] = useState(null)
    const [preview, setPreview] = useState({ file: '' })
+
    const {
       register,
       handleSubmit,
       formState: { errors },
       reset,
       control,
+      getValues,
    } = useForm({
       mode: 'onBlur',
       resolver: yupResolver(wishListSchema),
@@ -31,13 +60,18 @@ export const WishListForm = ({ onClose }) => {
       setPreview(null)
    }
 
+   useEffect(() => {
+      const { holidayDate } = getValues()
+      if (!holidayDate) {
+         setError('Укажите дату')
+      }
+      return setError(null)
+   }, [DatePicker])
+
    const onError = (error) => {
       if (error === 'invalidDate') {
          setError('Неверный формат даты')
-      }
-      if (error === '') {
-         setError('Укажите дату')
-      }
+      } else setError(error)
    }
 
    return (
@@ -46,7 +80,9 @@ export const WishListForm = ({ onClose }) => {
             <UploadImage preview={preview} setPreview={setPreview} />
          </BlockOne>
          <BlockTwo onSubmit={handleSubmit((data) => onSubmit(data, preview))}>
-            <h3>Добавление желаемого подарка</h3>
+            <h3>
+               {!variant ? 'Добавление желаемого подарка' : 'Добавление вещи'}
+            </h3>
 
             <InputContainer>
                <StyledInput
@@ -57,32 +93,56 @@ export const WishListForm = ({ onClose }) => {
                   helperText={errors.holidayName?.message}
                />
 
-               <StyledInput
-                  labelText="Ссылка на подарок"
-                  placeholder="Вставьте ссылку на подарок"
-                  {...register('link')}
-                  error={Boolean(errors.link)}
-                  helperText={errors.link?.message}
-               />
+               {!variant ? (
+                  <>
+                     <StyledInput
+                        labelText="Ссылка на подарок"
+                        placeholder="Вставьте ссылку на подарок"
+                        {...register('link')}
+                        error={Boolean(errors.link)}
+                        helperText={errors.link?.message}
+                     />
+                     {selectOptions.map(
+                        ({ name, placeholder, labelName, options }) => (
+                           <SelectComponent
+                              key={name}
+                              data={options}
+                              label={name}
+                              isButton="true"
+                              placeholder={placeholder}
+                              name={labelName}
+                              control={control}
+                              error={Boolean(errors.holiday)}
+                              helperText={errors.holiday?.message}
+                           />
+                        )
+                     )}
 
-               <SelectComponent
-                  data={options}
-                  label="Праздник"
-                  isButton="true"
-                  placeholder="Выберите праздник "
-                  name="holiday"
-                  control={control}
-                  error={Boolean(errors.holiday)}
-                  helperText={errors.holiday?.message}
-               />
-               <StyledDatePicker
-                  placeholder="Укажите дату праздника"
-                  control={control}
-                  label="Дата праздника"
-                  name="Дата праздника"
-                  errorMessage={error}
-                  onError={onError}
-               />
+                     <StyledDatePicker
+                        placeholder="Укажите дату праздника"
+                        control={control}
+                        label="Дата праздника"
+                        name="holidayDate"
+                        errorMessage={error}
+                        onError={onError}
+                     />
+                  </>
+               ) : (
+                  <>
+                     {array.map(({ name, placeholder, labelName, options }) => (
+                        <SelectComponent
+                           key={name}
+                           data={options}
+                           label={name}
+                           name={labelName}
+                           placeholder={placeholder}
+                           control={control}
+                           error={Boolean(errors[labelName])}
+                           helperText={errors[labelName]?.message}
+                        />
+                     ))}
+                  </>
+               )}
             </InputContainer>
 
             <TextArea
@@ -94,7 +154,16 @@ export const WishListForm = ({ onClose }) => {
             />
             <ButtonContainer>
                <Button onClick={onClose}>Отмена</Button>
-               <Button type="submit" variant="primary">
+               <Button
+                  onClick={() => {
+                     const { holidayDate } = getValues()
+                     if (!holidayDate) {
+                        setError('Укажите дату')
+                     }
+                  }}
+                  type="submit"
+                  variant="primary"
+               >
                   Добавить
                </Button>
             </ButtonContainer>

@@ -1,3 +1,9 @@
+import { WishListForm } from './pages/LandingPage/WishListForm'
+
 export function App() {
-   return <div>App</div>
+   return (
+      <div>
+         <WishListForm variant="true" />
+      </div>
+   )
 }

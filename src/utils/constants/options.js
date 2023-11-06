@@ -1,18 +1,23 @@
-export const options = [
+const selectOptions = [
    {
-      text: 'День матери',
-      id: '1',
-   },
-   {
-      text: 'День рождения',
-      id: '2',
-   },
-   {
-      text: 'Новый год',
-      id: '3',
-   },
-   {
-      text: 'Нооруз',
-      id: '4',
+      name: 'Праздник',
+      placeholder: 'Выберите праздник',
+      labelName: 'holiday',
+      options: ['День матери', 'День ', 'Новый год', 'Нооруз'],
    },
 ]
+
+const stateOptions = ['Все', 'Б/У', 'Новое']
+
+const category = [
+   'Электроника',
+   'Одежда',
+   'Школа',
+   'Дом и сад',
+   'Обувь',
+   'Транспорт',
+]
+
+const subcategory = ['hello', 'hi']
+
+export { selectOptions, stateOptions, category, subcategory }
