@@ -66,6 +66,9 @@ export const Notification = () => {
    const isOpenNotificationItem = () => {
       setIsOpenNotifications(!isOpenNotifications)
    }
+   const handleCloseNorif = () => {
+      setIsOpenNotifications(false)
+   }
 
    return (
       <>
@@ -75,49 +78,52 @@ export const Notification = () => {
          </NotificationContainer>
 
          {isOpenNotifications ? (
-            <Container>
-               <FirstBlock>
-                  <h3>Уведомления</h3>
-                  <IconButton
-                     aria-label="more"
-                     aria-haspopup="true"
-                     aria-controls="long-menu"
-                     onClick={openReadAll}
-                  >
-                     <MoreVert />
-                  </IconButton>
-                  <StyledMenu
-                     open={open}
-                     keepMounted
-                     anchorEl={anchorEl}
-                     onClose={handleClose}
-                  >
-                     <MenuItem onClick={markAsReadHandle}>
-                        Отметить все как прочитанные
-                     </MenuItem>
-                  </StyledMenu>
-               </FirstBlock>
-               <ScrollContainer>
-                  {notifications.map((item, i) => {
-                     return (
-                        <List
-                           key={item.id}
-                           onClick={() => isReadHandle(item.id)}
-                        >
-                           <img src={item.image} alt={item.name} />
+            <StyledBackdrop onClick={handleCloseNorif}>
+               <Container onClick={(e) => e.stopPropagation()}>
+                  <FirstBlock>
+                     <h3>Уведомления</h3>
+                     <IconButton
+                        aria-label="more"
+                        aria-haspopup="true"
+                        aria-controls="long-menu"
+                        onClick={openReadAll}
+                     >
+                        <MoreVert />
+                     </IconButton>
+                     <StyledMenu
+                        open={open}
+                        keepMounted
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                     >
+                        <MenuItem onClick={markAsReadHandle}>
+                           Отметить все как прочитанные
+                        </MenuItem>
+                     </StyledMenu>
+                  </FirstBlock>
+                  <ScrollContainer>
+                     {notifications.length > 0 ? (
+                        notifications.map((item, i) => (
+                           <List
+                              key={item.id}
+                              onClick={() => isReadHandle(item.id)}
+                           >
+                              <img src={item.image} alt={item.name} />
 
-                           <div>
-                              <Name>{item.name}</Name>
-                              <Para>{item.description}</Para>
-                              <br />
-                              <Date>{item.date}</Date>
-                           </div>
-                           <div> {!isRead[i].isRead && <Circle />}</div>
-                        </List>
-                     )
-                  })}
-               </ScrollContainer>
-            </Container>
+                              <div>
+                                 <Name>{item.name}</Name>
+                                 <Para>{item.description}</Para>
+                                 <Date>{item.date}</Date>
+                              </div>
+                              <div> {!isRead[i].isRead && <Circle />}</div>
+                           </List>
+                        ))
+                     ) : (
+                        <Empty>У вас пока нет уведомлений!</Empty>
+                     )}
+                  </ScrollContainer>
+               </Container>
+            </StyledBackdrop>
          ) : null}
       </>
    )
@@ -132,12 +138,31 @@ const Container = styled(Box)({
    flexDirection: 'column',
    gap: '16px',
    position: 'absolute',
-   top: '20px',
-   right: '300px',
+   transform: 'translate(-35%, -35%)',
+   top: '150px',
+   right: '200px',
+   zIndex: 2,
+   background: '#fff',
+})
+
+const StyledBackdrop = styled('div')({
+   width: '100%',
+   height: '100vh',
+   position: 'fixed',
+   zIndex: 0,
+   background: 'transparet',
+   top: 0,
+   left: 0,
+   opacity: 1,
+   visibility: 'visible',
 })
 
 const ScrollContainer = styled('div')({
    overflow: 'auto',
+})
+
+const Empty = styled('p')({
+   padding: '10px',
 })
 
 const FirstBlock = styled('div')({
@@ -171,9 +196,13 @@ const List = styled('li')({
 })
 
 const Para = styled('p')({
-   display: 'inline',
    fontSize: '1rem',
    fontWeight: '400',
+   height: '1.5rem',
+   width: '16vw',
+   overflow: 'hidden',
+   whiteSpace: 'nowrap',
+   textOverflow: 'ellipsis',
 })
 
 const Name = styled('span')({
