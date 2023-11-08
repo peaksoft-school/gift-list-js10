@@ -23,10 +23,16 @@ export const MainPageFooter = () => {
             <div>
                <Paragraph>Подписатся на рассылку </Paragraph>
                <InputContainer>
-                  <InputStyle />
-                  <IconButtonComponent type="button">
-                     <img src={IconButton} alt="icon" />
-                  </IconButtonComponent>
+                  <InputStyle
+                     placeholder="Введите ваш Email"
+                     icon={
+                        <ButtonContainer>
+                           <IconButtonComponent type="button">
+                              <img src={IconButton} alt="icon" />
+                           </IconButtonComponent>
+                        </ButtonContainer>
+                     }
+                  />
                </InputContainer>
             </div>
          </FooterIcon>
@@ -36,6 +42,9 @@ export const MainPageFooter = () => {
       </FooterContainer>
    )
 }
+const ButtonContainer = styled('div')({
+   paddingTop: '5.5px',
+})
 
 const FooterContainer = styled('div')({
    paddingTop: '7rem',
@@ -54,6 +63,7 @@ const FooterIcon = styled('div')({
 const Paragraph = styled('p')({
    fontSize: '1.25rem',
    paddingBottom: '0.625rem',
+   textAlign: 'start',
 })
 
 const ParagraphCol = styled('p')({
@@ -65,7 +75,17 @@ const FooterText = styled('div')({
 })
 
 const InputStyle = styled(Input)({
-   input: { height: '0.625rem' },
+   input: {
+      height: '0.625rem',
+      paddingRight: 0,
+      width: '250px',
+   },
+   '.css-1s9x1kt-MuiInputBase-root-MuiOutlinedInput-root': {
+      paddingRight: '0',
+   },
+   '.css-1d3z3hw-MuiOutlinedInput-notchedOutline ': {
+      borderRight: 'none',
+   },
 })
 
 const FooterEnding = styled('div')({
@@ -79,6 +99,7 @@ const IconButtonComponent = styled('button')({
    borderRadius: '1.563rem',
    border: 'none',
    cursor: 'pointer',
+   width: '30px',
 })
 
 const InputContainer = styled('div')({

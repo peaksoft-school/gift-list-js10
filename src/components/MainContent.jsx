@@ -32,9 +32,11 @@ const InnerContainer = styled('div')({
 })
 
 const MainContainer = styled('div')({
-   height: '100%',
+   height: '50rem',
    backgroundColor: '#8639b5',
-   width: '100%',
+   width: '90rem',
+   display: 'flex',
+   alignItems: 'center',
 })
 
 const TextContainer = styled('div')({

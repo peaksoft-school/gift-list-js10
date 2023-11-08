@@ -42,6 +42,7 @@ export const Input = React.forwardRef(
                   endAdornment: (
                      <StyledInputAbornment position="end">
                         {error && <ErrorIcon error={error} />}
+                        {!error && icon}
                      </StyledInputAbornment>
                   ),
                }}

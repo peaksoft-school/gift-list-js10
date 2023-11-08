@@ -1,19 +1,39 @@
 import { Box, Typography, styled } from '@mui/material'
 import React from 'react'
-import { Button } from '../../components/UI/Button'
+import { useNavigate } from 'react-router-dom'
 import { MainPagePartSecond } from '../../components/MainPagePartSecond'
+import { Button } from '../../components/UI/Button'
+
 import {
-   FriendsMakeASelphyImage,
+   ArrowDown,
    FacebookIcon,
+   FriendsMakeASelphyImage,
+   GirlsImage,
    InstagramIcon,
    VkIcon,
-   GirlsImage,
-   ArrowDown,
 } from '../../assets'
 
 export const MainPagePartFirst = () => {
-   const scrollToAboutProjectComponentHandler = () => {}
-   const scrollToMainPagePartOneComponentHandler = () => {}
+   const navigate = useNavigate()
+   const scrollToAboutProjectComponentHandler = () => {
+      window.scrollTo({
+         top: 2600,
+         behavior: 'smooth',
+      })
+   }
+   const scrollToMainPagePartOneComponentHandler = () => {
+      window.scrollTo({
+         top: 1690,
+         behavior: 'smooth',
+      })
+   }
+
+   const onLogin = () => {
+      navigate('/login')
+   }
+   const onSignUp = () => {
+      navigate('/registration')
+   }
 
    return (
       <StyledMuiMainPage component="div">
@@ -73,8 +93,12 @@ export const MainPagePartFirst = () => {
                      желания
                   </Description>
                   <ButtonsContainer component="div">
-                     <StyledButton variant="contained">Войти</StyledButton>
-                     <StyledButton variant="outlined">Регистрация</StyledButton>
+                     <StyledButton variant="contained" onClick={onLogin}>
+                        Войти
+                     </StyledButton>
+                     <StyledButton variant="outlined" onClick={onSignUp}>
+                        Регистрация
+                     </StyledButton>
                   </ButtonsContainer>
                </ProjectInfo>
                <ScrollDownAndGirlsImageContainer component="div">
@@ -94,19 +118,16 @@ export const MainPagePartFirst = () => {
 }
 
 const StyledMuiMainPage = styled(Box)`
-   background-color: #8639b5;
-   height: 54rem;
    display: flex;
    flex-direction: column;
    align-items: center;
-   gap: 250px;
+   gap: 100px;
 `
 
 const MainPageContainer = styled(Box)`
-   padding-top: 1.5rem;
-   width: 73rem;
-   height: 50rem;
+   padding: 1.5rem 9.6rem 7.5rem 9.6rem;
    color: white;
+   background-color: #8639b5;
 `
 
 const MainPageHeader = styled(Box)``
