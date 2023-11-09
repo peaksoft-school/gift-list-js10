@@ -1,18 +1,39 @@
 import { Box, Typography, styled } from '@mui/material'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { MainPagePartSecond } from '../../components/MainPagePartSecond'
 import { Button } from '../../components/UI/Button'
+
 import {
-   FriendsMakeASelphyImage,
+   ArrowDown,
    FacebookIcon,
+   FriendsMakeASelphyImage,
+   GirlsImage,
    InstagramIcon,
    VkIcon,
-   GirlsImage,
-   ArrowDown,
 } from '../../assets'
 
-export const MainPage = () => {
-   const scrollToAboutProjectComponentHandler = () => {}
-   const scrollToMainPagePartOneComponentHandler = () => {}
+export const MainPagePartFirst = () => {
+   const navigate = useNavigate()
+   const scrollToAboutProjectComponentHandler = () => {
+      window.scrollTo({
+         top: 2600,
+         behavior: 'smooth',
+      })
+   }
+   const scrollToMainPagePartOneComponentHandler = () => {
+      window.scrollTo({
+         top: 1690,
+         behavior: 'smooth',
+      })
+   }
+
+   const onLogin = () => {
+      navigate('/login')
+   }
+   const onSignUp = () => {
+      navigate('/registration')
+   }
 
    return (
       <StyledMuiMainPage component="div">
@@ -37,14 +58,26 @@ export const MainPage = () => {
             <MainPageInfoBlock>
                <SocialMediasAndFriendMakeASelphyContainer>
                   <SocialMediasContainer>
-                     <a href="https://www.facebook.com/">
-                        <img src={FacebookIcon} alt="facebook" />
+                     <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://www.facebook.com/"
+                     >
+                        <FacebookIcon />
                      </a>
-                     <a href="https://vk.com/feed">
-                        <img src={VkIcon} alt="vk" />
+                     <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://vk.com/feed"
+                     >
+                        <VkIcon />
                      </a>
-                     <a href="https://www.instagram.com/">
-                        <img src={InstagramIcon} alt="instagram" />
+                     <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://www.instagram.com/"
+                     >
+                        <InstagramIcon />
                      </a>
                   </SocialMediasContainer>
                   <FriendsMakeASelphyImageContainer>
@@ -60,8 +93,12 @@ export const MainPage = () => {
                      желания
                   </Description>
                   <ButtonsContainer component="div">
-                     <StyledButton variant="contained">Войти</StyledButton>
-                     <StyledButton variant="outlined">Регистрация</StyledButton>
+                     <StyledButton variant="contained" onClick={onLogin}>
+                        Войти
+                     </StyledButton>
+                     <StyledButton variant="outlined" onClick={onSignUp}>
+                        Регистрация
+                     </StyledButton>
                   </ButtonsContainer>
                </ProjectInfo>
                <ScrollDownAndGirlsImageContainer component="div">
@@ -69,26 +106,28 @@ export const MainPage = () => {
                      <img src={GirlsImage} alt="girls img" />
                   </ImageWithGirlsContainer>
                   <ScrollDown component="div">
-                     <img src={ArrowDown} alt="arrow down" />
+                     <ArrowImg />
                      <ScrollDownText variant="p">Листайте вниз</ScrollDownText>
                   </ScrollDown>
                </ScrollDownAndGirlsImageContainer>
             </MainPageInfoBlock>
          </MainPageContainer>
+         <MainPagePartSecond />
       </StyledMuiMainPage>
    )
 }
 
 const StyledMuiMainPage = styled(Box)`
-   background-color: #8639b5;
-   color: white;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 100px;
 `
 
 const MainPageContainer = styled(Box)`
-   padding-top: 1.5rem;
-   width: 73rem;
-   height: 50rem;
-   margin: 0 auto;
+   padding: 1.5rem 9.6rem 7.5rem 9.6rem;
+   color: white;
+   background-color: #8639b5;
 `
 
 const MainPageHeader = styled(Box)``
@@ -201,9 +240,6 @@ const ScrollDown = styled(Box)`
    gap: 1rem;
    transform: rotate(270deg);
    align-self: flex-end;
-   img {
-      transform: rotate(90deg);
-   }
 `
 
 const ScrollDownText = styled(Typography)`
@@ -217,3 +253,6 @@ const ScrollDownAndGirlsImageContainer = styled(Box)`
    justify-content: space-between;
    width: 20rem;
 `
+const ArrowImg = styled(ArrowDown)({
+   transform: 'rotate(90deg)',
+})
