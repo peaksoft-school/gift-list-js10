@@ -6,7 +6,6 @@ import {
    FormLabel,
    FormHelperText,
 } from '@mui/material'
-import { useController } from 'react-hook-form'
 import React from 'react'
 import { Button } from './Button'
 import { ArrowIcon } from '../../assets'
@@ -18,17 +17,18 @@ export const SelectComponent = ({
    placeholder,
    onClick,
    name,
-   control,
    error,
    helperText,
+   onChange,
+   value,
 }) => {
-   const {
-      field: { onChange, value },
-   } = useController({
-      control,
-      name,
-      defaultValue: '',
-   })
+   // const {
+   //    field: { onChange, value },
+   // } = useController({
+   //    control,
+   //    name,
+   //    defaultValue: '',
+   // })
    return (
       <FormControl fullWidth>
          <FormLabel error={error}>{label}</FormLabel>
@@ -52,8 +52,6 @@ export const SelectComponent = ({
                )
             }}
          >
-            {/* {data.map(({ label, labelName, options }) => (
-               <SelectContainer key={label} label={label} name={labelName}> */}
             {data.map((title) => {
                return (
                   <SelectContainer2 key={title} value={title}>
@@ -61,8 +59,6 @@ export const SelectComponent = ({
                   </SelectContainer2>
                )
             })}
-            {/* </SelectContainer>
-            ))} */}
 
             {isButton ? (
                <StyledBtn onClick={onClick}>+ Создать новый праздник</StyledBtn>
@@ -72,19 +68,6 @@ export const SelectComponent = ({
       </FormControl>
    )
 }
-
-// const SelectContainer = styled('div')({
-//    width: '100%',
-//    display: 'flex',
-//    flexDirection: 'column',
-//    gap: '16px',
-//    listStyle: 'none',
-//    alignItems: 'flex-start',
-//    fontSize: '0.875rem',
-//    // padding: '9px 16px',
-//    // ':hover': { backgroundColor: ' rgba(112, 46, 153, 0.4)' },
-//    // ':active': { backgroundColor: '#9b6db7' },
-// })
 
 const SelectContainer2 = styled(MenuItem)({
    width: '100%',
@@ -126,24 +109,3 @@ const StyledError = styled(FormHelperText)({
    textAlign: 'right',
    marginRight: '4px',
 })
-
-/* <StyledSelect
-                              IconComponent={ArrowIcon}
-                              value={values[fieldName]}
-                              name={fieldName}
-                              onChange={handleChange}
-                              displayEmpty
-                           >
-                              <StyledMenuItem value="" unvisible>
-                                 {title}
-                              </StyledMenuItem>
-                              {(fieldName === 'subCategory'
-                                 ? subCategoryOptions[values.category]
-                                      ?.subCategories
-                                 : options
-                              )?.map((title) => (
-                                 <StyledMenuItem value={title} key={title}>
-                                    {title}
-                                 </StyledMenuItem>
-                              ))}
-                           </StyledSelect> */

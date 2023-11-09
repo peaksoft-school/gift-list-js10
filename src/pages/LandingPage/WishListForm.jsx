@@ -12,15 +12,17 @@ import {
    category,
    selectOptions,
    stateOptions,
-   subcategory,
+   subcategories,
 } from '../../utils/constants/options'
-import { wishListSchema } from '../../utils/helpers/validate'
+import {
+   variantSchema,
+   wishListSchema,
+} from '../../utils/helpers/wishListValidates'
 
-const array = [
+const arrayState = [
    {
       name: 'Состояние',
       labelName: 'state',
-
       placeholder: 'Укажите состояние',
       options: stateOptions,
    },
@@ -34,13 +36,22 @@ const array = [
       name: 'Подкатегория',
       labelName: 'subCategory',
       placeholder: 'Выберите подкатегорию',
-      options: subcategory,
+      options: [],
+   },
+]
+
+const initialValues = [
+   {
+      state: '',
+      category: '',
+      subCategory: '',
    },
 ]
 
 export const WishListForm = ({ onClose, variant }) => {
-   const [error, setError] = useState(null)
+   const [datePickerError, setDatePickerError] = useState(null)
    const [preview, setPreview] = useState({ file: '' })
+   const [values, setValues] = useState(variant ? initialValues[0] : {})
 
    const {
       register,
@@ -49,13 +60,22 @@ export const WishListForm = ({ onClose, variant }) => {
       reset,
       control,
       getValues,
+      setValue,
+      setError,
    } = useForm({
+      defaultValues: {
+         ...initialValues,
+      },
       mode: 'onBlur',
-      resolver: yupResolver(wishListSchema),
+      resolver: !variant
+         ? yupResolver(wishListSchema)
+         : yupResolver(variantSchema),
    })
 
+   console.log('errors => ', errors)
+
    const onSubmit = (data) => {
-      console.log(data)
+      console.log(data, preview)
       reset()
       setPreview(null)
    }
@@ -63,15 +83,24 @@ export const WishListForm = ({ onClose, variant }) => {
    useEffect(() => {
       const { holidayDate } = getValues()
       if (!holidayDate) {
-         setError('Укажите дату')
+         setDatePickerError('Укажите дату')
       }
-      return setError(null)
+      return setDatePickerError(null)
    }, [DatePicker])
 
    const onError = (error) => {
       if (error === 'invalidDate') {
-         setError('Неверный формат даты')
-      } else setError(error)
+         setDatePickerError('Неверный формат даты')
+      } else setDatePickerError(error)
+   }
+
+   console.log(setError)
+
+   const handleChange = (e) => {
+      // if (!e.target.value) return setError([e.target.name])
+      setValue(e.target.name, e.target.value)
+      setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+      return ''
    }
 
    return (
@@ -114,6 +143,8 @@ export const WishListForm = ({ onClose, variant }) => {
                               control={control}
                               error={Boolean(errors.holiday)}
                               helperText={errors.holiday?.message}
+                              onChange={handleChange}
+                              value={values[labelName] || ''}
                            />
                         )
                      )}
@@ -123,24 +154,32 @@ export const WishListForm = ({ onClose, variant }) => {
                         control={control}
                         label="Дата праздника"
                         name="holidayDate"
-                        errorMessage={error}
+                        errorMessage={datePickerError}
                         onError={onError}
                      />
                   </>
                ) : (
                   <>
-                     {array.map(({ name, placeholder, labelName, options }) => (
-                        <SelectComponent
-                           key={name}
-                           data={options}
-                           label={name}
-                           name={labelName}
-                           placeholder={placeholder}
-                           control={control}
-                           error={Boolean(errors[labelName])}
-                           helperText={errors[labelName]?.message}
-                        />
-                     ))}
+                     {arrayState.map(
+                        ({ name, placeholder, labelName, options }) => (
+                           <SelectComponent
+                              key={name}
+                              data={
+                                 labelName === 'subCategory'
+                                    ? subcategories[values.category] || []
+                                    : options
+                              }
+                              label={name}
+                              name={labelName}
+                              placeholder={placeholder}
+                              control={control}
+                              error={Boolean(errors[labelName])}
+                              helperText={errors[labelName]?.message}
+                              onChange={handleChange}
+                              value={values[labelName]}
+                           />
+                        )
+                     )}
                   </>
                )}
             </InputContainer>
@@ -158,7 +197,9 @@ export const WishListForm = ({ onClose, variant }) => {
                   onClick={() => {
                      const { holidayDate } = getValues()
                      if (!holidayDate) {
-                        setError('Укажите дату')
+                        setDatePickerError('Укажите дату')
+                     } else {
+                        setDatePickerError(null)
                      }
                   }}
                   type="submit"
