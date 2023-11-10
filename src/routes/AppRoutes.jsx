@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Navigate, Route, Routes } from 'react-router'
+import { Route, Routes, Navigate } from 'react-router'
+import { MainPagePartFirst } from '../pages/LandingPage/MainPagePartFirst'
 import { routes } from '../utils/constants'
 import { PrivateRoutes } from './PrivateRoutes'
 import { AdminRoutes } from './admin/AdminRoutes'
@@ -14,6 +15,7 @@ export const AppRoutes = () => {
    const { isAuth } = useSelector((state) => state.authLogin)
    return (
       <Routes>
+         <Route path="/" element={<MainPagePartFirst />} />
          <Route path="/" element={<Navigate to="/login" replace />} />
          <Route path={routes.LOGIN} element={<SignIn />} />
          <Route path={routes.REGISTRATION} element={<SignUp />} />
