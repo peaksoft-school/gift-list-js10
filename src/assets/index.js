@@ -35,12 +35,10 @@ export { default as MainPageIcon } from './images/main-page.png'
 export { default as MainDisIcon } from './images/main-dis.png'
 export { default as MainLike } from './images/main-like.png'
 export { default as MainLoyIcon } from './images/main-loy.png'
-<<<<<<< HEAD
 export { ReactComponent as CloseModalIcon } from './icons/close-circle.svg'
 export { ReactComponent as ContinueWithGoogle } from './icons/continue-with-google.svg'
 export { ReactComponent as EyeOpen } from './icons/eye-open.svg'
 export { ReactComponent as EyeClose } from './icons/eye-close.svg'
-=======
 export { ReactComponent as FacebookIcon } from './icons/facebook-con.svg'
 export { ReactComponent as InstagramIcon } from './icons/instagram-icon.svg'
 export { ReactComponent as VkIcon } from './icons/vk-icon.svg'
@@ -48,4 +46,3 @@ export { default as IconButton } from './icons/icon-button.png'
 export { ReactComponent as InstagramImg } from './images/instagram-img.svg'
 export { ReactComponent as VkImg } from './images/vk-img.svg'
 export { ReactComponent as FacebookImg } from './images/facebook-img.svg'
->>>>>>> 7ffbb6d63f033d72cfad733c060744cda76a112d
