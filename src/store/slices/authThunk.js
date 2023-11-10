@@ -10,10 +10,17 @@ const authLogin = ({ email, password }) => {
 
 export const loginQuery = createAsyncThunk(
    'authorization/login',
-   async ({ userInfo, navigate, login }, { rejectWithValue, dispatch }) => {
+   async (
+      { userData, navigate, login, isRememberMeChecked },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
-         const data = authLogin(userInfo)
-         localStorage.setItem(USER_KEY, JSON.stringify(data))
+         const data = authLogin(userData)
+         if (isRememberMeChecked) {
+            localStorage.setItem(USER_KEY, JSON.stringify(data))
+         } else {
+            sessionStorage.setItem(USER_KEY, JSON.stringify(data))
+         }
          return dispatch(login({ data, navigate }))
       } catch (error) {
          return rejectWithValue(error)

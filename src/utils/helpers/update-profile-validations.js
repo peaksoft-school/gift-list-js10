@@ -1,7 +1,8 @@
 import * as yup from 'yup'
+
 const valueIsNotEmpty = (value) => value?.trim()
 
-export const schema = yup.object().shape({
+export const updateProfileSchema = yup.object().shape({
    name: yup
       .string()
       .required('Введите имя.')
@@ -72,14 +73,6 @@ export const schema = yup.object().shape({
          'После символа @ должно быть что-то написано.',
          (value) => valueIsNotEmpty(value.split('@')[1])
       ),
-   password: yup
-      .string()
-      .required('Введите пароль')
-      .min(8, 'Пароль должен быть не менее из 8-и символов'),
-   confirmPassword: yup
-      .string()
-      .required('Повторите пароль')
-      .oneOf([yup.ref('password'), null], 'Пароли не совпадают'),
    phoneNumber: yup
       .string()
       .nullable()

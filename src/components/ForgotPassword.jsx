@@ -1,26 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Typography, styled } from '@mui/material'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useNavigate } from 'react-router-dom'
 import { CloseModalIcon } from '../assets'
 import { Input } from './UI/input/Input'
 import { Button } from './UI/Button'
-import { schema } from '../utils/helpers/update-profile'
+import { forgotPasswordValidationSchema } from '../utils/helpers/forgot-password-validation'
+// import { routes } from '../utils/constants'
 
 export const ForgotPassword = () => {
    const {
       handleSubmit,
       register,
+      setValue,
       formState: { errors },
    } = useForm({
-      resolver: yupResolver(schema),
+      resolver: yupResolver(forgotPasswordValidationSchema),
    })
 
-   const onSubmit = () => {}
+   const navigate = useNavigate()
+   const [isButtonClickedState, setIsButtonClickedState] = useState('')
+
+   const isButtonClickedStateChangeHandler = () => {
+      setIsButtonClickedState((prevState) => !prevState)
+   }
+
+   // const navigate = useNavigate()
+
+   const onSubmit = (userData) => {
+      localStorage.setItem('email', userData.email)
+      setValue('email')
+      isButtonClickedStateChangeHandler()
+   }
+
+   const goBackToPreviousPageHandler = () => {
+      navigate(-1)
+   }
+
+   useEffect(() => {
+      const storedEmail = localStorage.getItem('email')
+      if (storedEmail) {
+         setValue('email', storedEmail)
+      }
+   }, [setValue])
 
    return (
       <MainContainer component="div">
-         <ForgotPasswordForm component="form">
+         <ForgotPasswordForm onSubmit={handleSubmit(onSubmit)} component="form">
             <FormTitleAndCloseIcon>
                <FormTitle variant="h4">Забыли пароль?</FormTitle>
                <StyledCloseModalIcon />
@@ -35,10 +62,19 @@ export const ForgotPassword = () => {
                helperText={errors.email?.message}
                error={Boolean(errors.email)}
             />
-            <Button onClick={handleSubmit(onSubmit)} variant="primary">
+            <Button
+               type="submit"
+               variant="primary"
+               disabled={isButtonClickedState}
+            >
                Отправить
             </Button>
-            <CancelButton variant="outlined">Отмена</CancelButton>
+            <CancelButton
+               onClick={goBackToPreviousPageHandler}
+               variant="outlined"
+            >
+               Отмена
+            </CancelButton>
          </ForgotPasswordForm>
       </MainContainer>
    )

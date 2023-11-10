@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Box, Link, Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Link, useNavigate } from 'react-router-dom'
 import {
    CloseModalIcon,
    ContinueWithGoogle,
@@ -11,7 +12,8 @@ import {
 import { Button } from './UI/Button'
 import { Input } from './UI/input/Input'
 import { Checkbox } from './UI/Checkbox'
-import { schema } from '../utils/helpers/update-profile'
+import { signUpValidationSchema } from '../utils/helpers/auth-validations'
+import { routes } from '../utils/constants'
 
 export const SignUp = () => {
    const {
@@ -19,11 +21,14 @@ export const SignUp = () => {
       handleSubmit,
       formState: { errors },
    } = useForm({
-      resolver: yupResolver(schema),
+      resolver: yupResolver(signUpValidationSchema),
    })
 
-   const onSubmit = () => {}
+   const navigate = useNavigate()
 
+   const onSubmit = () => {
+      navigate(routes.WELCOME)
+   }
    // password state
 
    const [
@@ -47,28 +52,25 @@ export const SignUp = () => {
    }
    return (
       <MainContainer component="div">
-         <SignUpForm component="form">
+         <SignUpForm component="form" onSubmit={handleSubmit(onSubmit)}>
             <FormTitleAndCloseIcon>
                <FormTitle variant="h4">Регистрация</FormTitle>
                <StyledCloseModalIcon />
             </FormTitleAndCloseIcon>
             <Input
                placeholder="Имя"
-               type="text"
                {...register('name')}
                helperText={errors.name?.message}
                error={Boolean(errors.name)}
             />
             <Input
                placeholder="Фамилия"
-               type="text"
                {...register('surname')}
                helperText={errors.surname?.message}
                error={Boolean(errors.surname)}
             />
             <Input
                placeholder="Email"
-               type="email"
                {...register('email')}
                helperText={errors.email?.message}
                error={Boolean(errors.email)}
@@ -115,9 +117,6 @@ export const SignUp = () => {
             <SignInButton onClick={handleSubmit(onSubmit)} variant="primary">
                Создать аккаунт
             </SignInButton>
-            <ForgotPasswordLink variant="a" href="/">
-               Забыли пароль?
-            </ForgotPasswordLink>
             <OrContainer component="div">
                <Line component="div" />
                <p>или</p>
@@ -128,7 +127,8 @@ export const SignUp = () => {
                Продолжить с Google
             </ContinueWithGoogleButton>
             <SignUpLink>
-               Нет аккаунта? <Link href="/">Зарегистрироваться</Link>
+               Уже имеете существующий аккаунт?
+               <Link to={routes.LOGIN}> Войти</Link>
             </SignUpLink>
          </SignUpForm>
       </MainContainer>
@@ -168,13 +168,6 @@ const StyledCloseModalIcon = styled(CloseModalIcon)({
 const FormTitle = styled(Typography)({
    fontWeight: '500',
    fontSize: '1.5rem',
-})
-
-const ForgotPasswordLink = styled(Link)({
-   color: '#3772FF',
-   textDecoration: 'none',
-   textAlign: 'center',
-   display: 'block',
 })
 
 const SignUpLink = styled(Typography)({

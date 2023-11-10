@@ -1,17 +1,22 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Box, Link, Typography, styled } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Box, Typography, styled } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import {
    CloseModalIcon,
    ContinueWithGoogle,
-   EyeOpen,
    EyeClose,
+   EyeOpen,
 } from '../assets'
-import { Input } from './UI/input/Input'
-import { Checkbox } from './UI/Checkbox'
+import { login } from '../store/slices/authSlice'
+import { loginQuery } from '../store/slices/authThunk'
+import { USER_KEY, routes } from '../utils/constants'
 import { Button } from './UI/Button'
-import { schema } from '../utils/helpers/update-profile'
+import { Checkbox } from './UI/Checkbox'
+import { Input } from './UI/input/Input'
+import { signInValidationSchema } from '../utils/helpers/auth-validations'
 
 export const SignIn = () => {
    const {
@@ -19,10 +24,40 @@ export const SignIn = () => {
       handleSubmit,
       formState: { errors },
    } = useForm({
-      resolver: yupResolver(schema),
+      resolver: yupResolver(signInValidationSchema),
    })
 
-   const onSubmit = () => {}
+   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
+
+   const rememberMeCheckedHandler = () => {
+      setIsRememberMeChecked((prevState) => !prevState)
+   }
+   // console.log(register)
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+
+   const onSubmit = (values) => {
+      try {
+         dispatch(
+            loginQuery({
+               userData: values,
+               navigate,
+               login,
+               isRememberMeChecked,
+            })
+         )
+      } catch (error) {
+         return error
+      }
+      return 'hello'
+   }
+
+   useEffect(() => {
+      const user = JSON.parse(localStorage.getItem(USER_KEY))
+      if (user !== null) {
+         navigate(routes[user.role].path)
+      }
+   }, [dispatch])
 
    const [
       visibleAndInvisiblePasswordState,
@@ -36,13 +71,12 @@ export const SignIn = () => {
    }
    return (
       <MainContainer component="div">
-         <SignInForm component="div" onSubmit={handleSubmit(onSubmit)}>
+         <SignInForm onSubmit={handleSubmit(onSubmit)}>
             <FormTitleAndCloseIcon>
                <FormTitle variant="h4">Вход</FormTitle>
                <StyledCloseModalIcon />
             </FormTitleAndCloseIcon>
             <SignInInput
-               type="email"
                placeholder="Email"
                {...register('email')}
                helperText={errors.email?.message}
@@ -66,11 +100,14 @@ export const SignIn = () => {
                helperText={errors.password?.message}
                error={Boolean(errors.password)}
             />
-            <Checkbox labelTitle="Запомнить меня" />
-            <SignInButton onClick={handleSubmit(onSubmit)} variant="primary">
+            <StyledCheckbox
+               onChange={rememberMeCheckedHandler}
+               labelTitle="Запомнить меня"
+            />
+            <SignInButton variant="primary" type="submit">
                Войти
             </SignInButton>
-            <ForgotPasswordLink variant="a" href="/">
+            <ForgotPasswordLink to={routes.FORGOTPASSWORD}>
                Забыли пароль?
             </ForgotPasswordLink>
             <OrContainer component="div">
@@ -83,7 +120,8 @@ export const SignIn = () => {
                Продолжить с Google
             </ContinueWithGoogleButton>
             <SignUpLink>
-               Нет аккаунта? <Link href="/">Зарегистрироваться</Link>
+               Нет аккаунта?
+               <Link to={routes.REGISTRATION}> Зарегистрироваться</Link>
             </SignUpLink>
          </SignInForm>
       </MainContainer>
@@ -95,7 +133,7 @@ const MainContainer = styled(Box)({
    justifyContent: 'center',
 })
 
-const SignInForm = styled(Box)({
+const SignInForm = styled('form')({
    display: 'flex',
    flexDirection: 'column',
    gap: '1rem',
@@ -109,6 +147,10 @@ const SignInButton = styled(Button)({
    ':hover': {
       border: 'none',
    },
+})
+
+const StyledCheckbox = styled(Checkbox)({
+   width: '10.5rem',
 })
 
 const SignInInput = styled(Input)({

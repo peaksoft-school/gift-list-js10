@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { CloseModalIcon, EyeClose, EyeOpen } from '../assets'
 import { Input } from './UI/input/Input'
 import { Button } from './UI/Button'
-import { schema } from '../utils/helpers/update-profile'
+import { resetPasswordValidationSchema } from '../utils/helpers/reset-password-validation'
 
 export const ResetPassword = () => {
    const {
@@ -13,7 +13,7 @@ export const ResetPassword = () => {
       handleSubmit,
       formState: { errors },
    } = useForm({
-      resolver: yupResolver(schema),
+      resolver: yupResolver(resetPasswordValidationSchema),
    })
 
    const onSubmit = () => {}

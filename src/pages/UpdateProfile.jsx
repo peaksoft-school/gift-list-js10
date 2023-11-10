@@ -19,7 +19,7 @@ import {
    countries,
    shoeSizes,
 } from '../utils/constants/constants'
-import { schema } from '../utils/helpers/update-profile'
+import { updateProfileSchema } from '../utils/helpers/update-profile-validations'
 
 const sizesSelect = [
    {
@@ -51,7 +51,7 @@ export const UpdateProfile = ({ functionForGetValues }) => {
          email: 'Aizada@gmail.com',
          previewImg: { file: '', url: '' },
       },
-      resolver: yupResolver(schema),
+      resolver: yupResolver(updateProfileSchema),
    })
    const onSubmit = (values, previewImg) => {
       setValue('previewImg', previewImg)

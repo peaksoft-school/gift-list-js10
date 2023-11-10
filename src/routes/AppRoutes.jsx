@@ -5,14 +5,28 @@ import { routes } from '../utils/constants'
 import { PrivateRoutes } from './PrivateRoutes'
 import { AdminRoutes } from './admin/AdminRoutes'
 import { UserRoutes } from './user/UserRoutes'
-import { LoginPage } from '../pages/LoginPage'
+import { SignIn } from '../components/SignIn'
+import { SignUp } from '../components/SignUp'
+import { ForgotPassword } from '../components/ForgotPassword'
+import { ResetPassword } from '../components/ResetPassword'
 
 export const AppRoutes = () => {
    const { isAuth } = useSelector((state) => state.authLogin)
    return (
       <Routes>
-         <Route path="/" element={<Navigate to="/login" />} />
-         <Route path={routes.LOGIN} element={<LoginPage />} />
+         <Route path="/" element={<Navigate to="/login" replace />} />
+         <Route path={routes.LOGIN} element={<SignIn />} />
+         <Route path={routes.REGISTRATION} element={<SignUp />} />
+         <Route path={routes.FORGOTPASSWORD} element={<ForgotPassword />} />
+         <Route path={routes.RESETPASSWORD} element={<ResetPassword />} />
+         <Route
+            path={routes.WELCOME}
+            element={
+               <div>
+                  <h1>gotcha</h1>
+               </div>
+            }
+         />
          <Route
             path={routes.ADMIN.path}
             element={
