@@ -1,8 +1,8 @@
 import * as yup from 'yup'
 import YupPassword from 'yup-password'
+import { valueIsNotEmpty } from './update-profile-validations'
 
 YupPassword(yup)
-const valueIsNotEmpty = (value) => value?.trim()
 
 export const signUpValidationSchema = yup.object().shape({
    name: yup

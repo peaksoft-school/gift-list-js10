@@ -32,7 +32,7 @@ export const SignIn = () => {
    const rememberMeCheckedHandler = () => {
       setIsRememberMeChecked((prevState) => !prevState)
    }
-   // console.log(register)
+
    const dispatch = useDispatch()
    const navigate = useNavigate()
 

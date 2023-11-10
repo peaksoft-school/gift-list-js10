@@ -13,7 +13,7 @@ import { Button } from './UI/Button'
 import { Input } from './UI/input/Input'
 import { Checkbox } from './UI/Checkbox'
 import { signUpValidationSchema } from '../utils/helpers/auth-validations'
-import { routes } from '../utils/constants'
+import { USER_KEY, routes } from '../utils/constants'
 
 export const SignUp = () => {
    const {
@@ -26,30 +26,27 @@ export const SignUp = () => {
 
    const navigate = useNavigate()
 
-   const onSubmit = () => {
+   const onSubmit = (userData) => {
       navigate(routes.WELCOME)
+      localStorage.setItem(USER_KEY, JSON.stringify(userData))
    }
-   // password state
+   // passwords state
 
    const [
-      visibleAndInvisiblePasswordState,
-      setVisibleAndInvisiblePasswordState,
-   ] = useState(false)
+      visibleAndInvisiblePasswordsState,
+      setVisibleAndInvisiblePassworsdState,
+   ] = useState({ password: false, confirmPassword: false })
 
-   const changePasswordVisibleInvisibleStateHandler = () => {
-      setVisibleAndInvisiblePasswordState((prevState) => !prevState)
+   const changePasswordVisibleInvisibleStateHandler = (type) => {
+      setVisibleAndInvisiblePassworsdState((prevState) => {
+         const newState = {
+            ...prevState,
+            [type]: !prevState[type],
+         }
+         return newState
+      })
    }
 
-   // confirm password state
-
-   const [
-      visibleAndInvisibleConfirmPasswordState,
-      setVisibleAndInvisibleConfirmPasswordState,
-   ] = useState(false)
-
-   const changeConfirmVisibleInvisibleStateHandler = () => {
-      setVisibleAndInvisibleConfirmPasswordState((prevState) => !prevState)
-   }
    return (
       <MainContainer component="div">
          <SignUpForm component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -77,18 +74,30 @@ export const SignUp = () => {
             />
             <Input
                placeholder="password"
-               type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
+               type={
+                  visibleAndInvisiblePasswordsState.password
+                     ? 'text'
+                     : 'password'
+               }
                {...register('password')}
                helperText={errors.password?.message}
                error={Boolean(errors.password)}
                InputProps={{
-                  endAdornment: visibleAndInvisiblePasswordState ? (
+                  endAdornment: visibleAndInvisiblePasswordsState.password ? (
                      <StyledOpenedEye
-                        onClick={changePasswordVisibleInvisibleStateHandler}
+                        onClick={() =>
+                           changePasswordVisibleInvisibleStateHandler(
+                              'password'
+                           )
+                        }
                      />
                   ) : (
                      <StyledClosedEye
-                        onClick={changePasswordVisibleInvisibleStateHandler}
+                        onClick={() =>
+                           changePasswordVisibleInvisibleStateHandler(
+                              'password'
+                           )
+                        }
                      />
                   ),
                }}
@@ -96,21 +105,32 @@ export const SignUp = () => {
             <Input
                placeholder="Потдвердите пароль"
                type={
-                  visibleAndInvisibleConfirmPasswordState ? 'text' : 'password'
+                  visibleAndInvisiblePasswordsState.confirmPassword
+                     ? 'text'
+                     : 'password'
                }
                {...register('confirmPassword')}
                helperText={errors.confirmPassword?.message}
                error={Boolean(errors.confirmPassword)}
                InputProps={{
-                  endAdornment: visibleAndInvisibleConfirmPasswordState ? (
-                     <StyledOpenedEye
-                        onClick={changeConfirmVisibleInvisibleStateHandler}
-                     />
-                  ) : (
-                     <StyledClosedEye
-                        onClick={changeConfirmVisibleInvisibleStateHandler}
-                     />
-                  ),
+                  endAdornment:
+                     visibleAndInvisiblePasswordsState.confirmPassword ? (
+                        <StyledOpenedEye
+                           onClick={() =>
+                              changePasswordVisibleInvisibleStateHandler(
+                                 'confirmPassword'
+                              )
+                           }
+                        />
+                     ) : (
+                        <StyledClosedEye
+                           onClick={() =>
+                              changePasswordVisibleInvisibleStateHandler(
+                                 'confirmPassword'
+                              )
+                           }
+                        />
+                     ),
                }}
             />
             <Checkbox labelTitle="Подписаться на рассылку" />

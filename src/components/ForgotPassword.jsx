@@ -7,7 +7,6 @@ import { CloseModalIcon } from '../assets'
 import { Input } from './UI/input/Input'
 import { Button } from './UI/Button'
 import { forgotPasswordValidationSchema } from '../utils/helpers/forgot-password-validation'
-// import { routes } from '../utils/constants'
 
 export const ForgotPassword = () => {
    const {
@@ -25,8 +24,6 @@ export const ForgotPassword = () => {
    const isButtonClickedStateChangeHandler = () => {
       setIsButtonClickedState((prevState) => !prevState)
    }
-
-   // const navigate = useNavigate()
 
    const onSubmit = (userData) => {
       localStorage.setItem('email', userData.email)

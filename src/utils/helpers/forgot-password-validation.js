@@ -1,6 +1,5 @@
 import * as yup from 'yup'
-
-const valueIsNotEmpty = (value) => value?.trim()
+import { valueIsNotEmpty } from './update-profile-validations'
 
 export const forgotPasswordValidationSchema = yup.object().shape({
    email: yup
