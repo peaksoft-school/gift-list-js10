@@ -21,23 +21,18 @@ export const ResetPassword = () => {
    // password state
 
    const [
-      visibleAndInvisiblePasswordState,
-      setVisibleAndInvisiblePasswordState,
-   ] = useState(false)
+      visibleAndInvisiblePasswordsState,
+      setVisibleAndInvisiblePassworsdState,
+   ] = useState({ password: false, repeatPassword: false })
 
-   const changePasswordVisibleInvisibleStateHandler = () => {
-      setVisibleAndInvisiblePasswordState((prevState) => !prevState)
-   }
-
-   // repeat password state
-
-   const [
-      visibleAndInvisibleRepeatPasswordState,
-      setVisibleAndInvisibleRepeatPasswordState,
-   ] = useState(false)
-
-   const changeRepeatVisibleInvisibleStateHandler = () => {
-      setVisibleAndInvisibleRepeatPasswordState((prevState) => !prevState)
+   const changePasswordVisibleInvisibleStateHandler = (type) => {
+      setVisibleAndInvisiblePassworsdState((prevState) => {
+         const newState = {
+            ...prevState,
+            [type]: !prevState[type],
+         }
+         return newState
+      })
    }
    return (
       <MainContainer component="div">
@@ -48,13 +43,17 @@ export const ResetPassword = () => {
             </FormTitleAndCloseIcon>
 
             <Input
-               type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
+               type={
+                  visibleAndInvisiblePasswordsState.password
+                     ? 'text'
+                     : 'password'
+               }
                placeholder="Введите новый пароль"
                {...register('password')}
                helperText={errors.password?.message}
                error={Boolean(errors.password)}
                InputProps={{
-                  endAdornment: visibleAndInvisiblePasswordState ? (
+                  endAdornment: visibleAndInvisiblePasswordsState.password ? (
                      <StyledOpenedEye
                         onClick={changePasswordVisibleInvisibleStateHandler}
                      />
@@ -67,22 +66,25 @@ export const ResetPassword = () => {
             />
             <Input
                type={
-                  visibleAndInvisibleRepeatPasswordState ? 'text' : 'password'
+                  visibleAndInvisiblePasswordsState.repeatPassword
+                     ? 'text'
+                     : 'password'
                }
                placeholder="Повторите пароль"
                {...register('confirmPassword')}
                helperText={errors.confirmPassword?.message}
                error={Boolean(errors.confirmPassword)}
                InputProps={{
-                  endAdornment: visibleAndInvisibleRepeatPasswordState ? (
-                     <StyledOpenedEye
-                        onClick={changeRepeatVisibleInvisibleStateHandler}
-                     />
-                  ) : (
-                     <StyledClosedEye
-                        onClick={changeRepeatVisibleInvisibleStateHandler}
-                     />
-                  ),
+                  endAdornment:
+                     visibleAndInvisiblePasswordsState.repeatPassword ? (
+                        <StyledOpenedEye
+                           onClick={changePasswordVisibleInvisibleStateHandler}
+                        />
+                     ) : (
+                        <StyledClosedEye
+                           onClick={changePasswordVisibleInvisibleStateHandler}
+                        />
+                     ),
                }}
             />
             <StyledConfirmButton
