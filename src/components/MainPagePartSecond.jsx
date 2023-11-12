@@ -2,89 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material'
 import { MainContent } from './MainContent'
 import { MainDisIcon, MainLike, MainLoyIcon } from '../assets'
+import { MainPagePartThird } from '../pages/LandingPage/MainPagePartThird'
 
-const Container = styled('div')({
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'center',
-   textAlign: 'center',
-})
-
-const PartStage = styled('div')({
-   display: 'flex',
-   justifyContent: 'space-between',
-})
-
-const Block = styled('div')({
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'center',
-   padding: '4rem',
-})
-
-const Label = styled('p')({
-   fontSize: '0.875rem',
-})
-
-const Value = styled('p')({
-   color: '#8639b5',
-   fontSize: '2.675rem',
-})
-
-const BlockStage = styled('div')({
-   display: 'flex',
-   justifyContent: 'center',
-   padding: '1rem',
-   gap: '1.25rem',
-})
-
-const Feature = styled('div')({
-   textAlign: 'start',
-   display: 'flex',
-   alignItems: 'start',
-   gap: '0.313rem',
-   padding: '2rem',
-})
-
-const Icon = styled('img')({
-   marginLeft: '-2%',
-   display: 'block',
-})
-
-const Title = styled('b')({
-   fontSize: '1.5rem',
-   display: 'flex',
-   paddingBottom: '0.938rem',
-})
-
-const Description = styled('li')({
-   fontSize: '1rem',
-   marginTop: '1rem',
-   display: 'list-item',
-})
-const Conter = styled('div')({
-   padding: '0.5rem',
-})
-
-const Button = styled('button')({
-   width: '18.188rem',
-   padding: '0.625rem',
-   backgroundColor: '#8639b5',
-   color: 'white',
-   border: 'none',
-   borderRadius: '0.313rem',
-   margin: '7rem',
-   cursor: 'pointer',
-   ':hover': {
-      backgroundColor: '#6a1f99',
-   },
-})
-const UlContainer = styled('ul')({
-   display: 'flex',
-   flexDirection: 'column',
-})
-
-export function MainPage() {
+export function MainPagePartSecond() {
    const [userCount, setUserCount] = useState(0)
    const [giftCount, setGiftCount] = useState(0)
    const [donationCount, setDonationCount] = useState(0)
@@ -203,6 +123,88 @@ export function MainPage() {
          </BlockStage>
          <Button type="button">ЗАРЕГИСТРИРОВАТЬСЯ</Button>
          <MainContent />
+         <MainPagePartThird />
       </Container>
    )
 }
+
+const Container = styled('div')({
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   textAlign: 'center',
+})
+
+const PartStage = styled('div')({
+   display: 'flex',
+   justifyContent: 'space-between',
+})
+
+const Block = styled('div')({
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   padding: '4rem',
+})
+
+const Label = styled('p')({
+   fontSize: '0.875rem',
+})
+
+const Value = styled('p')({
+   color: '#8639b5',
+   fontSize: '2.675rem',
+})
+
+const BlockStage = styled('div')({
+   display: 'flex',
+   justifyContent: 'center',
+   padding: '1rem',
+   gap: '1.25rem',
+})
+
+const Feature = styled('div')({
+   textAlign: 'start',
+   display: 'flex',
+   alignItems: 'start',
+   gap: '0.313rem',
+   padding: '2rem',
+})
+
+const Icon = styled('img')({
+   marginLeft: '-2%',
+   display: 'block',
+})
+
+const Title = styled('b')({
+   fontSize: '1.5rem',
+   display: 'flex',
+   paddingBottom: '0.938rem',
+})
+
+const Description = styled('li')({
+   fontSize: '1rem',
+   marginTop: '1rem',
+   display: 'list-item',
+})
+const Conter = styled('div')({
+   padding: '0.5rem',
+})
+
+const Button = styled('button')({
+   width: '18.188rem',
+   padding: '0.625rem',
+   backgroundColor: '#8639b5',
+   color: 'white',
+   border: 'none',
+   borderRadius: '0.313rem',
+   margin: '7rem',
+   cursor: 'pointer',
+   ':hover': {
+      backgroundColor: '#6a1f99',
+   },
+})
+const UlContainer = styled('ul')({
+   display: 'flex',
+   flexDirection: 'column',
+})
