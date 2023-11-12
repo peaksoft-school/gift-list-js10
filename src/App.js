@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AppRoutes } from './routes/AppRoutes'
 import { USER_KEY } from './utils/constants'
-import { login } from './store/slices/auth/authSlice'
+import { login } from './store/auth/authSlice'
 
 export function App() {
    const dispatch = useDispatch()

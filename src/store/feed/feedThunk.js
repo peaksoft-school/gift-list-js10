@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 // eslint-disable-next-line import/no-cycle
-import { axiosInstance } from '../../../config/axiosInstance'
+import { axiosInstance } from '../../config/axiosInstance'
 
 export const getFeedsThunk = createAsyncThunk(
    '/feed/getFeeds',

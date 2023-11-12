@@ -20,21 +20,20 @@ import { CardDescription } from './CardDescription'
 export const Card = ({
    variant = 'primary',
    list = false,
-   card,
    meetballsOptions,
    handleChange,
    onClick,
+   ownerName,
+   ownerImage,
+   holiday,
+   cardName,
+   cardImage,
+   bookerImage,
+   date,
+   newOrOld,
 }) => {
-   const {
-      owner: { name: ownerName, image: ownerImage },
-      status,
-      holiday,
-      name: cardName,
-      image: cardImage,
-      newOrOld,
-      booker: { name: bookerName, image: bookerImage },
-   } = card
    const listClassName = list && 'list'
+   const status = bookerImage ? 'Забронирован' : 'В ожидании'
    return (
       <StyledCard className={listClassName} onClick={onClick}>
          {listClassName && (
@@ -96,19 +95,19 @@ export const Card = ({
                      list && variant === 'secondary' && 'listWithoutHeader'
                   }`}
                >
-                  <Date>{card.date}</Date>
+                  <Date>{date}</Date>
                   {variant !== 'tertiary' &&
                      variant !== 'quaternary' &&
                      variant !== 'withStatusTop' && (
                         <StyledCardActionsPar1>
                            {!bookerImage && status === 'Забронирован' && (
                               <StyledAvatarIcon aria-label="recipe">
-                                 {bookerName.charAt(0)}
+                                 Н
                               </StyledAvatarIcon>
                            )}
                            {bookerImage && (
                               <StyledAvatarIcon
-                                 alt={bookerName}
+                                 alt="Фотография забронировавшего пользователя."
                                  src={bookerImage}
                               />
                            )}
@@ -180,6 +179,7 @@ const StyledCard = styled(MUICard)(() => {
          width: '33.3125rem',
          display: 'flex',
          gap: '7px',
+         height: '10rem',
          img: {
             minWidth: '30%',
             borderRadius: '7px',

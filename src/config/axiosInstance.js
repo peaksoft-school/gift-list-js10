@@ -1,7 +1,7 @@
 import axios from 'axios'
 // eslint-disable-next-line import/no-cycle
 import { store } from '../store/index'
-import * as authSlice from '../store/slices/auth/authSlice'
+import * as authSlice from '../store/auth/authSlice'
 
 const BASE_URL = 'http://giftlist-b10.peaksoftprojects.com/api'
 
@@ -22,7 +22,7 @@ axiosInstance.interceptors.request.use((config) => {
    const updateConfig = { ...config }
    // const { token } = store.getState().authLogin
    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1udXJhanltOUBnbWFpbC5jb20iLCJpYXQiOjE2OTk2MjkwNjYsImV4cCI6MTY5OTc2MTA2Nn0.Jkgyqc2faXwwhCDpm9br7PCUI6URSF1ysgLFjE_L7PM'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1udXJhanltOUBnbWFpbC5jb20iLCJpYXQiOjE2OTk3OTMyNjQsImV4cCI6MTY5OTkyNTI2NH0.dqlEolojiMazSRiCLyiI_CVmNnfKsA4YXX2EIiSOk0U'
    if (token) {
       updateConfig.headers.Authorization = `Bearer ${token}`
    }

@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 // eslint-disable-next-line import/no-cycle
-import { feedSlice } from './slices/feed/feedSlice'
-import { authSlice } from './slices/auth/authSlice'
+import { feedSlice } from './feed/feedSlice'
+import { authSlice } from './auth/authSlice'
 
 export const store = configureStore({
    reducer: {

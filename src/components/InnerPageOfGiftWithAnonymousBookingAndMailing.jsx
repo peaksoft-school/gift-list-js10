@@ -3,25 +3,19 @@ import React from 'react'
 import { Button } from './UI/Button'
 import { Checkbox } from './UI/Checkbox'
 
-const customFields = {
-   description: `Дисплей Super Retina XDR с технологией ProMotion и быстрым, плавным откликом. Грандиозный апгрейд системы камер, открывающий совершенно новые возможности. Исключительная прочность. A15 Bionic — самый быстрый чип для iPhone. И впечатляющее время работы без подзарядки. Всё это Pro.`,
-   holidayDate: '12.04.222',
-}
 // variants: mailing, ''
 
 export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
-   data,
    variant = '',
+   ownerName,
+   ownerImage,
+   holiday,
+   cardName,
+   cardImage,
+   bookerImage,
+   description,
+   holidayDate,
 }) => {
-   const {
-      owner: { name: ownerName, image: ownerImage },
-      status,
-      holiday,
-      name: cardName,
-      image: cardImage,
-      booker: { name: bookerName, image: bookerImage },
-   } = data
-   const { description, holidayDate } = customFields
    return (
       <ContentWrapper>
          <MainContentWrapper>
@@ -33,9 +27,12 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                         <Avatar src={ownerImage} alt={ownerName} />
                         <StyledOwnerName>{ownerName}</StyledOwnerName>
                      </UserContainer>
-                     {status !== 'В ожидании' ? (
+                     {bookerImage ? (
                         <UserContainer>
-                           <Avatar src={bookerImage} alt={bookerName} />
+                           <Avatar
+                              src={bookerImage}
+                              alt="Фотография забронировавшего пользователя"
+                           />
                            <StyledStatus>Забронировано</StyledStatus>
                         </UserContainer>
                      ) : (
@@ -100,7 +97,8 @@ const StyledHolidayDataTitle = styled('p')({
 
 const HolidayInfoContainer = styled('div')({
    display: 'flex',
-   justifyContent: 'space-between',
+   width: 'fit-content',
+   gap: '70px',
 })
 
 const StyledStatus = styled('p')({

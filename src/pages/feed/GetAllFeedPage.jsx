@@ -1,120 +1,32 @@
 import { Paper, styled } from '@mui/material'
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
-import { getFeedsThunk } from '../../store/slices/feed/feedThunk'
+import { nameEvent } from '../../events/nameEvent'
 import { meetballsFeedOptions } from '../../utils/constants/meatballs-options'
+import { getFeedsThunk } from '../../store/feed/feedThunk'
 
-export const cards = [
-   {
-      id: 1,
-      owner: {
-         name: 'John Doe',
-         image: 'https://i1.sndcdn.com/avatars-000812665324-tbg3oh-t500x500.jpg',
-      },
-      holiday: 'День рождения',
-      name: 'Письма Элджертона',
-      image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
-      status: 'Забронирован',
-      date: '12.04.22',
-      newOrOld: 'Б/У',
-      booker: {
-         name: 'Anybody',
-         image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
-      },
-   },
-   {
-      id: 2,
-      owner: {
-         name: 'John Doe',
-         image: 'https://i1.sndcdn.com/avatars-000812665324-tbg3oh-t500x500.jpg',
-      },
-      holiday: 'День рождения',
-      name: 'Письма Элджертона',
-      image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
-      status: 'Забронирован',
-      date: '12.04.22',
-      newOrOld: 'Б/У',
-      booker: {
-         name: 'Anybody',
-         image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
-      },
-   },
-   {
-      id: 3,
-      owner: {
-         name: 'John Doe',
-         image: 'https://i1.sndcdn.com/avatars-000812665324-tbg3oh-t500x500.jpg',
-      },
-      holiday: 'День рождения',
-      name: 'Письма Элджертона',
-      image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
-      status: 'Забронирован',
-      date: '12.04.22',
-      newOrOld: 'Б/У',
-      booker: {
-         name: 'Anybody',
-         image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
-      },
-   },
-   {
-      id: 4,
-      owner: {
-         name: 'John Doe',
-         image: 'https://i1.sndcdn.com/avatars-000812665324-tbg3oh-t500x500.jpg',
-      },
-      holiday: 'День рождения',
-      name: 'Письма Элджертона',
-      image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
-      status: 'Забронирован',
-      date: '12.04.22',
-      newOrOld: 'Б/У',
-      booker: {
-         name: 'Anybody',
-         image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
-      },
-   },
-   {
-      id: 5,
-      owner: {
-         name: 'John Doe',
-         image: 'https://i1.sndcdn.com/avatars-000812665324-tbg3oh-t500x500.jpg',
-      },
-      holiday: 'День рождения',
-      name: 'Письма Элджертона',
-      image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
-      status: 'Забронирован',
-      date: '12.04.22',
-      newOrOld: 'Б/У',
-      booker: {
-         name: 'Anybody',
-         image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
-      },
-   },
-   {
-      id: 6,
-      owner: {
-         name: 'John Doe',
-         image: 'https://i1.sndcdn.com/avatars-000812665324-tbg3oh-t500x500.jpg',
-      },
-      holiday: 'День рождения',
-      name: 'Письма Элджертона',
-      image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
-      status: 'Забронирован',
-      date: '12.04.22',
-      newOrOld: 'Б/У',
-      booker: {
-         name: 'Anybody',
-         image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
-      },
-   },
-]
+const isWishBooked = (book, myId) => {
+   if (!book) {
+      return meetballsFeedOptions.isWishFree
+   }
+   if (book.userReservoirId === myId) {
+      return meetballsFeedOptions.iBookThisWish
+   }
+   return meetballsFeedOptions.strangersBook
+}
 
 export const GetAllFeedPage = ({ isList }) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const getById = (id) => {
+   const {
+      feedSlice: { feeds },
+      authLogin: { id },
+   } = useSelector((state) => state)
+
+   const getById = (id, wishName) => {
+      nameEvent(wishName)
       navigate(`${id}`)
    }
 
@@ -123,13 +35,19 @@ export const GetAllFeedPage = ({ isList }) => {
    }, [])
    return (
       <StyledPaper>
-         {cards.map((card) => (
+         {feeds.map((feed) => (
             <Card
-               onClick={() => getById(card.id)}
-               key={card.id}
+               onClick={() => getById(feed.wish.wishId, feed.wish.wishName)}
+               key={feed.wish?.wishId}
                list={isList}
-               card={card}
-               meetballsOptions={meetballsFeedOptions.isWishFree}
+               bookerImage={feed?.bookedUser?.image}
+               cardImage={feed.wish?.image}
+               cardName={feed.wish?.wishName}
+               date={feed.wish?.wishDate}
+               holiday={feed.holiday?.nameHoliday}
+               ownerImage={feed.ownerUser.image}
+               ownerName={feed.ownerUser.fullName}
+               meetballsOptions={isWishBooked(feed.bookedUser, id)}
             />
          ))}
       </StyledPaper>

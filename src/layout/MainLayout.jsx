@@ -6,12 +6,7 @@ import { CardIcon, ListIcon } from '../assets'
 import { Header } from '../components/Header'
 import { Button } from '../components/UI/Button'
 import { Sidebar } from '../components/UI/Sidebar'
-import { getWishById } from '../pages/feed/GetWishFromFeedById'
 import { routes } from '../utils/constants'
-
-const routeMethods = {
-   feed: getWishById,
-}
 
 const isNumber = (textForTest) => /^\d+$/.test(textForTest)
 
@@ -32,6 +27,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    })
    const [inner, setInner] = useState(false)
    const path = useParams()
+   const [byIdName, setByIdName] = useState('')
 
    useEffect(() => {
       if (isNumber(getLastElementOfPath(path['*']))) {
@@ -40,6 +36,18 @@ export const MainLayout = ({ role, isList, toggleList }) => {
          setInner(false)
       }
    }, [path])
+
+   const handleDataUpdated = (event) => {
+      setByIdName(event.detail)
+   }
+
+   useEffect(() => {
+      window.addEventListener('name', handleDataUpdated)
+
+      return () => {
+         window.removeEventListener('name', handleDataUpdated)
+      }
+   }, [])
 
    return (
       <>
@@ -59,10 +67,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                            >
                               {isNumber(getLastElementOfPath(match.pathname))
                                  ? isNumber(match.pathname.split('/').pop()) &&
-                                   routeMethods[
-                                      match.pathname.split('/').slice(-2, -1)[0]
-                                   ](+getLastElementOfPath(match.pathname))
-                                      ?.name
+                                   byIdName
                                  : breadcrumb}
                            </StyledNavLink>
                            {index !== breadcrumbs.length - 1 && ' / '}

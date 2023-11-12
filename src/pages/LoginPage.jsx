@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
-import { login } from '../store/slices/auth/authSlice'
-import { loginQuery } from '../store/slices/auth/authThunk'
 import { USER_KEY, routes } from '../utils/constants'
+import { loginQuery } from '../store/auth/authThunk'
+import { login } from '../store/auth/authSlice'
 
 export const LoginPage = () => {
    const [userInfo, setUserInfo] = useState({ email: '', password: '' })
