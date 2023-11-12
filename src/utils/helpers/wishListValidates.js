@@ -7,7 +7,7 @@ export const wishListSchema = yup.object().shape({
       .string()
       .required('Поле не должно быть пустым!')
       .min(20, 'Введите не менее 20 символов'),
-
+   holidayDate: yup.date().required('invalid date'),
    holiday: yup.string().required('Выберите один из вариантов'),
 })
 

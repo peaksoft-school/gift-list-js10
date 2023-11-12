@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, styled } from '@mui/material'
 import { DatePicker as MUIDatePicker, PickersLayout } from '@mui/x-date-pickers'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useController } from 'react-hook-form'
 import { DatePickerIcon } from '../assets'
@@ -51,7 +51,9 @@ export const DatePicker = ({
    isBirthdate = false,
    name,
    control,
+   dateChangeHandle,
    ref,
+
    ...rest
 }) => {
    const { field } = useController({
@@ -59,6 +61,11 @@ export const DatePicker = ({
       name,
       defaultValue: null,
    })
+
+   useEffect(() => {
+      dateChangeHandle(field.value)
+   }, [field.onChange, field.value])
+
    return (
       <FormControl>
          <FormLabel error={Boolean(errorMessage)}>{label}</FormLabel>

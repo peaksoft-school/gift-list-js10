@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+// import { validateDate } from '@mui/x-date-pickers/internals'
 import { DatePicker } from '../../components/DatePicker'
 import { Button } from '../../components/UI/Button'
 import { SelectComponent } from '../../components/UI/SelectComponent'
@@ -56,12 +57,11 @@ export const WishListForm = ({ onClose, variant }) => {
    const {
       register,
       handleSubmit,
-      formState: { errors },
+      formState: { errors, isSubmitSuccessful },
       reset,
       control,
       getValues,
       setValue,
-      setError,
    } = useForm({
       defaultValues: {
          ...initialValues,
@@ -72,36 +72,79 @@ export const WishListForm = ({ onClose, variant }) => {
          : yupResolver(variantSchema),
    })
 
-   console.log('errors => ', errors)
+   useEffect(() => {
+      if (isSubmitSuccessful) {
+         reset()
+         setPreview(null)
+      }
+   }, [isSubmitSuccessful, reset])
+
+   useEffect(() => {
+      const { holidayDate } = getValues()
+      if (!holidayDate) {
+         setDatePickerError('Укажите дату праздника!')
+      }
+
+      return setDatePickerError(null)
+   }, [DatePicker])
 
    const onSubmit = (data) => {
       console.log(data, preview)
       reset()
       setPreview(null)
+      setValues(variant ? initialValues[0] : {})
    }
 
-   useEffect(() => {
-      const { holidayDate } = getValues()
-      if (!holidayDate) {
-         setDatePickerError('Укажите дату')
-      }
-      return setDatePickerError(null)
-   }, [DatePicker])
+   // const onError = (error) => {
+   //    if (error === 'invalidDate') {
+   //       setDatePickerError('Неверный формат даты')
+   //    } else if (error === 'maxDate') {
+   //       setDatePickerError('Выберите дату по раньше')
+   //    } else if (error === 'minDate') {
+   //       setDatePickerError('Слишком ранняя дата.')
+   //    }
+   //    console.log(error)
+   // }
 
-   const onError = (error) => {
-      if (error === 'invalidDate') {
+   const handleChange = (name, value) => {
+      setValue(name, value)
+      setValues((prev) => ({ ...prev, [name]: value }))
+   }
+
+   // const dateChangeHandle = (value) => {
+   //    if (value) {
+   //       setDatePickerError('')
+   //    }
+
+   //    const date = regex.test(value)
+   //    return setDatePickerError(date)
+   //    // else setDatePickerError('')
+   //    //    //  else if (error === 'invalidDate') {
+   //    //    //    setDatePickerError('Неверный формат даты')
+   //    //    // } else if (error === 'maxDate') {
+   //    //    //    setDatePickerError('Выберите дату по раньше')
+   //    //    // }
+   // }
+
+   const regex = /^(0[1-9]|[1-2][0-9]|3[01])$/
+
+   const dateChangeHandle = (value) => {
+      const isValidDate = regex.test(value)
+      console.log(isValidDate)
+      if (isValidDate) {
+         setDatePickerError(null)
+      } else {
          setDatePickerError('Неверный формат даты')
-      } else setDatePickerError(error)
+      }
    }
 
-   console.log(setError)
-
-   const handleChange = (e) => {
-      // if (!e.target.value) return setError([e.target.name])
-      setValue(e.target.name, e.target.value)
-      setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-      return ''
-   }
+   // const dateChangeHandle = (value) => {
+   //    if (value === validateDate) {
+   //       setDatePickerError(null)
+   //    } else {
+   //       setDatePickerError('Неверный формат даты')
+   //    }
+   // }
 
    return (
       <Container>
@@ -143,7 +186,7 @@ export const WishListForm = ({ onClose, variant }) => {
                               control={control}
                               error={Boolean(errors.holiday)}
                               helperText={errors.holiday?.message}
-                              onChange={handleChange}
+                              handleChange={handleChange}
                               value={values[labelName] || ''}
                            />
                         )
@@ -155,7 +198,7 @@ export const WishListForm = ({ onClose, variant }) => {
                         label="Дата праздника"
                         name="holidayDate"
                         errorMessage={datePickerError}
-                        onError={onError}
+                        dateChangeHandle={dateChangeHandle}
                      />
                   </>
                ) : (
@@ -175,7 +218,7 @@ export const WishListForm = ({ onClose, variant }) => {
                               control={control}
                               error={Boolean(errors[labelName])}
                               helperText={errors[labelName]?.message}
-                              onChange={handleChange}
+                              handleChange={handleChange}
                               value={values[labelName]}
                            />
                         )
@@ -197,7 +240,7 @@ export const WishListForm = ({ onClose, variant }) => {
                   onClick={() => {
                      const { holidayDate } = getValues()
                      if (!holidayDate) {
-                        setDatePickerError('Укажите дату')
+                        setDatePickerError('Укажите дату праздника!')
                      } else {
                         setDatePickerError(null)
                      }

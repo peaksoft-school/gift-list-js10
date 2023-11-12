@@ -6,7 +6,8 @@ import {
    FormLabel,
    FormHelperText,
 } from '@mui/material'
-import React from 'react'
+import { useController } from 'react-hook-form'
+import React, { useEffect } from 'react'
 import { Button } from './Button'
 import { ArrowIcon } from '../../assets'
 
@@ -17,21 +18,26 @@ export const SelectComponent = ({
    placeholder,
    onClick,
    name,
+   control,
    error,
    helperText,
-   onChange,
-   value,
+   handleChange,
 }) => {
-   // const {
-   //    field: { onChange, value },
-   // } = useController({
-   //    control,
-   //    name,
-   //    defaultValue: '',
-   // })
+   const {
+      field: { onChange, value },
+   } = useController({
+      control,
+      name,
+      defaultValue: '',
+   })
+
+   useEffect(() => {
+      handleChange(name, value)
+   }, [onChange, value])
+
    return (
       <FormControl fullWidth>
-         <FormLabel error={error}>{label}</FormLabel>
+         <FormLabel error={Boolean(error)}>{label}</FormLabel>
 
          <StyledSelect
             labelId="demo-simple-select-label"
@@ -41,7 +47,7 @@ export const SelectComponent = ({
             displayEmpty
             name={name}
             value={value}
-            error={error}
+            error={Boolean(error)}
             renderValue={(selected) => {
                return selected.length === 0 ? (
                   <StyledPlaceholder error={error}>
