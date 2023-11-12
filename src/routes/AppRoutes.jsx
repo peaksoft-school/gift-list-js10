@@ -20,7 +20,7 @@ export const AppRoutes = () => {
             }
          />
          <Route
-            path={routes.USER.path}
+            path={`${routes.USER.path}/*`}
             element={
                <PrivateRoutes Component={<UserRoutes />} isAuth={isAuth} />
             }

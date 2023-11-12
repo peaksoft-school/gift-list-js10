@@ -7,6 +7,14 @@ export const routes = {
    },
    USER: {
       path: '/user',
+      wishFromFeedById: {
+         path: 'feed/:wishId',
+         breadcrumb: '',
+      },
+      feed: {
+         path: 'feed',
+         breadcrumb: 'Лента',
+      },
    },
 }
 

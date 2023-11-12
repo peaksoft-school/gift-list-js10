@@ -1,20 +1,52 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { logout } from '../../store/slices/authSlice'
-import { USER_KEY } from '../../utils/constants'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { MainLayout } from '../../layout/MainLayout'
+import { GetAllFeedPage } from '../../pages/feed/GetAllFeedPage'
+import { GetWishFromFeedById } from '../../pages/feed/GetWishFromFeedById'
+import { routes } from '../../utils/constants'
+import { PrivateRoutes } from '../PrivateRoutes'
 
 export const UserRoutes = () => {
-   const dispatch = useDispatch()
-   const handleLogout = () => {
-      dispatch(logout())
-      localStorage.removeItem(USER_KEY)
+   const { isAuth, role } = useSelector((state) => state.authLogin)
+   const [isList, setIsList] = useState(false)
+   const toggleList = () => {
+      setIsList((prev) => !prev)
    }
+   const { feed, wishFromFeedById } = routes[role]
    return (
-      <div>
-         UserRoutes
-         <button type="button" onClick={handleLogout}>
-            logout
-         </button>
-      </div>
+      <Routes>
+         <Route
+            path="/"
+            element={
+               <MainLayout
+                  role={role}
+                  isList={isList}
+                  toggleList={toggleList}
+               />
+            }
+         >
+            <Route index element={<Navigate to={feed.path} />} />
+            <Route
+               path={feed.path}
+               element={
+                  <PrivateRoutes
+                     Component={
+                        <GetAllFeedPage
+                           isList={isList}
+                           toggleList={toggleList}
+                        />
+                     }
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={wishFromFeedById.path}
+               element={<GetWishFromFeedById />}
+            />
+         </Route>
+      </Routes>
    )
 }

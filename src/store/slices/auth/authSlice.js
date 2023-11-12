@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { routes } from '../../utils/constants'
+import { USER_KEY, routes } from '../../../utils/constants'
 
 const initialState = {
    isAuth: null,
@@ -23,6 +23,7 @@ export const authSlice = createSlice({
       },
       logout: () => {
          const newState = initialState
+         localStorage.removeItem(USER_KEY)
          return newState
       },
    },

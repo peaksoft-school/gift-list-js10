@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { USER_KEY, users } from '../../utils/constants'
+import { USER_KEY, users } from '../../../utils/constants'
 
 const authLogin = ({ email, password }) => {
    const currentUser = users.find(
