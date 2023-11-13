@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AppRoutes } from './routes/AppRoutes'
-import { USER_KEY } from './utils/constants'
 import { login } from './store/slices/authSlice'
+import { USER_KEY } from './utils/constants'
+
 export function App() {
    const dispatch = useDispatch()
    const navigate = useNavigate()

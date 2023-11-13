@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Box, styled } from '@mui/material'
 import React from 'react'
 

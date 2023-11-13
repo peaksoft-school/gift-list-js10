@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import Macbookpro from '../../assets/images/Device - Macbook Pro.png'
 import { OurTeacher } from './OurTeacher'
-
+import { MainPageFooter } from './MainPageFooter'
 import KatyaDesigner from '../../assets/images/Katya_designer.png'
 import MarinaMarketer from '../../assets/images/Marina_marketer.png'
 import SavaPRmanager from '../../assets/images/Sava_PR_manager.png'
@@ -85,11 +85,11 @@ const teachers = [
    },
 ]
 
-export const AboutProject = () => {
+export const MainPagePartThird = () => {
    return (
       <AboutProjectPart component="div">
          <AboutProjectInfo component="div">
-            <AboutProjectMainTitleAndDiscripton component="div">
+            <div>
                <AboutProjectMainTitle variant="h1">
                   О проекте
                </AboutProjectMainTitle>
@@ -109,7 +109,7 @@ export const AboutProject = () => {
                      обладателем.
                   </AboutProjectDescriptionText>
                </AboutProjectDescription>
-            </AboutProjectMainTitleAndDiscripton>
+            </div>
             <AboutProjectImageContainer component="div">
                <img src={Macbookpro} alt="Macbookpro" />
             </AboutProjectImageContainer>
@@ -119,33 +119,37 @@ export const AboutProject = () => {
                <OurTeacher key={teacher.id} teacher={teacher} />
             ))}
          </Teachers>
+         <MainPageFooter />
       </AboutProjectPart>
    )
 }
 
 const AboutProjectPart = styled(Box)`
-   margin: 0 auto;
-   width: 73rem;
+   width: 100%;
    font-family: 'Inter';
    font-weight: 500;
+   padding-top: 150px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 `
 
 const AboutProjectInfo = styled(Box)`
-   width: 100%;
+   width: 80%;
    display: flex;
    gap: 11rem;
 `
 
-const AboutProjectMainTitleAndDiscripton = styled(Box)``
-
 const AboutProjectMainTitle = styled(Typography)`
    font-size: 3rem;
    margin-bottom: 2rem;
+   display: flex;
 `
 
 const AboutProjectDescriptionText = styled(Typography)`
    font-size: 1rem;
    font-weight: 400;
+   text-align: start;
 `
 
 const AboutProjectDescription = styled(Box)`
@@ -159,7 +163,7 @@ const AboutProjectImageContainer = styled(Box)`
 `
 
 const Teachers = styled(Box)`
-   width: 100%;
+   width: 80%;
    display: flex;
    gap: 1.88rem;
    margin-top: 7.5rem;
