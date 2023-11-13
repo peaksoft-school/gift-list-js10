@@ -51,7 +51,7 @@ export const DatePicker = ({
    isBirthdate = false,
    name,
    control,
-   dateChangeHandle,
+   datePickerHandleChange,
    ref,
 
    ...rest
@@ -63,7 +63,7 @@ export const DatePicker = ({
    })
 
    useEffect(() => {
-      dateChangeHandle(field.value)
+      datePickerHandleChange(field.value)
    }, [field.onChange, field.value])
 
    return (

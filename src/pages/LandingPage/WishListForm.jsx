@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-// import { validateDate } from '@mui/x-date-pickers/internals'
 import { DatePicker } from '../../components/DatePicker'
 import { Button } from '../../components/UI/Button'
 import { SelectComponent } from '../../components/UI/SelectComponent'
@@ -11,7 +10,7 @@ import { Input } from '../../components/UI/input/Input'
 import { UploadImage } from '../../components/UploadImage'
 import {
    category,
-   selectOptions,
+   holidayOptions,
    stateOptions,
    subcategories,
 } from '../../utils/constants/options'
@@ -37,7 +36,7 @@ const arrayState = [
       name: 'Подкатегория',
       labelName: 'subCategory',
       placeholder: 'Выберите подкатегорию',
-      options: [],
+      options: subcategories,
    },
 ]
 
@@ -50,7 +49,7 @@ const initialValues = [
 ]
 
 export const WishListForm = ({ onClose, variant }) => {
-   const [datePickerError, setDatePickerError] = useState(null)
+   const [datePickerError, setDatePickerError] = useState('')
    const [preview, setPreview] = useState({ file: '' })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
 
@@ -81,6 +80,7 @@ export const WishListForm = ({ onClose, variant }) => {
 
    useEffect(() => {
       const { holidayDate } = getValues()
+
       if (!holidayDate) {
          setDatePickerError('Укажите дату праздника!')
       }
@@ -95,56 +95,21 @@ export const WishListForm = ({ onClose, variant }) => {
       setValues(variant ? initialValues[0] : {})
    }
 
-   // const onError = (error) => {
-   //    if (error === 'invalidDate') {
-   //       setDatePickerError('Неверный формат даты')
-   //    } else if (error === 'maxDate') {
-   //       setDatePickerError('Выберите дату по раньше')
-   //    } else if (error === 'minDate') {
-   //       setDatePickerError('Слишком ранняя дата.')
-   //    }
-   //    console.log(error)
-   // }
-
    const handleChange = (name, value) => {
       setValue(name, value)
       setValues((prev) => ({ ...prev, [name]: value }))
    }
 
-   // const dateChangeHandle = (value) => {
-   //    if (value) {
-   //       setDatePickerError('')
-   //    }
+   const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
 
-   //    const date = regex.test(value)
-   //    return setDatePickerError(date)
-   //    // else setDatePickerError('')
-   //    //    //  else if (error === 'invalidDate') {
-   //    //    //    setDatePickerError('Неверный формат даты')
-   //    //    // } else if (error === 'maxDate') {
-   //    //    //    setDatePickerError('Выберите дату по раньше')
-   //    //    // }
-   // }
-
-   const regex = /^(0[1-9]|[1-2][0-9]|3[01])$/
-
-   const dateChangeHandle = (value) => {
+   const datePickerHandleChange = (value) => {
       const isValidDate = regex.test(value)
-      console.log(isValidDate)
       if (isValidDate) {
-         setDatePickerError(null)
+         setDatePickerError('')
       } else {
          setDatePickerError('Неверный формат даты')
       }
    }
-
-   // const dateChangeHandle = (value) => {
-   //    if (value === validateDate) {
-   //       setDatePickerError(null)
-   //    } else {
-   //       setDatePickerError('Неверный формат даты')
-   //    }
-   // }
 
    return (
       <Container>
@@ -174,7 +139,7 @@ export const WishListForm = ({ onClose, variant }) => {
                         error={Boolean(errors.link)}
                         helperText={errors.link?.message}
                      />
-                     {selectOptions.map(
+                     {holidayOptions.map(
                         ({ name, placeholder, labelName, options }) => (
                            <SelectComponent
                               key={name}
@@ -198,7 +163,7 @@ export const WishListForm = ({ onClose, variant }) => {
                         label="Дата праздника"
                         name="holidayDate"
                         errorMessage={datePickerError}
-                        dateChangeHandle={dateChangeHandle}
+                        datePickerHandleChange={datePickerHandleChange}
                      />
                   </>
                ) : (

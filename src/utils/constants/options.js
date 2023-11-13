@@ -1,9 +1,9 @@
-const selectOptions = [
+const holidayOptions = [
    {
       name: 'Праздник',
       placeholder: 'Выберите праздник',
       labelName: 'holiday',
-      options: ['День матери', 'День ', 'Новый год', 'Нооруз'],
+      options: ['День матери', 'День рождения ', 'Новый год', 'Нооруз'],
    },
 ]
 
@@ -40,4 +40,4 @@ const subcategories = {
    Транспорт: ['Грузовой транспорт', 'Пассажирский транспорт'],
 }
 
-export { selectOptions, stateOptions, category, subcategories }
+export { holidayOptions, stateOptions, category, subcategories }

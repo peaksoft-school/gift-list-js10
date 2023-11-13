@@ -1,11 +1,9 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-// import { AppRoutes } from './routes/AppRoutes'
+import { AppRoutes } from './routes/AppRoutes'
 import { USER_KEY } from './utils/constants'
 import { login } from './store/slices/authSlice'
-import { WishListForm } from './pages/LandingPage/WishListForm'
-
 export function App() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
@@ -19,8 +17,7 @@ export function App() {
    }, [])
    return (
       <div>
-         {/* <AppRoutes /> */}
-         <WishListForm />
+         <AppRoutes />
       </div>
    )
 }
