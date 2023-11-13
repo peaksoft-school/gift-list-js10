@@ -60,9 +60,9 @@ export const SelectComponent = ({
          >
             {data.map((title) => {
                return (
-                  <SelectContainer2 key={title} value={title}>
+                  <SelectContainer key={title} value={title}>
                      {title}
-                  </SelectContainer2>
+                  </SelectContainer>
                )
             })}
 
@@ -75,7 +75,7 @@ export const SelectComponent = ({
    )
 }
 
-const SelectContainer2 = styled(MenuItem)({
+const SelectContainer = styled(MenuItem)({
    width: '100%',
    display: 'flex',
    flexDirection: 'column',

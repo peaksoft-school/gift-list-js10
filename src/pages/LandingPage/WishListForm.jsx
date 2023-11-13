@@ -150,7 +150,7 @@ export const WishListForm = ({ onClose, variant, onSubmit }) => {
             })}
          >
             <h3>
-               {!variant ? 'Добавление желаемого подарка' : 'Добавление вещи'}
+               {variant ? 'Добавление вещи' : 'Добавление желаемого подарка'}
             </h3>
 
             <InputContainer>
