@@ -19,6 +19,7 @@ import {
    variantSchema,
    wishListSchema,
 } from '../../utils/helpers/wishListValidates'
+import { isValidDateFormat } from '../../utils/helpers/constants'
 
 const arrayState = [
    {
@@ -95,7 +96,7 @@ export const WishListForm = ({ onClose, variant, onSubmit }) => {
    const onError = (error) => {
       let errorMessage = null
       if (error === 'invalidDate') {
-         errorMessage = 'Не правильная дата'
+         errorMessage = 'Неправильная дата'
       }
       setDatePickerError((prev) => ({
          ...prev,
@@ -104,10 +105,6 @@ export const WishListForm = ({ onClose, variant, onSubmit }) => {
    }
 
    const datePickerHandleChange = (value) => {
-      const isValidDateFormat = (formattedDate) => {
-         const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/
-         return dateRegex.test(formattedDate)
-      }
       const newHolidayDate = dayjs(value)
       const todayDate = new Date()
 
@@ -134,7 +131,7 @@ export const WishListForm = ({ onClose, variant, onSubmit }) => {
       ) {
          setDatePickerError((prev) => ({
             ...prev,
-            invalidErrorMessage: 'Месяц прошел',
+            invalidErrorMessage: ' Этот месяц уже прошел',
          }))
       }
    }

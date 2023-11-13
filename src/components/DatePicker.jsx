@@ -55,16 +55,21 @@ export const DatePicker = ({
    datePickerHandleChange,
    ...rest
 }) => {
-   const contr = useController({
+   const { field } = useController({
       control,
       name,
       defaultValue: null,
    })
-   const { field } = contr
-   console.log(contr)
+
+   const useEffectDependencies = datePickerHandleChange
+      ? [field.onChange, field.value]
+      : []
+
    useEffect(() => {
-      datePickerHandleChange(field.value)
-   }, [field.onChange, field.value])
+      if (datePickerHandleChange) {
+         datePickerHandleChange(field.value)
+      }
+   }, useEffectDependencies)
    return (
       <FormControl>
          <FormLabel error={Boolean(errorMessage)}>{label}</FormLabel>
