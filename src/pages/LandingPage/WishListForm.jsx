@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import dayjs from 'dayjs'
 import { DatePicker } from '../../components/DatePicker'
 import { Button } from '../../components/UI/Button'
 import { SelectComponent } from '../../components/UI/SelectComponent'
@@ -48,8 +49,16 @@ const initialValues = [
    },
 ]
 
-export const WishListForm = ({ onClose, variant }) => {
-   const [datePickerError, setDatePickerError] = useState('')
+const initialDatePickerValues = {
+   emptyErrorMessage: '',
+   invalidErrorMessage: '',
+}
+
+export const WishListForm = ({ onClose, variant, onSubmit }) => {
+   const [datePickerError, setDatePickerError] = useState(
+      initialDatePickerValues
+   )
+
    const [preview, setPreview] = useState({ file: '' })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
 
@@ -59,8 +68,8 @@ export const WishListForm = ({ onClose, variant }) => {
       formState: { errors, isSubmitSuccessful },
       reset,
       control,
-      getValues,
       setValue,
+      getValues,
    } = useForm({
       defaultValues: {
          ...initialValues,
@@ -78,36 +87,55 @@ export const WishListForm = ({ onClose, variant }) => {
       }
    }, [isSubmitSuccessful, reset])
 
-   useEffect(() => {
-      const { holidayDate } = getValues()
-
-      if (!holidayDate) {
-         setDatePickerError('Укажите дату праздника!')
-      }
-
-      return setDatePickerError(null)
-   }, [DatePicker])
-
-   const onSubmit = (data) => {
-      console.log(data, preview)
-      reset()
-      setPreview(null)
-      setValues(variant ? initialValues[0] : {})
-   }
-
    const handleChange = (name, value) => {
       setValue(name, value)
       setValues((prev) => ({ ...prev, [name]: value }))
    }
 
-   const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+   const onError = (error) => {
+      let errorMessage = null
+      if (error === 'invalidDate') {
+         errorMessage = 'Не правильная дата'
+      }
+      setDatePickerError((prev) => ({
+         ...prev,
+         invalidErrorMessage: errorMessage,
+      }))
+   }
 
    const datePickerHandleChange = (value) => {
-      const isValidDate = regex.test(value)
-      if (isValidDate) {
-         setDatePickerError('')
-      } else {
-         setDatePickerError('Неверный формат даты')
+      const isValidDateFormat = (formattedDate) => {
+         const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/
+         return dateRegex.test(formattedDate)
+      }
+      const newHolidayDate = dayjs(value)
+      const todayDate = new Date()
+
+      const formattedDate = newHolidayDate.format('DD-MM-YYYY')
+      if (isValidDateFormat(formattedDate)) {
+         setDatePickerError(initialDatePickerValues)
+      }
+      if (newHolidayDate.year() < todayDate.getFullYear()) {
+         setDatePickerError((prev) => ({
+            ...prev,
+            invalidErrorMessage: 'Этот год уже не наступит',
+         }))
+      } else if (
+         newHolidayDate.year() === todayDate.getFullYear() &&
+         newHolidayDate.date() < todayDate.getDate()
+      ) {
+         setDatePickerError((prev) => ({
+            ...prev,
+            invalidErrorMessage: 'Этот день уже прошел',
+         }))
+      } else if (
+         newHolidayDate.year() === todayDate.getFullYear() &&
+         newHolidayDate.month() + 1 < todayDate.getMonth() + 1
+      ) {
+         setDatePickerError((prev) => ({
+            ...prev,
+            invalidErrorMessage: 'Месяц прошел',
+         }))
       }
    }
 
@@ -116,7 +144,14 @@ export const WishListForm = ({ onClose, variant }) => {
          <BlockOne>
             <UploadImage preview={preview} setPreview={setPreview} />
          </BlockOne>
-         <BlockTwo onSubmit={handleSubmit((data) => onSubmit(data, preview))}>
+         <BlockTwo
+            onSubmit={handleSubmit((data) => {
+               onSubmit(data)
+               reset()
+               setPreview(null)
+               setValues(variant ? initialValues[0] : {})
+            })}
+         >
             <h3>
                {!variant ? 'Добавление желаемого подарка' : 'Добавление вещи'}
             </h3>
@@ -162,7 +197,12 @@ export const WishListForm = ({ onClose, variant }) => {
                         control={control}
                         label="Дата праздника"
                         name="holidayDate"
-                        errorMessage={datePickerError}
+                        errorMessage={
+                           datePickerError.invalidErrorMessage ||
+                           datePickerError.emptyErrorMessage
+                        }
+                        onError={onError}
+                        disablePast
                         datePickerHandleChange={datePickerHandleChange}
                      />
                   </>
@@ -204,11 +244,14 @@ export const WishListForm = ({ onClose, variant }) => {
                <Button
                   onClick={() => {
                      const { holidayDate } = getValues()
+                     let errorMessage = null
                      if (!holidayDate) {
-                        setDatePickerError('Укажите дату праздника!')
-                     } else {
-                        setDatePickerError(null)
+                        errorMessage = 'Укажите дату праздника!'
                      }
+                     setDatePickerError((prev) => ({
+                        ...prev,
+                        emptyErrorMessage: errorMessage,
+                     }))
                   }}
                   type="submit"
                   variant="primary"
