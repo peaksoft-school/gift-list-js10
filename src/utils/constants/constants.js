@@ -11,4 +11,8 @@ const shoeSizes = [35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
 
 const clothingSizes = ['XXS', 'XS', 'S', 'M', 'L', 'XXL', 'XL', 'XXXL']
 
-export { countries, shoeSizes, clothingSizes }
+const shoeSizeObject = {
+   THIRTY_FIVE: 35,
+}
+
+export { countries, shoeSizes, clothingSizes, shoeSizeObject }

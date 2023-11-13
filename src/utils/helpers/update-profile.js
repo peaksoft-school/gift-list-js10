@@ -1,4 +1,5 @@
 import * as yup from 'yup'
+
 const valueIsNotEmpty = (value) => value?.trim()
 
 export const schema = yup.object().shape({

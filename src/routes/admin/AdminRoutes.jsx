@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { logout } from '../../store/slices/authSlice'
+import { logout } from '../../store/auth/authSlice'
 import { USER_KEY } from '../../utils/constants'
 
 export const AdminRoutes = () => {
