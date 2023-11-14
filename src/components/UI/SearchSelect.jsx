@@ -81,7 +81,6 @@ export const SearchSelect = ({
                               <StyledMenuItem value="" unvisible="true">
                                  {title}
                               </StyledMenuItem>
-                              {console.log(values.category)}
                               {(fieldName === 'subCategory'
                                  ? subcategories[values.category]
                                  : options
@@ -118,7 +117,7 @@ const Form = styled(TextField)({
       fontWeight: '400',
       caretColor: '#8639B5',
    },
-   width: '51.3125rem',
+   width: '100%',
    margin: '20px',
    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#8639B5 !important',

@@ -8,23 +8,34 @@ export const routes = {
    WELCOME: '/main',
    ADMIN: {
       path: '/admin',
+      users: {
+         path: 'users',
+         breadcrumb: 'Пользователи',
+      },
    },
    USER: {
       path: '/user',
+      feed: {
+         path: 'feed',
+         breadcrumb: 'Лента',
+         headerSelectType: 'select',
+      },
    },
 }
 
 export const users = [
    {
-      password: '12345678A/',
-      email: 'user@gmail.com',
-      role: 'USER',
-      token: 'token',
-   },
-   {
+      id: 1,
       password: '12345678A/',
       email: 'admin@gmail.com',
       role: 'ADMIN',
+      token: 'token',
+   },
+   {
+      id: 2,
+      password: '12345678A/',
+      email: 'user@gmail.com',
+      role: 'USER',
       token: 'token',
    },
 ]
