@@ -1,7 +1,6 @@
 import axios from 'axios'
-// eslint-disable-next-line import/no-cycle
-import { store } from '../store/index'
-import * as authSlice from '../store/auth/authSlice'
+import { store } from '../store'
+import { logout } from '../store/auth/authSlice'
 
 const BASE_URL = 'http://giftlist-b10.peaksoftprojects.com/api'
 

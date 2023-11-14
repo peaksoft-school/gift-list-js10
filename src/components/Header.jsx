@@ -17,11 +17,11 @@ const selectProperties = {
    search: '',
 }
 
-export const Header = ({ variantOfSelect = 'select' }) => {
+export const Header = ({ variantOfSelect = '' }) => {
    const { reset, setValue } = useForm({
       defaultValues: selectProperties,
    })
-   //    const { email } = useSelector((state) => state.authLogin)
+   // TODO:  here we should to get the current user's data
    const [values, setValues] = useState(selectProperties)
    const dispatch = useDispatch()
    const handleChange = (e) => {

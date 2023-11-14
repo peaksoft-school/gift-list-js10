@@ -83,7 +83,6 @@ export const SearchSelect = ({
                               <StyledMenuItem value="" unvisible="true">
                                  {title}
                               </StyledMenuItem>
-                              {console.log(values.category)}
                               {(fieldName === 'subCategory'
                                  ? subcategories[values.category]
                                  : options

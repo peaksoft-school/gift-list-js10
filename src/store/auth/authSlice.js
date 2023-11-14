@@ -18,6 +18,7 @@ export const authSlice = createSlice({
          newState.email = data.email
          newState.role = data.role
          newState.token = data.token
+         newState.id = data.id
          newState.isAuth = true
          navigate(routes[data.role].path)
          return newState

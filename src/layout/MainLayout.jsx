@@ -20,7 +20,7 @@ const transformObjectRoutesToArray = (role) =>
 
 const getLastElementOfPath = (path) => path.slice(-1)
 
-export const MainLayout = ({ role, isList, toggleList }) => {
+export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
    const routesArray = transformObjectRoutesToArray(role)
    const breadcrumbs = useBreadcrumbs(routesArray, {
       excludePaths: ['/', 'user', 'admin'],
@@ -53,7 +53,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
       <>
          <Sidebar roleName={role} />
          <MainContainer>
-            <Header />
+            <Header variantOfSelect={headerSelectType} />
             <MainContentWrapper>
                <StyledMainContentHeader>
                   <StyledLegend isinner={inner}>
