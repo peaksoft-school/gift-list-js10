@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, styled } from '@mui/material'
 import { DatePicker as MUIDatePicker, PickersLayout } from '@mui/x-date-pickers'
-import React from 'react'
+import React, { useEffect } from 'react'
+
 import { useController } from 'react-hook-form'
 import { DatePickerIcon } from '../assets'
 
@@ -25,16 +26,22 @@ const StyledPickersLayout = styled(PickersLayout)({
    textTransform: 'capitalize',
 })
 
-const StyledDatePicker = styled(MUIDatePicker)({
+const StyledDatePicker = styled(MUIDatePicker)(({ error }) => ({
    input: {
       padding: '9.3px',
       borderRadius: '0.375rem',
+      '::placeholder': {
+         color: error && '#F83B3B',
+      },
+   },
+   path: {
+      fill: error && '#F83B3B',
    },
    '.css-7sakbj-MuiFormHelperText-root.Mui-error': {
       textAlign: 'right',
       marginRight: '5px',
    },
-})
+}))
 
 export const DatePicker = ({
    label,
@@ -45,13 +52,29 @@ export const DatePicker = ({
    name,
    control,
    ref,
+   datePickerHandleChange,
    ...rest
 }) => {
-   const { field } = useController({ control, name, defaultValue: null })
+   const { field } = useController({
+      control,
+      name,
+      defaultValue: null,
+   })
+
+   const useEffectDependencies = datePickerHandleChange
+      ? [field.onChange, field.value]
+      : []
+
+   useEffect(() => {
+      if (datePickerHandleChange) {
+         datePickerHandleChange(field.value)
+      }
+   }, useEffectDependencies)
    return (
       <FormControl>
          <FormLabel error={Boolean(errorMessage)}>{label}</FormLabel>
          <StyledDatePicker
+            error={Boolean(errorMessage)}
             ref={ref}
             onChange={field.onChange}
             value={field.value}
@@ -63,6 +86,7 @@ export const DatePicker = ({
             slotProps={{
                textField: {
                   placeholder,
+                  error: Boolean(errorMessage),
                   helperText: errorMessage,
                },
             }}
