@@ -8,10 +8,15 @@ import {
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { CancelIcon, SearchIcon, ArrowIcon } from '../../assets'
+import {
+   category,
+   stateOptions,
+   subcategories,
+} from '../../utils/constants/options'
 
 const selectOptions = [
-   { title: 'Состояние', fieldName: 'state', options: ['Все', 'Б/У', 'Новое'] },
-   { title: 'Категория', fieldName: 'category', options: ['Електроника'] },
+   { title: 'Состояние', fieldName: 'state', options: stateOptions },
+   { title: 'Категория', fieldName: 'category', options: category },
    { title: 'Подкатегория', fieldName: 'subCategory' },
    {
       title: 'Страна',
@@ -26,19 +31,6 @@ const selectOptions = [
       ],
    },
 ]
-
-const subCategoryOptions = {
-   Електроника: {
-      subCategories: [
-         'Смартфоны и телефоны',
-         'Аудиотехника',
-         'Фото и видеокамеры',
-         'Автоэлектроника',
-         'ТВ и видео',
-         'Компьютеры, ноутбуки и планшеты',
-      ],
-   },
-}
 
 export const SearchSelect = ({
    variant = {},
@@ -88,12 +80,12 @@ export const SearchSelect = ({
                               onChange={handleChange}
                               displayEmpty
                            >
-                              <StyledMenuItem value="" unvisible>
+                              <StyledMenuItem value="" unvisible="true">
                                  {title}
                               </StyledMenuItem>
+                              {console.log(values.category)}
                               {(fieldName === 'subCategory'
-                                 ? subCategoryOptions[values.category]
-                                      ?.subCategories
+                                 ? subcategories[values.category]
                                  : options
                               )?.map((title) => (
                                  <StyledMenuItem value={title} key={title}>
