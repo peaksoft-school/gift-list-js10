@@ -69,6 +69,7 @@ export const SignIn = () => {
    const changePasswordVisibleInvisibleStateHandler = () => {
       setVisibleAndInvisiblePasswordState((prevState) => !prevState)
    }
+
    return (
       <MainContainer component="div">
          <SignInForm onSubmit={handleSubmit(onSubmit)}>
