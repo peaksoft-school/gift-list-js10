@@ -15,13 +15,13 @@ export const AppRoutes = () => {
          <Route path="/" element={<MainPagePartFirst />} />
          <Route path={routes.LOGIN} element={<LoginPage />} />
          <Route
-            path={routes.ADMIN.path}
+            path={`${routes.ADMIN.path}/*`}
             element={
                <PrivateRoutes Component={<AdminRoutes />} isAuth={isAuth} />
             }
          />
          <Route
-            path={routes.USER.path}
+            path={`${routes.USER.path}/*`}
             element={
                <PrivateRoutes Component={<UserRoutes />} isAuth={isAuth} />
             }
