@@ -76,10 +76,16 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
                   </StyledLegend>
                   {!inner && (
                      <div>
-                        <StyledButton onClick={toggleList} disableRipple>
+                        <StyledButton
+                           onClick={() => toggleList('card')}
+                           disableRipple
+                        >
                            <CardIcon className={`${!isList && 'active'}`} />
                         </StyledButton>
-                        <StyledButton onClick={toggleList} disableRipple>
+                        <StyledButton
+                           onClick={() => toggleList('list')}
+                           disableRipple
+                        >
                            <ListIcon className={`${isList && 'active'}`} />
                         </StyledButton>
                      </div>

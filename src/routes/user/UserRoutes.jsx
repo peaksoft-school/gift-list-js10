@@ -10,8 +10,12 @@ import { PrivateRoutes } from '../PrivateRoutes'
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
    const [isList, setIsList] = useState(false)
-   const toggleList = () => {
-      setIsList((prev) => !prev)
+   const [nameOfActiveCardType, setNameOfActiveCardType] = useState('card')
+   const toggleList = (newNameOfAcriveCardType) => {
+      if (nameOfActiveCardType !== newNameOfAcriveCardType) {
+         setIsList((prev) => !prev)
+         setNameOfActiveCardType(newNameOfAcriveCardType)
+      }
    }
    const { feed, wishFromFeedById } = routes[role]
    return (

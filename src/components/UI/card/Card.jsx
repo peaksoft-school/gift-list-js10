@@ -130,7 +130,7 @@ export const Card = ({
 const ActionsWrapper = styled('div')({
    display: 'flex',
    justifyContent: 'space-between',
-   gap: '95px',
+   width: '-webkit-fill-available',
    '&.listWithoutHeader': {
       flexDirection: 'row-reverse',
       gap: '127px',
