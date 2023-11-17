@@ -25,6 +25,7 @@ export const Profile = ({
    importantToKnow,
    clothSize,
    shoesSize,
+   onClickFirstButton,
 }) => {
    return (
       <ProfileContainer component="div">
@@ -41,7 +42,10 @@ export const Profile = ({
                            case 'emptyProfile':
                               return (
                                  <ApplicationToFriendsContainer>
-                                    <StyledButton variant="primary">
+                                    <StyledButton
+                                       variant="primary"
+                                       onClick={onClickFirstButton}
+                                    >
                                        Расскажите о себе
                                     </StyledButton>
                                     <StyledButton variant="outlined">
@@ -52,7 +56,10 @@ export const Profile = ({
                            case 'myProfile':
                               return (
                                  <ApplicationToFriendsContainer>
-                                    <StyledButton variant="primary">
+                                    <StyledButton
+                                       variant="primary"
+                                       onClick={onClickFirstButton}
+                                    >
                                        Редактировать
                                     </StyledButton>
                                     <StyledButton variant="outlined">
@@ -85,22 +92,30 @@ export const Profile = ({
                               )
                         }
                      })()}
-                  {variant !== 'emptyProfile' && (
-                     <UserSocialMediaContainer component="div">
+                  {/* {variant !== 'emptyProfile' && ( */}
+                  <UserSocialMediaContainer component="div">
+                     {facebook && (
                         <a href={facebook} target="blank">
                            <ProfileFacebook />
                         </a>
+                     )}
+                     {instagram && (
                         <a href={instagram} target="blank">
                            <ProfileInstagram />
                         </a>
+                     )}
+                     {telegram && (
                         <a href={telegram} target="blank">
                            <ProfileTelegram />
                         </a>
+                     )}
+                     {vk && (
                         <a href={vk} target="blank">
                            <ProfileVk />
                         </a>
-                     </UserSocialMediaContainer>
-                  )}
+                     )}
+                  </UserSocialMediaContainer>
+                  {/* )} */}
                </UserProfilePictureAndUserNameAndSocialsMediaContainer>
 
                <UserInfoContainer component="div">
@@ -112,7 +127,7 @@ export const Profile = ({
                      {/* baic information left part */}
                      <InformationLeftPart component="div">
                         {/* user's city */}
-                        {variant !== 'emptyProfile' && (
+                        {city && (
                            <UserOneInformationContainer component="div">
                               <UserInformationArea variant="p">
                                  Город:
@@ -124,21 +139,24 @@ export const Profile = ({
                         )}
 
                         {/* user's email */}
-                        <UserOneInformationContainer component="div">
-                           <UserInformationArea variant="p">
-                              Email:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {email}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
+                        {email && (
+                           <UserOneInformationContainer component="div">
+                              <UserInformationArea variant="p">
+                                 Email:
+                              </UserInformationArea>
+                              <UserInformationTitle variant="p">
+                                 {email}
+                              </UserInformationTitle>
+                           </UserOneInformationContainer>
+                        )}
                      </InformationLeftPart>
 
                      {/* basic information right part */}
 
-                     {variant !== 'emptyProfile' && (
-                        <InformationRightPart component="div">
-                           {/* user birthdate */}
+                     {/* {variant !== 'emptyProfile' && ( */}
+                     <InformationRightPart component="div">
+                        {/* user birthdate */}
+                        {birthdate && (
                            <UserOneInformationContainer component="div">
                               <UserInformationArea variant="p">
                                  Дата рождения:
@@ -147,9 +165,11 @@ export const Profile = ({
                                  {birthdate}
                               </UserInformationTitle>
                            </UserOneInformationContainer>
+                        )}
 
-                           {/* user's phone number */}
+                        {/* user's phone number */}
 
+                        {phoneNumber && (
                            <UserOneInformationContainer component="div">
                               <UserInformationArea variant="p">
                                  Номер телефона:
@@ -158,74 +178,92 @@ export const Profile = ({
                                  {phoneNumber}
                               </UserInformationTitle>
                            </UserOneInformationContainer>
-                        </InformationRightPart>
-                     )}
+                        )}
+                     </InformationRightPart>
+                     {/* )} */}
                   </BasicInformation>
                   {/* user's interest and hobbies */}
-                  {variant !== 'emptyProfile' && (
+                  {(interesAndHobbies ||
+                     importantToKnow ||
+                     clothSize ||
+                     shoesSize) && (
                      <>
                         <InformationText variant="p">
                            Интересы, хобби
                         </InformationText>
                         <InteresAndHobbiesInformation component="div">
                            {/* interest and hobbies left part */}
-                           <InformationLeftPart component="div">
-                              <UserOneInformationContainer component="div">
-                                 <UserInformationArea variant="p">
-                                    Интересы, хобби:
-                                 </UserInformationArea>
-                                 <UserInformationTitle variant="p">
-                                    {interesAndHobbies}
-                                 </UserInformationTitle>
-                              </UserOneInformationContainer>
-                           </InformationLeftPart>
+                           {interesAndHobbies && (
+                              <InformationLeftPart component="div">
+                                 <UserOneInformationContainer component="div">
+                                    <UserInformationArea variant="p">
+                                       Интересы, хобби:
+                                    </UserInformationArea>
+                                    <UserInformationTitle variant="p">
+                                       {interesAndHobbies}
+                                    </UserInformationTitle>
+                                 </UserOneInformationContainer>
+                              </InformationLeftPart>
+                           )}
 
                            {/* interes and hobbies right part */}
 
-                           <InformationRightPart component="div">
-                              {/* important to know */}
+                           {importantToKnow && (
+                              <InformationRightPart component="div">
+                                 {/* important to know */}
 
-                              <UserOneInformationContainer component="div">
-                                 <UserInformationArea variant="p">
-                                    Важно знать:
-                                 </UserInformationArea>
-                                 <UserInformationTitle variant="p">
-                                    {importantToKnow}
-                                 </UserInformationTitle>
-                              </UserOneInformationContainer>
-                           </InformationRightPart>
+                                 <UserOneInformationContainer component="div">
+                                    <UserInformationArea variant="p">
+                                       Важно знать:
+                                    </UserInformationArea>
+                                    <UserInformationTitle variant="p">
+                                       {importantToKnow}
+                                    </UserInformationTitle>
+                                 </UserOneInformationContainer>
+                              </InformationRightPart>
+                           )}
                         </InteresAndHobbiesInformation>
                         {/* additional information */}
-                        <InformationText variant="p">Доп.инфа</InformationText>
-                        <AdditionalInformation>
-                           {/* additional information left part */}
+                        {(clothSize || shoesSize) && (
+                           <>
+                              <InformationText variant="p">
+                                 Доп.инфа
+                              </InformationText>
+                              <AdditionalInformation>
+                                 {/* additional information left part */}
 
-                           <InformationLeftPart component="div">
-                              {/* user's clothes size */}
-                              <UserOneInformationContainer>
-                                 <UserInformationArea variant="p">
-                                    Размер одежды:
-                                 </UserInformationArea>
-                                 <UserInformationTitle variant="p">
-                                    {clothSize}
-                                 </UserInformationTitle>
-                              </UserOneInformationContainer>
-                           </InformationLeftPart>
-                           {/* additional information right part */}
+                                 {clothSize && (
+                                    <InformationLeftPart component="div">
+                                       {/* user's clothes size */}
+                                       <UserOneInformationContainer>
+                                          <UserInformationArea variant="p">
+                                             Размер одежды:
+                                          </UserInformationArea>
+                                          <UserInformationTitle variant="p">
+                                             {clothSize}
+                                          </UserInformationTitle>
+                                       </UserOneInformationContainer>
+                                    </InformationLeftPart>
+                                 )}
+                                 {/* additional information right part */}
 
-                           <InformationRightPart component="div">
-                              {/* user's shoes size */}
+                                 {shoesSize && (
+                                    <InformationRightPart component="div">
+                                       {/* user's shoes size */}
 
-                              <UserOneInformationContainer>
-                                 <UserInformationArea variant="p">
-                                    Размер обуви:
-                                 </UserInformationArea>
-                                 <UserInformationTitle variant="p">
-                                    {shoesSize}
-                                 </UserInformationTitle>
-                              </UserOneInformationContainer>
-                           </InformationRightPart>
-                        </AdditionalInformation>
+                                       <UserOneInformationContainer>
+                                          <UserInformationArea variant="p">
+                                             Размер обуви:
+                                          </UserInformationArea>
+                                          <UserInformationTitle variant="p">
+                                             {shoesSize}
+                                          </UserInformationTitle>
+                                       </UserOneInformationContainer>
+                                    </InformationRightPart>
+                                 )}
+                              </AdditionalInformation>
+                           </>
+                        )}
                      </>
                   )}
                   {variant === 'roleAdmin' && (
@@ -244,10 +282,12 @@ export const Profile = ({
 }
 
 const ProfileContainer = styled(Box)({
-   width: '73rem',
-   margin: '0 auto',
+   // margin: '0 auto',
+   padding: '20px',
    paddingTop: '20px',
    display: 'flex',
+   backgroundColor: '#fff',
+   height: '72vh',
 })
 
 const UserProfilePictureAndUserNameAndSocialsMediaContainer = styled(Box)({

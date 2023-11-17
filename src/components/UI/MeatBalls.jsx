@@ -1,8 +1,15 @@
 import { MoreHoriz, MoreVert } from '@mui/icons-material'
 import { IconButton, Menu, MenuItem, styled } from '@mui/material'
 import React, { useState } from 'react'
+import { ArrowIcon } from '../../assets'
 
-export const MeatBalls = ({ variant = 'horiz', handleChange, options }) => {
+export const MeatBalls = ({
+   variant = 'horiz',
+   handleChange,
+   options,
+   top = '0',
+   left = '25',
+}) => {
    const [anchorEl, setAnchorEl] = useState(null)
    const open = Boolean(anchorEl)
    const handleClick = (event) => {
@@ -14,9 +21,17 @@ export const MeatBalls = ({ variant = 'horiz', handleChange, options }) => {
    return (
       <>
          <IconButton onClick={handleClick}>
-            {variant === 'horiz' ? <MoreHoriz /> : <MoreVert />}
+            {variant !== 'profile' &&
+               (variant === 'horiz' ? <MoreHoriz /> : <MoreVert />)}
+            {variant === 'profile' && <ArrowIcon />}
          </IconButton>
-         <StyledMenu anchorEl={anchorEl} open={open} onClick={handleClose}>
+         <StyledMenu
+            left={left}
+            top={top}
+            anchorEl={anchorEl}
+            open={open}
+            onClick={handleClose}
+         >
             {options.map(({ title, icon }) => (
                <StyledMenuItem
                   key={title}
@@ -35,10 +50,10 @@ export const MeatBalls = ({ variant = 'horiz', handleChange, options }) => {
    )
 }
 
-const StyledMenu = styled(Menu)({
-   width: '20rem',
-   left: '25px',
-})
+const StyledMenu = styled(Menu)(({ left, top }) => ({
+   left: `${left}px`,
+   top: `${top}px`,
+}))
 
 const StyledMenuItem = styled(MenuItem)({
    display: 'flex',

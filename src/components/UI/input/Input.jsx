@@ -20,6 +20,7 @@ export const Input = React.forwardRef(
          variant,
          borderError,
          labelText,
+         readOnly = false,
          ...rest
       },
       ref
@@ -39,10 +40,10 @@ export const Input = React.forwardRef(
                ref={ref}
                error={error}
                InputProps={{
+                  readOnly,
                   endAdornment: (
                      <StyledInputAbornment position="end">
-                        {error && <ErrorIcon error={error} />}
-                        {!error && icon}
+                        {error && <ErrorIcon />}
                      </StyledInputAbornment>
                   ),
                }}

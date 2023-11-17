@@ -1,22 +1,66 @@
-import React from 'react'
-import { UserUpdateProfilePage } from '../../pages/UserUpdateProfilePage'
-// import { logout } from '../../store/slices/authSlice'
-// import { USER_KEY } from '../../utils/constants'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { MainLayout } from '../../layout/MainLayout'
+import { routes } from '../../utils/constants'
+import { PrivateRoutes } from '../PrivateRoutes'
+import { UserProfilePage } from '../../pages/UserProfilePage'
+import { UpdateUserProfilePage } from '../../pages/UpdateUserProfilePage'
 
 export const UserRoutes = () => {
-   // const handleLogout = () => {
-   //    dispatch(logout())
-   //    localStorage.removeItem(USER_KEY)
-   // }
-
+   const { isAuth, role } = useSelector((state) => state.authLogin)
+   const [isList, setIsList] = useState(false)
+   const toggleList = () => {
+      setIsList((prev) => !prev)
+   }
+   const { feed, profile, edit } = routes[role]
+   // const [headerSelectedType, setHeaderSelectedType] = useState('')
    return (
-      <div>
-         <UserUpdateProfilePage />
-         {/* <UserProfilePage /> */}
-         {/* UserRoutes
-         <button type="button" onClick={handleLogout}>
-            logout
-         </button> */}
-      </div>
+      <Routes>
+         <Route
+            path="/"
+            element={
+               <MainLayout
+                  role={role}
+                  isList={isList}
+                  toggleList={toggleList}
+                  showListActions={profile.showListActions}
+                  // headerSelectType={headerSelectedType}
+               />
+            }
+         >
+            <Route index element={<Navigate to={feed.path} />} />
+            <Route
+               path={feed.path}
+               element={
+                  <PrivateRoutes
+                     Component={<h1>Here should render the component</h1>}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={profile.path}
+               element={
+                  <PrivateRoutes
+                     Component={<UserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={`${profile.path}/${edit.path}`}
+               element={
+                  <PrivateRoutes
+                     Component={<UpdateUserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+         </Route>
+      </Routes>
    )
 }

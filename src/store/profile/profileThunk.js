@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-// eslint-disable-next-line import/no-cycle
 import { axiosInstance } from '../../config/axiosInstance'
+import { russianCountries, shoeSizeEnum } from '../../utils/constants/constants'
+import { formatDate } from '../../utils/helpers/constants'
+import { notifyTypes, toastWithoutPromise } from '../../utils/helpers/toast'
 
 export const getProfileThunk = createAsyncThunk(
    'profile/getProfileThunk',
@@ -9,6 +11,11 @@ export const getProfileThunk = createAsyncThunk(
          const response = await axiosInstance.get('/profile')
          return response.data
       } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка',
+            error
+         )
          return rejectWithValue(error)
       }
    }
@@ -16,43 +23,55 @@ export const getProfileThunk = createAsyncThunk(
 
 export const updateProfileThunk = createAsyncThunk(
    'profile/updateProfileThunk',
-   async (values, { rejectWithValue }) => {
+   async ({ values, navigate }, { rejectWithValue }) => {
       try {
          const {
-            clothingSelectedSize,
+            clothingSize,
             country,
-            dateofbirth: dateOfBirth,
+            dateofbirth,
             facebookLink,
             hobbies,
             importantToKnow,
             instagramLink,
             name,
             phoneNumber,
-            previewImg,
-            shoeSelectedSize,
+            image,
+            shoeSize,
             surname,
             telegramLink,
             vkLink,
          } = values
 
-         const response = await axiosInstance.put('/profile', {
+         const updatedProfile = {
             firstName: name,
             lastName: surname,
-            country,
-            dateOfBirth,
             phoneNumber,
-            image: previewImg.url,
-            clothingSize: clothingSelectedSize,
-            shoeSize: shoeSelectedSize,
-            hobby: hobbies,
-            important: importantToKnow,
-            linkFacebook: facebookLink,
-            vkontakte: vkLink,
-            instagram: instagramLink,
-            telegram: telegramLink,
-         })
+         }
+
+         if (country) updatedProfile.country = russianCountries[country]
+         if (dateofbirth) updatedProfile.dateOfBirth = formatDate(dateofbirth)
+         if (image) updatedProfile.image = image
+         if (clothingSize) updatedProfile.clothingSize = clothingSize
+         if (shoeSize) updatedProfile.shoeSize = shoeSizeEnum[shoeSize]
+         if (hobbies) updatedProfile.hobby = hobbies
+         if (importantToKnow) updatedProfile.important = importantToKnow
+         if (facebookLink) updatedProfile.linkFacebook = facebookLink
+         if (vkLink) updatedProfile.vkontakte = vkLink
+         if (instagramLink) updatedProfile.instagram = instagramLink
+         if (telegramLink) updatedProfile.telegram = telegramLink
+
+         const response = await axiosInstance.put(
+            '/profile/updateProfile',
+            updatedProfile
+         )
+         navigate(-1)
          return response.data
       } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка',
+            error.message
+         )
          return rejectWithValue(error)
       }
    }

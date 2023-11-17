@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { routes } from '../../utils/constants'
+import { USER_KEY, routes } from '../../utils/constants'
 
 const initialState = {
+   id: null,
    isAuth: null,
    email: null,
    token: null,
    role: null,
+   fullName: null,
 }
 
 export const authSlice = createSlice({
@@ -17,12 +19,15 @@ export const authSlice = createSlice({
          newState.email = data.email
          newState.role = data.role
          newState.token = data.token
+         newState.id = data.id
+         newState.fullName = data.fullName
          newState.isAuth = true
          navigate(routes[data.role].path)
          return newState
       },
       logout: () => {
          const newState = initialState
+         localStorage.removeItem(USER_KEY)
          return newState
       },
    },

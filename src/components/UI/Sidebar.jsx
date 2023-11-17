@@ -12,25 +12,26 @@ import {
    UsersIcon,
    WishListIcon,
 } from '../../assets'
+import { routes } from '../../utils/constants'
 
 const pathesByRoles = {
    user: [
-      { title: 'Лента', path: '/feed', icon: FeedIcon },
-      { title: 'Друзья', path: '/friends', icon: UsersIcon },
-      { title: 'Список желаний', path: '/wish-list', icon: WishListIcon },
-      { title: 'Забронированные', path: '/bookings', icon: BookingIcon },
+      { title: 'Лента', path: 'feed', icon: FeedIcon },
+      { title: 'Друзья', path: 'friends', icon: UsersIcon },
+      { title: 'Список желаний', path: 'wish-list', icon: WishListIcon },
+      { title: 'Забронированные', path: 'bookings', icon: BookingIcon },
       {
          title: 'Мои праздники',
-         path: '/my-holidays',
+         path: 'my-holidays',
          icon: MyHolidaysIcon,
       },
-      { title: 'Благотворительность', path: '/charity', icon: CharityIcon },
+      { title: 'Благотворительность', path: 'charity', icon: CharityIcon },
    ],
    admin: [
-      { title: 'Пользователи', path: '/users', icon: UsersIcon },
-      { title: 'Благотворительность', path: '/charity', icon: CharityIcon },
-      { title: 'Жалобы', path: '/complaints', icon: ComplaintsIcon },
-      { title: 'Рассылка', path: '/mailing', icon: MailingIcon },
+      { title: 'Пользователи', path: 'users', icon: UsersIcon },
+      { title: 'Благотворительность', path: 'charity', icon: CharityIcon },
+      { title: 'Жалобы', path: 'complaints', icon: ComplaintsIcon },
+      { title: 'Рассылка', path: 'mailing', icon: MailingIcon },
    ],
 }
 
@@ -39,16 +40,21 @@ export const Sidebar = ({ roleName = 'user' }) => {
       <StyledSidebar hideBackdrop open variant="permanent">
          <Logo>Gift list</Logo>
          <StyledNavPanel>
-            {pathesByRoles[roleName].map(({ title, path, icon: Icon }) => (
-               <StyledNavLink key={path} to={path}>
-                  {path === '/bookings' || path === '/complaints' ? (
-                     <img src={Icon} alt={title} />
-                  ) : (
-                     <Icon />
-                  )}
-                  {title}
-               </StyledNavLink>
-            ))}
+            {pathesByRoles[roleName.toLowerCase()].map(
+               ({ title, path, icon: Icon }) => (
+                  <StyledNavLink
+                     key={path}
+                     to={`${routes[roleName.toUpperCase()][path]?.path}`}
+                  >
+                     {path === 'bookings' || path === 'complaints' ? (
+                        <img src={Icon} alt={title} />
+                     ) : (
+                        <Icon />
+                     )}
+                     {title}
+                  </StyledNavLink>
+               )
+            )}
          </StyledNavPanel>
       </StyledSidebar>
    )

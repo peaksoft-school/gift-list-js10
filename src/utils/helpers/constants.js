@@ -1,4 +1,7 @@
+import dayjs from 'dayjs'
 import { SamatOkenov, Ellipse, Aida, Askar } from '../../assets'
+import { axiosInstanceMultiPartFormData } from '../../config/axiosInstanceWithMultipartFormDataType'
+import { notifyTypes, toastWithoutPromise } from './toast'
 
 export const notifications = [
    {
@@ -44,3 +47,31 @@ export const notifications = [
       date: '25.05.2022',
    },
 ]
+
+export const isValidDateFormat = (formattedDate) => {
+   const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/
+   return dateRegex.test(formattedDate)
+}
+
+export const formatDate = (date) => {
+   return dayjs(date).format('YYYY-MM-DD')
+}
+
+export const uploadFile = async (file) => {
+   try {
+      const formData = new FormData()
+      formData.set('file', file)
+      const response = await axiosInstanceMultiPartFormData.post(
+         '/storages/upload',
+         formData
+      )
+      return response.data
+   } catch (error) {
+      toastWithoutPromise(
+         notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+         'Error while upload file',
+         error
+      )
+      return error
+   }
+}
