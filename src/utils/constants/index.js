@@ -7,6 +7,14 @@ export const routes = {
    },
    USER: {
       path: '/user',
+      wish: {
+         path: 'wish',
+         breadcrumb: 'Список желаний',
+      },
+      addWish: {
+         path: 'addWish',
+         breadcrumb: 'Добавление желания',
+      },
    },
 }
 

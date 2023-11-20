@@ -17,7 +17,7 @@ const pathesByRoles = {
    user: [
       { title: 'Лента', path: '/feed', icon: FeedIcon },
       { title: 'Друзья', path: '/friends', icon: UsersIcon },
-      { title: 'Список желаний', path: '/wish-list', icon: WishListIcon },
+      { title: 'Список желаний', path: '/wish', icon: WishListIcon },
       { title: 'Забронированные', path: '/bookings', icon: BookingIcon },
       {
          title: 'Мои праздники',
