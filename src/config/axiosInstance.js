@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { store } from '../store'
-import { logout } from '../store/slices/authSlice'
+import { logout } from '../store/auth/authSlice'
 
 const BASE_URL = ''
 
