@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { USER_KEY, routes } from '../../utils/constants'
 
 const initialState = {
-   id: 5,
+   id: null,
    isAuth: null,
    email: null,
    token: null,

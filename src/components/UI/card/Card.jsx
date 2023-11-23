@@ -166,6 +166,7 @@ const StyledCardContent = styled(CardContent)(() => ({
    img: {
       maxHeight: '9.5625rem',
       borderRadius: '7px',
+      objectFit: 'contain',
    },
    width: '19.8125rem',
 }))
@@ -183,7 +184,9 @@ const StyledCard = styled(MUICard)(() => {
          img: {
             minWidth: '30%',
             borderRadius: '7px',
+            objectFit: 'contain',
          },
+
          padding: '15px',
       },
       '.css-185gdzj-MuiCardHeader-root': {

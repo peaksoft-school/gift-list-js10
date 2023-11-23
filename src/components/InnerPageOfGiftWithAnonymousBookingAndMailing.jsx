@@ -1,5 +1,7 @@
 import { Avatar, Paper, styled } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { bookingWishThunk } from '../store/booking/bookingThunk'
 import { Button } from './UI/Button'
 import { Checkbox } from './UI/Checkbox'
 
@@ -16,6 +18,13 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    description,
    holidayDate,
 }) => {
+   const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
+   const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
+   const dispatch = useDispatch()
+   const bookerId = useSelector((state) => state.authLogin.id)
+   const onBooking = () => {
+      dispatch(bookingWishThunk({ bookerId, isBookingAnonymous }))
+   }
    return (
       <ContentWrapper>
          <MainContentWrapper>
@@ -56,13 +65,18 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                </HolidayInfoContainer>
             </TextContainer>
          </MainContentWrapper>
-         {variant !== 'mailing' && (
+         {variant !== 'mailing' && !bookerImage && (
             <Actions>
                <p>
-                  <Checkbox />
+                  <Checkbox
+                     value={isBookingAnonymous}
+                     onChange={handleCheckboxChange}
+                  />
                   Забронировать анонимно
                </p>
-               <Button variant="primary">Забронировать</Button>
+               <Button onClick={onBooking} variant="primary">
+                  Забронировать
+               </Button>
             </Actions>
          )}
       </ContentWrapper>

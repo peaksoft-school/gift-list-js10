@@ -12,14 +12,18 @@ export const feedSlice = createSlice({
    initialState,
    reducers: {},
    extraReducers: (builder) => {
-      builder.addCase(getFeedsThunk.fulfilled, (state, { payload }) => {
-         return {
-            ...state,
-            feeds: payload,
-            pending: false,
-            error: null,
-         }
-      })
+      builder
+         .addCase(getFeedsThunk.fulfilled, (state, { payload }) => {
+            return {
+               ...state,
+               feeds: payload,
+               pending: false,
+               error: null,
+            }
+         })
+         .addCase(getFeedsThunk.pending, (state) => {
+            return { ...state, pending: true, error: false }
+         })
    },
 })
 
