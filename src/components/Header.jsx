@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { LogoutIcon, ProfileIcon } from '../assets'
-// import { logout } from '../store/auth/authSlice'
+import { logout } from '../store/auth/authSlice'
 import { routes } from '../utils/constants'
 import { Notification } from './Notification'
 import { MeatBalls } from './UI/MeatBalls'
@@ -48,7 +48,7 @@ export const Header = ({ variantOfSelect = '' }) => {
          toggleModal()
       }
    }
-   console.log(dispatch)
+   const onLogout = () => dispatch(logout())
    return (
       <>
          <StyledHeader>
@@ -81,32 +81,60 @@ export const Header = ({ variantOfSelect = '' }) => {
                </DropdDownIconWrapper>
             </ProfileContainer>
          </StyledHeader>
-         <Modal handleClose={toggleModal} isOpen={isOpenModal}>
-            <p>Вы уверены что хотите выйти?</p>
-            <Actions>
+         <Modal handleClose={toggleModal} isOpen={isOpenModal} padding="20px">
+            <ModalContent>
                <LogoutIconContainer>
                   <LogoutIcon />
                </LogoutIconContainer>
-               <Button>Отмена</Button>
-               <Button variant="contained">Выйти</Button>
-            </Actions>
+               <p>Вы уверены что хотите выйти?</p>
+               <Actions>
+                  <StyledButton onClick={toggleModal}>Отмена</StyledButton>
+                  <StyledButton onClick={onLogout} variant="contained">
+                     Выйти
+                  </StyledButton>
+               </Actions>
+            </ModalContent>
          </Modal>
       </>
    )
 }
 
+const ModalContent = styled('div')({
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   gap: '20px',
+   width: '30rem',
+   fontSize: '1.5rem',
+   fontWeight: '500',
+})
+
+const StyledButton = styled(Button)({
+   height: '2rem',
+   fontWeight: '400',
+   width: '48%',
+})
+
 const LogoutIconContainer = styled('div')({
    padding: '10px',
-   width: '50px',
-   height: '50px',
-   borderRadius: '50px',
+   width: '5rem',
+   height: '5rem',
+   borderRadius: '5rem',
    backgroundColor: '#DFDFE6',
    display: 'flex',
    justifyContent: 'center',
    alignItems: 'center',
+   svg: {
+      width: '3rem',
+      height: '3rem',
+   },
 })
 
-const Actions = styled('div')({})
+const Actions = styled('div')({
+   display: 'flex',
+   justifyContent: 'space-between',
+   width: '100%',
+})
 
 const StyledUserNameContainer = styled('p')({
    width: 'max-content',

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { updateProfileThunk } from '../store/profile/profileThunk'
 import { englishCountries, shoeSizeObject } from '../utils/constants/constants'
-import { UpdateProfile } from './UpdateProfile'
+import { UpdateProfile } from '../layout/UpdateProfile'
 
 export const UpdateUserProfilePage = () => {
    const {

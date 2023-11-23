@@ -26,6 +26,7 @@ export const Profile = ({
    clothSize,
    shoesSize,
    onClickFirstButton,
+   onClickSecondButton,
 }) => {
    return (
       <ProfileContainer component="div">
@@ -48,7 +49,10 @@ export const Profile = ({
                                     >
                                        Расскажите о себе
                                     </StyledButton>
-                                    <StyledButton variant="outlined">
+                                    <StyledButton
+                                       onClick={onClickSecondButton}
+                                       variant="outlined"
+                                    >
                                        Сменить пароль
                                     </StyledButton>
                                  </ApplicationToFriendsContainer>
@@ -62,7 +66,10 @@ export const Profile = ({
                                     >
                                        Редактировать
                                     </StyledButton>
-                                    <StyledButton variant="outlined">
+                                    <StyledButton
+                                       onClick={onClickSecondButton}
+                                       variant="outlined"
+                                    >
                                        Сменить пароль
                                     </StyledButton>
                                  </ApplicationToFriendsContainer>

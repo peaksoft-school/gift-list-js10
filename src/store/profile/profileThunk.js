@@ -14,7 +14,7 @@ export const getProfileThunk = createAsyncThunk(
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
             'Ошибка',
-            error
+            error.message
          )
          return rejectWithValue(error)
       }
@@ -60,10 +60,7 @@ export const updateProfileThunk = createAsyncThunk(
          if (instagramLink) updatedProfile.instagram = instagramLink
          if (telegramLink) updatedProfile.telegram = telegramLink
 
-         const response = await axiosInstance.put(
-            '/profile/updateProfile',
-            updatedProfile
-         )
+         const response = await axiosInstance.put('/profile', updatedProfile)
          navigate(-1)
          return response.data
       } catch (error) {

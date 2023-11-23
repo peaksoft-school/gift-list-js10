@@ -1,23 +1,33 @@
-import { useEffect } from 'react'
+import { styled } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { ChangePasswordXIcon } from '../assets'
+import { Modal } from '../components/Modal'
 import { getProfileThunk } from '../store/profile/profileThunk'
+import { routes } from '../utils/constants'
 import { englishCountries, shoeSizeObject } from '../utils/constants/constants'
 import { Profile } from './LandingPage/Profile'
-import { routes } from '../utils/constants'
 
 export const UserProfilePage = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { profile } = useSelector((state) => state.profileSlice)
+   const [isEditPasswordModalOpen, setIsEditPasswordModalOpen] = useState()
 
    useEffect(() => {
       dispatch(getProfileThunk())
    }, [])
 
-   const onEdit = () => {
+   const onEditProfile = () => {
       navigate(routes.USER.edit.path)
    }
+
+   const toggleEditPasswordModalOpen = () =>
+      setIsEditPasswordModalOpen((prev) => !prev)
+   const firstName = profile.fullName?.match(/[A-Z][a-z]*/)[0]
+   const lastName = profile.fullName?.replace(firstName, '')
+
    return (
       <div>
          <Profile
@@ -26,7 +36,7 @@ export const UserProfilePage = () => {
             clothSize={profile.clothingSize}
             email={profile.email}
             city={englishCountries[profile.country]}
-            userName={profile.fullName}
+            userName={`${firstName} ${lastName}`}
             facebook={profile.linkFacebook}
             phoneNumber={profile.phoneNumber}
             importantToKnow={profile.important}
@@ -36,8 +46,28 @@ export const UserProfilePage = () => {
             interesAndHobbies={profile.hobby}
             userPicture={profile.image}
             instagram={profile.instagram}
-            onClickFirstButton={onEdit}
+            onClickFirstButton={onEditProfile}
+            onClickSecondButton={toggleEditPasswordModalOpen}
          />
+         <Modal
+            handleClose={toggleEditPasswordModalOpen}
+            isOpen={isEditPasswordModalOpen}
+            padding="20px"
+         >
+            <form>
+               <legend>
+                  Смена пароля
+                  <StyledChangePasswordXIcon
+                     onClick={toggleEditPasswordModalOpen}
+                  />
+                  {/* TODO: Kasym baikenikin jazyp koiom */}
+               </legend>
+            </form>
+         </Modal>
       </div>
    )
 }
+
+const StyledChangePasswordXIcon = styled(ChangePasswordXIcon)({
+   cursor: 'pointer',
+})
