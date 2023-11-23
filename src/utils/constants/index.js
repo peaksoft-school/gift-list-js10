@@ -39,7 +39,7 @@ export const users = [
       fullName: 'Naruto Uzumaki',
    },
    {
-      id: 5,
+      id: 2,
       password: '1234',
       email: 'user@gmail.com',
       role: 'USER',
