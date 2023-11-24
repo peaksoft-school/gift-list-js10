@@ -24,7 +24,6 @@ export const UserRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
-                  showListActions={profile.showListActions}
                   // headerSelectType={headerSelectedType}
                />
             }

@@ -20,13 +20,7 @@ const transformObjectRoutesToArray = (role) =>
 
 const getLastElementOfPath = (path) => path.slice(-1)
 
-export const MainLayout = ({
-   role,
-   isList,
-   toggleList,
-   headerSelectType,
-   showListActions,
-}) => {
+export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
    const routesArray = transformObjectRoutesToArray(role)
 
    const breadcrumbs = useBreadcrumbs(routesArray, {
@@ -81,7 +75,7 @@ export const MainLayout = ({
                         </Fragment>
                      ))}
                   </StyledLegend>
-                  {!inner && showListActions && (
+                  {!inner && routes[role][path['*']]?.showListActions && (
                      <div>
                         <StyledButton onClick={toggleList} disableRipple>
                            <CardIcon className={`${!isList && 'active'}`} />

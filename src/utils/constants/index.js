@@ -15,11 +15,12 @@ export const routes = {
          path: 'feed',
          breadcrumb: 'Лента',
          // headerSelectType: 'select',
+         showListActions: true,
       },
       profile: {
          path: 'profile',
          breadcrumb: 'Профиль',
-         // listActions: false,
+         listActions: false,
       },
       edit: {
          path: 'edit',
