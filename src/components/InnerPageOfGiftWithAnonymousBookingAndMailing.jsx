@@ -96,6 +96,7 @@ const StyledImage = styled('img')({
    width: '21.438rem',
    height: '21.438rem',
    borderRadius: '10px',
+   objectFit: 'contain',
 })
 
 const StyledHolidayDate = styled('span')({ color: 'black' })

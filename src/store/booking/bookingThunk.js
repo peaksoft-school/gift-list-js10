@@ -1,28 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../config/axiosInstance'
-import { notifyTypes, toastWithoutPromise } from '../../utils/helpers/toast'
+import { notifyTypes, toastWithPromise } from '../../utils/helpers/toast'
 import { getFeedsThunk } from '../feed/feedThunk'
 
 export const bookingWishThunk = createAsyncThunk(
    '/booking/bookingWishThunk',
-   async ({ bookerId, isBookingAnonymous }, { rejectWithValue, dispatch }) => {
+   async ({ wishId, isBookingAnonymous }, { rejectWithValue, dispatch }) => {
       try {
-         const response = await axiosInstance.post(
-            `/booking/bookingWish/${bookerId}?reserveAnonymous=${isBookingAnonymous}`
-         )
-         toastWithoutPromise(
+         const response = await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
-            'Бронирование подарка',
-            response.data.message
+            'Информация',
+            'Пожелание успешно забронировано',
+            'При бронировании подарка произошла ошибка',
+            axiosInstance.post(
+               `/booking/bookingWish/${wishId}?reserveAnonymous=${isBookingAnonymous}`
+            )
          )
          dispatch(getFeedsThunk())
          return response.data
       } catch (error) {
-         toastWithoutPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'При бронировании подарка произошла ошибка',
-            error.data.message
-         )
          return rejectWithValue(error)
       }
    }
@@ -32,22 +29,17 @@ export const unBookingWishThunk = createAsyncThunk(
    '/booking/unbookingWishThunk',
    async (wishId, { rejectWithValue, dispatch }) => {
       try {
-         const response = await axiosInstance.post(
-            `/booking/unBookingWish/${wishId}`
-         )
-         toastWithoutPromise(
+         const response = await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
-            'Разбронирование подарка',
-            response.data.message
+            'Информация',
+            'Пожелание успешно разбронировано',
+            'При разбронировании подарка произошла ошибка',
+            axiosInstance.post(`/booking/unBookingWish/${wishId}`)
          )
          dispatch(getFeedsThunk())
          return response.data
       } catch (error) {
-         toastWithoutPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
-            error.message || error
-         )
          return rejectWithValue(error)
       }
    }

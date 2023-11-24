@@ -31,9 +31,13 @@ export const Card = ({
    bookerImage,
    date,
    newOrOld,
+   status,
 }) => {
    const listClassName = list && 'list'
-   const status = bookerImage ? 'Забронирован' : 'В ожидании'
+   const bookedStatus =
+      bookerImage || status === 'RESERVED_ANONYMOUSLY'
+         ? 'Забронирован'
+         : 'В ожидании'
    return (
       <StyledCard className={listClassName} onClick={onClick}>
          {listClassName && (
@@ -100,18 +104,13 @@ export const Card = ({
                      variant !== 'quaternary' &&
                      variant !== 'withStatusTop' && (
                         <StyledCardActionsPar1>
-                           {!bookerImage && status === 'Забронирован' && (
-                              <StyledAvatarIcon aria-label="recipe">
-                                 Н
-                              </StyledAvatarIcon>
-                           )}
                            {bookerImage && (
                               <StyledAvatarIcon
                                  alt="Фотография забронировавшего пользователя."
                                  src={bookerImage}
                               />
                            )}
-                           <span>{status}</span>
+                           <span>{bookedStatus}</span>
                         </StyledCardActionsPar1>
                      )}
                </ActionsWrapper>

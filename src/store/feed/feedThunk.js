@@ -32,9 +32,9 @@ export const addToMyGifts = createAsyncThunk(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
             'Успешно',
-            'Вы вошли во вкладку лента',
+            'Подарок успешно добавлен в список желаний',
             'Ошибка',
-            axiosInstance.post(`/feeds/assign/${userId}/${wishId}`)
+            axiosInstance.post(`/feeds/assign/${wishId}/${userId}`)
          )
          return response
       } catch (error) {

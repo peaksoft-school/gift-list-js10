@@ -35,12 +35,7 @@ export const UserRoutes = () => {
                path={feed.path}
                element={
                   <PrivateRoutes
-                     Component={
-                        <GetAllFeedPage
-                           isList={isList}
-                           toggleList={toggleList}
-                        />
-                     }
+                     Component={<GetAllFeedPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />

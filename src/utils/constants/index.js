@@ -15,6 +15,7 @@ export const routes = {
          path: 'feed',
          breadcrumb: 'Лента',
          headerSelectType: '',
+         showListActions: true,
       },
       wishFromFeedById: {
          path: 'feed/:wishId',

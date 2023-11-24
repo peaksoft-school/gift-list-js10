@@ -12,6 +12,8 @@ import {
 import { complaintWishThunk } from '../../store/complaint/complaintThunk'
 import { addToMyGifts, getFeedsThunk } from '../../store/feed/feedThunk'
 import { meetballsFeedOptions } from '../../utils/constants/meatballs-options'
+import { LoadingPage } from '../../components/LoadingPage'
+import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
 const isWishBooked = (bookerId, myId) => {
    if (!bookerId) {
@@ -29,10 +31,8 @@ export const GetAllFeedPage = ({ isList }) => {
    const [isComplaintModalOpen, setIsComplaintModalOpen] = useState(false)
    const toggleCompolaintModal = () => setIsComplaintModalOpen((prev) => !prev)
    const [wishId, setWishId] = useState(0)
-   const {
-      feedSlice: { feeds, pending },
-      authLogin: { id },
-   } = useSelector((state) => state)
+   const { feeds, pending } = useSelector((state) => state.feedSlice)
+   const { id } = useSelector((state) => state.authLogin)
 
    const onSendComplaint = (complaintCause) => {
       const complaintRequest = { wishId }
@@ -67,26 +67,20 @@ export const GetAllFeedPage = ({ isList }) => {
             dispatch(addToMyGifts({ userId: id, wishId }))
             break
          case 'Забронировать':
-            dispatch(
-               bookingWishThunk({ bookerId: id, isBookingAnonymous: false })
-            )
+            dispatch(bookingWishThunk({ wishId, isBookingAnonymous: false }))
             break
          case 'Забронировать анонимно':
-            dispatch(
-               bookingWishThunk({ bookerId: id, isBookingAnonymous: true })
-            )
-            break
-         case 'Снять бронь':
-            dispatch(unBookingWishThunk(wishId))
+            dispatch(bookingWishThunk({ wishId, isBookingAnonymous: true }))
             break
          default:
+            dispatch(unBookingWishThunk(wishId))
             break
       }
       dispatch(getFeedsThunk())
    }
 
    if (pending) {
-      return 'Loading...'
+      return <LoadingPage />
    }
 
    return (
@@ -111,8 +105,10 @@ export const GetAllFeedPage = ({ isList }) => {
                      feed.bookedUser?.userReservoirId,
                      id
                   )}
+                  status={feed.bookedUser?.status}
                />
             ))}
+            {!feeds.length && <SecondEmptyComponent />}
          </StyledPaper>
          <ComplaintModal
             toggleModal={toggleCompolaintModal}

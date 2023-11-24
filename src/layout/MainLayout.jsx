@@ -14,7 +14,7 @@ const transformObjectRoutesToArray = (role) =>
    Object.entries(routes[role])
       .map(([pathname, breadcrumb]) => ({
          path: pathname,
-         breadcrumb,
+         breadcrumb: breadcrumb.breadcrumb,
       }))
       .slice(1)
 
@@ -28,22 +28,18 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
    const [inner, setInner] = useState(false)
    const path = useParams()
    const [byIdName, setByIdName] = useState('')
-
    useEffect(() => {
-      if (isNumber(getLastElementOfPath(path['*']))) {
+      if (path['*'].includes('/')) {
          setInner(true)
       } else {
          setInner(false)
       }
    }, [path])
-
    const handleDataUpdated = (event) => {
       setByIdName(event.detail)
    }
-
    useEffect(() => {
       window.addEventListener('name', handleDataUpdated)
-
       return () => {
          window.removeEventListener('name', handleDataUpdated)
       }
@@ -57,7 +53,7 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
             <MainContentWrapper>
                <StyledMainContentHeader>
                   <StyledLegend isinner={inner}>
-                     {breadcrumbs.map(({ breadcrumb, match }, index) => (
+                     {breadcrumbs.map(({ match }, index) => (
                         <Fragment key={match.pathname}>
                            <StyledNavLink
                               to={match.pathname}
@@ -68,13 +64,14 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
                               {isNumber(getLastElementOfPath(match.pathname))
                                  ? isNumber(match.pathname.split('/').pop()) &&
                                    byIdName
-                                 : breadcrumb}
+                                 : routes[role][match.pathname.split('/').pop()]
+                                      ?.breadcrumb}
                            </StyledNavLink>
                            {index !== breadcrumbs.length - 1 && ' / '}
                         </Fragment>
                      ))}
                   </StyledLegend>
-                  {!inner && (
+                  {!inner && routes[role][path['*']]?.showListActions && (
                      <div>
                         <StyledButton
                            onClick={() => toggleList('card')}
@@ -97,12 +94,10 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
       </>
    )
 }
-
 const StyledNavLink = styled(NavLink)(({ active }) => ({
    color: active ? '#000000' : '#B4B4B4',
    textDecoration: 'none',
 }))
-
 const StyledButton = styled(Button)({
    borderRadius: '3px',
    padding: '2px',
@@ -121,19 +116,16 @@ const StyledButton = styled(Button)({
       backgroundColor: '#BDBDBD',
    },
 })
-
 const StyledMainContentHeader = styled('div')({
    display: 'flex',
    justifyContent: 'space-between',
    paddingBottom: '30px',
    paddingRight: '21px',
 })
-
 const MainContentWrapper = styled('fieldset')({
    border: 'none',
    padding: '20px',
 })
-
 const MainContainer = styled('div')({
    backgroundColor: '#F7F8FA',
    marginLeft: '18.4rem',
@@ -142,7 +134,6 @@ const MainContainer = styled('div')({
    gap: '50px',
    minHeight: '100vh',
 })
-
 const StyledLegend = styled('legend')(({ isinner }) => ({
    fontSize: isinner ? '0.875rem' : '1.5rem',
    fontWeight: '500',
