@@ -37,19 +37,19 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
       }
    }, [path])
    const handleDataUpdated = (event) => {
-      setByIdName(event.detail)
-   }
-   const handleSomethingLengthUpdate = (event) => {
-      setShowActionsButtons(event.detail)
+      if (event.detail.action === 'name') {
+         setByIdName(event.detail.payload)
+      }
+      if (event.detail.action === 'showActionsButton') {
+         setShowActionsButtons(Boolean(event.detail.payload))
+      }
    }
    useEffect(() => {
-      window.addEventListener('name', handleDataUpdated)
-      window.addEventListener('showEvents', handleSomethingLengthUpdate)
+      window.addEventListener('providerEvent', handleDataUpdated)
       return () => {
-         window.removeEventListener('name', handleDataUpdated)
+         window.removeEventListener('providerEvent', handleDataUpdated)
       }
    }, [])
-
    return (
       <>
          <Sidebar roleName={role} />
@@ -78,7 +78,7 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
                   </StyledLegend>
                   {!inner &&
                      routes[role][path['*']]?.showListActions &&
-                     !showActionsButtons && (
+                     showActionsButtons && (
                         <div>
                            <StyledButton
                               onClick={() => toggleList('card')}

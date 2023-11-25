@@ -1,7 +1,3 @@
-export const nameEvent = (name) => {
-   window.dispatchEvent(new CustomEvent('name', { detail: name }))
-}
-
-export const showButtonsEvent = (showEvents) => {
-   window.dispatchEvent(new CustomEvent('showButtons', { detail: showEvents }))
+export const providerEvent = (something) => {
+   window.dispatchEvent(new CustomEvent('providerEvent', { detail: something }))
 }

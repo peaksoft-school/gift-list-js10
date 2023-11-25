@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ComplaintModal, causes } from '../../components/ComplaintModal'
+import { LoadingPage } from '../../components/LoadingPage'
 import { Card } from '../../components/UI/card/Card'
-import { nameEvent, showButtonsEvent } from '../../events/customEvents'
+import { providerEvent } from '../../events/customEvents'
 import {
    bookingWishThunk,
    unBookingWishThunk,
@@ -12,7 +13,6 @@ import {
 import { complaintWishThunk } from '../../store/complaint/complaintThunk'
 import { addToMyGifts, getFeedsThunk } from '../../store/feed/feedThunk'
 import { meetballsFeedOptions } from '../../utils/constants/meatballs-options'
-import { LoadingPage } from '../../components/LoadingPage'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
 const isWishBooked = (bookerId, myId) => {
@@ -48,13 +48,12 @@ export const GetAllFeedPage = ({ isList }) => {
    }
 
    const getById = (id, wishName) => {
-      nameEvent(wishName)
+      providerEvent({ action: 'name', payload: wishName })
       navigate(`${id}`)
    }
 
    useEffect(() => {
       dispatch(getFeedsThunk())
-      showButtonsEvent(feeds.length)
    }, [])
 
    const handleMeetaballsOption = (e, wishId) => {

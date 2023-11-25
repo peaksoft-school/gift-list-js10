@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getFeedsThunk } from './feedThunk'
+import { providerEvent } from '../../events/customEvents'
 
 const initialState = {
    feeds: [],
@@ -14,6 +15,10 @@ export const feedSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(getFeedsThunk.fulfilled, (state, { payload }) => {
+            providerEvent({
+               action: 'showActionsButton',
+               payload: payload.length,
+            })
             return {
                ...state,
                feeds: payload,
