@@ -14,7 +14,6 @@ export const UserRoutes = () => {
       setIsList((prev) => !prev)
    }
    const { feed, profile, edit } = routes[role]
-   // const [headerSelectedType, setHeaderSelectedType] = useState('')
    return (
       <Routes>
          <Route
@@ -24,7 +23,6 @@ export const UserRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
-                  // headerSelectType={headerSelectedType}
                />
             }
          >

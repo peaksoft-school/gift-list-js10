@@ -20,12 +20,10 @@ export const routes = {
       profile: {
          path: 'profile',
          breadcrumb: 'Профиль',
-         listActions: false,
       },
       edit: {
          path: 'edit',
          breadcrumb: 'Рассказать о себе',
-         // listActions: false,
       },
    },
 }
