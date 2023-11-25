@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ComplaintModal, causes } from '../../components/ComplaintModal'
 import { Card } from '../../components/UI/card/Card'
-import { nameEvent } from '../../events/nameEvent'
+import { nameEvent, showButtonsEvent } from '../../events/customEvents'
 import {
    bookingWishThunk,
    unBookingWishThunk,
@@ -54,6 +54,7 @@ export const GetAllFeedPage = ({ isList }) => {
 
    useEffect(() => {
       dispatch(getFeedsThunk())
+      showButtonsEvent(feeds.length)
    }, [])
 
    const handleMeetaballsOption = (e, wishId) => {

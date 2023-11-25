@@ -28,6 +28,7 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
    const [inner, setInner] = useState(false)
    const path = useParams()
    const [byIdName, setByIdName] = useState('')
+   const [showActionsButtons, setShowActionsButtons] = useState(false)
    useEffect(() => {
       if (path['*'].includes('/')) {
          setInner(true)
@@ -38,8 +39,12 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
    const handleDataUpdated = (event) => {
       setByIdName(event.detail)
    }
+   const handleSomethingLengthUpdate = (event) => {
+      setShowActionsButtons(event.detail)
+   }
    useEffect(() => {
       window.addEventListener('name', handleDataUpdated)
+      window.addEventListener('showEvents', handleSomethingLengthUpdate)
       return () => {
          window.removeEventListener('name', handleDataUpdated)
       }
@@ -71,22 +76,24 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
                         </Fragment>
                      ))}
                   </StyledLegend>
-                  {!inner && routes[role][path['*']]?.showListActions && (
-                     <div>
-                        <StyledButton
-                           onClick={() => toggleList('card')}
-                           disableRipple
-                        >
-                           <CardIcon className={`${!isList && 'active'}`} />
-                        </StyledButton>
-                        <StyledButton
-                           onClick={() => toggleList('list')}
-                           disableRipple
-                        >
-                           <ListIcon className={`${isList && 'active'}`} />
-                        </StyledButton>
-                     </div>
-                  )}
+                  {!inner &&
+                     routes[role][path['*']]?.showListActions &&
+                     !showActionsButtons && (
+                        <div>
+                           <StyledButton
+                              onClick={() => toggleList('card')}
+                              disableRipple
+                           >
+                              <CardIcon className={`${!isList && 'active'}`} />
+                           </StyledButton>
+                           <StyledButton
+                              onClick={() => toggleList('list')}
+                              disableRipple
+                           >
+                              <ListIcon className={`${isList && 'active'}`} />
+                           </StyledButton>
+                        </div>
+                     )}
                </StyledMainContentHeader>
                <Outlet />
             </MainContentWrapper>
