@@ -16,7 +16,7 @@ export const getFeedsThunk = createAsyncThunk(
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
             'Ошибка',
-            error.message
+            error
          )
          return rejectWithValue(error)
       }
