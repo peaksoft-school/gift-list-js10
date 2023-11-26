@@ -2,8 +2,7 @@ import axios from 'axios'
 import { store } from '../store'
 import { logout } from '../store/auth/authSlice'
 
-const BASE_URL =
-   'http://ec2-54-93-243-138.eu-central-1.compute.amazonaws.com/api'
+export const BASE_URL = 'http://giftlist.peaksoftprojects.com/api'
 
 const headers = {
    'Content-type': 'multipart/form-data',
@@ -22,7 +21,7 @@ axiosInstanceMultiPartFormData.interceptors.response.use(
       if (error.response.status === 401) {
          store.dispatch(logout())
       }
-      return Promise.reject(error.response.data.message)
+      return Promise.reject(error)
    }
 )
 

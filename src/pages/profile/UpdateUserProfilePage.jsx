@@ -1,9 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { updateProfileThunk } from '../store/profile/profileThunk'
-import { englishCountries, shoeSizeObject } from '../utils/constants/constants'
-import { UpdateProfile } from '../layout/UpdateProfile'
+import { UpdateProfile } from '../../layout/UpdateProfile'
+import { updateProfileThunk } from '../../store/profile/profileThunk'
+import {
+   englishCountries,
+   shoeSizeObject,
+} from '../../utils/constants/constants'
 
 export const UpdateUserProfilePage = () => {
    const {
@@ -23,7 +25,6 @@ export const UpdateUserProfilePage = () => {
       email,
    } = useSelector((state) => state.profileSlice.profile)
    const dispatch = useDispatch()
-   const navigate = useNavigate()
 
    const firstName = fullName?.match(/[A-Z][a-z]*/)[0]
    const lastName = fullName?.replace(firstName, '')
@@ -47,7 +48,7 @@ export const UpdateUserProfilePage = () => {
    }
 
    const onSubmit = (values) => {
-      dispatch(updateProfileThunk({ values, navigate }))
+      dispatch(updateProfileThunk({ values }))
    }
 
    return (

@@ -21,8 +21,8 @@ import {
    countries,
    shoeSizes,
 } from '../utils/constants/constants'
-import { uploadFile } from '../utils/helpers/constants'
 import { schema } from '../utils/helpers/update-profile'
+import { uploadFile } from '../utils/helpers/constants'
 
 const sizesSelect = [
    {
@@ -68,6 +68,7 @@ export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
    }
    useEffect(() => {
       if (isSubmitSuccessful) {
+         navigate(-1)
          reset()
          setPreview({
             file: '',
@@ -78,9 +79,9 @@ export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
    const [error, setError] = useState(null)
    const onError = (error) => {
       if (error === 'minDate')
-         setError('Слишком ранняя дата. Не пытайся быть старше.')
+         setError('Введенная дата рождения слишком ранняя.')
       else if (error === 'disableFuture')
-         setError('Будущее скрыто. Оглянитесь назад.')
+         setError('Дата рождения не может быть датой в будущем.')
       else if (error === 'invalidDate')
          setError('Дата в не правильном формате.')
       else setError(error)

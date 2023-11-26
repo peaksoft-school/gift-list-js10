@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { SamatOkenov, Ellipse, Aida, Askar } from '../../assets'
-import { axiosInstanceMultiPartFormData } from '../../config/axiosInstanceWithMultipartFormDataType'
 import { notifyTypes, toastWithoutPromise } from './toast'
+import { axiosInstanceMultiPartFormData } from '../../config/axiosInstanceWithMultipartFormDataType'
 
 export const notifications = [
    {

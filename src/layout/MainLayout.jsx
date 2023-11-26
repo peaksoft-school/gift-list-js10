@@ -39,14 +39,16 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    }, [path])
 
    const handleDataUpdated = (event) => {
-      setByIdName(event.detail)
+      if (event.detail.action === 'name') {
+         setByIdName(event.detail.payload)
+      }
    }
 
    useEffect(() => {
-      window.addEventListener('name', handleDataUpdated)
+      window.addEventListener('providerEvent', handleDataUpdated)
 
       return () => {
-         window.removeEventListener('name', handleDataUpdated)
+         window.removeEventListener('providerEvent', handleDataUpdated)
       }
    }, [])
    return (

@@ -2,18 +2,24 @@ import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ChangePasswordXIcon } from '../assets'
-import { Modal } from '../components/Modal'
-import { getProfileThunk } from '../store/profile/profileThunk'
-import { routes } from '../utils/constants'
-import { englishCountries, shoeSizeObject } from '../utils/constants/constants'
-import { Profile } from './LandingPage/Profile'
+import { ChangePasswordXIcon } from '../../assets'
+import { Modal } from '../../components/Modal'
+import { getProfileThunk } from '../../store/profile/profileThunk'
+import { routes } from '../../utils/constants'
+import { Profile } from '../LandingPage/Profile'
+import {
+   englishCountries,
+   shoeSizeObject,
+} from '../../utils/constants/constants'
+import { LoadingPage } from '../../components/LoadingPage'
 
 export const UserProfilePage = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { profile } = useSelector((state) => state.profileSlice)
-   const [isEditPasswordModalOpen, setIsEditPasswordModalOpen] = useState()
+   const { profile, error, pending } = useSelector(
+      (state) => state.profileSlice
+   )
+   const [isEditPasswordModalOpen, setIsEditPasswordModalOpen] = useState(false)
 
    useEffect(() => {
       dispatch(getProfileThunk())
@@ -27,7 +33,15 @@ export const UserProfilePage = () => {
       setIsEditPasswordModalOpen((prev) => !prev)
    const firstName = profile.fullName?.match(/[A-Z][a-z]*/)[0]
    const lastName = profile.fullName?.replace(firstName, '')
-
+   if (error) {
+      if (error.includes('403')) {
+         return 'Ошибка 403. Доступ запрещен.'
+      }
+      return error
+   }
+   if (pending) {
+      return <LoadingPage />
+   }
    return (
       <div>
          <Profile

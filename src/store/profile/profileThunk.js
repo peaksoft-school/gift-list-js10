@@ -2,7 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../config/axiosInstance'
 import { russianCountries, shoeSizeEnum } from '../../utils/constants/constants'
 import { formatDate } from '../../utils/helpers/constants'
-import { notifyTypes, toastWithoutPromise } from '../../utils/helpers/toast'
+import {
+   notifyTypes,
+   toastWithPromise,
+   toastWithoutPromise,
+} from '../../utils/helpers/toast'
 
 export const getProfileThunk = createAsyncThunk(
    'profile/getProfileThunk',
@@ -16,14 +20,14 @@ export const getProfileThunk = createAsyncThunk(
             'Ошибка',
             error.message
          )
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const updateProfileThunk = createAsyncThunk(
    'profile/updateProfileThunk',
-   async ({ values, navigate }, { rejectWithValue }) => {
+   async ({ values }, { rejectWithValue }) => {
       try {
          const {
             clothingSize,
@@ -60,15 +64,16 @@ export const updateProfileThunk = createAsyncThunk(
          if (instagramLink) updatedProfile.instagram = instagramLink
          if (telegramLink) updatedProfile.telegram = telegramLink
 
-         const response = await axiosInstance.put('/profile', updatedProfile)
-         navigate(-1)
+         const response = await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
+            notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
+            'Успешно',
+            'Профиль успешно обновлен.',
+            'Ошибка',
+            axiosInstance.put('/profile', updatedProfile)
+         )
          return response.data
       } catch (error) {
-         toastWithoutPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
-            error.message
-         )
          return rejectWithValue(error)
       }
    }
