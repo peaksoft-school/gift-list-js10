@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ComplaintModal, causes } from '../../components/ComplaintModal'
-import { LoadingPage } from '../../components/LoadingPage'
+import { LoadingPage } from '../../components/loadingpage/LoadingPage'
 import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
 import {
