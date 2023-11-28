@@ -1,4 +1,3 @@
-import React from 'react'
 import {
    Avatar,
    CardActions,
@@ -9,32 +8,24 @@ import {
    Typography,
    styled,
 } from '@mui/material'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import React from 'react'
 import { globalTheme } from '../../../theme/globalTheme'
+import { MeatBalls } from '../MeatBalls'
 import { CardDescription } from './CardDescription'
-
-const card = {
-   owner: {
-      name: 'John Doe',
-      image: 'https://i1.sndcdn.com/avatars-000812665324-tbg3oh-t500x500.jpg',
-   },
-   holiday: 'День рождения',
-   name: 'Письма Элджертона',
-   image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
-   status: 'Забронирован',
-   date: '12.04.22',
-   newOrOld: 'Б/У',
-   booker: {
-      name: 'Anybody',
-      image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
-   },
-}
 
 // variants:
 // primary, secondary, tertiary, quaternary,
-// withStatusBottom, withStatusTop
+// withStatusBottom, withStatusTop,
 
-export const Card = ({ variant = 'primary', list = false }) => {
+export const Card = ({
+   variant = 'primary',
+   list = false,
+   showBottomBooker,
+   card,
+   handleChange,
+   meatballsOptions,
+   onClick,
+}) => {
    const {
       owner: { name: ownerName, image: ownerImage },
       status,
@@ -42,7 +33,7 @@ export const Card = ({ variant = 'primary', list = false }) => {
       name: cardName,
       image: cardImage,
       newOrOld,
-      booker: { name: bookerName, image: bookerImage },
+      booker: { image: bookerImage },
    } = card
    const listClassName = list && 'list'
    return (
@@ -57,6 +48,7 @@ export const Card = ({ variant = 'primary', list = false }) => {
          >
             {(variant === 'primary' || variant === 'withStatusTop') && (
                <CardHeader
+                  onClick={onClick}
                   avatar={
                      ownerImage ? (
                         <StyledAvatarIcon alt={ownerName} src={ownerImage} />
@@ -72,14 +64,19 @@ export const Card = ({ variant = 'primary', list = false }) => {
             )}
             {variant === 'withStatusTop' && (
                <CardDescription
-                  text1={variant === 'secondary' ? cardName : holiday}
+                  onClick={onClick}
+                  text1={
+                     variant === 'secondary' || variant === 'withStatusTop'
+                        ? cardName
+                        : holiday
+                  }
                   text2={variant === 'secondary' ? holiday : newOrOld}
                   newOrOld={newOrOld}
                   variant={variant}
                />
             )}
 
-            <StyledCardContent>
+            <StyledCardContent onClick={onClick}>
                {variant === 'primary' && (
                   <StyledTypography variant="h6">{cardName}</StyledTypography>
                )}
@@ -90,6 +87,7 @@ export const Card = ({ variant = 'primary', list = false }) => {
 
             {variant !== 'primary' && variant !== 'withStatusTop' && (
                <CardDescription
+                  onClick={onClick}
                   text1={variant === 'secondary' ? cardName : holiday}
                   text2={variant === 'secondary' ? holiday : newOrOld}
                   newOrOld={newOrOld}
@@ -107,26 +105,27 @@ export const Card = ({ variant = 'primary', list = false }) => {
                   }
                >
                   <Date>{card.date}</Date>
-                  {variant !== 'tertiary' &&
+                  {(variant !== 'tertiary' &&
                      variant !== 'quaternary' &&
-                     variant !== 'withStatusTop' && (
+                     variant !== 'withStatusTop') ||
+                     (showBottomBooker && (
                         <StyledCardActionsPar1>
-                           {!bookerImage && status === 'Забронирован' && (
-                              <StyledAvatarIcon aria-label="recipe">
-                                 {bookerName.charAt(0)}
-                              </StyledAvatarIcon>
-                           )}
                            {bookerImage && (
                               <StyledAvatarIcon
-                                 alt={bookerName}
+                                 alt="Фото человека который забронировал это"
                                  src={bookerImage}
                               />
                            )}
                            <span>{status}</span>
                         </StyledCardActionsPar1>
-                     )}
+                     ))}
                </ActionsWrapper>
-               {variant !== 'quaternary' && <MoreHorizIcon />}
+               {variant !== 'quaternary' && (
+                  <MeatBalls
+                     handleChange={handleChange}
+                     options={meatballsOptions}
+                  />
+               )}
             </CardActions>
          </ContentContainer>
       </StyledCard>
@@ -136,7 +135,7 @@ export const Card = ({ variant = 'primary', list = false }) => {
 const ActionsWrapper = styled('div')({
    display: 'flex',
    justifyContent: 'space-between',
-   gap: '95px',
+   width: '-webkit-fill-available',
    '&.listWithoutHeader': {
       flexDirection: 'row-reverse',
       gap: '127px',
@@ -172,6 +171,7 @@ const StyledCardContent = styled(CardContent)(() => ({
    img: {
       maxHeight: '9.5625rem',
       borderRadius: '7px',
+      objectFit: 'contain',
    },
    width: '19.8125rem',
 }))
@@ -240,4 +240,5 @@ const StyledCardActionsPar1 = styled('div')({
    width: '60%',
    justifyContent: 'flex-end',
    gap: '10px',
+   paddingRight: '5px',
 })

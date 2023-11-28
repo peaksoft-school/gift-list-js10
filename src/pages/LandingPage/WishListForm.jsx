@@ -143,7 +143,7 @@ export const WishListForm = ({ onClose, variant, onSubmit }) => {
          </BlockOne>
          <BlockTwo
             onSubmit={handleSubmit((data) => {
-               onSubmit(data)
+               onSubmit(data, preview)
                reset()
                setPreview(null)
                setValues(variant ? initialValues[0] : {})

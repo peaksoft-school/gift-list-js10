@@ -14,6 +14,21 @@ export const routes = {
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
+      },
+      charity: {
+         path: 'charity',
+         breadcrumb: 'Благотворительность',
+         headerSelectType: 'select',
+         buttonContent: 'Добавить подарок',
+         onClick: (navigate) => navigate('charity/addCharity'),
+      },
+      charityById: {
+         path: 'charity/:charityId/:ownerId',
+         headerSelectType: 'select',
+      },
+      addCharity: {
+         path: 'charity/addCharity',
+         breadcrumb: 'Добавить подарок',
          headerSelectType: 'select',
       },
    },

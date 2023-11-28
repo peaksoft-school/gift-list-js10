@@ -1,15 +1,10 @@
 import axios from 'axios'
 import { store } from '../store'
 import { logout } from '../store/auth/authSlice'
-
-const BASE_URL = ''
+import { BASE_URL } from './axiosInstanceWithMultipartFormDataType'
 
 const headers = {
    'Content-type': 'application/json',
-}
-
-export const changeHeadersContentTypeToMultiPartFormData = () => {
-   headers['Content-type'] = 'multipart/form-data'
 }
 
 export const axiosInstance = axios.create({
@@ -19,7 +14,9 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
    const updateConfig = { ...config }
-   const { token } = store.getState().authLogin
+   // const { token } = store.getState().authLogin
+   const token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDEyODI2MzgsImlhdCI6MTcwMTE1MDYzOCwidXNlcm5hbWUiOiJtbnVyYWp5bTlAZ21haWwuY29tIn0.Wjn1BH4FSGDr7g08NLVsva3lwQIrt-KLdt2dGLnsrag'
    if (token) {
       updateConfig.headers.Authorization = `Bearer ${token}`
    }
@@ -34,6 +31,7 @@ axiosInstance.interceptors.response.use(
       if (error.response.status === 401) {
          store.dispatch(logout())
       }
+      return Promise.reject(error.response.data || error)
    }
 )
 

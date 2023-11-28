@@ -2,42 +2,12 @@ import { Button, styled } from '@mui/material'
 import React from 'react'
 import { Field } from './GiftInnerContentFooter'
 
-const complaint = {
-   id: '1',
-   name: 'Рубашка',
-   image: 'https://i.pinimg.com/474x/f7/d6/16/f7d6164f24b5d0d99a6a2a1937a188ef.jpg',
-   status: false,
-   categoryName: 'Школьные',
-   createdDate: '12.04.2022',
-   subCategoryName: 'Сумка',
-   state: 'Б/У',
-   buker: {
-      id: '1',
-      image: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-   },
-   owner: {
-      userName: 'Аида Каримова',
-      phoneNumber: '+996 705 86 95 44',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ4qSRZgiuO9RnzO-CfhMlJrSe23bsHqOvog&usqp=CAU',
-      id: '3',
-   },
-   text: `Рубашка с технологией ProMotion и быстрым, плавным
-   откликом. Грандиозный апгрейд системы камер, открывающий
-   совершенно новые возможности. Исключительная прочность. A15
-   Bionic — самый быстрый чип для iPhone. И впечатляющее время
-   работы без подзарядки. Всё это Pro.`,
-   complaints: [
-      {
-         userName: 'Аида Каримова',
-         reasonForComplaint: 'Причина жалобы',
-         userImg:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgF2suM5kFwk9AdFjesEr8EP1qcyUvah8G7w&usqp=CAU',
-         comlaintId: '1',
-      },
-   ],
-}
-
-export function AdminState({ role = 'user' }) {
+export function AdminState({
+   role = 'user',
+   complaint,
+   onDelete,
+   onEditOrOnBlock,
+}) {
    return (
       <Container>
          <Icon src={complaint.image} alt={complaint.title} />
@@ -68,10 +38,19 @@ export function AdminState({ role = 'user' }) {
             <StyledFooter>
                <Field role={role} {...complaint} />
                <ButtonContainer>
-                  <StyledButton className="delete" variant="text" type="button">
+                  <StyledButton
+                     onClick={onDelete}
+                     className="delete"
+                     variant="text"
+                     type="button"
+                  >
                      Удалить
                   </StyledButton>
-                  <StyledButton variant="contained" type="button">
+                  <StyledButton
+                     onClick={onEditOrOnBlock}
+                     variant="contained"
+                     type="button"
+                  >
                      {role === 'user' ? 'Редактировать' : 'Заблокировать'}
                   </StyledButton>
                </ButtonContainer>
@@ -98,6 +77,7 @@ const Image = styled('img')({
    width: '3rem',
    height: '3rem',
    flexShrink: '0',
+   borderRadius: '50px',
 })
 
 const MainContext = styled('p')({
@@ -133,6 +113,7 @@ const Title = styled('span')({
 const Img = styled('img')({
    width: '1.25rem',
    height: '1.25rem',
+   borderRadius: '9px',
 })
 
 const ButtonContainer = styled('div')({

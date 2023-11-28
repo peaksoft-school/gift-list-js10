@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
+import { GetAllCharity } from '../../pages/charity/GetAllCharity'
+import { GetCharityById } from '../../pages/charity/GetCharityById'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { AddCharityFormPage } from '../../pages/charity/AddCharityFormPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -11,7 +14,7 @@ export const UserRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { feed } = routes[role]
+   const { feed, charity, charityById, addCharity } = routes[role]
    return (
       <Routes>
          <Route
@@ -36,19 +39,36 @@ export const UserRoutes = () => {
                   />
                }
             />
-            {/** You can add your components like this example to bottom
-             <Route
-               path={pahtOfYourComponent}
+            <Route
+               path={charity.path}
                element={
                   <PrivateRoutes
-                     Component={
-                        Here should be your component
-                     }
+                     Component={<GetAllCharity />}
                      isAuth={isAuth}
                      fallback="/"
                   />
                }
-            /> */}
+            />
+            <Route
+               path={charityById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<GetCharityById />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={addCharity.path}
+               element={
+                  <PrivateRoutes
+                     Component={<AddCharityFormPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
          </Route>
       </Routes>
    )

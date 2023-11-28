@@ -46,7 +46,7 @@ export function Field({
 
 const Display = styled('div')({
    display: 'flex',
-   gap: '14rem',
+   gap: '17rem',
 })
 
 const Around = styled('div')({
