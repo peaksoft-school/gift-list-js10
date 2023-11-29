@@ -28,12 +28,12 @@ const isWishBooked = (bookerId, myId) => {
 export const GetAllFeedPage = ({ isList }) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const [isComplaintModalOpen, setIsComplaintModalOpen] = useState({
+   const [isComplaintModalOpenAndId, setIsComplaintModalOpenAndId] = useState({
       modalIsOpen: false,
       wishId: 0,
    })
    const toggleCompolaintModal = (wishId) =>
-      setIsComplaintModalOpen((prev) => ({
+      setIsComplaintModalOpenAndId((prev) => ({
          modalIsOpen: !prev.modalIsOpen,
          wishId,
       }))
@@ -41,7 +41,7 @@ export const GetAllFeedPage = ({ isList }) => {
    const { id } = useSelector((state) => state.authLogin)
 
    const onSendComplaint = (complaintCause) => {
-      const complaintRequest = { wishId: isComplaintModalOpen.wishId }
+      const complaintRequest = { wishId: isComplaintModalOpenAndId.wishId }
       if (typeof complaintCause === 'number') {
          complaintRequest.complaintType = causes.find(
             (cause) => cause.complaintId === complaintCause
@@ -116,7 +116,7 @@ export const GetAllFeedPage = ({ isList }) => {
          </StyledPaper>
          <ComplaintModal
             toggleModal={toggleCompolaintModal}
-            isOpen={isComplaintModalOpen.modalIsOpen}
+            isOpen={isComplaintModalOpenAndId.modalIsOpen}
             onSend={onSendComplaint}
          />
       </>
