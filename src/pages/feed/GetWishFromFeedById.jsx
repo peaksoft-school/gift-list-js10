@@ -12,6 +12,7 @@ export const GetWishFromFeedById = () => {
 
    return (
       <InnerPageOfGiftWithAnonymousBookingAndMailing
+         wishId={params?.wishId}
          description={feed?.wish.description}
          cardImage={feed?.wish?.image}
          cardName={feed?.wish.wishName}
@@ -20,6 +21,8 @@ export const GetWishFromFeedById = () => {
          ownerName={feed?.ownerUser.fullName}
          ownerImage={feed?.ownerUser?.image}
          bookerImage={feed?.bookedUser?.image}
+         status={feed?.bookedUser?.status}
+         ownerId={feed?.ownerUser?.userId}
       />
    )
 }

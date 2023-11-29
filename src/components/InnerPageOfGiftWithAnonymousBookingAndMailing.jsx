@@ -1,6 +1,7 @@
 import { Avatar, Paper, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { bookingWishThunk } from '../store/booking/bookingThunk'
 import { Button } from './UI/Button'
 import { Checkbox } from './UI/Checkbox'
@@ -17,14 +18,20 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    bookerImage,
    description,
    holidayDate,
+   wishId,
+   status,
+   ownerId,
 }) => {
    const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
    const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
    const dispatch = useDispatch()
-   const bookerId = useSelector((state) => state.authLogin.id)
+   const navigate = useNavigate()
+   const id = useSelector((state) => state.authLogin.id)
    const onBooking = () => {
-      dispatch(bookingWishThunk({ bookerId, isBookingAnonymous }))
+      dispatch(bookingWishThunk({ wishId, isBookingAnonymous }))
+      navigate(-1)
    }
+   const isBooked = status === 'RESERVED_ANONYMOUSLY' || bookerImage
    return (
       <ContentWrapper>
          <MainContentWrapper>
@@ -36,17 +43,17 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                         <Avatar src={ownerImage} alt={ownerName} />
                         <StyledOwnerName>{ownerName}</StyledOwnerName>
                      </UserContainer>
-                     {bookerImage ? (
-                        <UserContainer>
+                     <UserContainer>
+                        {bookerImage && (
                            <Avatar
                               src={bookerImage}
                               alt="Фотография забронировавшего пользователя"
                            />
-                           <StyledStatus>Забронировано</StyledStatus>
-                        </UserContainer>
-                     ) : (
-                        <p>В ожидании</p>
-                     )}
+                        )}
+                        <StyledStatus>
+                           {isBooked ? 'Забронирован' : 'В ожидании'}
+                        </StyledStatus>
+                     </UserContainer>
                   </UsersInfoContainer>
                )}
                <StyledCardName>{cardName}</StyledCardName>
@@ -65,20 +72,23 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                </HolidayInfoContainer>
             </TextContainer>
          </MainContentWrapper>
-         {variant !== 'mailing' && !bookerImage && (
-            <Actions>
-               <p>
-                  <Checkbox
-                     value={isBookingAnonymous}
-                     onChange={handleCheckboxChange}
-                  />
-                  Забронировать анонимно
-               </p>
-               <Button onClick={onBooking} variant="primary">
-                  Забронировать
-               </Button>
-            </Actions>
-         )}
+         {id !== ownerId &&
+            !isBooked &&
+            variant !== 'mailing' &&
+            !bookerImage && (
+               <Actions>
+                  <p>
+                     <Checkbox
+                        value={isBookingAnonymous}
+                        onChange={handleCheckboxChange}
+                     />
+                     Забронировать анонимно
+                  </p>
+                  <Button onClick={onBooking} variant="primary">
+                     Забронировать
+                  </Button>
+               </Actions>
+            )}
       </ContentWrapper>
    )
 }

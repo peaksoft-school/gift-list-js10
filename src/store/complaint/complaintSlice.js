@@ -10,5 +10,3 @@ export const complaintSlice = createSlice({
    initialState,
    reducers: {},
 })
-
-// export const {} = feedSlice.actions

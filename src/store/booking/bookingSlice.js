@@ -10,5 +10,3 @@ export const bookingSlice = createSlice({
    initialState,
    reducers: {},
 })
-
-// export const {} = feedSlice.actions

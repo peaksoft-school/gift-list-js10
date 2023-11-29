@@ -28,14 +28,20 @@ const isWishBooked = (bookerId, myId) => {
 export const GetAllFeedPage = ({ isList }) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const [isComplaintModalOpen, setIsComplaintModalOpen] = useState(false)
-   const toggleCompolaintModal = () => setIsComplaintModalOpen((prev) => !prev)
-   const [wishId, setWishId] = useState(0)
+   const [isComplaintModalOpen, setIsComplaintModalOpen] = useState({
+      modalIsOpen: false,
+      wishId: 0,
+   })
+   const toggleCompolaintModal = (wishId) =>
+      setIsComplaintModalOpen((prev) => ({
+         modalIsOpen: !prev.modalIsOpen,
+         wishId,
+      }))
    const { feeds, pending } = useSelector((state) => state.feedSlice)
    const { id } = useSelector((state) => state.authLogin)
 
    const onSendComplaint = (complaintCause) => {
-      const complaintRequest = { wishId }
+      const complaintRequest = { wishId: isComplaintModalOpen.wishId }
       if (typeof complaintCause === 'number') {
          complaintRequest.complaintType = causes.find(
             (cause) => cause.complaintId === complaintCause
@@ -60,8 +66,7 @@ export const GetAllFeedPage = ({ isList }) => {
       const selectedOption = e.target.innerText
       switch (selectedOption) {
          case 'Пожаловаться':
-            setWishId(wishId)
-            toggleCompolaintModal()
+            toggleCompolaintModal(wishId)
             break
          case 'Добавить в мои подарки':
             dispatch(addToMyGifts({ userId: id, wishId }))
@@ -76,7 +81,6 @@ export const GetAllFeedPage = ({ isList }) => {
             dispatch(unBookingWishThunk(wishId))
             break
       }
-      dispatch(getFeedsThunk())
    }
 
    if (pending) {
@@ -112,7 +116,7 @@ export const GetAllFeedPage = ({ isList }) => {
          </StyledPaper>
          <ComplaintModal
             toggleModal={toggleCompolaintModal}
-            isOpen={isComplaintModalOpen}
+            isOpen={isComplaintModalOpen.modalIsOpen}
             onSend={onSendComplaint}
          />
       </>

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../config/axiosInstance'
-import { notifyTypes, toastWithoutPromise } from '../../utils/helpers/toast'
 import { serializeObjectToQueryParams } from '../../utils/helpers/constants'
+import { notifyTypes, toastWithPromise } from '../../utils/helpers/toast'
 
 export const complaintWishThunk = createAsyncThunk(
    '/complaint/complaintWishThunk',
@@ -13,20 +13,16 @@ export const complaintWishThunk = createAsyncThunk(
             status: complaintType,
             text: complaintCause,
          })
-         const response = await axiosInstance.post(
-            `/complaint/wish/${wishId}?${queryParams}`
-         )
-         toastWithoutPromise(
+         const response = toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
-            response.data?.message
+            'Спасибо что сообщили нам об этом',
+            'Ваши отзывы помогают нам сделать сообщество GIFT LIST безопасной средой для всех.',
+            'Ошибка',
+            axiosInstance.post(`/complaint/wish/${wishId}?${queryParams}`)
          )
          return response.data
       } catch (error) {
-         toastWithoutPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
-            error.data.message
-         )
          return rejectWithValue(error)
       }
    }
