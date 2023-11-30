@@ -10,15 +10,23 @@ import {
    EyeClose,
    EyeOpen,
 } from '../assets'
-import { login } from '../store/slices/authSlice'
-import { loginQuery } from '../store/slices/authThunk'
+import { login } from '../store/auth/authSlice'
+import { authWithGoogle, loginQuery } from '../store/auth/authThunk'
 import { USER_KEY, routes } from '../utils/constants'
+import { signInValidationSchema } from '../utils/helpers/auth-validations'
+import { Modal } from './Modal'
 import { Button } from './UI/Button'
 import { Checkbox } from './UI/Checkbox'
 import { Input } from './UI/input/Input'
-import { signInValidationSchema } from '../utils/helpers/auth-validations'
 
 export const SignIn = () => {
+   const navigate = useNavigate()
+   const [isSignInModalOpen, setIsSignInModalOpen] = useState(true)
+   const closeModalHandler = () => {
+      navigate('/main-page')
+      setIsSignInModalOpen(false)
+   }
+
    const {
       register,
       handleSubmit,
@@ -27,6 +35,7 @@ export const SignIn = () => {
       resolver: yupResolver(signInValidationSchema),
    })
 
+   // useEffect(() => closeAndOpenModalHandler(), [])
    const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
 
    const rememberMeCheckedHandler = () => {
@@ -34,28 +43,22 @@ export const SignIn = () => {
    }
 
    const dispatch = useDispatch()
-   const navigate = useNavigate()
 
    const onSubmit = (values) => {
-      try {
-         dispatch(
-            loginQuery({
-               userData: values,
-               navigate,
-               login,
-               isRememberMeChecked,
-            })
-         )
-      } catch (error) {
-         return error
-      }
-      return 'hello'
+      dispatch(
+         loginQuery({
+            userData: values,
+            navigate,
+            login,
+            isRememberMeChecked,
+         })
+      )
    }
 
    useEffect(() => {
       const user = JSON.parse(localStorage.getItem(USER_KEY))
       if (user !== null) {
-         navigate(routes[user.role].path)
+         navigate(routes.USER.feed)
       }
    }, [dispatch])
 
@@ -64,6 +67,10 @@ export const SignIn = () => {
       setVisibleAndInvisiblePasswordState,
    ] = useState(false)
 
+   const onSignInWithGoogleHandler = () => {
+      dispatch(authWithGoogle(navigate))
+   }
+
    // password state
 
    const changePasswordVisibleInvisibleStateHandler = () => {
@@ -71,61 +78,67 @@ export const SignIn = () => {
    }
 
    return (
-      <MainContainer component="div">
-         <SignInForm onSubmit={handleSubmit(onSubmit)}>
-            <FormTitleAndCloseIcon>
-               <FormTitle variant="h4">Вход</FormTitle>
-               <StyledCloseModalIcon />
-            </FormTitleAndCloseIcon>
-            <SignInInput
-               placeholder="Email"
-               {...register('email')}
-               helperText={errors.email?.message}
-               error={Boolean(errors.email)}
-            />
-            <SignInInput
-               type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
-               placeholder="Пароль"
-               {...register('password')}
-               InputProps={{
-                  endAdornment: visibleAndInvisiblePasswordState ? (
-                     <StyledOpenedEye
-                        onClick={changePasswordVisibleInvisibleStateHandler}
-                     />
-                  ) : (
-                     <StyledClosedEye
-                        onClick={changePasswordVisibleInvisibleStateHandler}
-                     />
-                  ),
-               }}
-               helperText={errors.password?.message}
-               error={Boolean(errors.password)}
-            />
-            <StyledCheckbox
-               onChange={rememberMeCheckedHandler}
-               labelTitle="Запомнить меня"
-            />
-            <SignInButton variant="primary" type="submit">
-               Войти
-            </SignInButton>
-            <ForgotPasswordLink to={routes.FORGOTPASSWORD}>
-               Забыли пароль?
-            </ForgotPasswordLink>
-            <OrContainer component="div">
-               <Line component="div" />
-               <p>или</p>
-               <Line component="div" />
-            </OrContainer>
-            <ContinueWithGoogleButton>
-               <ContinueWithGoogle />
-               Продолжить с Google
-            </ContinueWithGoogleButton>
-            <SignUpLink>
-               Нет аккаунта?
-               <Link to={routes.REGISTRATION}> Зарегистрироваться</Link>
-            </SignUpLink>
-         </SignInForm>
-      </MainContainer>
+      <Modal
+         isOpen={isSignInModalOpen}
+         handleClose={closeModalHandler}
+         padding="30px"
+      >
+         <MainContainer component="div">
+            <SignInForm onSubmit={handleSubmit(onSubmit)}>
+               <FormTitleAndCloseIcon>
+                  <FormTitle variant="h4">Вход</FormTitle>
+                  <StyledCloseModalIcon onClick={closeModalHandler} />
+               </FormTitleAndCloseIcon>
+               <SignInInput
+                  placeholder="Email"
+                  {...register('email')}
+                  helperText={errors.email?.message}
+                  error={Boolean(errors.email)}
+               />
+               <SignInInput
+                  type={visibleAndInvisiblePasswordState ? 'text' : 'password'}
+                  placeholder="Пароль"
+                  {...register('password')}
+                  InputProps={{
+                     endAdornment: visibleAndInvisiblePasswordState ? (
+                        <StyledOpenedEye
+                           onClick={changePasswordVisibleInvisibleStateHandler}
+                        />
+                     ) : (
+                        <StyledClosedEye
+                           onClick={changePasswordVisibleInvisibleStateHandler}
+                        />
+                     ),
+                  }}
+                  helperText={errors.password?.message}
+                  error={Boolean(errors.password)}
+               />
+               <StyledCheckbox
+                  onChange={rememberMeCheckedHandler}
+                  labelTitle="Запомнить меня"
+               />
+               <SignInButton variant="primary" type="submit">
+                  Войти
+               </SignInButton>
+               <ForgotPasswordLink to={`/main-page/${routes.FORGOTPASSWORD}`}>
+                  Забыли пароль?
+               </ForgotPasswordLink>
+               <OrContainer component="div">
+                  <Line component="div" />
+                  <p>или</p>
+                  <Line component="div" />
+               </OrContainer>
+               <ContinueWithGoogleButton onClick={onSignInWithGoogleHandler}>
+                  <ContinueWithGoogle />
+                  Продолжить с Google
+               </ContinueWithGoogleButton>
+               <SignUpLink>
+                  Нет аккаунта?
+                  <Link to={routes.REGISTRATION}> Зарегистрироваться</Link>
+               </SignUpLink>
+            </SignInForm>
+         </MainContainer>
+      </Modal>
    )
 }
 

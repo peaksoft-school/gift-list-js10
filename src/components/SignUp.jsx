@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import { Box, Typography, styled } from '@mui/material'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Box, Typography, styled } from '@mui/material'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import {
    CloseModalIcon,
@@ -9,11 +10,13 @@ import {
    EyeClose,
    EyeOpen,
 } from '../assets'
-import { Button } from './UI/Button'
-import { Input } from './UI/input/Input'
-import { Checkbox } from './UI/Checkbox'
+import { authWithGoogle, registerQuery } from '../store/auth/authThunk'
+import { routes } from '../utils/constants'
 import { signUpValidationSchema } from '../utils/helpers/auth-validations'
-import { USER_KEY, routes } from '../utils/constants'
+import { Modal } from './Modal'
+import { Button } from './UI/Button'
+import { Checkbox } from './UI/Checkbox'
+import { Input } from './UI/input/Input'
 
 export const SignUp = () => {
    const {
@@ -26,9 +29,33 @@ export const SignUp = () => {
 
    const navigate = useNavigate()
 
-   const onSubmit = (userData) => {
-      navigate(routes.WELCOME)
-      localStorage.setItem(USER_KEY, JSON.stringify(userData))
+   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(true)
+
+   const closeModalHandler = () => {
+      navigate('/main-page')
+      setIsSignUpModalOpen(false)
+   }
+
+   const [isAgreeState, setIsAgreeState] = useState(false)
+
+   const isAgreeChangeStateHandler = () => {
+      setIsAgreeState((prevState) => !prevState)
+   }
+
+   const dispatch = useDispatch()
+
+   const onSubmit = (values) => {
+      dispatch(
+         registerQuery({
+            userData: values,
+            isAgree: isAgreeState,
+            navigate,
+         })
+      )
+   }
+
+   const onSingUpWithGoogleHandler = () => {
+      dispatch(authWithGoogle())
    }
    // passwords state
 
@@ -48,116 +75,128 @@ export const SignUp = () => {
    }
 
    return (
-      <MainContainer component="div">
-         <SignUpForm component="form" onSubmit={handleSubmit(onSubmit)}>
-            <FormTitleAndCloseIcon>
-               <FormTitle variant="h4">Регистрация</FormTitle>
-               <StyledCloseModalIcon />
-            </FormTitleAndCloseIcon>
-            <Input
-               placeholder="Имя"
-               {...register('name')}
-               helperText={errors.name?.message}
-               error={Boolean(errors.name)}
-            />
-            <Input
-               placeholder="Фамилия"
-               {...register('surname')}
-               helperText={errors.surname?.message}
-               error={Boolean(errors.surname)}
-            />
-            <Input
-               placeholder="Email"
-               {...register('email')}
-               helperText={errors.email?.message}
-               error={Boolean(errors.email)}
-            />
-            <Input
-               placeholder="password"
-               type={
-                  visibleAndInvisiblePasswordsState.password
-                     ? 'text'
-                     : 'password'
-               }
-               {...register('password')}
-               helperText={errors.password?.message}
-               error={Boolean(errors.password)}
-               InputProps={{
-                  endAdornment: visibleAndInvisiblePasswordsState.password ? (
-                     <StyledOpenedEye
-                        onClick={() =>
-                           changePasswordVisibleInvisibleStateHandler(
-                              'password'
-                           )
-                        }
-                     />
-                  ) : (
-                     <StyledClosedEye
-                        onClick={() =>
-                           changePasswordVisibleInvisibleStateHandler(
-                              'password'
-                           )
-                        }
-                     />
-                  ),
-               }}
-            />
-            <Input
-               placeholder="Потдвердите пароль"
-               type={
-                  visibleAndInvisiblePasswordsState.confirmPassword
-                     ? 'text'
-                     : 'password'
-               }
-               {...register('confirmPassword')}
-               helperText={errors.confirmPassword?.message}
-               error={Boolean(errors.confirmPassword)}
-               InputProps={{
-                  endAdornment:
-                     visibleAndInvisiblePasswordsState.confirmPassword ? (
-                        <StyledOpenedEye
-                           onClick={() =>
-                              changePasswordVisibleInvisibleStateHandler(
-                                 'confirmPassword'
-                              )
-                           }
-                        />
-                     ) : (
-                        <StyledClosedEye
-                           onClick={() =>
-                              changePasswordVisibleInvisibleStateHandler(
-                                 'confirmPassword'
-                              )
-                           }
-                        />
-                     ),
-               }}
-            />
-            <Checkbox labelTitle="Подписаться на рассылку" />
-            <SignInButton onClick={handleSubmit(onSubmit)} variant="primary">
-               Создать аккаунт
-            </SignInButton>
-            <OrContainer component="div">
-               <Line component="div" />
-               <p>или</p>
-               <Line component="div" />
-            </OrContainer>
-            <ContinueWithGoogleButton>
-               <ContinueWithGoogle />
-               Продолжить с Google
-            </ContinueWithGoogleButton>
-            <SignUpLink>
-               Уже имеете существующий аккаунт?
-               <Link to={routes.LOGIN}> Войти</Link>
-            </SignUpLink>
-         </SignUpForm>
-      </MainContainer>
+      <Modal
+         isOpen={isSignUpModalOpen}
+         handleClose={closeModalHandler}
+         padding="3px"
+      >
+         <MainContainer component="div">
+            <SignUpForm component="form" onSubmit={handleSubmit(onSubmit)}>
+               <FormTitleAndCloseIcon>
+                  <FormTitle variant="h4">Регистрация</FormTitle>
+                  <StyledCloseModalIcon onClick={closeModalHandler} />
+               </FormTitleAndCloseIcon>
+               <StyledInput
+                  placeholder="Имя"
+                  {...register('firstName')}
+                  helperText={errors.firstName?.message}
+                  error={Boolean(errors.firstName)}
+               />
+               <StyledInput
+                  placeholder="Фамилия"
+                  {...register('lastName')}
+                  helperText={errors.lastName?.message}
+                  error={Boolean(errors.lastName)}
+               />
+               <StyledInput
+                  placeholder="Email"
+                  {...register('email')}
+                  helperText={errors.email?.message}
+                  error={Boolean(errors.email)}
+               />
+               <StyledInput
+                  placeholder="password"
+                  type={
+                     visibleAndInvisiblePasswordsState.password
+                        ? 'text'
+                        : 'password'
+                  }
+                  {...register('password')}
+                  helperText={errors.password?.message}
+                  error={Boolean(errors.password)}
+                  InputProps={{
+                     endAdornment:
+                        visibleAndInvisiblePasswordsState.password ? (
+                           <StyledOpenedEye
+                              onClick={() =>
+                                 changePasswordVisibleInvisibleStateHandler(
+                                    'password'
+                                 )
+                              }
+                           />
+                        ) : (
+                           <StyledClosedEye
+                              onClick={() =>
+                                 changePasswordVisibleInvisibleStateHandler(
+                                    'password'
+                                 )
+                              }
+                           />
+                        ),
+                  }}
+               />
+               <StyledInput
+                  placeholder="Потдвердите пароль"
+                  type={
+                     visibleAndInvisiblePasswordsState.confirmPassword
+                        ? 'text'
+                        : 'password'
+                  }
+                  {...register('confirmPassword')}
+                  helperText={errors.confirmPassword?.message}
+                  error={Boolean(errors.confirmPassword)}
+                  InputProps={{
+                     endAdornment:
+                        visibleAndInvisiblePasswordsState.confirmPassword ? (
+                           <StyledOpenedEye
+                              onClick={() =>
+                                 changePasswordVisibleInvisibleStateHandler(
+                                    'confirmPassword'
+                                 )
+                              }
+                           />
+                        ) : (
+                           <StyledClosedEye
+                              onClick={() =>
+                                 changePasswordVisibleInvisibleStateHandler(
+                                    'confirmPassword'
+                                 )
+                              }
+                           />
+                        ),
+                  }}
+               />
+               <Checkbox
+                  onChange={isAgreeChangeStateHandler}
+                  labelTitle="Подписаться на рассылку"
+               />
+               <SignInButton onClick={handleSubmit(onSubmit)} variant="primary">
+                  Создать аккаунт
+               </SignInButton>
+               <OrContainer component="div">
+                  <Line component="div" />
+                  <p>или</p>
+                  <Line component="div" />
+               </OrContainer>
+               <ContinueWithGoogleButton onClick={onSingUpWithGoogleHandler}>
+                  <ContinueWithGoogle />
+                  Продолжить с Google
+               </ContinueWithGoogleButton>
+               <SignUpLink>
+                  Уже имеете существующий аккаунт?
+                  <Link to={routes.LOGIN}> Войти</Link>
+               </SignUpLink>
+            </SignUpForm>
+         </MainContainer>
+      </Modal>
    )
 }
 
 const MainContainer = styled(Box)({
    display: 'flex',
    justifyContent: 'center',
+   transform: 'scale(0.8)',
+   height: '95vh',
 })
 
 const SignUpForm = styled(Box)({
@@ -165,6 +204,10 @@ const SignUpForm = styled(Box)({
    flexDirection: 'column',
    gap: '1rem',
    width: '30.125rem',
+})
+
+const StyledInput = styled(Input)({
+   padding: '3px',
 })
 
 const FormTitleAndCloseIcon = styled(Box)({

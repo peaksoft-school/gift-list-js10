@@ -2,7 +2,7 @@ import axios from 'axios'
 import { store } from '../store'
 import { logout } from '../store/auth/authSlice'
 
-const BASE_URL = ''
+const BASE_URL = 'http://giftlist.peaksoftprojects.com/api'
 
 const headers = {
    'Content-type': 'application/json',
@@ -31,9 +31,10 @@ axiosInstance.interceptors.response.use(
       return Promise.resolve(response)
    },
    (error) => {
-      if (error.response.status === 401) {
+      if (error.response === 401) {
          store.dispatch(logout())
       }
+      return Promise.reject(error.response.data)
    }
 )
 

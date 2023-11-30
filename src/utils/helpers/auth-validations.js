@@ -5,7 +5,7 @@ import { valueIsNotEmpty } from './update-profile-validations'
 YupPassword(yup)
 
 export const signUpValidationSchema = yup.object().shape({
-   name: yup
+   firstName: yup
       .string()
       .required('Введите имя.')
       .test('check-name-is-not-blank', 'Имя обязательное поле', (value) =>
@@ -17,7 +17,7 @@ export const signUpValidationSchema = yup.object().shape({
          'Имя не должно содержать символы.',
          (value) => /^[\p{L}\s]+$/u.test(value)
       ),
-   surname: yup
+   lastName: yup
       .string()
       .required('Введите фамилию.')
       .test('check-name-is-not-blank', 'Фамилия обязательное поле', (value) =>
@@ -137,7 +137,7 @@ export const signInValidationSchema = yup.object().shape({
    password: yup
       .string()
       .required('Введите пароль')
-      .min(8, 'Пароль должен быть не менее из 8-и символов')
+      .min(6, 'Пароль должен быть не менее из 6-и символов')
       .minUppercase(1, 'Пароль должен содержать хотя бы 1 большой символ')
       .minSymbols(1, 'Пароль должен содержать такие символы как $ или /'),
 })

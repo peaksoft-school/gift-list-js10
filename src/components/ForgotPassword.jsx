@@ -1,12 +1,16 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Box, Typography, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Box, Typography, styled } from '@mui/material'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CloseModalIcon } from '../assets'
-import { Input } from './UI/input/Input'
-import { Button } from './UI/Button'
+import { forgotPasswordQuery } from '../store/auth/authThunk'
 import { forgotPasswordValidationSchema } from '../utils/helpers/forgot-password-validation'
+import { Button } from './UI/Button'
+import { Input } from './UI/input/Input'
+import { auth } from '../config/firebase'
+import { Modal } from './Modal'
 
 export const ForgotPassword = () => {
    const {
@@ -19,16 +23,30 @@ export const ForgotPassword = () => {
    })
 
    const navigate = useNavigate()
+   const dispatch = useDispatch()
+
+   const [isForgotPasswordModalOpen, setForgotPasswordModalOpen] =
+      useState(true)
+
+   const closeModalHandler = () => {
+      navigate('/main-page')
+      setForgotPasswordModalOpen(false)
+   }
    const [isButtonClickedState, setIsButtonClickedState] = useState('')
 
    const isButtonClickedStateChangeHandler = () => {
       setIsButtonClickedState((prevState) => !prevState)
    }
 
+   console.log(auth)
+
+   console.log(isButtonClickedState)
+
    const onSubmit = (userData) => {
       localStorage.setItem('email', userData.email)
-      setValue('email')
       isButtonClickedStateChangeHandler()
+      dispatch(forgotPasswordQuery(userData.email))
+      setValue('email')
    }
 
    const goBackToPreviousPageHandler = () => {
@@ -43,37 +61,42 @@ export const ForgotPassword = () => {
    }, [setValue])
 
    return (
-      <MainContainer component="div">
-         <ForgotPasswordForm onSubmit={handleSubmit(onSubmit)} component="form">
-            <FormTitleAndCloseIcon>
-               <FormTitle variant="h4">Забыли пароль?</FormTitle>
-               <StyledCloseModalIcon />
-            </FormTitleAndCloseIcon>
-            <ResetPasswordText variant="p">
-               Вам будет отправлена ссылка для сброса пароля
-            </ResetPasswordText>
-            <Input
-               type="email"
-               placeholder="Введите ваш Email"
-               {...register('email')}
-               helperText={errors.email?.message}
-               error={Boolean(errors.email)}
-            />
-            <Button
-               type="submit"
-               variant="primary"
-               disabled={isButtonClickedState}
+      <Modal isOpen={isForgotPasswordModalOpen} handleClose={closeModalHandler}>
+         <MainContainer component="div">
+            <ForgotPasswordForm
+               onSubmit={handleSubmit(onSubmit)}
+               component="form"
             >
-               Отправить
-            </Button>
-            <CancelButton
-               onClick={goBackToPreviousPageHandler}
-               variant="outlined"
-            >
-               Отмена
-            </CancelButton>
-         </ForgotPasswordForm>
-      </MainContainer>
+               <FormTitleAndCloseIcon>
+                  <FormTitle variant="h4">Забыли пароль?</FormTitle>
+                  <StyledCloseModalIcon onClick={closeModalHandler} />
+               </FormTitleAndCloseIcon>
+               <ResetPasswordText variant="p">
+                  Вам будет отправлена ссылка для сброса пароля
+               </ResetPasswordText>
+               <Input
+                  type="email"
+                  placeholder="Введите ваш Email"
+                  {...register('email')}
+                  helperText={errors.email?.message}
+                  error={Boolean(errors.email)}
+               />
+               <Button
+                  type="submit"
+                  variant="primary"
+                  // disabled={isButtonClickedState}
+               >
+                  Отправить
+               </Button>
+               <CancelButton
+                  onClick={goBackToPreviousPageHandler}
+                  variant="outlined"
+               >
+                  Отмена
+               </CancelButton>
+            </ForgotPasswordForm>
+         </MainContainer>
+      </Modal>
    )
 }
 

@@ -7,6 +7,7 @@ const initialState = {
    email: null,
    token: null,
    role: null,
+   fullName: null,
 }
 
 export const authSlice = createSlice({
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
          newState.role = data.role
          newState.token = data.token
          newState.id = data.id
+         newState.fullName = data.fullName
          newState.isAuth = true
          navigate(routes[data.role].path)
          return newState
@@ -28,7 +30,19 @@ export const authSlice = createSlice({
          localStorage.removeItem(USER_KEY)
          return newState
       },
+      forgotPassword: (state, { payload: { data } }) => {
+         const newState = state
+         newState.email = data.email
+         return newState
+      },
+      changePassword: (state, { payload: { data } }) => {
+         const newState = state
+         newState.newPassword = data.newPassword
+         newState.verifyPassword = data.verifyPassword
+         return newState
+      },
    },
 })
 
-export const { login, logout } = authSlice.actions
+export const { login, logout, register, forgotPassword, changePassword } =
+   authSlice.actions
