@@ -48,11 +48,13 @@ export const GetCharityById = () => {
                   image: charity.bookedUserImage,
                },
                owner: {
-                  userName: `${charity.firstName} ${charity.lastName}`,
+                  userName: charity.fullName,
                   image: charity.userImage,
                },
                complaints: [],
-               status: charity.status === 'RESERVED',
+               status:
+                  charity.status === 'RESERVED' ||
+                  charity.status === 'RESERVED_ANONYMOUSLY',
             }}
             onDelete={onDeleteCharity}
             onEditOrOnBlock={onEditOrOnBlock}

@@ -1,11 +1,13 @@
 import { styled } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom'
 import useBreadcrumbs from 'use-react-router-breadcrumbs'
 import { CardIcon, ListIcon } from '../assets'
 import { Header } from '../components/Header'
 import { Button } from '../components/UI/Button'
 import { Sidebar } from '../components/UI/Sidebar'
+import { providerEvent } from '../events/customEvents'
 import { routes } from '../utils/constants'
 import { findNumberLength } from '../utils/helpers/constants'
 
@@ -31,6 +33,8 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
    const [byIdName, setByIdName] = useState('')
    const buttonContent = routes[role][path['*']]?.buttonContent
    const navigate = useNavigate()
+   const { charities } = useSelector((state) => state.charity)
+   const { id } = useSelector((state) => state.authLogin)
 
    useEffect(() => {
       if (path['*'].includes('/')) {
@@ -52,6 +56,11 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
          window.removeEventListener('providerEvent', handleDataUpdated)
       }
    }, [])
+
+   const latestCharities = charities
+      .toSorted((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 3)
+
    return (
       <>
          <Sidebar roleName={role} />
@@ -59,41 +68,69 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
             <Header variantOfSelect={headerSelectType} />
             <MainContentWrapper>
                <StyledMainContentHeader>
-                  <StyledLegend isinner={inner}>
-                     {breadcrumbs.map(({ match }, index) => (
-                        <Fragment key={match.pathname}>
-                           {(index !== 1 &&
-                              isNumber(
-                                 getLastElementOfPath(match.pathname)
-                              )) || (
-                              <StyledNavLink
-                                 to={
-                                    (findNumberLength(match.pathname) &&
-                                       path['*']) ||
-                                    match.pathname
-                                 }
-                                 active={
-                                    breadcrumbs.length - 1 === index ||
-                                    findNumberLength(match.pathname)
-                                       ? 'true'
-                                       : ''
-                                 }
+                  <ImagesAndBreadcrumbsWrapper>
+                     <StyledLegend isinner={inner}>
+                        {breadcrumbs.map(({ match }, index) => (
+                           <Fragment key={match.pathname}>
+                              {(index !== 1 &&
+                                 isNumber(
+                                    getLastElementOfPath(match.pathname)
+                                 )) || (
+                                 <StyledNavLink
+                                    to={
+                                       (findNumberLength(match.pathname) &&
+                                          path['*']) ||
+                                       match.pathname
+                                    }
+                                    active={
+                                       breadcrumbs.length - 1 === index ||
+                                       findNumberLength(match.pathname)
+                                          ? 'true'
+                                          : ''
+                                    }
+                                 >
+                                    {isNumber(
+                                       getLastElementOfPath(match.pathname)
+                                    )
+                                       ? isNumber(
+                                            match.pathname.split('/').pop()
+                                         ) && byIdName
+                                       : routes[role][
+                                            match.pathname.split('/').pop()
+                                         ]?.breadcrumb}
+                                 </StyledNavLink>
+                              )}
+                              {index !== 1 &&
+                                 index !== breadcrumbs.length - 1 &&
+                                 ' / '}
+                           </Fragment>
+                        ))}
+                     </StyledLegend>
+                     {path['*'] === 'charity' && (
+                        <StyledImagesContainer>
+                           {latestCharities.map((charity) => (
+                              <button
+                                 type="button"
+                                 onClick={() => {
+                                    providerEvent({
+                                       action: 'name',
+                                       payload: charity.nameCharity,
+                                    })
+                                    navigate(
+                                       `charity/${charity.charityId}/${id}`
+                                    )
+                                 }}
                               >
-                                 {isNumber(getLastElementOfPath(match.pathname))
-                                    ? isNumber(
-                                         match.pathname.split('/').pop()
-                                      ) && byIdName
-                                    : routes[role][
-                                         match.pathname.split('/').pop()
-                                      ]?.breadcrumb}
-                              </StyledNavLink>
-                           )}
-                           {index !== 1 &&
-                              index !== breadcrumbs.length - 1 &&
-                              ' / '}
-                        </Fragment>
-                     ))}
-                  </StyledLegend>
+                                 <img
+                                    key={charity.charityId}
+                                    src={charity.charityImage}
+                                    alt={charity.nameCharity}
+                                 />
+                              </button>
+                           ))}
+                        </StyledImagesContainer>
+                     )}
+                  </ImagesAndBreadcrumbsWrapper>
                   <StyledActions>
                      {!inner && routes[role][path['*']]?.showListActions && (
                         <div>
@@ -124,6 +161,28 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
       </>
    )
 }
+
+const ImagesAndBreadcrumbsWrapper = styled('div')({
+   display: 'flex',
+   gap: '35px',
+   alignItems: 'center',
+})
+
+const StyledImagesContainer = styled('div')({
+   display: 'flex',
+   gap: '20px',
+   img: {
+      height: '39px',
+      width: '39px',
+      borderRadius: '39px',
+   },
+   button: {
+      height: '39px',
+      width: '39px',
+      borderRadius: '39px',
+      border: 'none',
+   },
+})
 
 const StyledSomethingAddButton = styled(Button)({ padding: '6px 20px' })
 

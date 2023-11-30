@@ -1,4 +1,6 @@
 import { SamatOkenov, Ellipse, Aida, Askar } from '../../assets'
+import { axiosInstanceMultiPartFormData } from '../../config/axiosInstanceWithMultipartFormDataType'
+import { notifyTypes, toastWithoutPromise } from './toast'
 
 export const notifications = [
    {
@@ -77,4 +79,23 @@ export function findNumberLength(inputString) {
    }
 
    return 0
+}
+
+export const uploadFile = async (file) => {
+   try {
+      const formData = new FormData()
+      formData.set('file', file)
+      const response = await axiosInstanceMultiPartFormData.post(
+         '/storages/upload',
+         formData
+      )
+      return response.data
+   } catch (error) {
+      toastWithoutPromise(
+         notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+         'Error while upload file',
+         error
+      )
+      return error
+   }
 }

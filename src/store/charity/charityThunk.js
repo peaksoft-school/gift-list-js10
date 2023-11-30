@@ -5,12 +5,19 @@ import {
    toastWithPromise,
    toastWithoutPromise,
 } from '../../utils/helpers/toast'
+import {
+   categoriesWithRussianPropertiesName,
+   conditionWithRussianPropertiesName,
+   subCategoriesWithRussianPropertiesName,
+} from '../../utils/constants/constants'
 
-export const getAllCharity = createAsyncThunk(
+export const getAllCharityByUserId = createAsyncThunk(
    '/charity/getAllCharities',
-   async (_, { rejectWithValue }) => {
+   async (userId, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get('/charity/getAll')
+         const response = await axiosInstance.get(
+            `/charity/myCharities?userId=${userId}`
+         )
          return response.data
       } catch (error) {
          toastWithoutPromise(
@@ -27,9 +34,7 @@ export const getCharityById = createAsyncThunk(
    '/charity/getCharityById',
    async (charityId, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get(
-            `/charity/get?charityId=${charityId}`
-         )
+         const response = await axiosInstance.get(`/charity/${charityId}`)
          return response.data
       } catch (error) {
          toastWithoutPromise(
@@ -63,22 +68,30 @@ export const deleteCharityById = createAsyncThunk(
 
 export const addCharity = createAsyncThunk(
    '/charity/addCharity',
-   async ({ charity, navigate }, { rejectWithValue, dispatch }) => {
+   async ({ userId, charity, navigate }, { rejectWithValue, dispatch }) => {
       try {
          const newCharity = {
             nameCharity: charity.holidayName,
-            category: charity.category,
-            subcategory: charity.subCategory,
+            category: categoriesWithRussianPropertiesName[charity.category],
+            subcategory:
+               subCategoriesWithRussianPropertiesName[charity.subCategory],
             description: charity.description,
-            image: 'string',
-            condition: charity.state,
+            image: charity.image,
+            condition: conditionWithRussianPropertiesName[charity.state],
          }
 
-         await axiosInstance('/charity/save', newCharity)
+         await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
+            notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
+            'Successs',
+            'successdesc',
+            'error',
+            axiosInstance.post('/charity/save', newCharity)
+         )
          navigate('charity')
-         return dispatch(getAllCharity())
+         dispatch(getAllCharityByUserId(userId))
       } catch (error) {
-         return rejectWithValue(error)
+         rejectWithValue(error)
       }
    }
 )

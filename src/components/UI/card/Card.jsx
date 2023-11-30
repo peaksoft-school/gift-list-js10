@@ -23,7 +23,7 @@ export const Card = ({
    showBottomBooker,
    card,
    handleChange,
-   meatballsOptions,
+   meatballsOptions = [],
    onClick,
 }) => {
    const {
@@ -120,7 +120,7 @@ export const Card = ({
                         </StyledCardActionsPar1>
                      ))}
                </ActionsWrapper>
-               {variant !== 'quaternary' && (
+               {variant !== 'quaternary' && meatballsOptions.length !== 0 && (
                   <MeatBalls
                      handleChange={handleChange}
                      options={meatballsOptions}
@@ -171,7 +171,7 @@ const StyledCardContent = styled(CardContent)(() => ({
    img: {
       maxHeight: '9.5625rem',
       borderRadius: '7px',
-      objectFit: 'contain',
+      // objectFit: 'contain',
    },
    width: '19.8125rem',
 }))

@@ -114,6 +114,7 @@ const Img = styled('img')({
    width: '1.25rem',
    height: '1.25rem',
    borderRadius: '9px',
+   objectFit: 'contain',
 })
 
 const ButtonContainer = styled('div')({

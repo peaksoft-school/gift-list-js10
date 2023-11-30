@@ -4,17 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
-import { getAllCharity } from '../../store/charity/charityThunk'
-import { bookingOptions } from '../../utils/constants/meatballsOptions'
+import { getAllCharityByUserId } from '../../store/charity/charityThunk'
 import { convertDateFormat } from '../../utils/helpers/constants'
 
 export const GetAllCharity = () => {
    const dispatch = useDispatch()
    const { charities, pending } = useSelector((state) => state.charity)
+   const { id } = useSelector((state) => state.authLogin)
    const navigate = useNavigate()
 
    useEffect(() => {
-      dispatch(getAllCharity())
+      dispatch(getAllCharityByUserId(id))
    }, [])
 
    if (pending) {
@@ -38,11 +38,13 @@ export const GetAllCharity = () => {
          {charities.map((charity) => (
             <Card
                key={charity.nameCharity}
-               onClick={() => onGetById(1, 2, charity.nameCharity)}
+               onClick={() =>
+                  onGetById(charity.charityId, id, charity.nameCharity)
+               }
                variant="withStatusTop"
                card={{
                   owner: {
-                     name: `${charity.firstName} ${charity.lastName}`,
+                     name: charity.fullName,
                      image: charity.userImage,
                   },
                   name: charity.nameCharity,
@@ -57,7 +59,6 @@ export const GetAllCharity = () => {
                }}
                showBottomBooker="true"
                handleChange={handleMeatballsValue}
-               meatballsOptions={bookingOptions}
             />
          ))}
       </StyledCharityWrapper>
