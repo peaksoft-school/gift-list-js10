@@ -20,7 +20,13 @@ const transformObjectRoutesToArray = (role) =>
 
 const getLastElementOfPath = (path) => path.slice(-1)
 
-export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
+export const MainLayout = ({
+   role,
+   isList,
+   toggleList,
+   headerSelectType,
+   variant,
+}) => {
    const routesArray = transformObjectRoutesToArray(role)
    const breadcrumbs = useBreadcrumbs(routesArray, {
       excludePaths: ['/', 'user', 'admin'],
@@ -74,16 +80,17 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
                         </Fragment>
                      ))}
                   </StyledLegend>
-                  {!inner && (
-                     <div>
-                        <StyledButton onClick={toggleList} disableRipple>
-                           <CardIcon className={`${!isList && 'active'}`} />
-                        </StyledButton>
-                        <StyledButton onClick={toggleList} disableRipple>
-                           <ListIcon className={`${isList && 'active'}`} />
-                        </StyledButton>
-                     </div>
-                  )}
+                  {!inner &&
+                     (variant || (
+                        <div>
+                           <StyledButton onClick={toggleList} disableRipple>
+                              <CardIcon className={`${!isList && 'active'}`} />
+                           </StyledButton>
+                           <StyledButton onClick={toggleList} disableRipple>
+                              <ListIcon className={`${isList && 'active'}`} />
+                           </StyledButton>
+                        </div>
+                     ))}
                </StyledMainContentHeader>
                <Outlet />
             </MainContentWrapper>

@@ -1,21 +1,26 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
-export const Tabs = ({
-   friendsCount,
-   requestCount,
-   routeToMyFriends,
-   routeToRequest,
-}) => {
+export const Tabs = ({ countFriends, countRequests }) => {
+   const { pathname } = useLocation()
    return (
       <StyledTabs>
-         <StyledNavLink to={routeToMyFriends} className="tabs">
+         <StyledNavLink
+            pathname={pathname}
+            to="/user/friends"
+            className={`tabs ${pathname === '/user/friends' && 'activee'}`}
+         >
             Мои друзья
-            <Counter>{friendsCount}</Counter>
+            <Counter>{countFriends}</Counter>
          </StyledNavLink>
-         <StyledNavLink to={routeToRequest} className="tabs">
-            Запросы в друзья <Counter>{requestCount}</Counter>
+         <StyledNavLink
+            to="/user/friends/request"
+            className={`tabs ${
+               pathname === '/user/friends/request' && 'activee'
+            }`}
+         >
+            Запросы в друзья <Counter>{countRequests}</Counter>
          </StyledNavLink>
       </StyledTabs>
    )
@@ -46,7 +51,7 @@ const StyledNavLink = styled(NavLink)({
          background: '#595656',
       },
    },
-   '&.active': {
+   '&.activee': {
       background: '#8639b5',
       color: 'white',
       '&> span': {
@@ -57,11 +62,11 @@ const StyledNavLink = styled(NavLink)({
 })
 
 const Counter = styled('span')({
-   width: '3%',
+   width: '1.3vw',
    height: '2.5vh',
-   borderRadius: '50px',
+   borderRadius: '50%',
    fontSize: '0.875rem',
    fontWeight: 400,
    textAlign: 'center',
-   paddingTop: '3px',
+   paddingTop: '2px',
 })

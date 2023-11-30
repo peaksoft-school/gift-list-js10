@@ -2,7 +2,7 @@ import axios from 'axios'
 import { store } from '../store'
 import { logout } from '../store/auth/authSlice'
 
-const BASE_URL = ''
+const BASE_URL = 'http://giftlist.peaksoftprojects.com/api'
 
 const headers = {
    'Content-type': 'application/json',
@@ -19,7 +19,9 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
    const updateConfig = { ...config }
-   const { token } = store.getState().authLogin
+   // const { token } = store.getState().authLogin
+   const token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDE0MDg0MzcsImlhdCI6MTcwMTI3NjQzNywidXNlcm5hbWUiOiJhbGluYWFraG1hdG92YTc3QGdtYWlsLmNvbSJ9.JnftGt94whHYeXl_VsN5jziZ9FTIJ1ovRNhBcYVPBdQ'
    if (token) {
       updateConfig.headers.Authorization = `Bearer ${token}`
    }

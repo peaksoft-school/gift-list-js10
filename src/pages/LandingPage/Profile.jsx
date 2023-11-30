@@ -4,220 +4,210 @@ import { Button } from '../../components/UI/Button'
 import {
    ProfileFacebook,
    ProfileInstagram,
-   ProfilePicture,
    ProfileTelegram,
    ProfileVk,
 } from '../../assets/index'
 
-const userInfo = [
-   {
-      id: 1,
-      userName: 'Аида Каримова',
-      userPicture: ProfilePicture,
-      facebook: 'https://www.facebook.com/',
-      instagram: 'https://www.instagram.com/',
-      telegram: 'https://web.telegram.org/',
-      vk: 'https://vk.com/feed',
-      city: 'Бишкек',
-      email: 'Aika1998@gmail.com',
-      birthdate: '12.04.1998',
-      phoneNumber: '+9967052364',
-      interesAndHobbies: 'Танцы, иностранные языки, готовка',
-      importantToKnow: 'Против спиртных напитков',
-      clothSize: 'S',
-      shoesSize: '36',
-   },
-]
-
-export const Profile = ({ variant }) => {
+export const Profile = ({
+   variant,
+   image,
+   fullName,
+   phoneNumber,
+   linkFacebook,
+   telegram,
+   instagram,
+   vkontakte,
+   country,
+   email,
+   shoeSize,
+   clothingSize,
+   hobby,
+   dateOfBirth,
+   important,
+   // onClick,
+}) => {
    return (
       <ProfileContainer component="div">
-         {userInfo.map((user) => (
-            <React.Fragment key={user.id}>
-               <UserProfilePictureAndUserNameAndSocialsMediaContainer component="div">
-                  <UserProfilePictureContainer component="div">
-                     <img src={user.userPicture} alt={user.userName} />
-                  </UserProfilePictureContainer>
-                  <UserName variant="p">{user.userName}</UserName>
-                  {variant !== 'roleAdmin' &&
-                     (() => {
-                        switch (variant) {
-                           case 'applicationToFriends':
-                              return (
-                                 <ApplicationToFriendsContainer>
-                                    <StyledButton variant="primary">
-                                       Принять заявку
-                                    </StyledButton>
-                                    <StyledButton variant="outlined">
-                                       Отклонить
-                                    </StyledButton>
-                                 </ApplicationToFriendsContainer>
-                              )
-                           case 'removeFromFriends':
-                              return (
-                                 <StyledButton variant="outlined">
-                                    Удалить из друзей
-                                 </StyledButton>
-                              )
-                           default:
-                              return (
-                                 <StyledButton variant="primary">
-                                    Добавить в друзья
-                                 </StyledButton>
-                              )
-                        }
-                     })()}
-                  <UserSocialMediaContainer component="div">
-                     <a href={user.facebook} target="blank">
-                        <ProfileFacebook />
-                     </a>
-                     <a href={user.instagram} target="blank">
-                        <ProfileInstagram />
-                     </a>
-                     <a href={user.telegram} target="blank">
-                        <ProfileTelegram />
-                     </a>
-                     <a href={user.vk} target="blank">
-                        <ProfileVk />
-                     </a>
-                  </UserSocialMediaContainer>
-               </UserProfilePictureAndUserNameAndSocialsMediaContainer>
+         <UserProfilePictureAndUserNameAndSocialsMediaContainer component="div">
+            <UserProfilePictureContainer component="div">
+               <img src={image} alt={fullName} />
+            </UserProfilePictureContainer>
+            <UserName variant="p">{fullName}</UserName>
+            {variant !== 'roleAdmin' &&
+               (() => {
+                  switch (variant) {
+                     case 'applicationToFriends':
+                        return (
+                           <ApplicationToFriendsContainer>
+                              <StyledButton variant="primary">
+                                 Принять заявку
+                              </StyledButton>
+                              <StyledButton variant="outlined">
+                                 Отклонить
+                              </StyledButton>
+                           </ApplicationToFriendsContainer>
+                        )
+                     case 'removeFromFriends':
+                        return (
+                           <StyledButton variant="outlined">
+                              Удалить из друзей
+                           </StyledButton>
+                        )
+                     default:
+                        return (
+                           <StyledButton variant="primary">
+                              Добавить в друзья
+                           </StyledButton>
+                        )
+                  }
+               })()}
+            <UserSocialMediaContainer component="div">
+               <a href={linkFacebook} target="blank">
+                  <ProfileFacebook />
+               </a>
+               <a href={instagram} target="blank">
+                  <ProfileInstagram />
+               </a>
+               <a href={telegram} target="blank">
+                  <ProfileTelegram />
+               </a>
+               <a href={vkontakte} target="blank">
+                  <ProfileVk />
+               </a>
+            </UserSocialMediaContainer>
+         </UserProfilePictureAndUserNameAndSocialsMediaContainer>
 
-               <UserInfoContainer component="div">
-                  {/* basic information */}
-                  <InformationText variant="p">
-                     Основная информация
-                  </InformationText>
-                  <BasicInformation component="div">
-                     {/* baic information left part */}
-                     <InformationLeftPart component="div">
-                        {/* user's city */}
-                        <UserOneInformationContainer component="div">
-                           <UserInformationArea variant="p">
-                              Город:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {user.city}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
+         <UserInfoContainer component="div">
+            {/* basic information */}
+            <InformationText variant="p">Основная информация</InformationText>
+            <BasicInformation component="div">
+               {/* baic information left part */}
+               <InformationLeftPart component="div">
+                  {/* user's city */}
+                  <UserOneInformationContainer component="div">
+                     <UserInformationArea variant="p">
+                        Город:
+                     </UserInformationArea>
+                     <UserInformationTitle variant="p">
+                        {country}
+                     </UserInformationTitle>
+                  </UserOneInformationContainer>
 
-                        {/* user's email */}
-                        <UserOneInformationContainer component="div">
-                           <UserInformationArea variant="p">
-                              Email:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {user.email}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
-                     </InformationLeftPart>
+                  {/* user's email */}
+                  <UserOneInformationContainer component="div">
+                     <UserInformationArea variant="p">
+                        Email:
+                     </UserInformationArea>
+                     <UserInformationTitle variant="p">
+                        {email}
+                     </UserInformationTitle>
+                  </UserOneInformationContainer>
+               </InformationLeftPart>
 
-                     {/* basic information right part */}
+               {/* basic information right part */}
 
-                     <InformationRightPart component="div">
-                        {/* user birthdate */}
-                        <UserOneInformationContainer component="div">
-                           <UserInformationArea variant="p">
-                              Дата рождения:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {user.birthdate}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
+               <InformationRightPart component="div">
+                  {/* user birthdate */}
+                  <UserOneInformationContainer component="div">
+                     <UserInformationArea variant="p">
+                        Дата рождения:
+                     </UserInformationArea>
+                     <UserInformationTitle variant="p">
+                        {dateOfBirth}
+                     </UserInformationTitle>
+                  </UserOneInformationContainer>
 
-                        {/* user's phone number */}
+                  {/* user's phone number */}
 
-                        <UserOneInformationContainer component="div">
-                           <UserInformationArea variant="p">
-                              Номер телефона:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {user.phoneNumber}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
-                     </InformationRightPart>
-                  </BasicInformation>
-                  {/* user's interest and hobbies */}
-                  <InformationText variant="p">Интересы, хобби</InformationText>
-                  <InteresAndHobbiesInformation component="div">
-                     {/* interest and hobbies left part */}
-                     <InformationLeftPart component="div">
-                        <UserOneInformationContainer component="div">
-                           <UserInformationArea variant="p">
-                              Интересы, хобби:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {user.interesAndHobbies}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
-                     </InformationLeftPart>
+                  <UserOneInformationContainer component="div">
+                     <UserInformationArea variant="p">
+                        Номер телефона:
+                     </UserInformationArea>
+                     <UserInformationTitle variant="p">
+                        {phoneNumber}
+                     </UserInformationTitle>
+                  </UserOneInformationContainer>
+               </InformationRightPart>
+            </BasicInformation>
+            {/* user's interest and hobbies */}
+            <InformationText variant="p">Интересы, хобби</InformationText>
+            <InteresAndHobbiesInformation component="div">
+               {/* interest and hobbies left part */}
+               <InformationLeftPart component="div">
+                  <UserOneInformationContainer component="div">
+                     <UserInformationArea variant="p">
+                        Интересы, хобби:
+                     </UserInformationArea>
+                     <UserInformationTitle variant="p">
+                        {hobby}
+                     </UserInformationTitle>
+                  </UserOneInformationContainer>
+               </InformationLeftPart>
 
-                     {/* interes and hobbies right part */}
+               {/* interes and hobbies right part */}
 
-                     <InformationRightPart component="div">
-                        {/* important to know */}
+               <InformationRightPart component="div">
+                  {/* important to know */}
 
-                        <UserOneInformationContainer component="div">
-                           <UserInformationArea variant="p">
-                              Важно знать:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {user.importantToKnow}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
-                     </InformationRightPart>
-                  </InteresAndHobbiesInformation>
-                  {/* additional information */}
-                  <InformationText variant="p">Доп.инфа</InformationText>
-                  <AdditionalInformation>
-                     {/* additional information left part */}
+                  <UserOneInformationContainer component="div">
+                     <UserInformationArea variant="p">
+                        Важно знать:
+                     </UserInformationArea>
+                     <UserInformationTitle variant="p">
+                        {important}
+                     </UserInformationTitle>
+                  </UserOneInformationContainer>
+               </InformationRightPart>
+            </InteresAndHobbiesInformation>
+            {/* additional information */}
+            <InformationText variant="p">Доп.инфа</InformationText>
+            <AdditionalInformation>
+               {/* additional information left part */}
 
-                     <InformationLeftPart component="div">
-                        {/* user's clothes size */}
-                        <UserOneInformationContainer>
-                           <UserInformationArea variant="p">
-                              Размер одежды:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {user.clothSize}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
-                     </InformationLeftPart>
-                     {/* additional information right part */}
+               <InformationLeftPart component="div">
+                  {/* user's clothes size */}
+                  <UserOneInformationContainer>
+                     <UserInformationArea variant="p">
+                        Размер одежды:
+                     </UserInformationArea>
+                     <UserInformationTitle variant="p">
+                        {clothingSize}
+                     </UserInformationTitle>
+                  </UserOneInformationContainer>
+               </InformationLeftPart>
+               {/* additional information right part */}
 
-                     <InformationRightPart component="div">
-                        {/* user's shoes size */}
+               <InformationRightPart component="div">
+                  {/* user's shoes size */}
 
-                        <UserOneInformationContainer>
-                           <UserInformationArea variant="p">
-                              Размер обуви:
-                           </UserInformationArea>
-                           <UserInformationTitle variant="p">
-                              {user.shoesSize}
-                           </UserInformationTitle>
-                        </UserOneInformationContainer>
-                     </InformationRightPart>
-                  </AdditionalInformation>
-                  {variant === 'roleAdmin' && (
-                     <RemoveOrBlockContainer component="div">
-                        <RemoveButton variant="outlined">Удалить</RemoveButton>
-                        <StyledButton variant="primary">
-                           Заблокировать
-                        </StyledButton>
-                     </RemoveOrBlockContainer>
-                  )}
-               </UserInfoContainer>
-            </React.Fragment>
-         ))}
+                  <UserOneInformationContainer>
+                     <UserInformationArea variant="p">
+                        Размер обуви:
+                     </UserInformationArea>
+                     <UserInformationTitle variant="p">
+                        {shoeSize}
+                     </UserInformationTitle>
+                  </UserOneInformationContainer>
+               </InformationRightPart>
+            </AdditionalInformation>
+            {variant === 'roleAdmin' && (
+               <RemoveOrBlockContainer component="div">
+                  <RemoveButton variant="outlined">Удалить</RemoveButton>
+                  <StyledButton variant="primary">Заблокировать</StyledButton>
+               </RemoveOrBlockContainer>
+            )}
+         </UserInfoContainer>
       </ProfileContainer>
    )
 }
 
 const ProfileContainer = styled(Box)({
-   width: '73rem',
+   width: '68rem',
    margin: '0 auto',
-   paddingTop: '20px',
+   padding: '20px',
    display: 'flex',
+   background: 'white',
+   borderRadius: '10px',
 })
 
 const UserProfilePictureAndUserNameAndSocialsMediaContainer = styled(Box)({

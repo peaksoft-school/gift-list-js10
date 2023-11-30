@@ -14,7 +14,19 @@ export const routes = {
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
-         headerSelectType: 'select',
+      },
+      friends: {
+         path: 'friends',
+         breadcrumb: 'Друзья',
+      },
+      request: {
+         path: 'requests',
+      },
+      getFriendById: {
+         path: 'friends/:friendId',
+      },
+      getRequestsById: {
+         path: 'requests/:friendId',
       },
    },
 }

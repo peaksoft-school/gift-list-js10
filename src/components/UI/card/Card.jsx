@@ -9,42 +9,34 @@ import {
    Typography,
    styled,
 } from '@mui/material'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { globalTheme } from '../../../theme/globalTheme'
 import { CardDescription } from './CardDescription'
-
-const card = {
-   owner: {
-      name: 'John Doe',
-      image: 'https://i1.sndcdn.com/avatars-000812665324-tbg3oh-t500x500.jpg',
-   },
-   holiday: 'День рождения',
-   name: 'Письма Элджертона',
-   image: 'https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg',
-   status: 'Забронирован',
-   date: '12.04.22',
-   newOrOld: 'Б/У',
-   booker: {
-      name: 'Anybody',
-      image: 'https://www.shutterstock.com/image-vector/mustache-man-say-anybody-here-260nw-546597766.jpg',
-   },
-}
+import { MeatBalls } from '../MeatBalls'
 
 // variants:
 // primary, secondary, tertiary, quaternary,
 // withStatusBottom, withStatusTop
 
-export const Card = ({ variant = 'primary', list = false }) => {
-   const {
-      owner: { name: ownerName, image: ownerImage },
-      status,
-      holiday,
-      name: cardName,
-      image: cardImage,
-      newOrOld,
-      booker: { name: bookerName, image: bookerImage },
-   } = card
+export const Card = ({
+   variant = 'primary',
+   list = false,
+   status,
+   holiday,
+   cardName,
+   date,
+   cardImage,
+   ownerName,
+   ownerImage,
+   newOrOld,
+   bookerImage,
+   meetballsOptions,
+   handleChange,
+}) => {
    const listClassName = list && 'list'
+   const bookedStatus =
+      bookerImage || status === 'RESERVED_ANONYMOUSLY'
+         ? 'Забронирован'
+         : 'В ожидании'
    return (
       <StyledCard className={listClassName}>
          {listClassName && (
@@ -106,27 +98,30 @@ export const Card = ({ variant = 'primary', list = false }) => {
                      list && variant === 'secondary' && 'listWithoutHeader'
                   }
                >
-                  <Date>{card.date}</Date>
+                  <Date>{date}</Date>
                   {variant !== 'tertiary' &&
                      variant !== 'quaternary' &&
                      variant !== 'withStatusTop' && (
                         <StyledCardActionsPar1>
-                           {!bookerImage && status === 'Забронирован' && (
+                           {/* {!bookerImage && status === 'Забронирован' && (
                               <StyledAvatarIcon aria-label="recipe">
                                  {bookerName.charAt(0)}
                               </StyledAvatarIcon>
-                           )}
+                           )} */}
                            {bookerImage && (
-                              <StyledAvatarIcon
-                                 alt={bookerName}
-                                 src={bookerImage}
-                              />
+                              <StyledAvatarIcon alt="hello" src={bookerImage} />
                            )}
-                           <span>{status}</span>
+                           <span>{bookedStatus}</span>
                         </StyledCardActionsPar1>
                      )}
                </ActionsWrapper>
-               {variant !== 'quaternary' && <MoreHorizIcon />}
+
+               {variant !== 'quaternary' && (
+                  <MeatBalls
+                     options={meetballsOptions}
+                     handleChange={handleChange}
+                  />
+               )}
             </CardActions>
          </ContentContainer>
       </StyledCard>
