@@ -8,9 +8,11 @@ import {
 
 export const getFeedsThunk = createAsyncThunk(
    '/feed/getFeeds',
-   async (_, { rejectWithValue }) => {
+   async (userId, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get('/feeds')
+         const response = await axiosInstance.get(
+            `/feeds/feedResponse/${userId}`
+         )
          return response.data
       } catch (error) {
          toastWithoutPromise(

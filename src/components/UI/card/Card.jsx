@@ -22,7 +22,7 @@ export const Card = ({
    list = false,
    meetballsOptions,
    handleChange,
-   onClick,
+   onGetThingById,
    ownerName,
    ownerImage,
    holiday,
@@ -32,6 +32,7 @@ export const Card = ({
    date,
    newOrOld,
    status,
+   onGetUserById,
 }) => {
    const listClassName = list && 'list'
    const bookedStatus =
@@ -39,7 +40,7 @@ export const Card = ({
          ? 'Забронирован'
          : 'В ожидании'
    return (
-      <StyledCard className={listClassName} onClick={onClick}>
+      <StyledCard className={listClassName} onClick={onGetThingById}>
          {listClassName && (
             <CardMedia component="img" image={cardImage} alt={cardName} />
          )}
@@ -59,10 +60,15 @@ export const Card = ({
                         </StyledAvatarIcon>
                      )
                   }
-                  title={ownerName}
+                  title={
+                     <StyledOwnerWrapper type="button" onClick={onGetUserById}>
+                        {ownerName}
+                     </StyledOwnerWrapper>
+                  }
                   subheader={variant !== 'withStatusTop' && holiday}
                />
             )}
+
             {variant === 'withStatusTop' && (
                <CardDescription
                   text1={variant === 'secondary' ? cardName : holiday}
@@ -125,6 +131,11 @@ export const Card = ({
       </StyledCard>
    )
 }
+
+const StyledOwnerWrapper = styled('button')({
+   backgroundColor: 'transparent',
+   border: 'none',
+})
 
 const ActionsWrapper = styled('div')({
    display: 'flex',

@@ -14,6 +14,7 @@ import { complaintWishThunk } from '../../store/complaint/complaintThunk'
 import { addToMyGifts, getFeedsThunk } from '../../store/feed/feedThunk'
 import { meetballsFeedOptions } from '../../utils/constants/meatballs-options'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
+import { formatDate } from '../../utils/helpers/constants'
 
 const isWishBooked = (bookerId, myId) => {
    if (!bookerId) {
@@ -23,6 +24,19 @@ const isWishBooked = (bookerId, myId) => {
       return meetballsFeedOptions.iBookThisWish
    }
    return meetballsFeedOptions.strangersBook
+}
+
+function mergeAndAddType({
+   wishesResponses,
+   charityResponses,
+   holidayResponses,
+}) {
+   const mixedArray = [
+      ...wishesResponses.map((response) => ({ ...response, type: 'WISH' })),
+      ...charityResponses.map((response) => ({ ...response, type: 'CHARITY' })),
+      ...holidayResponses.map((response) => ({ ...response, type: 'HOLIDAY' })),
+   ]
+   return mixedArray
 }
 
 export const GetAllFeedPage = ({ isList }) => {
@@ -59,7 +73,7 @@ export const GetAllFeedPage = ({ isList }) => {
    }
 
    useEffect(() => {
-      dispatch(getFeedsThunk())
+      dispatch(getFeedsThunk(id))
    }, [])
 
    const handleMeetaballsOption = (e, wishId) => {
@@ -86,33 +100,82 @@ export const GetAllFeedPage = ({ isList }) => {
    if (pending) {
       return <LoadingPage />
    }
-
    return (
       <>
          <StyledPaper>
-            {feeds.map((feed) => (
-               <Card
-                  handleChange={(e) => {
-                     handleMeetaballsOption(e, feed.wish.wishId)
-                  }}
-                  onClick={() => getById(feed.wish.wishId, feed.wish.wishName)}
-                  key={feed.wish?.wishId}
-                  list={isList}
-                  bookerImage={feed?.bookedUser?.image}
-                  cardImage={feed.wish?.image}
-                  cardName={feed.wish?.wishName}
-                  date={feed.wish?.wishDate}
-                  holiday={feed.holiday?.nameHoliday}
-                  ownerImage={feed.ownerUser?.image}
-                  ownerName={feed.ownerUser?.fullName || ''}
-                  meetballsOptions={isWishBooked(
-                     feed.bookedUser?.userReservoirId,
-                     id
-                  )}
-                  status={feed.bookedUser?.status}
-               />
-            ))}
-            {!feeds.length && <SecondEmptyComponent />}
+            {Object.keys(feeds).length &&
+               mergeAndAddType(feeds).map((feed) => {
+                  console.log(feed)
+                  let {
+                     thindId,
+                     name,
+                     date,
+                     variant,
+                     userId,
+                     reservoirId,
+                     reservoirImage,
+                     ownerImage,
+                     thingImage,
+                     holidayName,
+                  } = {}
+                  if (feed.type === 'WISH') {
+                     thindId = feed.wishId
+                     name = feed.wishName
+                     date = feed.dateOfHoliday
+                     userId = feed.ownerId
+                     reservoirId = feed.reservoirId
+                     reservoirImage = feed.reservoirImage
+                     ownerImage = feed.userImage
+                     thingImage = feed.wishImage
+                     holidayName = feed.holidayName
+                     variant = 'primary'
+                  } else if (feed.type === 'CHARITY') {
+                     thindId = feed.charityId
+                     name = feed.nameCharity
+                     date = feed.createdAt
+                     userId = feed.userId
+                     reservoirId = feed.charityReservoirId
+                     reservoirImage = feed.bookedUserImage
+                     ownerImage = feed.userImage
+                     thingImage = feed.charityImage
+                     variant = 'withStatusTop'
+                  } else {
+                     thindId = feed.holidayId
+                     name = feed.nameHoliday
+                     date = feed.dateOfHoliday
+                     userId = feed.firendId /* friend id */
+                     ownerImage = feed.friendImage /* friend image */
+                     thingImage = feed.image
+                     holidayName = feed.nameHoliday
+                     variant = 'thirtiary'
+                  }
+                  return (
+                     <Card
+                        handleChange={(e) => {
+                           handleMeetaballsOption(e, thindId)
+                        }}
+                        onGetUserById={() => {
+                           console.log(userId)
+                           // here should be used userId
+                        }}
+                        variant={variant}
+                        onGetThingById={() => getById(thindId, name)}
+                        key={thindId}
+                        list={isList}
+                        bookerImage={reservoirImage}
+                        cardImage={thingImage}
+                        cardName={name}
+                        date={formatDate(date)}
+                        holiday={holidayName}
+                        ownerImage={ownerImage}
+                        ownerName={feed.fullName || ''}
+                        meetballsOptions={isWishBooked(reservoirId, id)}
+                        status={feed.bookedUser?.status}
+                        newOrOld={feed.condition === 'USED' ? 'Б/У' : 'Новый'}
+                     />
+                  )
+               })}
+            {!Object.keys(feeds).length && <SecondEmptyComponent />}
          </StyledPaper>
          <ComplaintModal
             toggleModal={toggleCompolaintModal}
