@@ -55,13 +55,15 @@ const initialDatePickerValues = {
    invalidErrorMessage: '',
 }
 
-export const WishListForm = ({ onClose, variant, onSubmit }) => {
+export const WishListForm = ({ onClose, variant, onSubmit, defaultValues }) => {
    const [datePickerError, setDatePickerError] = useState(
       initialDatePickerValues
    )
 
    const [preview, setPreview] = useState({ file: '' })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
+
+   console.log(defaultValues)
 
    const {
       register,

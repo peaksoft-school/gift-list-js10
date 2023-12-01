@@ -11,6 +11,8 @@ import {
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/constants'
 import { convertDateFormat } from '../../utils/helpers/constants'
+// import { WishListForm } from '../LandingPage/WishListForm'
+import { providerEvent } from '../../events/customEvents'
 
 export const GetCharityById = () => {
    const { charityId } = useParams()
@@ -25,11 +27,20 @@ export const GetCharityById = () => {
    if (pending) {
       return 'Loading...'
    }
+
    const onDeleteCharity = () => {
       dispatch(deleteCharityById({ charityId, navigate }))
    }
 
-   const onEditOrOnBlock = () => {} // TODO: with role: User can edit if he is owner of this charity
+   const onEditOrOnBlock = () => {
+      if (role === 'USER') {
+         providerEvent({ action: 'charity', payload: charity })
+         navigate('addOrEditCharity')
+      }
+      //  else if (role === 'ADMIN') {
+      // }
+   }
+
    return (
       <div>
          <AdminState

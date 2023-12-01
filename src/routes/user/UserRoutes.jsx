@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
+import { EditOrAddCharityFormPage } from '../../pages/charity/EditOrAddCharityFormPage'
 import { GetAllCharity } from '../../pages/charity/GetAllCharity'
 import { GetCharityById } from '../../pages/charity/GetCharityById'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
-import { AddCharityFormPage } from '../../pages/charity/AddCharityFormPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -14,7 +14,7 @@ export const UserRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { feed, charity, charityById, addCharity } = routes[role]
+   const { feed, charity, charityById, addOrEditCharity } = routes[role]
    return (
       <Routes>
          <Route
@@ -60,10 +60,10 @@ export const UserRoutes = () => {
                }
             />
             <Route
-               path={addCharity.path}
+               path={addOrEditCharity.path}
                element={
                   <PrivateRoutes
-                     Component={<AddCharityFormPage />}
+                     Component={<EditOrAddCharityFormPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />

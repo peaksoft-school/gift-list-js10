@@ -61,6 +61,7 @@ const subCategoriesWithEnglishPropertiesName = {
    BICYCLES_AND_ACCESSORIES: 'Велосипеды и аксессуары',
    CAR_PARTS_AND_EQUIPMENT: 'Запчасти и оборудование для автомобилей',
    MOTORCYCLE_EQUIPMENT: 'Оборудование для мотоциклов',
+   CROSS: 'Кроссовки',
 }
 
 const subCategoriesWithRussianPropertiesName = {

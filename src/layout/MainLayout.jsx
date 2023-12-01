@@ -120,9 +120,9 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
                                        `charity/${charity.charityId}/${id}`
                                     )
                                  }}
+                                 key={charity.charityId}
                               >
                                  <img
-                                    key={charity.charityId}
                                     src={charity.charityImage}
                                     alt={charity.nameCharity}
                                  />

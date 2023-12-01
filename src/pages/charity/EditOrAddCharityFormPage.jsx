@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { addCharity } from '../../store/charity/charityThunk'
 import { WishListForm } from '../LandingPage/WishListForm'
 
-export const AddCharityFormPage = () => {
+export const EditOrAddCharityFormPage = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const { id } = useSelector((state) => state.charity)
+   const { id } = useSelector((state) => state.authLogin)
    const onCloseForm = () => navigate(-1)
+   const [charity, setCharity] = useState()
 
    const onSubmitForm = (values, data) => {
       // uploadFile(data.file).then(({ image }) =>
@@ -23,9 +24,27 @@ export const AddCharityFormPage = () => {
       // )
    }
 
+   const handleDataUpdated = (event) => {
+      if (event.detail.action === 'charity') {
+         setCharity(event.detail.payload)
+      }
+   }
+
+   useEffect(() => {
+      window.addEventListener('providerEvent', handleDataUpdated)
+      return () => {
+         window.removeEventListener('providerEvent', handleDataUpdated)
+      }
+   }, [])
+
    return (
       <div>
-         <WishListForm variant onClose={onCloseForm} onSubmit={onSubmitForm} />
+         <WishListForm
+            defaultValues={charity}
+            variant
+            onClose={onCloseForm}
+            onSubmit={onSubmitForm}
+         />
       </div>
    )
 }

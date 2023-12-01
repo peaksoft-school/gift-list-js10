@@ -26,8 +26,8 @@ export const routes = {
          path: 'charity/:charityId/:ownerId',
          headerSelectType: 'select',
       },
-      addCharity: {
-         path: 'charity/addCharity',
+      addOrEditCharity: {
+         path: 'charity/:charityId/:ownerId/addOrEditCharity',
          breadcrumb: 'Добавить подарок',
          headerSelectType: 'select',
       },
