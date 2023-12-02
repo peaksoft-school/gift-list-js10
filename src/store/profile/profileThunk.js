@@ -12,7 +12,7 @@ export const getProfileThunk = createAsyncThunk(
    'profile/getProfileThunk',
    async (_, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get('/profile')
+         const response = await axiosInstance.get('/user')
          return response.data
       } catch (error) {
          toastWithoutPromise(
@@ -27,7 +27,7 @@ export const getProfileThunk = createAsyncThunk(
 
 export const updateProfileThunk = createAsyncThunk(
    'profile/updateProfileThunk',
-   async ({ values }, { rejectWithValue }) => {
+   async ({ values }, { rejectWithValue, dispatch }) => {
       try {
          const {
             clothingSize,
@@ -70,8 +70,9 @@ export const updateProfileThunk = createAsyncThunk(
             'Успешно',
             'Профиль успешно обновлен.',
             'Ошибка',
-            axiosInstance.put('/profile', updatedProfile)
+            axiosInstance.put('/user', updatedProfile)
          )
+         dispatch(getProfileThunk())
          return response.data
       } catch (error) {
          return rejectWithValue(error)

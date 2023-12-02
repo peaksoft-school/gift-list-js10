@@ -12,6 +12,7 @@ import {
    shoeSizeObject,
 } from '../../utils/constants/constants'
 import { LoadingPage } from '../../components/LoadingPage'
+import { convertDateFormat } from '../../utils/helpers/constants'
 
 export const UserProfilePage = () => {
    const dispatch = useDispatch()
@@ -46,7 +47,9 @@ export const UserProfilePage = () => {
       <div>
          <Profile
             variant={(profile.phoneNumber && 'myProfile') || 'emptyProfile'}
-            birthdate={profile.dateOfBirth}
+            birthdate={
+               profile.dateOfBirth && convertDateFormat(profile.dateOfBirth)
+            }
             clothSize={profile.clothingSize}
             email={profile.email}
             city={englishCountries[profile.country]}

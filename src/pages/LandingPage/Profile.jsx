@@ -1,12 +1,12 @@
-import React from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import { Button } from '../../components/UI/Button'
+import React from 'react'
 import {
    ProfileFacebook,
    ProfileInstagram,
    ProfileTelegram,
    ProfileVk,
 } from '../../assets/index'
+import { Button } from '../../components/UI/Button'
 
 export const Profile = ({
    variant,
@@ -127,152 +127,49 @@ export const Profile = ({
 
                <UserInfoContainer component="div">
                   {/* basic information */}
-                  <InformationText variant="p">
-                     Основная информация
-                  </InformationText>
-                  <BasicInformation component="div">
-                     {/* baic information left part */}
-                     <InformationLeftPart component="div">
-                        {/* user's city */}
-                        {city && (
-                           <UserOneInformationContainer component="div">
-                              <UserInformationArea variant="p">
-                                 Город:
-                              </UserInformationArea>
-                              <UserInformationTitle variant="p">
-                                 {city}
-                              </UserInformationTitle>
-                           </UserOneInformationContainer>
-                        )}
-
-                        {/* user's email */}
-                        {email && (
-                           <UserOneInformationContainer component="div">
-                              <UserInformationArea variant="p">
-                                 Email:
-                              </UserInformationArea>
-                              <UserInformationTitle variant="p">
-                                 {email}
-                              </UserInformationTitle>
-                           </UserOneInformationContainer>
-                        )}
-                     </InformationLeftPart>
-
-                     {/* basic information right part */}
-
-                     {/* {variant !== 'emptyProfile' && ( */}
-                     <InformationRightPart component="div">
-                        {/* user birthdate */}
-                        {birthdate && (
-                           <UserOneInformationContainer component="div">
-                              <UserInformationArea variant="p">
-                                 Дата рождения:
-                              </UserInformationArea>
-                              <UserInformationTitle variant="p">
-                                 {birthdate}
-                              </UserInformationTitle>
-                           </UserOneInformationContainer>
-                        )}
-
-                        {/* user's phone number */}
-
-                        {phoneNumber && (
-                           <UserOneInformationContainer component="div">
-                              <UserInformationArea variant="p">
-                                 Номер телефона:
-                              </UserInformationArea>
-                              <UserInformationTitle variant="p">
-                                 {phoneNumber}
-                              </UserInformationTitle>
-                           </UserOneInformationContainer>
-                        )}
-                     </InformationRightPart>
-                     {/* )} */}
-                  </BasicInformation>
-                  {/* user's interest and hobbies */}
-                  {(interesAndHobbies ||
-                     importantToKnow ||
-                     clothSize ||
-                     shoesSize) && (
-                     <>
-                        <InformationText variant="p">
-                           Интересы, хобби
-                        </InformationText>
-                        <InteresAndHobbiesInformation component="div">
-                           {/* interest and hobbies left part */}
-                           {interesAndHobbies && (
-                              <InformationLeftPart component="div">
-                                 <UserOneInformationContainer component="div">
-                                    <UserInformationArea variant="p">
-                                       Интересы, хобби:
-                                    </UserInformationArea>
-                                    <UserInformationTitle variant="p">
-                                       {interesAndHobbies}
-                                    </UserInformationTitle>
-                                 </UserOneInformationContainer>
-                              </InformationLeftPart>
-                           )}
-
-                           {/* interes and hobbies right part */}
-
-                           {importantToKnow && (
-                              <InformationRightPart component="div">
-                                 {/* important to know */}
-
-                                 <UserOneInformationContainer component="div">
-                                    <UserInformationArea variant="p">
-                                       Важно знать:
-                                    </UserInformationArea>
-                                    <UserInformationTitle variant="p">
-                                       {importantToKnow}
-                                    </UserInformationTitle>
-                                 </UserOneInformationContainer>
-                              </InformationRightPart>
-                           )}
-                        </InteresAndHobbiesInformation>
-                        {/* additional information */}
-                        {(clothSize || shoesSize) && (
-                           <>
-                              <InformationText variant="p">
-                                 Доп.инфа
-                              </InformationText>
-                              <AdditionalInformation>
-                                 {/* additional information left part */}
-
-                                 {clothSize && (
-                                    <InformationLeftPart component="div">
-                                       {/* user's clothes size */}
-                                       <UserOneInformationContainer>
-                                          <UserInformationArea variant="p">
-                                             Размер одежды:
-                                          </UserInformationArea>
-                                          <UserInformationTitle variant="p">
-                                             {clothSize}
-                                          </UserInformationTitle>
-                                       </UserOneInformationContainer>
-                                    </InformationLeftPart>
-                                 )}
-                                 {/* additional information right part */}
-
-                                 {shoesSize && (
-                                    <InformationRightPart component="div">
-                                       {/* user's shoes size */}
-
-                                       <UserOneInformationContainer>
-                                          <UserInformationArea variant="p">
-                                             Размер обуви:
-                                          </UserInformationArea>
-                                          <UserInformationTitle variant="p">
-                                             {shoesSize}
-                                          </UserInformationTitle>
-                                       </UserOneInformationContainer>
-                                    </InformationRightPart>
-                                 )}
-                              </AdditionalInformation>
-                           </>
-                        )}
-                     </>
-                  )}
+                  <InformationText>Основная информация</InformationText>
+                  <StyledContentWrapper>
+                     <StyledBlockOne>
+                        <UserInformationAreaBlockOne>
+                           Город: <StyledContent>{city}</StyledContent>
+                        </UserInformationAreaBlockOne>
+                        <UserInformationAreaBlockOne>
+                           Email: <StyledContent>{email}</StyledContent>
+                        </UserInformationAreaBlockOne>
+                        <div>
+                           <InformationText>Интересы, хобби</InformationText>
+                           <UserInformationAreaBlockOne>
+                              Интересы,хобби:
+                              <StyledContent>{interesAndHobbies}</StyledContent>
+                           </UserInformationAreaBlockOne>
+                        </div>
+                        <div>
+                           <InformationText>Доп. инфа</InformationText>
+                           <UserInformationAreaBlockOne>
+                              Размер одежды:
+                              <StyledContent>{clothSize}</StyledContent>
+                           </UserInformationAreaBlockOne>
+                        </div>
+                     </StyledBlockOne>
+                     <StyledBlockTwo>
+                        <UserInformationAreaBlockOne>
+                           Дата рождения:
+                           <StyledContent>{birthdate}</StyledContent>
+                        </UserInformationAreaBlockOne>
+                        <UserInformationAreaBlockOne>
+                           Номер телефона:
+                           <StyledContent>{phoneNumber}</StyledContent>
+                        </UserInformationAreaBlockOne>
+                        <UserInformationAreaBlockTwo className="important">
+                           Важно знать:
+                           <StyledContent>{importantToKnow}</StyledContent>
+                        </UserInformationAreaBlockTwo>
+                        <UserInformationAreaBlockTwo>
+                           Размер обуви:
+                           <StyledContent>{shoesSize}</StyledContent>
+                        </UserInformationAreaBlockTwo>
+                     </StyledBlockTwo>
+                  </StyledContentWrapper>
                   {variant === 'roleAdmin' && (
                      <RemoveOrBlockContainer component="div">
                         <RemoveButton variant="outlined">Удалить</RemoveButton>
@@ -288,8 +185,33 @@ export const Profile = ({
    )
 }
 
+const StyledBlockTwo = styled('div')({
+   display: 'flex',
+   gap: '20px',
+   flexDirection: 'column',
+   width: '50%',
+   '&.important': { height: '8.9vh', width: '23vw' },
+})
+
+const StyledBlockOne = styled('div')({
+   display: 'flex',
+   gap: '20px',
+   flexDirection: 'column',
+   width: '50%',
+})
+
+const StyledContentWrapper = styled('div')({
+   display: 'flex',
+   width: '100%',
+})
+
+const StyledContent = styled('p')({
+   color: 'black',
+   fontSize: '1rem',
+   paddingTop: '8px',
+})
+
 const ProfileContainer = styled(Box)({
-   // margin: '0 auto',
    padding: '20px',
    paddingTop: '20px',
    display: 'flex',
@@ -358,14 +280,7 @@ const RemoveOrBlockContainer = styled(Box)({
    gap: '0.625rem',
 })
 
-const BasicInformation = styled(Box)({
-   display: 'flex',
-   justifyContent: 'space-between',
-   width: '33.313rem',
-   marginBottom: '1.875rem',
-})
-
-const InformationText = styled(Typography)({
+const InformationText = styled('p')({
    color: '#8639B5',
    letterSpacing: '0.013rem',
    fontWeight: '500',
@@ -373,44 +288,17 @@ const InformationText = styled(Typography)({
    marginBottom: '1rem',
 })
 
-const UserInformationArea = styled(Typography)({
+const UserInformationAreaBlockOne = styled('p')({
    fontSize: '0.875rem',
    fontWeight: '400',
    color: '#5C5C5C',
 })
 
-const UserInformationTitle = styled(Typography)({})
-
-const InteresAndHobbiesInformation = styled(Box)({
-   width: '39.188rem',
-   gap: '292px',
-   display: 'flex',
-   // justifyContent: 'space-between',
-   marginBottom: '1.875rem',
-})
-
-const AdditionalInformation = styled(Box)({
-   width: '32.063rem',
-   display: 'flex',
-   justifyContent: 'space-between',
-})
-
-const InformationLeftPart = styled(Box)({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '2rem',
-})
-
-const InformationRightPart = styled(Box)({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '2rem',
-})
-
-const UserOneInformationContainer = styled(Box)({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '0.5rem',
+const UserInformationAreaBlockTwo = styled('p')({
+   fontSize: '0.875rem',
+   fontWeight: '400',
+   color: '#5C5C5C',
+   paddingTop: '37px',
 })
 
 const ApplicationToFriendsContainer = styled(Box)({

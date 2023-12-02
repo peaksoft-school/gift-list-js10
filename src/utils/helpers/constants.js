@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
-import { SamatOkenov, Ellipse, Aida, Askar } from '../../assets'
-import { notifyTypes, toastWithoutPromise } from './toast'
+import { Aida, Askar, Ellipse, SamatOkenov } from '../../assets'
 import { axiosInstanceMultiPartFormData } from '../../config/axiosInstanceWithMultipartFormDataType'
+import { notifyTypes, toastWithoutPromise } from './toast'
 
 export const notifications = [
    {
@@ -74,4 +74,25 @@ export const uploadFile = async (file) => {
       )
       return error
    }
+}
+
+export function convertDateFormat(inputDate) {
+   const dateParts = inputDate.split('-')
+
+   const originalDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+
+   const day = originalDate.getDate()
+   const month = originalDate.getMonth() + 1
+   const year = originalDate.getFullYear()
+
+   const formattedDate = `${day < 10 ? '0' : ''}${day}.${
+      month < 10 ? '0' : ''
+   }${month}.${year}`
+
+   return formattedDate
+}
+
+export function changeText(txt, maxlength) {
+   if (txt.length > maxlength) return `${txt.slice(0, maxlength - 3)}...`
+   return txt
 }
