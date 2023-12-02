@@ -7,7 +7,6 @@ export const FriendRequests = () => {
    const navigate = useNavigate()
 
    const requests = useSelector((state) => state.requests.requests)
-   console.log(requests)
 
    const openDetailUserProfile = (userId) => {
       navigate(`user/friends/request/${userId}`)

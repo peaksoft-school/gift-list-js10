@@ -1,34 +1,28 @@
+import { styled } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { styled } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import { Profile } from '../LandingPage/Profile'
-import { getProfileByUserId } from '../../store/slices/profileThunk'
-import { getWishListByUserId } from '../../store/slices/wishThunk'
 import { Card } from '../../components/UI/card/Card'
-import { meetballsFriendOptions } from '../../utils/constants/meetballs-options'
-import { getHolidaysByUserId } from '../../store/slices/holidayThunk'
 import { deleteFriendById } from '../../store/slices/friendsThunk'
+import { meetballsFriendOptions } from '../../utils/constants/meetballs-options'
+import { Profile } from '../LandingPage/Profile'
 
 export const ProfileDetail = () => {
    const dispatch = useDispatch()
    const { friendId } = useParams()
-   console.log(friendId)
 
    const profile = useSelector((state) => state.profile.friendId)
 
    const friendWishes = useSelector((state) => state.friendWishes.wishes)
-   console.log(friendWishes)
 
    const friendHolidays = useSelector((state) => state.holidays.holidays)
-   console.log(friendHolidays)
 
    useEffect(() => {
-      console.log(friendId)
-      dispatch(getProfileByUserId(friendId))
-      dispatch(getWishListByUserId(friendId))
-      dispatch(getHolidaysByUserId(friendId))
+      // dispatch(getProfileByUserId(friendId))
+      // dispatch(getWishListByUserId(friendId))
+      // dispatch(getHolidaysByUserId(friendId))
    }, [dispatch])
+   console.log(friendId)
 
    const handleDeleteFriendById = (friendId) => {
       dispatch(deleteFriendById(friendId))

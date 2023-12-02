@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Tabs } from '../../components/UI/Tabs'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { FriendCard } from '../../components/UI/FriendCard'
-import { getFriends } from '../../store/slices/friendsThunk'
+import { Tabs } from '../../components/UI/Tabs'
 import { providerEvent } from '../../events/customEvents'
 
 export const MyFriends = () => {
@@ -21,15 +20,12 @@ export const MyFriends = () => {
    const navigate = useNavigate()
 
    const handleOpenDetailProfile = (friendId, nameFriend) => {
-      window.addEventListener('providerEvent', (event) => {
-         console.log('Received providerEvent:', event.detail)
-      })
       providerEvent({ action: 'name', payload: nameFriend })
       navigate(`/user/friends/${friendId}`)
    }
 
    useEffect(() => {
-      dispatch(getFriends())
+      // dispatch(getFriends())
    }, [dispatch])
    return (
       <div>
@@ -49,7 +45,7 @@ export const MyFriends = () => {
                  />
               ))
             : null}
-         <Outlet />
+         {/* <Outlet /> */}
       </div>
    )
 }
