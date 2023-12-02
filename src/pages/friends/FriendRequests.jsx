@@ -10,7 +10,7 @@ export const FriendRequests = () => {
    console.log(requests)
 
    const openDetailUserProfile = (userId) => {
-      navigate(`/friends/request/${userId}`)
+      navigate(`user/friends/request/${userId}`)
    }
    return (
       <>
@@ -19,7 +19,7 @@ export const FriendRequests = () => {
                <FriendCard
                   variant="true"
                   key={request.id}
-                  onClick={() => openDetailUserProfile(request.id)}
+                  onClick={() => openDetailUserProfile(request.userId)}
                />
             ))
          ) : (

@@ -11,16 +11,20 @@ import { getHolidaysByUserId } from '../../store/slices/holidayThunk'
 import { deleteFriendById } from '../../store/slices/friendsThunk'
 
 export const ProfileDetail = () => {
+   const dispatch = useDispatch()
    const { friendId } = useParams()
+   console.log(friendId)
+
    const profile = useSelector((state) => state.profile.friendId)
 
-   const { friendWishes } = useSelector((state) => state.friendWishes.wishes)
+   const friendWishes = useSelector((state) => state.friendWishes.wishes)
    console.log(friendWishes)
 
    const friendHolidays = useSelector((state) => state.holidays.holidays)
    console.log(friendHolidays)
-   const dispatch = useDispatch()
+
    useEffect(() => {
+      console.log(friendId)
       dispatch(getProfileByUserId(friendId))
       dispatch(getWishListByUserId(friendId))
       dispatch(getHolidaysByUserId(friendId))
@@ -56,11 +60,11 @@ export const ProfileDetail = () => {
          {friendWishes?.map((card) => (
             <Card
                key={card.id}
-               status={card.stausWish}
+               status={card.wishStatus}
                holiday={card.holidayName}
-               cardName={card.nameWish}
+               cardName={card.wishName}
                date={card.dateOfHoliday}
-               cardImage={card.image}
+               cardImage={card.wishImage}
                variant="secondary"
                meetballsOptions={
                   (meetballsFriendOptions.booking,
@@ -88,25 +92,13 @@ export const ProfileDetail = () => {
    )
 }
 
-// export function convertDateFormat(inputDate) {
-//    const dateObject = new Date(inputDate)
-//    const year = dateObject.getFullYear() % 100
-//    const month = dateObject.getMonth() + 1
-//    const day = dateObject.getDate()
-//    const formattedMonth = month < 10 ? `0${month}` : `${month}`
-//    const formattedDay = day < 10 ? `0${day}` : `${day}`
-//    const formattedDate = `${formattedMonth}.${formattedDay}.${year}`
-//    return formattedDate
-// }
-
 export default ProfileDetail
 
 const HolidaysContainer = styled('div')({
    display: 'flex',
-   flexWrap: 'wrap',
+   flexWrap: 'initial',
    gap: '20px',
    width: '100%',
    overflow: 'hidden',
    whiteSpace: 'nowrap',
-   textOverflow: 'ellipsis',
 })

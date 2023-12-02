@@ -55,6 +55,7 @@ export const UserRoutes = () => {
                      Component={<MyFriends />}
                      isAuth={isAuth}
                      fallback="/"
+                     variant
                   />
                }
             >

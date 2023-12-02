@@ -14,22 +14,25 @@ export const myFriendsSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(getFriends.pending, (state) => {
-            const newFriendsState = state
-            newFriendsState.error = null
-            newFriendsState.isLoading = true
+            return {
+               ...state,
+               isLoading: true,
+               error: null,
+            }
          })
          .addCase(getFriends.fulfilled, (state, action) => {
-            const newState = state
-            newState.friendCard = action.payload?.map((item) => {
-               return { ...item }
-            })
-            newState.isLoading = false
-            newState.error = null
-            return newState
+            return {
+               ...state,
+               isLoading: false,
+               friendCard: action.payload,
+               error: null,
+            }
          })
          .addCase(getFriends.rejected, (state, action) => {
-            const errorState = state
-            errorState.error = action.error.message
+            return {
+               ...state,
+               error: action.payload,
+            }
          })
    },
 })

@@ -80,17 +80,16 @@ export const MainLayout = ({
                         </Fragment>
                      ))}
                   </StyledLegend>
-                  {!inner &&
-                     (variant || (
-                        <div>
-                           <StyledButton onClick={toggleList} disableRipple>
-                              <CardIcon className={`${!isList && 'active'}`} />
-                           </StyledButton>
-                           <StyledButton onClick={toggleList} disableRipple>
-                              <ListIcon className={`${isList && 'active'}`} />
-                           </StyledButton>
-                        </div>
-                     ))}
+                  {(!inner && variant) || (
+                     <div>
+                        <StyledButton onClick={toggleList} disableRipple>
+                           <CardIcon className={`${!isList && 'active'}`} />
+                        </StyledButton>
+                        <StyledButton onClick={toggleList} disableRipple>
+                           <ListIcon className={`${isList && 'active'}`} />
+                        </StyledButton>
+                     </div>
+                  )}
                </StyledMainContentHeader>
                <Outlet />
             </MainContentWrapper>

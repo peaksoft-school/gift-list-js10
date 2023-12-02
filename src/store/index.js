@@ -5,6 +5,7 @@ import { myFriendWishesSlice } from './slices/wishSlices'
 import { profileSlice } from './slices/profileSlice'
 import { holidaySlice } from './slices/holidaySlice'
 import { requestSlice } from './slices/requestSlice'
+import { bookingSlice } from './slices/bookingSlice'
 
 export const store = configureStore({
    reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
       [myFriendWishesSlice.name]: myFriendWishesSlice.reducer,
       [holidaySlice.name]: holidaySlice.reducer,
       [requestSlice.name]: requestSlice.reducer,
+      [bookingSlice.name]: bookingSlice.reducer,
    },
 })

@@ -5,7 +5,7 @@ export const getWishListByUserId = createAsyncThunk(
    'user/friend/:friendId',
    async (friendId) => {
       try {
-         const response = await axiosInstance.get(`/wishlists/${friendId}`)
+         const response = await axiosInstance.get(`/wishlists/user/${friendId}`)
          const result = response.data
          console.log(result)
          return result

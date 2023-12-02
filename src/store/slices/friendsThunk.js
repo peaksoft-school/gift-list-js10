@@ -42,7 +42,7 @@ export const deleteFriendById = createAsyncThunk(
 )
 
 export const sendRequestToUser = createAsyncThunk(
-   '/myFriends/{friendId',
+   '/myFriends/{friendId}',
    async (friendId, { dispatch }) => {
       try {
          const response = await toastWithPromise(

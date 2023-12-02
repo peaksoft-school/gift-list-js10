@@ -12,6 +12,7 @@ import {
 import { globalTheme } from '../../../theme/globalTheme'
 import { CardDescription } from './CardDescription'
 import { MeatBalls } from '../MeatBalls'
+import { convertDateFormat } from '../../../utils/constants/formatedDate'
 
 // variants:
 // primary, secondary, tertiary, quaternary,
@@ -37,6 +38,9 @@ export const Card = ({
       bookerImage || status === 'RESERVED_ANONYMOUSLY'
          ? 'Забронирован'
          : 'В ожидании'
+
+   const inputDate = date
+   const formattedDate = convertDateFormat(inputDate)
    return (
       <StyledCard className={listClassName}>
          {listClassName && (
@@ -98,7 +102,7 @@ export const Card = ({
                      list && variant === 'secondary' && 'listWithoutHeader'
                   }
                >
-                  <Date>{date}</Date>
+                  <Date>{formattedDate}</Date>
                   {variant !== 'tertiary' &&
                      variant !== 'quaternary' &&
                      variant !== 'withStatusTop' && (
