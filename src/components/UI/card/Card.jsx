@@ -20,7 +20,7 @@ import { CardDescription } from './CardDescription'
 export const Card = ({
    variant = 'primary',
    list = false,
-   meetballsOptions,
+   meatballsOptions,
    handleChange,
    onGetThingById,
    ownerName,
@@ -33,6 +33,8 @@ export const Card = ({
    newOrOld,
    status,
    onGetUserById,
+   showBottomBooker,
+   showHoliday = true,
 }) => {
    const listClassName = list && 'list'
    const bookedStatus =
@@ -65,13 +67,19 @@ export const Card = ({
                         {ownerName}
                      </StyledOwnerWrapper>
                   }
-                  subheader={variant !== 'withStatusTop' && holiday}
+                  subheader={
+                     variant !== 'withStatusTop' && showHoliday && holiday
+                  }
                />
             )}
 
-            {variant === 'withStatusTop' && (
+            {(variant === 'withStatusTop' || variant === 'secondary') && (
                <CardDescription
-                  text1={variant === 'secondary' ? cardName : holiday}
+                  text1={
+                     variant === 'secondary' || variant === 'withStatusTop'
+                        ? cardName
+                        : holiday
+                  }
                   text2={variant === 'secondary' ? holiday : newOrOld}
                   newOrOld={newOrOld}
                   variant={variant}
@@ -106,24 +114,22 @@ export const Card = ({
                   }`}
                >
                   <Date>{date}</Date>
-                  {variant !== 'tertiary' &&
-                     variant !== 'quaternary' &&
-                     variant !== 'withStatusTop' && (
-                        <StyledCardActionsPar1>
-                           {bookerImage && (
-                              <StyledAvatarIcon
-                                 alt="Фотография забронировавшего пользователя."
-                                 src={bookerImage}
-                              />
-                           )}
-                           <span>{bookedStatus}</span>
-                        </StyledCardActionsPar1>
-                     )}
+                  {showBottomBooker && (
+                     <StyledCardActionsPar1>
+                        {bookerImage && (
+                           <StyledAvatarIcon
+                              alt="Фотография человека который забронировал это"
+                              src={bookerImage}
+                           />
+                        )}
+                        <span>{bookedStatus}</span>
+                     </StyledCardActionsPar1>
+                  )}
                </ActionsWrapper>
-               {variant !== 'quaternary' && (
+               {variant !== 'quaternary' && meatballsOptions.length !== 0 && (
                   <MeatBalls
-                     options={meetballsOptions}
                      handleChange={handleChange}
+                     options={meatballsOptions}
                   />
                )}
             </CardActions>
@@ -176,7 +182,6 @@ const StyledCardContent = styled(CardContent)(() => ({
    img: {
       maxHeight: '9.5625rem',
       borderRadius: '7px',
-      objectFit: 'contain',
    },
    width: '19.8125rem',
 }))
@@ -194,7 +199,6 @@ const StyledCard = styled(MUICard)(() => {
          img: {
             minWidth: '30%',
             borderRadius: '7px',
-            objectFit: 'contain',
          },
 
          padding: '15px',

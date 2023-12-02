@@ -28,7 +28,9 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
    const [inner, setInner] = useState(false)
    const path = useParams()
    const [byIdName, setByIdName] = useState('')
-   const [showActionsButtons, setShowActionsButtons] = useState(false)
+   const [showActionsButtons, setShowActionsButtons] = useState(
+      routes[role][path['*']]?.showListActions
+   )
    useEffect(() => {
       if (path['*'].includes('/')) {
          setInner(true)

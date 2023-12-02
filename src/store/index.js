@@ -3,6 +3,7 @@ import { feedSlice } from './feed/feedSlice'
 import { authSlice } from './auth/authSlice'
 import { bookingSlice } from './booking/bookingSlice'
 import { complaintSlice } from './complaint/complaintSlice'
+import { charitySlice } from './charity/charitySlice'
 
 export const store = configureStore({
    reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
       [feedSlice.name]: feedSlice.reducer,
       [bookingSlice.name]: bookingSlice.reducer,
       [complaintSlice.name]: complaintSlice.reducer,
+      [charitySlice.name]: charitySlice.reducer,
    },
 })

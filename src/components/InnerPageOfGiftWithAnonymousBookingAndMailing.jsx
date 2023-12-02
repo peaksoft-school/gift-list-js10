@@ -2,7 +2,10 @@ import { Avatar, Paper, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { bookingWishThunk } from '../store/booking/bookingThunk'
+import {
+   bookingCharityThunk,
+   bookingWishThunk,
+} from '../store/booking/bookingThunk'
 import { Button } from './UI/Button'
 import { Checkbox } from './UI/Checkbox'
 
@@ -17,10 +20,14 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    cardImage,
    bookerImage,
    description,
-   holidayDate,
-   wishId,
+   date,
+   thingId,
    status,
    ownerId,
+   type,
+   category,
+   subcategory,
+   newOrOld,
 }) => {
    const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
    const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
@@ -28,7 +35,14 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    const navigate = useNavigate()
    const id = useSelector((state) => state.authLogin.id)
    const onBooking = () => {
-      dispatch(bookingWishThunk({ wishId, isBookingAnonymous }))
+      switch (type) {
+         case 'WISH':
+            dispatch(bookingWishThunk({ thingId, isBookingAnonymous }))
+            break
+         default:
+            dispatch(bookingCharityThunk({ thingId, isBookingAnonymous }))
+            break
+      }
       navigate(-1)
    }
    const isBooked = status === 'RESERVED_ANONYMOUSLY' || bookerImage
@@ -58,21 +72,39 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                )}
                <StyledCardName>{cardName}</StyledCardName>
                <p>{description}</p>
-               <HolidayInfoContainer>
-                  <StyledHolidayDataTitle>
-                     Дата праздника:
-                     <StyledHolidayDate>{holidayDate}</StyledHolidayDate>
-                  </StyledHolidayDataTitle>
-                  {variant !== 'mailing' && (
-                     <StyledHolidayDataTitle>
-                        Название праздника:
-                        <StyledHolidayName>{holiday}</StyledHolidayName>
-                     </StyledHolidayDataTitle>
-                  )}
-               </HolidayInfoContainer>
+               {type === 'CHARITY' && (
+                  <StyledCharityInfoContainer>
+                     {[
+                        { label: 'Категория:', value: category },
+                        { label: 'Состояние:', value: newOrOld },
+                        { label: 'Подкатегория:', value: subcategory },
+                        { label: 'Дата добавления:', value: date },
+                     ].map((content) => (
+                        <StyledLabel key={content.label}>
+                           {content.label}
+                           <StyledValue>{content.value}</StyledValue>
+                        </StyledLabel>
+                     ))}
+                  </StyledCharityInfoContainer>
+               )}
+               {type !== 'CHARITY' && (
+                  <HolidayInfoContainer>
+                     <StyledLabel>
+                        Дата праздника:
+                        <StyledHolidayDate>{date}</StyledHolidayDate>
+                     </StyledLabel>
+                     {variant !== 'mailing' && (
+                        <StyledLabel>
+                           Название праздника:
+                           <StyledHolidayName>{holiday}</StyledHolidayName>
+                        </StyledLabel>
+                     )}
+                  </HolidayInfoContainer>
+               )}
             </TextContainer>
          </MainContentWrapper>
-         {id !== ownerId &&
+         {type === 'HOLIDAY' &&
+            id !== ownerId &&
             !isBooked &&
             variant !== 'mailing' &&
             !bookerImage && (
@@ -92,6 +124,13 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
       </ContentWrapper>
    )
 }
+
+const StyledCharityInfoContainer = styled('div')({
+   display: 'grid',
+   gridTemplateColumns: '1fr 1fr',
+   gap: '20px',
+   paddingTop: '20px',
+})
 
 const StyledOwnerName = styled('p')({
    fontWeight: '500',
@@ -113,11 +152,19 @@ const StyledHolidayDate = styled('span')({ color: 'black' })
 
 const StyledHolidayName = styled('span')({ color: '#0BA360' })
 
-const StyledHolidayDataTitle = styled('p')({
+const StyledLabel = styled('p')({
    color: '#5C5C5C',
    display: 'flex',
    flexDirection: 'column',
    gap: '5px',
+   fontSize: '0.875rem',
+   fontWeight: '400',
+})
+
+const StyledValue = styled('p')({
+   color: '#000000',
+   fontSize: '1rem',
+   fontWeight: '400',
 })
 
 const HolidayInfoContainer = styled('div')({

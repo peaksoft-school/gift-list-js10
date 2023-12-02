@@ -17,8 +17,8 @@ export const routes = {
          headerSelectType: '',
          showListActions: true,
       },
-      wishFromFeedById: {
-         path: 'feed/:wishId',
+      thingFromFeedById: {
+         path: 'feed/:thingId',
          breadcrumb: '',
       },
    },

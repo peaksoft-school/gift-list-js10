@@ -17,11 +17,26 @@ export const feedSlice = createSlice({
          .addCase(getFeedsThunk.fulfilled, (state, { payload }) => {
             providerEvent({
                action: 'showActionsButton',
-               payload: payload.length,
+               payload: Object.keys(payload).length,
             })
             return {
                ...state,
-               feeds: payload,
+               feeds: Object.keys(payload).length
+                  ? [
+                       ...(payload?.wishesResponses.map((response) => ({
+                          ...response,
+                          type: 'WISH',
+                       })) || []),
+                       ...(payload?.charityResponses.map((response) => ({
+                          ...response,
+                          type: 'CHARITY',
+                       })) || []),
+                       ...(payload?.holidayResponses.map((response) => ({
+                          ...response,
+                          type: 'HOLIDAY',
+                       })) || {}),
+                    ]
+                  : [],
                pending: false,
                error: null,
             }

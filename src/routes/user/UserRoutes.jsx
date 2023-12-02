@@ -17,7 +17,7 @@ export const UserRoutes = () => {
          setNameOfActiveCardType(newNameOfAcriveCardType)
       }
    }
-   const { feed, wishFromFeedById } = routes[role]
+   const { feed, thingFromFeedById } = routes[role]
    return (
       <Routes>
          <Route
@@ -42,7 +42,7 @@ export const UserRoutes = () => {
                }
             />
             <Route
-               path={wishFromFeedById.path}
+               path={thingFromFeedById.path}
                element={<GetWishFromFeedById />}
             />
          </Route>
