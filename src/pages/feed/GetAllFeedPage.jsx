@@ -7,8 +7,10 @@ import { LoadingPage } from '../../components/loadingpage/LoadingPage'
 import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
 import {
+   bookingCharityThunk,
    bookingWishThunk,
    unBookingWishThunk,
+   unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
 import { complaintWishThunk } from '../../store/complaint/complaintThunk'
 import { addToMyGifts, getFeedsThunk } from '../../store/feed/feedThunk'
@@ -44,6 +46,25 @@ const functionsRealtiveTypeOfThing = {
             break
          default:
             dispatch(unBookingWishThunk(wishId))
+            break
+      }
+   },
+   CHARITY: (e, charityId, dispatch, toggleCompolaintModal, userId) => {
+      const selectedOption = e.target.innerText
+      switch (selectedOption) {
+         case 'Пожаловаться':
+            toggleCompolaintModal(charityId)
+            break
+         case 'Забронировать':
+            dispatch(
+               bookingCharityThunk({ charityId, isBookingAnonymous: false })
+            )
+            break
+         case 'Забронировать анонимно':
+            dispatch(bookingWishThunk({ charityId, isBookingAnonymous: true }))
+            break
+         default:
+            dispatch(unbookingCharityThunk({ charityId, userId }))
             break
       }
    },
@@ -83,6 +104,8 @@ export const GetAllFeedPage = ({ isList }) => {
    }
 
    useEffect(() => {
+      console.log(id)
+
       dispatch(getFeedsThunk(id))
       if (feeds.length) {
          providerEvent({ action: 'showActionsButton', payload: false })

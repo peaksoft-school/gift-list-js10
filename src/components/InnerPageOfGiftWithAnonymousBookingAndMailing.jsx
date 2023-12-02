@@ -37,10 +37,12 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    const onBooking = () => {
       switch (type) {
          case 'WISH':
-            dispatch(bookingWishThunk({ thingId, isBookingAnonymous }))
+            dispatch(bookingWishThunk({ wishId: thingId, isBookingAnonymous }))
             break
          default:
-            dispatch(bookingCharityThunk({ thingId, isBookingAnonymous }))
+            dispatch(
+               bookingCharityThunk({ charityId: thingId, isBookingAnonymous })
+            )
             break
       }
       navigate(-1)
@@ -103,7 +105,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                )}
             </TextContainer>
          </MainContentWrapper>
-         {type === 'HOLIDAY' &&
+         {type !== 'HOLIDAY' &&
             id !== ownerId &&
             !isBooked &&
             variant !== 'mailing' &&

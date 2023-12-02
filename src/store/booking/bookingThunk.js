@@ -66,3 +66,22 @@ export const unBookingWishThunk = createAsyncThunk(
       }
    }
 )
+
+export const unbookingCharityThunk = createAsyncThunk(
+   '/charity/unbookingCharityThunk',
+   async ({ charityId, userId }, { rejectWithValue, dispatch }) => {
+      try {
+         await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
+            'Успешно',
+            'Благотворительность разбронирована',
+            'Ошибка',
+            axiosInstance.post(`/booking/unBookingCharity/${charityId}`)
+         )
+         return dispatch(getFeedsThunk(userId))
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)

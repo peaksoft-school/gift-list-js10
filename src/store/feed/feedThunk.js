@@ -10,6 +10,8 @@ export const getFeedsThunk = createAsyncThunk(
    '/feed/getFeeds',
    async (userId, { rejectWithValue }) => {
       try {
+         console.log(userId)
+
          const response = await axiosInstance.get(
             `/feeds/feedResponse/${userId}`
          )
