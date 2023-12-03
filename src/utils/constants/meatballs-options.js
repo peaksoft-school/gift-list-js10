@@ -6,7 +6,7 @@ import {
    UnLockIcon,
 } from '../../assets'
 
-export const meetballsFeedOptions = {
+export const meetballsFeedOptionsForWish = {
    isWishFree: [
       { title: 'Забронировать', icon: <LockIcon /> },
       { title: 'Забронировать анонимно', icon: <IncognitoIcon /> },
@@ -22,4 +22,17 @@ export const meetballsFeedOptions = {
       { title: 'Добавить в мои подарки', icon: <GiftIcon /> },
       { title: 'Пожаловаться', icon: <ComplaintIcon /> },
    ],
+}
+
+export const meetballsFeedOptionsForCharity = {
+   isCharityFree: [
+      { title: 'Забронировать', icon: <LockIcon /> },
+      { title: 'Забронировать анонимно', icon: <IncognitoIcon /> },
+      { title: 'Пожаловаться', icon: <ComplaintIcon /> },
+   ],
+   iBookThisCharity: [
+      { title: 'Снять бронь', icon: <UnLockIcon /> },
+      { title: 'Пожаловаться', icon: <ComplaintIcon /> },
+   ],
+   strangersBook: [{ title: 'Пожаловаться', icon: <ComplaintIcon /> }],
 }

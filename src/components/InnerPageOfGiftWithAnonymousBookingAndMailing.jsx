@@ -37,11 +37,21 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    const onBooking = () => {
       switch (type) {
          case 'WISH':
-            dispatch(bookingWishThunk({ wishId: thingId, isBookingAnonymous }))
+            dispatch(
+               bookingWishThunk({
+                  wishId: thingId,
+                  isBookingAnonymous,
+                  userId: id,
+               })
+            )
             break
          default:
             dispatch(
-               bookingCharityThunk({ charityId: thingId, isBookingAnonymous })
+               bookingCharityThunk({
+                  charityId: thingId,
+                  isBookingAnonymous,
+                  userId: id,
+               })
             )
             break
       }

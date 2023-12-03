@@ -14,22 +14,40 @@ import {
 } from '../../store/booking/bookingThunk'
 import { complaintWishThunk } from '../../store/complaint/complaintThunk'
 import { addToMyGifts, getFeedsThunk } from '../../store/feed/feedThunk'
-import { meetballsFeedOptions } from '../../utils/constants/meatballs-options'
+import {
+   meetballsFeedOptionsForCharity,
+   meetballsFeedOptionsForWish,
+} from '../../utils/constants/meatballs-options'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 import { formatDate } from '../../utils/helpers/constants'
 
-const isWishBooked = (bookerId, myId) => {
-   if (!bookerId) {
-      return meetballsFeedOptions.isWishFree
+const isWishBooked = (bookerId, myId, type) => {
+   switch (type) {
+      case 'WISH':
+         if (!bookerId) {
+            return meetballsFeedOptionsForWish.isWishFree
+         }
+         if (bookerId === myId) {
+            return meetballsFeedOptionsForWish.iBookThisWish
+         }
+         return meetballsFeedOptionsForWish.strangersBook
+      case 'CHARITY':
+         if (!bookerId) {
+            return meetballsFeedOptionsForCharity.isCharityFree
+         }
+         if (bookerId === myId) {
+            return meetballsFeedOptionsForCharity.iBookThisCharity
+         }
+         return meetballsFeedOptionsForCharity.strangersBook
+      default:
+         return []
    }
-   if (bookerId === myId) {
-      return meetballsFeedOptions.iBookThisWish
-   }
-   return meetballsFeedOptions.strangersBook
 }
 
 const functionsRealtiveTypeOfThing = {
    WISH: (e, wishId, dispatch, toggleCompolaintModal, userId) => {
+      console.log(userId)
+
       const selectedOption = e.target.innerText
       switch (selectedOption) {
          case 'Пожаловаться':
@@ -39,13 +57,17 @@ const functionsRealtiveTypeOfThing = {
             dispatch(addToMyGifts({ userId, wishId }))
             break
          case 'Забронировать':
-            dispatch(bookingWishThunk({ wishId, isBookingAnonymous: false }))
+            dispatch(
+               bookingWishThunk({ wishId, isBookingAnonymous: false, userId })
+            )
             break
          case 'Забронировать анонимно':
-            dispatch(bookingWishThunk({ wishId, isBookingAnonymous: true }))
+            dispatch(
+               bookingWishThunk({ wishId, isBookingAnonymous: true, userId })
+            )
             break
          default:
-            dispatch(unBookingWishThunk(wishId))
+            dispatch(unBookingWishThunk({ wishId, userId }))
             break
       }
    },
@@ -57,11 +79,21 @@ const functionsRealtiveTypeOfThing = {
             break
          case 'Забронировать':
             dispatch(
-               bookingCharityThunk({ charityId, isBookingAnonymous: false })
+               bookingCharityThunk({
+                  charityId,
+                  isBookingAnonymous: false,
+                  userId,
+               })
             )
             break
          case 'Забронировать анонимно':
-            dispatch(bookingWishThunk({ charityId, isBookingAnonymous: true }))
+            dispatch(
+               bookingCharityThunk({
+                  charityId,
+                  isBookingAnonymous: true,
+                  userId,
+               })
+            )
             break
          default:
             dispatch(unbookingCharityThunk({ charityId, userId }))
@@ -104,8 +136,6 @@ export const GetAllFeedPage = ({ isList }) => {
    }
 
    useEffect(() => {
-      console.log(id)
-
       dispatch(getFeedsThunk(id))
       if (feeds.length) {
          providerEvent({ action: 'showActionsButton', payload: false })
@@ -198,7 +228,7 @@ export const GetAllFeedPage = ({ isList }) => {
                      holiday={holidayName}
                      ownerImage={ownerImage}
                      ownerName={feed.fullName || ''}
-                     meatballsOptions={isWishBooked(reservoirId, id)}
+                     meatballsOptions={isWishBooked(reservoirId, id, feed.type)}
                      status={bookedStatus}
                      newOrOld={feed.condition === 'USED' ? 'Б/У' : 'Новый'}
                      showHoliday={showHoliday}

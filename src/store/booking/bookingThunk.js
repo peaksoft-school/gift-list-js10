@@ -5,7 +5,10 @@ import { getFeedsThunk } from '../feed/feedThunk'
 
 export const bookingWishThunk = createAsyncThunk(
    '/booking/bookingWishThunk',
-   async ({ wishId, isBookingAnonymous }, { rejectWithValue, dispatch }) => {
+   async (
+      { wishId, isBookingAnonymous, userId },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const response = await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -17,7 +20,7 @@ export const bookingWishThunk = createAsyncThunk(
                `/booking/bookingWish/${wishId}?reserveAnonymous=${isBookingAnonymous}`
             )
          )
-         dispatch(getFeedsThunk())
+         dispatch(getFeedsThunk(userId))
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -27,8 +30,12 @@ export const bookingWishThunk = createAsyncThunk(
 
 export const bookingCharityThunk = createAsyncThunk(
    '/booking/bookingCharityThunk',
-   async ({ charityId, isBookingAnonymous }, { rejectWithValue, dispatch }) => {
+   async (
+      { charityId, isBookingAnonymous, userId },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
+         console.log(charityId, isBookingAnonymous, userId)
          const response = await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
@@ -39,7 +46,7 @@ export const bookingCharityThunk = createAsyncThunk(
                `/booking/${charityId}?reserveAnonymous=${isBookingAnonymous}`
             )
          )
-         dispatch(getFeedsThunk())
+         dispatch(getFeedsThunk(userId))
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -49,7 +56,7 @@ export const bookingCharityThunk = createAsyncThunk(
 
 export const unBookingWishThunk = createAsyncThunk(
    '/booking/unbookingWishThunk',
-   async (wishId, { rejectWithValue, dispatch }) => {
+   async ({ wishId, userId }, { rejectWithValue, dispatch }) => {
       try {
          const response = await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -59,7 +66,7 @@ export const unBookingWishThunk = createAsyncThunk(
             'При разбронировании подарка произошла ошибка',
             axiosInstance.post(`/booking/unBookingWish/${wishId}`)
          )
-         dispatch(getFeedsThunk())
+         dispatch(getFeedsThunk(userId))
          return response.data
       } catch (error) {
          return rejectWithValue(error)

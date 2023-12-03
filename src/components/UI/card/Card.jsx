@@ -68,7 +68,14 @@ export const Card = ({
                      </StyledOwnerWrapper>
                   }
                   subheader={
-                     variant !== 'withStatusTop' && showHoliday && holiday
+                     (variant !== 'withStatusTop' && showHoliday && holiday) ||
+                     (variant === 'withStatusTop' && list && (
+                        <StyledNewOrOld
+                           className={newOrOld === 'Б/У' ? 'orange' : ''}
+                        >
+                           {newOrOld}
+                        </StyledNewOrOld>
+                     ))
                   }
                />
             )}
@@ -80,7 +87,7 @@ export const Card = ({
                         ? cardName
                         : holiday
                   }
-                  text2={variant === 'secondary' ? holiday : newOrOld}
+                  text2={variant === 'secondary' ? holiday : !list && newOrOld}
                   newOrOld={newOrOld}
                   variant={variant}
                />
@@ -208,7 +215,7 @@ const StyledCard = styled(MUICard)(() => {
       },
       '.css-1d8ay1-MuiTypography-root': {
          fontSize: '0.8125rem',
-         color: `${globalTheme.palette.secondary.green}`,
+         color: globalTheme.palette.secondary.green,
       },
       '.css-1qbkelo-MuiCardHeader-content': {
          display: 'flex',
@@ -222,7 +229,7 @@ const StyledCard = styled(MUICard)(() => {
          display: 'flex',
          justifyContent: 'space-between',
          padding: '0',
-         color: `${globalTheme.palette.secondary.waikawaGrey}`,
+         color: globalTheme.palette.secondary.waikawaGrey,
          '&.listWithoutHeader': {
             flexDirection: 'column',
             alignItems: 'end',
@@ -252,4 +259,11 @@ const StyledCardActionsPar1 = styled('div')({
    width: '60%',
    justifyContent: 'flex-end',
    gap: '10px',
+})
+
+const StyledNewOrOld = styled('div')({
+   color: globalTheme.palette.secondary.green,
+   '&.orange': {
+      color: globalTheme.palette.secondary.orange,
+   },
 })
