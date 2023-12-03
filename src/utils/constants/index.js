@@ -14,7 +14,16 @@ export const routes = {
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
-         headerSelectType: 'select',
+         // headerSelectType: 'select',
+         showListActions: true,
+      },
+      profile: {
+         path: 'profile',
+         breadcrumb: 'Профиль',
+      },
+      edit: {
+         path: 'edit',
+         breadcrumb: 'Рассказать о себе',
       },
    },
 }
@@ -26,6 +35,7 @@ export const users = [
       email: 'admin@gmail.com',
       role: 'ADMIN',
       token: 'token',
+      fullName: 'Naruto Uzumaki',
    },
    {
       id: 2,
@@ -33,5 +43,6 @@ export const users = [
       email: 'user@gmail.com',
       role: 'USER',
       token: 'token',
+      fullName: 'Adia Karimova',
    },
 ]

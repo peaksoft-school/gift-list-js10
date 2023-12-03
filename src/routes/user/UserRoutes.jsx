@@ -4,6 +4,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { UserProfilePage } from '../../pages/profile/UserProfilePage'
+import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -11,7 +13,7 @@ export const UserRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { feed } = routes[role]
+   const { feed, profile, edit } = routes[role]
    return (
       <Routes>
          <Route
@@ -21,7 +23,6 @@ export const UserRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
-                  headerSelectType={feed.headerSelectType}
                />
             }
          >
@@ -36,19 +37,26 @@ export const UserRoutes = () => {
                   />
                }
             />
-            {/** You can add your components like this example to bottom
-             <Route
-               path={pahtOfYourComponent}
+            <Route
+               path={profile.path}
                element={
                   <PrivateRoutes
-                     Component={
-                        Here should be your component
-                     }
+                     Component={<UserProfilePage />}
                      isAuth={isAuth}
                      fallback="/"
                   />
                }
-            /> */}
+            />
+            <Route
+               path={`${profile.path}/${edit.path}`}
+               element={
+                  <PrivateRoutes
+                     Component={<UpdateUserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
          </Route>
       </Routes>
    )
