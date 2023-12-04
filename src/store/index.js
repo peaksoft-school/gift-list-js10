@@ -5,6 +5,7 @@ import { bookingSlice } from './booking/bookingSlice'
 import { complaintSlice } from './complaint/complaintSlice'
 import { charitySlice } from './charity/charitySlice'
 import { wishSlice } from './wish/wishSlice'
+import { holidaySlice } from './holiday/holidaySlice'
 
 export const store = configureStore({
    reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
       [complaintSlice.name]: complaintSlice.reducer,
       [charitySlice.name]: charitySlice.reducer,
       [wishSlice.name]: wishSlice.reducer,
+      [holidaySlice.name]: holidaySlice.reducer,
    },
 })

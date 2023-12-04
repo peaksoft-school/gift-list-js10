@@ -55,15 +55,34 @@ export const Card = ({
                <CardHeader
                   avatar={
                      ownerImage ? (
-                        <StyledAvatarIcon alt={ownerName} src={ownerImage} />
+                        <StyledAvatarIcon
+                           onClick={(event) => {
+                              onGetUserById()
+                              event.stopPropagation()
+                           }}
+                           alt={ownerName}
+                           src={ownerImage}
+                        />
                      ) : (
-                        <StyledAvatarIcon aria-label="recipe">
+                        <StyledAvatarIcon
+                           onClick={(event) => {
+                              onGetUserById()
+                              event.stopPropagation()
+                           }}
+                           aria-label="recipe"
+                        >
                            {ownerName.charAt(0)}
                         </StyledAvatarIcon>
                      )
                   }
                   title={
-                     <StyledOwnerWrapper type="button" onClick={onGetUserById}>
+                     <StyledOwnerWrapper
+                        onClick={(event) => {
+                           onGetUserById()
+                           event.stopPropagation()
+                        }}
+                        type="button"
+                     >
                         {ownerName}
                      </StyledOwnerWrapper>
                   }
@@ -80,7 +99,7 @@ export const Card = ({
                />
             )}
 
-            {(variant === 'withStatusTop' || variant === 'secondary') && (
+            {variant === 'withStatusTop' && (
                <CardDescription
                   text1={
                      variant === 'secondary' || variant === 'withStatusTop'
@@ -123,7 +142,7 @@ export const Card = ({
                   <Date>{date}</Date>
                   {showBottomBooker && (
                      <StyledCardActionsPar1>
-                        {bookerImage && (
+                        {status === 'RESERVED' && (
                            <StyledAvatarIcon
                               alt="Фотография человека который забронировал это"
                               src={bookerImage}
@@ -207,7 +226,6 @@ const StyledCard = styled(MUICard)(() => {
             minWidth: '30%',
             borderRadius: '7px',
          },
-
          padding: '15px',
       },
       '.css-185gdzj-MuiCardHeader-root': {

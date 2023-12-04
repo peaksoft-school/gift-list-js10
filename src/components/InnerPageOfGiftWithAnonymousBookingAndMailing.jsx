@@ -70,15 +70,17 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                         <StyledOwnerName>{ownerName}</StyledOwnerName>
                      </UserContainer>
                      <UserContainer>
-                        {bookerImage && (
+                        {status === 'RESERVED' && (
                            <Avatar
                               src={bookerImage}
                               alt="Фотография забронировавшего пользователя"
                            />
                         )}
-                        <StyledStatus>
-                           {isBooked ? 'Забронирован' : 'В ожидании'}
-                        </StyledStatus>
+                        {status && (
+                           <StyledStatus>
+                              {isBooked ? 'Забронирован' : 'В ожидании'}
+                           </StyledStatus>
+                        )}
                      </UserContainer>
                   </UsersInfoContainer>
                )}
@@ -105,7 +107,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                         Дата праздника:
                         <StyledHolidayDate>{date}</StyledHolidayDate>
                      </StyledLabel>
-                     {variant !== 'mailing' && (
+                     {variant !== 'mailing' && type !== 'HOLIDAY' && (
                         <StyledLabel>
                            Название праздника:
                            <StyledHolidayName>{holiday}</StyledHolidayName>

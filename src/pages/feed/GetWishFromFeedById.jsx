@@ -9,6 +9,7 @@ import {
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/options'
 import { getWishById } from '../../store/wish/wishThunk'
+import { getHolidayByIdThunk } from '../../store/holiday/holidayThunk'
 
 export const GetWishFromFeedById = () => {
    const params = useParams()
@@ -16,6 +17,7 @@ export const GetWishFromFeedById = () => {
    const dispatch = useDispatch()
    const { charity } = useSelector((state) => state.charity)
    const { wish } = useSelector((state) => state.wish)
+   const { holiday: holidayById } = useSelector((state) => state.holiday)
    const { type } = location.state
    useEffect(() => {
       switch (type) {
@@ -26,6 +28,7 @@ export const GetWishFromFeedById = () => {
             dispatch(getCharityById(params?.thingId))
             break
          default:
+            dispatch(getHolidayByIdThunk(params?.thingId))
             break
       }
    }, [])
@@ -48,6 +51,11 @@ export const GetWishFromFeedById = () => {
          date = wish.dateOfHoliday
          holiday = wish.holidayName
          bookedStatus = wish.wishStatus
+         bookedUserImage = wish.reservoirImage
+         ownerImage = wish.userImage
+         ownerId = wish.ownerId
+         fullName = wish.fullName
+         description = wish.description
          break
       case 'CHARITY':
          bookedUserImage = charity.bookedUserImage
@@ -61,11 +69,14 @@ export const GetWishFromFeedById = () => {
          ownerId = charity.userId
          break
       default:
+         date = holidayById.dateOfHoliday
+         thingImage = holidayById.image
+         thingName = holidayById.nameHoliday
+         fullName = holidayById.fullName
+         ownerImage = holidayById.friendImage
+         holiday = holidayById.nameHoliday
          break
    }
-
-   console.log(charity)
-   console.log(params, type)
    return (
       <InnerPageOfGiftWithAnonymousBookingAndMailing
          thingId={params?.thingId}

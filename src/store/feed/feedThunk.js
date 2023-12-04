@@ -10,8 +10,6 @@ export const getFeedsThunk = createAsyncThunk(
    '/feed/getFeeds',
    async (userId, { rejectWithValue }) => {
       try {
-         console.log(userId)
-
          const response = await axiosInstance.get(
             `/feeds/feedResponse/${userId}`
          )
@@ -20,7 +18,7 @@ export const getFeedsThunk = createAsyncThunk(
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
             'Ошибка',
-            error
+            error.message
          )
          return rejectWithValue(error)
       }

@@ -12,7 +12,10 @@ import {
    unBookingWishThunk,
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
-import { complaintWishThunk } from '../../store/complaint/complaintThunk'
+import {
+   complaintCharityThunk,
+   complaintWishThunk,
+} from '../../store/complaint/complaintThunk'
 import { addToMyGifts, getFeedsThunk } from '../../store/feed/feedThunk'
 import {
    meetballsFeedOptionsForCharity,
@@ -45,13 +48,11 @@ const isWishBooked = (bookerId, myId, type) => {
 }
 
 const functionsRealtiveTypeOfThing = {
-   WISH: (e, wishId, dispatch, toggleCompolaintModal, userId) => {
-      console.log(userId)
-
+   WISH: (e, wishId, dispatch, toggleCompolaintModal, userId, type) => {
       const selectedOption = e.target.innerText
       switch (selectedOption) {
          case 'Пожаловаться':
-            toggleCompolaintModal(wishId)
+            toggleCompolaintModal(wishId, type)
             break
          case 'Добавить в мои подарки':
             dispatch(addToMyGifts({ userId, wishId }))
@@ -71,11 +72,11 @@ const functionsRealtiveTypeOfThing = {
             break
       }
    },
-   CHARITY: (e, charityId, dispatch, toggleCompolaintModal, userId) => {
+   CHARITY: (e, charityId, dispatch, toggleCompolaintModal, userId, type) => {
       const selectedOption = e.target.innerText
       switch (selectedOption) {
          case 'Пожаловаться':
-            toggleCompolaintModal(charityId)
+            toggleCompolaintModal(charityId, type)
             break
          case 'Забронировать':
             dispatch(
@@ -108,17 +109,24 @@ export const GetAllFeedPage = ({ isList }) => {
    const [isComplaintModalOpenAndId, setIsComplaintModalOpenAndId] = useState({
       modalIsOpen: false,
       wishId: 0,
+      type: '',
    })
-   const toggleCompolaintModal = (wishId) =>
+   const toggleCompolaintModal = (thingId, type) =>
       setIsComplaintModalOpenAndId((prev) => ({
          modalIsOpen: !prev.modalIsOpen,
-         wishId,
+         thingId,
+         type,
       }))
    const { feeds, pending } = useSelector((state) => state.feedSlice)
    const { id } = useSelector((state) => state.authLogin)
 
    const onSendComplaint = (complaintCause) => {
-      const complaintRequest = { wishId: isComplaintModalOpenAndId.wishId }
+      const { type } = isComplaintModalOpenAndId
+      const complaintRequestIdPropertyName =
+         type === 'WISH' ? 'wishId' : 'charityId'
+      const complaintRequest = {
+         [complaintRequestIdPropertyName]: isComplaintModalOpenAndId.thingId,
+      }
       if (typeof complaintCause === 'number') {
          complaintRequest.complaintType = causes.find(
             (cause) => cause.complaintId === complaintCause
@@ -127,7 +135,8 @@ export const GetAllFeedPage = ({ isList }) => {
          complaintRequest.complaintType = 'OTHER'
          complaintRequest.complaintCause = complaintCause
       }
-      dispatch(complaintWishThunk(complaintRequest))
+      if (type === 'WISH') dispatch(complaintWishThunk(complaintRequest))
+      else dispatch(complaintCharityThunk(complaintRequest))
    }
 
    const getById = (id, wishName, type) => {
@@ -194,12 +203,13 @@ export const GetAllFeedPage = ({ isList }) => {
                   thingId = feed.holidayId
                   name = feed.nameHoliday
                   date = feed.dateOfHoliday
-                  userId = feed.firendId /* friend id */
-                  ownerImage = feed.friendImage /* friend image */
+                  userId = feed.firendId
+                  ownerImage = feed.friendImage
                   thingImage = feed.image
                   holidayName = feed.nameHoliday
                   showBottomBooker = false
                   showHoliday = false
+                  variant = 'tertiary'
                }
                return (
                   <Card
@@ -209,12 +219,13 @@ export const GetAllFeedPage = ({ isList }) => {
                            thingId,
                            dispatch,
                            toggleCompolaintModal,
-                           id
+                           id,
+                           feed.type
                         )
                      }}
                      onGetUserById={() => {
+                        // navigate to friend profile
                         console.log(userId)
-                        // here should be used userId
                      }}
                      variant={variant}
                      onGetThingById={() => getById(thingId, name, feed.type)}
