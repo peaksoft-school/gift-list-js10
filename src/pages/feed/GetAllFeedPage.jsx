@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ComplaintModal, causes } from '../../components/ComplaintModal'
-import { LoadingPage } from '../../components/loadingpage/LoadingPage'
 import { Card } from '../../components/UI/card/Card'
+import { LoadingPage } from '../../components/loadingpage/LoadingPage'
 import { providerEvent } from '../../events/customEvents'
 import {
    bookingCharityThunk,
@@ -21,8 +21,8 @@ import {
    meetballsFeedOptionsForCharity,
    meetballsFeedOptionsForWish,
 } from '../../utils/constants/meatballs-options'
+import { convertDateFormat } from '../../utils/helpers/constants'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
-import { formatDate } from '../../utils/helpers/constants'
 
 const isWishBooked = (bookerId, myId, type) => {
    switch (type) {
@@ -234,7 +234,7 @@ export const GetAllFeedPage = ({ isList }) => {
                      bookerImage={reservoirImage}
                      cardImage={thingImage}
                      cardName={name}
-                     date={formatDate(date)}
+                     date={convertDateFormat(date)}
                      showBottomBooker={showBottomBooker}
                      holiday={holidayName}
                      ownerImage={ownerImage}

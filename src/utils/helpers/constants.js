@@ -1,4 +1,7 @@
-import { SamatOkenov, Ellipse, Aida, Askar } from '../../assets'
+import dayjs from 'dayjs'
+import { Aida, Askar, Ellipse, SamatOkenov } from '../../assets'
+import { axiosInstanceMultiPartFormData } from '../../config/axiosInstanceWithMultipartFormDataType'
+import { notifyTypes, toastWithoutPromise } from './toast'
 
 export const notifications = [
    {
@@ -50,6 +53,50 @@ export const isValidDateFormat = (formattedDate) => {
    return dateRegex.test(formattedDate)
 }
 
+export const formatDate = (date) => {
+   return dayjs(date).format('YYYY-MM-DD')
+}
+
+export const uploadFile = async (file) => {
+   try {
+      const formData = new FormData()
+      formData.set('file', file)
+      const response = await axiosInstanceMultiPartFormData.post(
+         '/storages/upload',
+         formData
+      )
+      return response.data
+   } catch (error) {
+      toastWithoutPromise(
+         notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+         'Error while upload file',
+         error
+      )
+      return error
+   }
+}
+
+export function convertDateFormat(inputDate) {
+   const dateParts = inputDate.split('-')
+
+   const originalDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+
+   const day = originalDate.getDate()
+   const month = originalDate.getMonth() + 1
+   const year = originalDate.getFullYear()
+
+   const formattedDate = `${day < 10 ? '0' : ''}${day}.${
+      month < 10 ? '0' : ''
+   }${month}.${year}`
+
+   return formattedDate
+}
+
+export function changeText(txt, maxlength) {
+   if (txt.length > maxlength) return `${txt.slice(0, maxlength - 3)}...`
+   return txt
+}
+
 export function serializeObjectToQueryParams(obj) {
    const queryParams = []
    Object.entries(obj).forEach(([key, value]) => {
@@ -63,13 +110,4 @@ export function serializeObjectToQueryParams(obj) {
       }
    })
    return queryParams.join('&')
-}
-
-export function formatDate(inputDate) {
-   const date = new Date(inputDate)
-   const year = date.getFullYear().toString().slice(-2)
-   const month = (date.getMonth() + 1).toString().padStart(2, '0')
-   const day = date.getDate().toString().padStart(2, '0')
-
-   return `${day}.${month}.${year}`
 }

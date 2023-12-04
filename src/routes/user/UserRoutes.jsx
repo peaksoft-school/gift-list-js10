@@ -6,6 +6,8 @@ import { GetAllFeedPage } from '../../pages/feed/GetAllFeedPage'
 import { GetWishFromFeedById } from '../../pages/feed/GetWishFromFeedById'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { UserProfilePage } from '../../pages/profile/UserProfilePage'
+import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -17,7 +19,7 @@ export const UserRoutes = () => {
          setNameOfActiveCardType(newNameOfAcriveCardType)
       }
    }
-   const { feed, thingFromFeedById } = routes[role]
+   const { feed, profile, edit, thingFromFeedById } = routes[role]
    return (
       <Routes>
          <Route
@@ -44,6 +46,26 @@ export const UserRoutes = () => {
             <Route
                path={thingFromFeedById.path}
                element={<GetWishFromFeedById />}
+            />
+            <Route
+               path={profile.path}
+               element={
+                  <PrivateRoutes
+                     Component={<UserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={`${profile.path}/${edit.path}`}
+               element={
+                  <PrivateRoutes
+                     Component={<UpdateUserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
             />
          </Route>
       </Routes>

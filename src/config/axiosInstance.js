@@ -1,15 +1,10 @@
 import axios from 'axios'
 import { store } from '../store'
 import { logout } from '../store/auth/authSlice'
-
-const BASE_URL = 'http://giftlist.peaksoftprojects.com/api'
+import { BASE_URL } from './axiosInstanceWithMultipartFormDataType'
 
 const headers = {
    'Content-type': 'application/json',
-}
-
-export const changeHeadersContentTypeToMultiPartFormData = () => {
-   headers['Content-type'] = 'multipart/form-data'
 }
 
 export const axiosInstance = axios.create({

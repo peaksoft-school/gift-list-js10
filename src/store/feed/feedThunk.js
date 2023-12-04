@@ -38,7 +38,7 @@ export const addToMyGifts = createAsyncThunk(
             'Ошибка',
             axiosInstance.post(`/feeds/assign/${wishId}/${userId}`)
          )
-         return response
+         return response.data
       } catch (error) {
          return rejectWithValue(error)
       }

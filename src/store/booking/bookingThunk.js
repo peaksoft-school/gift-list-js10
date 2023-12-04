@@ -35,7 +35,6 @@ export const bookingCharityThunk = createAsyncThunk(
       { rejectWithValue, dispatch }
    ) => {
       try {
-         console.log(charityId, isBookingAnonymous, userId)
          const response = await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,

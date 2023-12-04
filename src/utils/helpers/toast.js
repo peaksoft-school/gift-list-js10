@@ -165,5 +165,5 @@ const TextContainer = styled('div')(({ mainColor }) => {
 })
 
 export const StyledToastContainer = styled(ToastContainer)({
-   minWidth: '40%',
+   minWidth: '25%',
 })
