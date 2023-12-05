@@ -7,6 +7,7 @@ const initialState = {
    email: null,
    token: null,
    role: null,
+   fullName: null,
 }
 
 export const authSlice = createSlice({
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
          newState.role = data.role
          newState.token = data.token
          newState.id = data.id
+         newState.fullName = data.fullName
          newState.isAuth = true
          navigate(routes[data.role].path)
          return newState

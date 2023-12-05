@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card } from '../../components/UI/card/Card'
-import { getProfileByUserId } from '../../store/slices/profile-slice/profileThunk'
+import { getProfileByUserId } from '../../store/slices/profile-slice/profileByIdThunk'
 
 export const CharitiesPage = () => {
    const dispatch = useDispatch()

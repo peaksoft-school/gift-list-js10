@@ -1,12 +1,12 @@
-import React from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import { Button } from '../../components/UI/Button'
+import React from 'react'
 import {
    ProfileFacebook,
    ProfileInstagram,
    ProfileTelegram,
    ProfileVk,
 } from '../../assets/index'
+import { Button } from '../../components/UI/Button'
 
 export const Profile = ({
    variant,
@@ -25,7 +25,6 @@ export const Profile = ({
    birthdate,
    importantToKnow,
    onClick,
-   // onClick,
 }) => {
    return (
       <ProfileContainer component="div">
@@ -169,12 +168,11 @@ const StyledContent = styled('p')({
 })
 
 const ProfileContainer = styled(Box)({
-   width: '68rem',
-   margin: '0 auto',
    padding: '20px',
+   paddingTop: '20px',
    display: 'flex',
-   background: 'white',
-   borderRadius: '10px',
+   backgroundColor: '#fff',
+   height: '72vh',
 })
 
 const UserProfilePictureAndUserNameAndSocialsMediaContainer = styled(Box)({

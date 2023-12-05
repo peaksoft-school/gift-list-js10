@@ -9,7 +9,7 @@ import {
 } from '../../store/slices/my-friends/friendsThunk'
 import { meetballsFriendOptions } from '../../utils/constants/meetballs-options'
 import { Profile } from '../LandingPage/Profile'
-import { getProfileByUserId } from '../../store/slices/profile-slice/profileThunk'
+import { getProfileByUserId } from '../../store/slices/profile-slice/profileByIdThunk'
 import { getWishListByUserId } from '../../store/slices/wishes/wishThunk'
 import { getHolidaysByUserId } from '../../store/slices/holidays/holidayThunk'
 import { getCharitiesByUserId } from '../../store/slices/charities/chaririesThunk'

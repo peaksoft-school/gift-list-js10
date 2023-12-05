@@ -14,20 +14,15 @@ const transformObjectRoutesToArray = (role) =>
    Object.entries(routes[role])
       .map(([pathname, breadcrumb]) => ({
          path: pathname,
-         breadcrumb,
+         breadcrumb: breadcrumb.breadcrumb,
       }))
       .slice(1)
 
 const getLastElementOfPath = (path) => path.slice(-1)
 
-export const MainLayout = ({
-   role,
-   isList,
-   toggleList,
-   headerSelectType,
-   variant,
-}) => {
+export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
+
    const breadcrumbs = useBreadcrumbs(routesArray, {
       excludePaths: ['/', 'user', 'admin'],
    })
@@ -36,7 +31,7 @@ export const MainLayout = ({
    const [byIdName, setByIdName] = useState('')
 
    useEffect(() => {
-      if (isNumber(getLastElementOfPath(path['*']))) {
+      if (path['*'].includes('/')) {
          setInner(true)
       } else {
          setInner(false)
@@ -56,16 +51,17 @@ export const MainLayout = ({
          window.removeEventListener('providerEvent', handleDataUpdated)
       }
    }, [])
-
    return (
       <>
          <Sidebar roleName={role} />
          <MainContainer>
-            <Header variantOfSelect={headerSelectType} />
+            <Header
+               variantOfSelect={routes[role][path['*']]?.headerSelectType}
+            />
             <MainContentWrapper>
                <StyledMainContentHeader>
                   <StyledLegend isinner={inner}>
-                     {breadcrumbs.map(({ breadcrumb, match }, index) => (
+                     {breadcrumbs.map(({ match }, index) => (
                         <Fragment key={match.pathname}>
                            <StyledNavLink
                               to={match.pathname}
@@ -76,13 +72,14 @@ export const MainLayout = ({
                               {isNumber(getLastElementOfPath(match.pathname))
                                  ? isNumber(match.pathname.split('/').pop()) &&
                                    byIdName
-                                 : breadcrumb}
+                                 : routes[role][match.pathname.split('/').pop()]
+                                      ?.breadcrumb}
                            </StyledNavLink>
                            {index !== breadcrumbs.length - 1 && ' / '}
                         </Fragment>
                      ))}
                   </StyledLegend>
-                  {(!inner && variant) || (
+                  {!inner && routes[role][path['*']]?.showListActions && (
                      <div>
                         <StyledButton onClick={toggleList} disableRipple>
                            <CardIcon className={`${!isList && 'active'}`} />

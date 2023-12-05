@@ -51,3 +51,4 @@ export { ReactComponent as AnonimBookingIcon } from './icons/anonymously-booking
 export { ReactComponent as UnBookingIcon } from './icons/unbooking-icon.svg'
 export { ReactComponent as AddToMyWish } from './icons/add-to-my-wish.svg'
 export { ReactComponent as Complain } from './icons/complain-icon.svg'
+export { ReactComponent as ChangePasswordXIcon } from './icons/changepassword-x-icon.svg'

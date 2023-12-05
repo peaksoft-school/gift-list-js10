@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getProfileByUserId } from './profileThunk'
+import { getProfileByUserId } from './profileByIdThunk'
 
 const initialState = {
    friendId: [],
@@ -7,7 +7,7 @@ const initialState = {
    isLoading: false,
 }
 
-export const profileSlice = createSlice({
+export const profileByIdSlice = createSlice({
    name: 'profile',
    initialState,
    reducers: {},

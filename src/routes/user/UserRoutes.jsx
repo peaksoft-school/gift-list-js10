@@ -7,10 +7,11 @@ import { PrivateRoutes } from '../PrivateRoutes'
 import { MyFriends } from '../../pages/friends/MyFriends'
 import { FriendRequests } from '../../pages/friends/FriendRequests'
 import { ProfileDetail } from '../../pages/friends/ProfileDetail'
-// import { FriendRequestsDetail } from '../../pages/friends/FriendRequestsDetail'
 import { WishesPage } from '../../pages/friends/WishesPage'
 import { CharitiesPage } from '../../pages/friends/CharitiesPage'
 import { HolidaysPage } from '../../pages/friends/HolidaysPage'
+import { UserProfilePage } from '../../pages/profile/UserProfilePage'
+import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -31,6 +32,8 @@ export const UserRoutes = () => {
       wishes,
       holidays,
       charities,
+      profile,
+      edit,
    } = routes[role]
 
    return (
@@ -134,19 +137,29 @@ export const UserRoutes = () => {
                }
             />
 
-            {/** You can add your components like this example to bottom
+            {/* You can add your components like this example to bottom
              <Route
-               path={pahtOfYourComponent}
+               path={pahtOfYourComponent} */}
+            <Route
+               path={profile.path}
                element={
                   <PrivateRoutes
-                     Component={
-                        Here should be your component
-                     }
+                     Component={<UserProfilePage />}
                      isAuth={isAuth}
                      fallback="/"
                   />
                }
-            /> */}
+            />
+            <Route
+               path={`${profile.path}/${edit.path}`}
+               element={
+                  <PrivateRoutes
+                     Component={<UpdateUserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
          </Route>
       </Routes>
    )
