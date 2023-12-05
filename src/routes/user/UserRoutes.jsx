@@ -7,7 +7,10 @@ import { PrivateRoutes } from '../PrivateRoutes'
 import { MyFriends } from '../../pages/friends/MyFriends'
 import { FriendRequests } from '../../pages/friends/FriendRequests'
 import { ProfileDetail } from '../../pages/friends/ProfileDetail'
-import { FriendRequestsDetail } from '../../pages/friends/FriendRequestsDetail'
+// import { FriendRequestsDetail } from '../../pages/friends/FriendRequestsDetail'
+import { WishesPage } from '../../pages/friends/WishesPage'
+import { CharitiesPage } from '../../pages/friends/CharitiesPage'
+import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -19,8 +22,16 @@ export const UserRoutes = () => {
    const params = useParams()
    const path = params['*']
 
-   const { feed, friends, request, getFriendById, getRequestsById } =
-      routes[role]
+   const {
+      feed,
+      friends,
+      request,
+      getFriendById,
+      getRequestsById,
+      wishes,
+      holidays,
+      charities,
+   } = routes[role]
 
    return (
       <Routes>
@@ -49,7 +60,7 @@ export const UserRoutes = () => {
             />
 
             <Route
-               path={`${friends.path}/*`}
+               path={friends.path}
                element={
                   <PrivateRoutes
                      Component={<MyFriends />}
@@ -70,21 +81,53 @@ export const UserRoutes = () => {
                   }
                />
             </Route>
+
             <Route
-               path={getFriendById.path}
+               path={getRequestsById.path}
                element={
                   <PrivateRoutes
-                     Component={<ProfileDetail />}
+                     Component={<ProfileDetail variant="requests" />}
                      isAuth={isAuth}
                      fallback="/"
                   />
                }
             />
             <Route
-               path={getRequestsById.path}
+               path={getFriendById.path}
                element={
                   <PrivateRoutes
-                     Component={<FriendRequestsDetail />}
+                     Component={<ProfileDetail variant="myFriendProfile" />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+
+            <Route
+               path={wishes.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishesPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charities.path}
+               element={
+                  <PrivateRoutes
+                     Component={<CharitiesPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={holidays.path}
+               element={
+                  <PrivateRoutes
+                     Component={<HolidaysPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />

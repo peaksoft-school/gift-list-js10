@@ -19,7 +19,6 @@ export const profileSlice = createSlice({
             }
          })
          .addCase(getProfileByUserId.fulfilled, (state, action) => {
-            console.log(action.payload)
             return {
                ...state,
                friendId: action.payload,

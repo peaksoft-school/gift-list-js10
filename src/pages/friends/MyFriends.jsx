@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { FriendCard } from '../../components/UI/FriendCard'
 import { Tabs } from '../../components/UI/Tabs'
 import { providerEvent } from '../../events/customEvents'
+import { getFriends } from '../../store/slices/my-friends/friendsThunk'
 
 export const MyFriends = () => {
    const myFriends = useSelector((state) => {
@@ -25,7 +26,7 @@ export const MyFriends = () => {
    }
 
    useEffect(() => {
-      // dispatch(getFriends())
+      dispatch(getFriends())
    }, [dispatch])
    return (
       <div>
@@ -45,7 +46,7 @@ export const MyFriends = () => {
                  />
               ))
             : null}
-         {/* <Outlet /> */}
+         <Outlet />
       </div>
    )
 }

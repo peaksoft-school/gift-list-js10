@@ -13,17 +13,18 @@ export const Profile = ({
    image,
    fullName,
    phoneNumber,
-   linkFacebook,
+   facebook,
    telegram,
    instagram,
-   vkontakte,
-   country,
+   vk,
+   city,
    email,
-   shoeSize,
-   clothingSize,
-   hobby,
-   dateOfBirth,
-   important,
+   shoesSize,
+   clothSize,
+   interesAndHobbies,
+   birthdate,
+   importantToKnow,
+   onClick,
    // onClick,
 }) => {
    return (
@@ -49,7 +50,7 @@ export const Profile = ({
                         )
                      case 'removeFromFriends':
                         return (
-                           <StyledButton variant="outlined">
+                           <StyledButton variant="outlined" onClick={onClick}>
                               Удалить из друзей
                            </StyledButton>
                         )
@@ -62,134 +63,74 @@ export const Profile = ({
                   }
                })()}
             <UserSocialMediaContainer component="div">
-               <a href={linkFacebook} target="blank">
-                  <ProfileFacebook />
-               </a>
-               <a href={instagram} target="blank">
-                  <ProfileInstagram />
-               </a>
-               <a href={telegram} target="blank">
-                  <ProfileTelegram />
-               </a>
-               <a href={vkontakte} target="blank">
-                  <ProfileVk />
-               </a>
+               {facebook && (
+                  <a href={facebook} target="blank">
+                     <ProfileFacebook />
+                  </a>
+               )}
+               {instagram && (
+                  <a href={instagram} target="blank">
+                     <ProfileInstagram />
+                  </a>
+               )}
+               {telegram && (
+                  <a href={telegram} target="blank">
+                     <ProfileTelegram />
+                  </a>
+               )}
+               {vk && (
+                  <a href={vk} target="blank">
+                     <ProfileVk />
+                  </a>
+               )}
             </UserSocialMediaContainer>
          </UserProfilePictureAndUserNameAndSocialsMediaContainer>
 
          <UserInfoContainer component="div">
             {/* basic information */}
-            <InformationText variant="p">Основная информация</InformationText>
-            <BasicInformation component="div">
-               {/* baic information left part */}
-               <InformationLeftPart component="div">
-                  {/* user's city */}
-                  <UserOneInformationContainer component="div">
-                     <UserInformationArea variant="p">
-                        Город:
-                     </UserInformationArea>
-                     <UserInformationTitle variant="p">
-                        {country}
-                     </UserInformationTitle>
-                  </UserOneInformationContainer>
-
-                  {/* user's email */}
-                  <UserOneInformationContainer component="div">
-                     <UserInformationArea variant="p">
-                        Email:
-                     </UserInformationArea>
-                     <UserInformationTitle variant="p">
-                        {email}
-                     </UserInformationTitle>
-                  </UserOneInformationContainer>
-               </InformationLeftPart>
-
-               {/* basic information right part */}
-
-               <InformationRightPart component="div">
-                  {/* user birthdate */}
-                  <UserOneInformationContainer component="div">
-                     <UserInformationArea variant="p">
-                        Дата рождения:
-                     </UserInformationArea>
-                     <UserInformationTitle variant="p">
-                        {dateOfBirth}
-                     </UserInformationTitle>
-                  </UserOneInformationContainer>
-
-                  {/* user's phone number */}
-
-                  <UserOneInformationContainer component="div">
-                     <UserInformationArea variant="p">
-                        Номер телефона:
-                     </UserInformationArea>
-                     <UserInformationTitle variant="p">
-                        {phoneNumber}
-                     </UserInformationTitle>
-                  </UserOneInformationContainer>
-               </InformationRightPart>
-            </BasicInformation>
-            {/* user's interest and hobbies */}
-            <InformationText variant="p">Интересы, хобби</InformationText>
-            <InteresAndHobbiesInformation component="div">
-               {/* interest and hobbies left part */}
-               <InformationLeftPart component="div">
-                  <UserOneInformationContainer component="div">
-                     <UserInformationArea variant="p">
-                        Интересы, хобби:
-                     </UserInformationArea>
-                     <UserInformationTitle variant="p">
-                        {hobby}
-                     </UserInformationTitle>
-                  </UserOneInformationContainer>
-               </InformationLeftPart>
-
-               {/* interes and hobbies right part */}
-
-               <InformationRightPart component="div">
-                  {/* important to know */}
-
-                  <UserOneInformationContainer component="div">
-                     <UserInformationArea variant="p">
-                        Важно знать:
-                     </UserInformationArea>
-                     <UserInformationTitle variant="p">
-                        {important}
-                     </UserInformationTitle>
-                  </UserOneInformationContainer>
-               </InformationRightPart>
-            </InteresAndHobbiesInformation>
-            {/* additional information */}
-            <InformationText variant="p">Доп.инфа</InformationText>
-            <AdditionalInformation>
-               {/* additional information left part */}
-
-               <InformationLeftPart component="div">
-                  {/* user's clothes size */}
-                  <UserOneInformationContainer>
-                     <UserInformationArea variant="p">
+            <InformationText>Основная информация</InformationText>
+            <StyledContentWrapper>
+               <StyledBlockOne>
+                  <UserInformationAreaBlockOne>
+                     Город: <StyledContent>{city}</StyledContent>
+                  </UserInformationAreaBlockOne>
+                  <UserInformationAreaBlockOne>
+                     Email: <StyledContent>{email}</StyledContent>
+                  </UserInformationAreaBlockOne>
+                  <div>
+                     <InformationText>Интересы, хобби</InformationText>
+                     <UserInformationAreaBlockOne>
+                        Интересы,хобби:
+                        <StyledContent>{interesAndHobbies}</StyledContent>
+                     </UserInformationAreaBlockOne>
+                  </div>
+                  <div>
+                     <InformationText>Доп. инфа</InformationText>
+                     <UserInformationAreaBlockOne>
                         Размер одежды:
-                     </UserInformationArea>
-                     <UserInformationTitle variant="p">
-                        {clothingSize}
-                     </UserInformationTitle>
-                  </UserOneInformationContainer>
-               </InformationLeftPart>
-               {/* additional information right part */}
-
-               <InformationRightPart component="div">
-                  {/* user's shoes size */}
-
-                  <UserOneInformationContainer>
-                     <UserInformationArea variant="p">
-                        Размер обуви:
-                     </UserInformationArea>
-                     <UserInformationTitle variant="p">
-                        {shoeSize}
-                     </UserInformationTitle>
-                  </UserOneInformationContainer>
-               </InformationRightPart>
-            </AdditionalInformation>
+                        <StyledContent>{clothSize}</StyledContent>
+                     </UserInformationAreaBlockOne>
+                  </div>
+               </StyledBlockOne>
+               <StyledBlockTwo>
+                  <UserInformationAreaBlockOne>
+                     Дата рождения:
+                     <StyledContent>{birthdate}</StyledContent>
+                  </UserInformationAreaBlockOne>
+                  <UserInformationAreaBlockOne>
+                     Номер телефона:
+                     <StyledContent>{phoneNumber}</StyledContent>
+                  </UserInformationAreaBlockOne>
+                  <UserInformationAreaBlockTwo className="important">
+                     Важно знать:
+                     <StyledContent>{importantToKnow}</StyledContent>
+                  </UserInformationAreaBlockTwo>
+                  <UserInformationAreaBlockTwo>
+                     Размер обуви:
+                     <StyledContent>{shoesSize}</StyledContent>
+                  </UserInformationAreaBlockTwo>
+               </StyledBlockTwo>
+            </StyledContentWrapper>
             {variant === 'roleAdmin' && (
                <RemoveOrBlockContainer component="div">
                   <RemoveButton variant="outlined">Удалить</RemoveButton>
@@ -200,6 +141,32 @@ export const Profile = ({
       </ProfileContainer>
    )
 }
+
+const StyledBlockTwo = styled('div')({
+   display: 'flex',
+   gap: '20px',
+   flexDirection: 'column',
+   width: '50%',
+   '&.important': { height: '8.9vh', width: '23vw' },
+})
+
+const StyledBlockOne = styled('div')({
+   display: 'flex',
+   gap: '20px',
+   flexDirection: 'column',
+   width: '50%',
+})
+
+const StyledContentWrapper = styled('div')({
+   display: 'flex',
+   width: '100%',
+})
+
+const StyledContent = styled('p')({
+   color: 'black',
+   fontSize: '1rem',
+   paddingTop: '8px',
+})
 
 const ProfileContainer = styled(Box)({
    width: '68rem',
@@ -238,6 +205,7 @@ const UserProfilePictureContainer = styled(Box)({
    img: {
       width: '100%',
       height: '100%',
+      borderRadius: '5px',
    },
 })
 
@@ -269,15 +237,14 @@ const RemoveOrBlockContainer = styled(Box)({
    width: '100%',
    gap: '0.625rem',
 })
-
-const BasicInformation = styled(Box)({
-   display: 'flex',
-   justifyContent: 'space-between',
-   width: '33.313rem',
-   marginBottom: '1.875rem',
+const UserInformationAreaBlockTwo = styled('div')({
+   fontSize: '0.875rem',
+   fontWeight: '400',
+   color: '#5C5C5C',
+   paddingTop: '37px',
 })
 
-const InformationText = styled(Typography)({
+const InformationText = styled('p')({
    color: '#8639B5',
    letterSpacing: '0.013rem',
    fontWeight: '500',
@@ -285,45 +252,10 @@ const InformationText = styled(Typography)({
    marginBottom: '1rem',
 })
 
-const UserInformationArea = styled(Typography)({
+const UserInformationAreaBlockOne = styled('div')({
    fontSize: '0.875rem',
    fontWeight: '400',
    color: '#5C5C5C',
-})
-
-const UserInformationTitle = styled(Typography)({})
-
-const InteresAndHobbiesInformation = styled(Box)({
-   width: '39.188rem',
-
-   display: 'flex',
-   justifyContent: 'space-between',
-   marginBottom: '1.875rem',
-})
-
-const AdditionalInformation = styled(Box)({
-   width: '32.063rem',
-
-   display: 'flex',
-   justifyContent: 'space-between',
-})
-
-const InformationLeftPart = styled(Box)({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '2rem',
-})
-
-const InformationRightPart = styled(Box)({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '2rem',
-})
-
-const UserOneInformationContainer = styled(Box)({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '0.5rem',
 })
 
 const ApplicationToFriendsContainer = styled(Box)({

@@ -3,9 +3,9 @@ import React from 'react'
 import { Button } from './Button'
 
 export const FriendCard = ({
-   name = 'Kanykei',
-   wish = '10',
-   holidays = '6',
+   name,
+   wish,
+   holidays,
    image,
    variant,
    onClick,
@@ -42,7 +42,6 @@ const Container = styled('div')({
    gap: '1.25rem',
    borderRadius: '0.5rem',
    background: '#F7F8FA',
-   // width: '100%',
    height: '100%',
 })
 const BtnContainer = styled('div')({
@@ -61,18 +60,19 @@ const BtnContainer = styled('div')({
    },
 })
 
-const CardContainer = styled(Card)(({ variant }) => ({
+const CardContainer = styled(Card)({
    width: '15vw',
-   height: variant ? '43vh' : '38vh',
+   height: '50vh',
    margin: '1rem',
    boxShadow: 'none',
    display: 'flex',
    flexDirection: 'column',
    justifyContent: 'center',
    alignItems: 'center',
+   paddingBottom: '30px',
    backgroundImage:
       'linear-gradient(to bottom,rgba(134, 57, 181, 0.20) 40%, #fff 10% )',
-}))
+})
 
 const Image = styled(CardMedia)({
    width: '130px',

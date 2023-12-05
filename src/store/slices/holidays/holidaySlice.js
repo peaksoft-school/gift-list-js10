@@ -21,7 +21,6 @@ export const holidaySlice = createSlice({
             }
          })
          .addCase(getHolidaysByUserId.fulfilled, (state, action) => {
-            console.log(action)
             return {
                ...state,
                holidays: action.payload,

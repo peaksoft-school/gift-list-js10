@@ -26,7 +26,16 @@ export const routes = {
          path: 'friends/:friendId',
       },
       getRequestsById: {
-         path: 'requests/:friendId',
+         path: 'friends/requests/:friendId',
+      },
+      wishes: {
+         path: 'wishes',
+      },
+      holidays: {
+         path: 'holidays',
+      },
+      charities: {
+         path: 'charities',
       },
    },
 }

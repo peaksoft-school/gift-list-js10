@@ -19,7 +19,6 @@ export const myFriendWishesSlice = createSlice({
             }
          })
          .addCase(getWishListByUserId.fulfilled, (state, action) => {
-            console.log(action.payload)
             return {
                ...state,
                wishes: action.payload,

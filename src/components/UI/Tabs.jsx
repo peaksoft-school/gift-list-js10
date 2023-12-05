@@ -15,9 +15,9 @@ export const Tabs = ({ countFriends, countRequests }) => {
             <Counter>{countFriends}</Counter>
          </StyledNavLink>
          <StyledNavLink
-            to="/user/friends/request"
+            to="/user/friends/requests"
             className={`tabs ${
-               pathname === '/user/friends/request' && 'activee'
+               pathname === '/user/friends/requests' && 'activee'
             }`}
          >
             Запросы в друзья <Counter>{countRequests}</Counter>

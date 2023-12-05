@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../config/axiosInstance'
+import { axiosInstance } from '../../../config/axiosInstance'
 import {
    notifyTypes,
    toastWithPromise,
    toastWithoutPromise,
-} from '../../utils/helpers/toast'
+} from '../../../utils/helpers/toast'
 
 export const getFriends = createAsyncThunk(
    'user/friends',
@@ -12,7 +12,6 @@ export const getFriends = createAsyncThunk(
       try {
          const response = await axiosInstance.get('/myFriends')
          const result = response.data
-         console.log(result)
          return result
       } catch (error) {
          toastWithoutPromise(
@@ -27,15 +26,16 @@ export const getFriends = createAsyncThunk(
 
 export const deleteFriendById = createAsyncThunk(
    '/myFriends',
-   async (friendId, { dispatch }) => {
+   async (userId, { dispatch }) => {
       try {
-         const response = await axiosInstance.delete(`/myFriends/${friendId}`)
-         const result = response.data
-         console.log(result)
-         dispatch(getFriends())
-         return result
+         await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
+            'hello',
+            axiosInstance.delete(`/myFriends/${userId}`)
+         )
+
+         return dispatch(getFriends())
       } catch (error) {
-         console.log(error)
          return error
       }
    }
@@ -45,17 +45,13 @@ export const sendRequestToUser = createAsyncThunk(
    '/myFriends/{friendId}',
    async (friendId, { dispatch }) => {
       try {
-         const response = await toastWithPromise(
+         await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
             'Ваш запрос успешно отправлен',
             axiosInstance.post(`/myFriends/${friendId}`)
          )
-         dispatch(getFriends())
-         const result = response.data
-         console.log(result)
-         return result
+         return dispatch(getFriends())
       } catch (error) {
-         console.log(error)
          return error
       }
    }
@@ -65,16 +61,14 @@ export const acceptRequest = createAsyncThunk(
    '/myFriends/acceptFriend',
    async (friendId, { dispatch }) => {
       try {
-         const response = await toastWithPromise(
+         await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
             'helloooooo',
             axiosInstance.post(`/myFriends/acceptFriend${friendId}`)
          )
-         console.log(response.data)
-         dispatch(getFriends())
-         return response.data
+
+         return dispatch(getFriends())
       } catch (error) {
-         console.log(error)
          return error
       }
    }
