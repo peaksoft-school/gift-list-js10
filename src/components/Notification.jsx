@@ -1,5 +1,5 @@
 import { MoreVert } from '@mui/icons-material'
-import { Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
+import { Badge, Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { notifications } from '../utils/helpers/constants'
 import { NotificationIcon } from '../assets'
@@ -69,12 +69,27 @@ export const Notification = () => {
    const handleCloseNorif = () => {
       setIsOpenNotifications(false)
    }
+   function notificationsLabel(count) {
+      if (count === 0) {
+         return 'no notifications'
+      }
+      if (count > 99) {
+         return 'more than 99 notifications'
+      }
+      return `${count} notifications`
+   }
 
    return (
       <>
-         <NotificationContainer>
-            <NotificationIcon onClick={isOpenNotificationItem} />
-            {isNotReadenNotificationExist > 0 ? <Circle /> : null}
+         <NotificationContainer onClick={isOpenNotificationItem}>
+            <IconButton aria-label={notificationsLabel(100)}>
+               <Badge
+                  badgeContent={isNotReadenNotificationExist}
+                  color="primary"
+               >
+                  <NotificationIcon />
+               </Badge>
+            </IconButton>
          </NotificationContainer>
 
          {isOpenNotifications ? (
