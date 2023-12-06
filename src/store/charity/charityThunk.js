@@ -12,12 +12,29 @@ import {
 } from '../../utils/constants/constants'
 
 export const getAllCharityByUserId = createAsyncThunk(
-   '/charity/getAllCharities',
+   '/charity/getAllCharityByUserId',
    async (userId, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(
             `/charity/myCharities?userId=${userId}`
          )
+         return response.data
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка',
+            error.message
+         )
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const getAllCharity = createAsyncThunk(
+   '/charity/getAllCharity',
+   async (_, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(`/charity`)
          return response.data
       } catch (error) {
          toastWithoutPromise(
@@ -125,6 +142,28 @@ export const updateCharity = createAsyncThunk(
          )
          navigate(-1)
          dispatch(getAllCharityByUserId(userId))
+      } catch (error) {
+         rejectWithValue(error)
+      }
+   }
+)
+
+export const blockOrUnblockCharityById = createAsyncThunk(
+   '/charity/blockOrUnblockCharityById',
+   async ({ charityId, blockCharity }, { rejectWithValue }) => {
+      try {
+         await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
+            notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
+            'Успешно',
+            blockCharity
+               ? 'Благотворительность успешно заблокирована'
+               : 'Благотворительность успешно разблокирована',
+            'Ошибка',
+            axiosInstance.put(
+               `/charity/${charityId}?blockCharity=${blockCharity}`
+            )
+         )
       } catch (error) {
          rejectWithValue(error)
       }

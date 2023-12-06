@@ -151,7 +151,7 @@ export const WishListForm = ({
             onSubmit={handleSubmit((data) => {
                onSubmit(data, preview)
                reset()
-               setPreview(null)
+               setPreview(image ? { file: '', url: image } : null)
                setValues(variant ? initialValues[0] : {})
             })}
          >
@@ -259,7 +259,7 @@ export const WishListForm = ({
                   type="submit"
                   variant="primary"
                >
-                  Добавить
+                  {defaultValues.state ? 'Сохранить' : 'Добавить'}
                </Button>
             </ButtonContainer>
          </BlockTwo>

@@ -8,6 +8,15 @@ export const routes = {
          path: 'users',
          breadcrumb: 'Пользователи',
       },
+      charity: {
+         path: 'charity',
+         breadcrumb: 'Благотворительность',
+         headerSelectType: 'select',
+      },
+      charityById: {
+         path: 'charity/:charityId',
+         headerSelectType: 'select',
+      },
    },
    USER: {
       path: '/user',
@@ -59,7 +68,7 @@ export const users = [
       fullName: 'Naruto Uzumaki',
    },
    {
-      id: 3,
+      id: 5,
       password: '1234',
       email: 'user@gmail.com',
       role: 'USER',

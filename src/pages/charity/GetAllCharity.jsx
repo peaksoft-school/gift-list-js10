@@ -4,17 +4,27 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
-import { getAllCharityByUserId } from '../../store/charity/charityThunk'
+import {
+   getAllCharity,
+   getAllCharityByUserId,
+} from '../../store/charity/charityThunk'
 import { convertDateFormat } from '../../utils/helpers/constants'
+import { EmptyComponent } from '../LandingPage/EmptyComponent'
+import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
 export const GetAllCharity = () => {
    const dispatch = useDispatch()
    const { charities, pending } = useSelector((state) => state.charity)
-   const { id } = useSelector((state) => state.authLogin)
+   const { id, role } = useSelector((state) => state.authLogin)
    const navigate = useNavigate()
 
    useEffect(() => {
-      dispatch(getAllCharityByUserId(id))
+      if (role === 'USER') {
+         dispatch(getAllCharityByUserId(id))
+      }
+      if (role === 'ADMIN') {
+         dispatch(getAllCharity())
+      }
    }, [])
 
    if (pending) {
@@ -51,6 +61,12 @@ export const GetAllCharity = () => {
                showBottomBooker="true"
             />
          ))}
+         {charities.length === 0 &&
+            (role === 'USER' ? (
+               <EmptyComponent />
+            ) : (
+               <SecondEmptyComponent text="Пользователи еще не добавляли благотворительностей" />
+            ))}
       </StyledCharityWrapper>
    )
 }

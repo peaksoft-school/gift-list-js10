@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AdminState } from '../../components/GiftInnerContent'
 import {
+   blockOrUnblockCharityById,
    deleteCharityById,
    getCharityById,
 } from '../../store/charity/charityThunk'
@@ -51,9 +52,9 @@ export const GetCharityById = () => {
                charityImage: charity.charityImage,
             },
          })
+      } else if (role === 'ADMIN') {
+         dispatch(blockOrUnblockCharityById({ charityId, blockCharity: true }))
       }
-      //  else if (role === 'ADMIN') {
-      // }
    }
 
    return (

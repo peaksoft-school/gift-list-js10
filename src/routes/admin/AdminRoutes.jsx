@@ -4,6 +4,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { GetAllCharity } from '../../pages/charity/GetAllCharity'
+import { GetCharityById } from '../../pages/charity/GetCharityById'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -11,7 +13,7 @@ export const AdminRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { users } = routes[role]
+   const { users, charity, charityById } = routes[role]
    return (
       <Routes>
          <Route
@@ -21,7 +23,6 @@ export const AdminRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
-                  headerSelectType={users.headerSelectType}
                />
             }
          >
@@ -31,6 +32,26 @@ export const AdminRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<h1>Here should be your component</h1>}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charity.path}
+               element={
+                  <PrivateRoutes
+                     Component={<GetAllCharity />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charityById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<GetCharityById />}
                      isAuth={isAuth}
                      fallback="/"
                   />

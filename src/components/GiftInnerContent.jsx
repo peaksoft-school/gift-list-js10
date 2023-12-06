@@ -37,23 +37,25 @@ export function AdminState({
             </Main>
             <StyledFooter>
                <Field role={role} {...complaint} />
-               <ButtonContainer>
-                  <StyledButton
-                     onClick={onDelete}
-                     className="delete"
-                     variant="text"
-                     type="button"
-                  >
-                     Удалить
-                  </StyledButton>
-                  <StyledButton
-                     onClick={onEditOrOnBlock}
-                     variant="contained"
-                     type="button"
-                  >
-                     {role === 'user' ? 'Редактировать' : 'Заблокировать'}
-                  </StyledButton>
-               </ButtonContainer>
+               {!complaint.status && (
+                  <ButtonContainer>
+                     <StyledButton
+                        onClick={onDelete}
+                        className="delete"
+                        variant="text"
+                        type="button"
+                     >
+                        Удалить
+                     </StyledButton>
+                     <StyledButton
+                        onClick={onEditOrOnBlock}
+                        variant="contained"
+                        type="button"
+                     >
+                        {role === 'user' ? 'Редактировать' : 'Заблокировать'}
+                     </StyledButton>
+                  </ButtonContainer>
+               )}
             </StyledFooter>
          </SecondContainer>
       </Container>
@@ -139,6 +141,7 @@ const SecondContainer = styled('div')({
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
+   width: '-webkit-fill-available',
 })
 
 const UserContainer = styled('div')({

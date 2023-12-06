@@ -108,7 +108,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                            </Fragment>
                         ))}
                      </StyledLegend>
-                     {path['*'] === 'charity' && (
+                     {path['*'] === 'charity' && role === 'USER' && (
                         <StyledImagesContainer>
                            {latestCharities.map((charity) => (
                               <button
