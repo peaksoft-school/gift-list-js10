@@ -36,5 +36,10 @@ export const charitySlice = createSlice({
             pending: true,
             error: null,
          }))
+         .addCase(getCharityById.rejected, (state, { payload }) => ({
+            ...state,
+            pending: false,
+            error: payload.message,
+         }))
    },
 })

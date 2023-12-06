@@ -83,12 +83,47 @@ export const addCharity = createAsyncThunk(
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
-            'Successs',
-            'successdesc',
-            'error',
-            axiosInstance.post('/charity/save', newCharity)
+            'Успешно',
+            'Благотворительность успешно добавлена.',
+            'Ошибка',
+            axiosInstance.post(`/charity`, newCharity)
          )
-         navigate('charity')
+         navigate(-1)
+         dispatch(getAllCharityByUserId(userId))
+      } catch (error) {
+         rejectWithValue(error)
+      }
+   }
+)
+
+export const updateCharity = createAsyncThunk(
+   '/charity/addCharity',
+   async (
+      { userId, charityId, charity, navigate },
+      { rejectWithValue, dispatch }
+   ) => {
+      try {
+         const newCharity = {
+            nameCharity: charity.holidayName,
+            category: categoriesWithRussianPropertiesName[charity.category],
+            subcategory:
+               subCategoriesWithRussianPropertiesName[charity.subCategory],
+            description: charity.description,
+            image: charity.image,
+            condition: conditionWithRussianPropertiesName[charity.state],
+         }
+         await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
+            notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
+            'Успешно',
+            'Благотворительность обновлена.',
+            'Ошибка',
+            axiosInstance.put(
+               `/charity/update?charityId=${charityId}`,
+               newCharity
+            )
+         )
+         navigate(-1)
          dispatch(getAllCharityByUserId(userId))
       } catch (error) {
          rejectWithValue(error)

@@ -7,6 +7,20 @@ const countries = [
    'Таджикистан',
 ]
 
+const englishCountries = {
+   KYRGYZSTAN: 'Кыргызстан',
+   AZERBAIJAN: 'Азербайджан',
+   RUSSIA: 'Россия',
+   KAZAKHSTAN: 'Казахстан',
+   UZBEKISTAN: 'Узбекистан',
+   TAJIKISTAN: 'Таджикистан',
+}
+
+const russianCountries = {
+   Азербайджан: 'AZERBAIJAN',
+   Кыргызстан: 'KYRGYZSTAN',
+}
+
 const shoeSizes = [35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
 
 const clothingSizes = ['XXS', 'XS', 'S', 'M', 'L', 'XXL', 'XL', 'XXXL']
@@ -32,7 +46,7 @@ const categoriesWithRussianPropertiesName = {
 const subCategoriesWithEnglishPropertiesName = {
    SMARTPHONES_AND_PHONES: 'Смартфоны и телефоны',
    AUDIO_EQUIPMENT: 'Аудиотехника',
-   CAMERAS_AND_CAMCORDERS: 'Фото и видеокамеры',
+   PHOTO_AND_VIDEO_CAMERA: 'Фото и видеокамеры',
    CAR_ELECTRONICS: 'Автоэлектроника',
    TV_AND_VIDEO: 'ТВ и видео',
    COMPUTERS_LAPTOPS_AND_TABLETS: 'Компьютеры, ноутбуки и планшеты',
@@ -104,14 +118,53 @@ const conditionWithRussianPropertiesName = {
    'Б/У': 'USED',
    Новое: 'NEW',
 }
+const conditionWithEnglishPropertiesName = {
+   ALL: 'Все',
+   USED: 'Б/У',
+   NEW: 'Новое',
+}
+
+const clothingSizeEnum = {}
+
+const shoeSizeObject = {
+   THIRTY_FIVE: 35,
+   THIRTY_SIX: 36,
+   THIRTY_SEVEN: 37,
+   THIRTY_EIGHT: 38,
+   THIRTY_NINE: 39,
+   FORTY: 40,
+   FORTY_ONE: 41,
+   FORTY_TWO: 42,
+   FORTY_THREE: 43,
+   FORTY_FOUR: 44,
+}
+
+const shoeSizeEnum = {
+   35: 'THIRTY_FIVE',
+   36: 'THIRTY_SIX',
+   37: 'THIRTY_SEVEN',
+   38: 'THIRTY_EIGHT',
+   39: 'THIRTY_NINE',
+   40: 'FORTY',
+   41: 'FORTY_ONE',
+   42: 'FORTY_TWO',
+   43: 'FORTY_THREE',
+   44: 'FORTY_FOUR',
+}
 
 export {
    countries,
    shoeSizes,
    clothingSizes,
+   conditionWithEnglishPropertiesName,
    conditionWithRussianPropertiesName,
    categoriesWithEnglishPropertiesName,
    categoriesWithRussianPropertiesName,
    subCategoriesWithEnglishPropertiesName,
    subCategoriesWithRussianPropertiesName,
+   shoeSizeObject,
+   englishCountries,
+   russianCountries,
+   shoeSizeEnum,
+   clothingSizeEnum,
 }

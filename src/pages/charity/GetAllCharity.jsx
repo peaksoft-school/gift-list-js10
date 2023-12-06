@@ -21,16 +21,9 @@ export const GetAllCharity = () => {
       return 'Loading...'
    }
 
-   const handleMeatballsValue = (event) => {
-      // TODO: ACTIONS RELATIVE MEATBALLS INNER_TEXT
-      if (event.target.innerText === 'Забронировать')
-         console.log(event.target.innerText)
-      else console.log(event.target.innerText)
-   }
-
-   const onGetById = (charityId, ownerId, charityName) => {
+   const onGetById = (charityId, charityName) => {
       providerEvent({ action: 'name', payload: charityName })
-      navigate(`${charityId}/${ownerId}`)
+      navigate(`${charityId}`)
    }
 
    return (
@@ -38,9 +31,7 @@ export const GetAllCharity = () => {
          {charities.map((charity) => (
             <Card
                key={charity.nameCharity}
-               onClick={() =>
-                  onGetById(charity.charityId, id, charity.nameCharity)
-               }
+               onClick={() => onGetById(charity.charityId, charity.nameCharity)}
                variant="withStatusTop"
                card={{
                   owner: {
@@ -58,7 +49,6 @@ export const GetAllCharity = () => {
                   },
                }}
                showBottomBooker="true"
-               handleChange={handleMeatballsValue}
             />
          ))}
       </StyledCharityWrapper>

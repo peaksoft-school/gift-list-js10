@@ -1,47 +1,52 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { addCharity } from '../../store/charity/charityThunk'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { addCharity, updateCharity } from '../../store/charity/charityThunk'
 import { WishListForm } from '../LandingPage/WishListForm'
+import { uploadFile } from '../../utils/helpers/constants'
 
 export const EditOrAddCharityFormPage = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const { id } = useSelector((state) => state.authLogin)
    const onCloseForm = () => navigate(-1)
-   const [charity, setCharity] = useState()
+   const { state } = useLocation()
 
-   const onSubmitForm = (values, data) => {
-      // uploadFile(data.file).then(({ image }) =>
+   const onSubmitForm = async (values, data) => {
+      let image
+      if (data?.file) {
+         const response = await uploadFile(data.file)
+         image = response.link
+      } else {
+         image = data?.url
+      }
 
-      console.log(data)
-      const image =
-         'https://media.istockphoto.com/id/1253376435/vector/laptop-with-video-player-vector-icon-metal-laptoop-with-player-white-background.jpg?s=170667a&w=0&k=20&c=MnkWAyMmjQz7whVnzbS3dHv-31KcXA1wGsggbdmDdJY='
+      if (state?.charityId) {
+         return dispatch(
+            updateCharity({
+               userId: id,
+               charityId: state.charityId,
+               charity: { ...values, image },
+               navigate,
+            })
+         )
+      }
 
-      dispatch(
-         addCharity({ userId: id, charity: { ...values, image, navigate } })
+      return dispatch(
+         addCharity({
+            userId: id,
+            charity: { ...values, image },
+            navigate,
+         })
       )
-      // )
    }
-
-   const handleDataUpdated = (event) => {
-      if (event.detail.action === 'charity') {
-         setCharity(event.detail.payload)
-      }
-   }
-
-   useEffect(() => {
-      window.addEventListener('providerEvent', handleDataUpdated)
-      return () => {
-         window.removeEventListener('providerEvent', handleDataUpdated)
-      }
-   }, [])
 
    return (
       <div>
          <WishListForm
-            defaultValues={charity}
+            defaultValues={state?.defaultValues}
             variant
+            image={state?.charityImage}
             onClose={onCloseForm}
             onSubmit={onSubmitForm}
          />

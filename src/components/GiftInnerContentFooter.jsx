@@ -12,22 +12,19 @@ export function Field({
       <div>
          <div>
             <DefContent>
-               <Display>
-                  <Paragraph>
-                     Категория: <TextFeature>{categoryName}</TextFeature>
-                  </Paragraph>
-                  <Paragraph>
-                     Состояние: <TextFeature>{state}</TextFeature>
-                  </Paragraph>
-               </Display>
-               <Around>
-                  <Paragraph>
-                     Подкатегория: <TextFeature>{subCategoryName}</TextFeature>
-                  </Paragraph>
-                  <Paragraph>
-                     Дата добавления: <TextFeature>{createdDate}</TextFeature>
-                  </Paragraph>
-               </Around>
+               <Paragraph>
+                  Категория: <TextFeature>{categoryName}</TextFeature>
+               </Paragraph>
+               <Paragraph>
+                  Состояние: <TextFeature>{state}</TextFeature>
+               </Paragraph>
+
+               <Paragraph>
+                  Подкатегория: <TextFeature>{subCategoryName}</TextFeature>
+               </Paragraph>
+               <Paragraph>
+                  Дата добавления: <TextFeature>{createdDate}</TextFeature>
+               </Paragraph>
             </DefContent>
          </div>
          {role !== 'user' &&
@@ -44,23 +41,14 @@ export function Field({
    )
 }
 
-const Display = styled('div')({
-   display: 'flex',
-   gap: '17rem',
-})
-
-const Around = styled('div')({
-   display: 'flex',
-   gap: '12rem',
-})
-
 const DefContent = styled('div')({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '0.990rem',
+   display: 'grid',
+   gridTemplateColumns: '1fr 1fr',
+   rowGap: '20px',
+   columnGap: '2%',
 })
 
-const Paragraph = styled('p')({
+const Paragraph = styled('div')({
    color: '#5c5c5c',
    display: 'flex',
    flexDirection: 'column',

@@ -58,7 +58,7 @@ const StyledContainer = styled('div')({
    borderRadius: '9px',
    position: 'relative',
    img: {
-      objectFit: 'cover',
+      objectFit: 'contain',
       width: '100%',
       height: '100%',
    },

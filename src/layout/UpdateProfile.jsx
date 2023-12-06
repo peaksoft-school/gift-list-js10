@@ -1,7 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import {
    FacebookIcon,
    ProfileInstagram,
@@ -19,73 +21,71 @@ import {
    countries,
    shoeSizes,
 } from '../utils/constants/constants'
+import { uploadFile } from '../utils/helpers/constants'
 import { schema } from '../utils/helpers/update-profile'
 
 const sizesSelect = [
    {
-      name: 'clothingSelectedSize',
+      name: 'clothingSize',
       labelName: 'Размер одежды',
       placeholder: 'Выберите размер одежды',
       data: clothingSizes,
    },
    {
-      name: 'shoeSelectedSize',
+      name: 'shoeSize',
       labelName: 'Размер обуви',
       placeholder: 'Выберите размер обуви',
       data: shoeSizes,
    },
 ]
 
-export const UpdateProfile = ({ functionForGetValues }) => {
+export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
    const {
       register,
       handleSubmit,
       reset,
-      formState: { errors, isSubmitSuccessful },
+      formState: { errors },
       control,
-      setValue,
    } = useForm({
-      defaultValues: {
-         name: 'Айзада',
-         surname: 'Абдукулова',
-         email: 'Aizada@gmail.com',
-         previewImg: { file: '', url: '' },
-      },
+      defaultValues,
       resolver: yupResolver(schema),
    })
+   const [preview, setPreview] = useState({
+      file: '',
+      url: defaultValues.image,
+   })
+   const navigate = useNavigate()
+
    const onSubmit = (values, previewImg) => {
-      setValue('previewImg', previewImg)
-      functionForGetValues(values)
-   }
-   useEffect(() => {
-      if (isSubmitSuccessful) {
-         reset()
+      if (previewImg.url && previewImg.url !== defaultValues.image) {
+         uploadFile(previewImg.file).then(({ link }) => {
+            functionForGetValues({ ...values, image: link })
+         })
       }
-   }, [isSubmitSuccessful, reset])
-   const [preview, setPreview] = useState({ file: '', url: '' })
+      functionForGetValues(values, reset)
+      setPreview({
+         file: '',
+         url: defaultValues.image,
+      })
+   }
    const [error, setError] = useState(null)
    const onError = (error) => {
       if (error === 'minDate')
-         setError('Слишком ранняя дата. Не пытайся быть старше.')
+         setError('Введенная дата рождения слишком ранняя.')
       else if (error === 'disableFuture')
-         setError('Будущее скрыто. Оглянитесь назад.')
+         setError('Дата рождения не может быть датой в будущем.')
       else if (error === 'invalidDate')
          setError('Дата в не правильном формате.')
       else setError(error)
    }
 
-   useEffect(() => {
-      if (isSubmitSuccessful) {
-         reset()
-         setPreview(null)
-      }
-   }, [isSubmitSuccessful, reset])
-
    return (
       <StyledForm
          onSubmit={handleSubmit((values) => onSubmit(values, preview))}
       >
-         <UploadImage preview={preview} setPreview={setPreview} />
+         <StyledUploadImageContainer>
+            <UploadImage preview={preview} setPreview={setPreview} />
+         </StyledUploadImageContainer>
          <MainForm>
             <StyledFieldset>
                <StyledLegend>Основная информация</StyledLegend>
@@ -124,15 +124,17 @@ export const UpdateProfile = ({ functionForGetValues }) => {
                   isBirthdate
                   name="dateofbirth"
                   control={control}
+                  defaultValue={
+                     defaultValues.dateOfBirth &&
+                     dayjs(defaultValues.dateOfBirth)
+                  }
                   errorMessage={error}
                />
 
                <StyledInput
-                  placeholder="Введите почту"
                   labelText="Email"
                   {...register('email')}
-                  error={Boolean(errors.email)}
-                  helperText={errors.email?.message}
+                  readOnly={Boolean(1)}
                />
 
                <StyledInput
@@ -244,6 +246,7 @@ export const UpdateProfile = ({ functionForGetValues }) => {
                   onClick={() => {
                      setPreview(null)
                      reset()
+                     navigate(-1)
                   }}
                >
                   Отмена
@@ -256,6 +259,10 @@ export const UpdateProfile = ({ functionForGetValues }) => {
       </StyledForm>
    )
 }
+
+const StyledUploadImageContainer = styled('div')({
+   width: '23%',
+})
 
 const StyledDatePicker = styled(DatePicker)({
    input: {
@@ -280,6 +287,7 @@ const Actions = styled('div')({
    display: 'flex',
    justifyContent: 'end',
    gap: '20px',
+   paddingRight: '20px',
 })
 
 const SocialMediasWrapper = styled('div')(({ error }) => ({
@@ -319,6 +327,7 @@ const StyledForm = styled('form')({
    display: 'flex',
    padding: '20px',
    borderRadius: '8px',
+   backgroundColor: '#fff',
 })
 
 const StyledLegend = styled('legend')({

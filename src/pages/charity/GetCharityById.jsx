@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import { AdminState } from '../../components/GiftInnerContent'
 import {
    deleteCharityById,
    getCharityById,
 } from '../../store/charity/charityThunk'
-import { AdminState } from '../../components/GiftInnerContent'
 import {
    categoriesWithEnglishPropertiesName,
+   conditionWithEnglishPropertiesName,
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/constants'
 import { convertDateFormat } from '../../utils/helpers/constants'
 // import { WishListForm } from '../LandingPage/WishListForm'
-import { providerEvent } from '../../events/customEvents'
 
 export const GetCharityById = () => {
    const { charityId } = useParams()
@@ -34,8 +34,23 @@ export const GetCharityById = () => {
 
    const onEditOrOnBlock = () => {
       if (role === 'USER') {
-         providerEvent({ action: 'charity', payload: charity })
-         navigate('addOrEditCharity')
+         navigate('/user/charity/editCharity', {
+            state: {
+               defaultValues: {
+                  category:
+                     categoriesWithEnglishPropertiesName[charity.category],
+                  state: conditionWithEnglishPropertiesName[charity.condition],
+                  holidayName: charity.nameCharity,
+                  subCategory:
+                     subCategoriesWithEnglishPropertiesName[
+                        charity.subCategory
+                     ],
+                  description: charity.description,
+               },
+               charityId,
+               charityImage: charity.charityImage,
+            },
+         })
       }
       //  else if (role === 'ADMIN') {
       // }
@@ -51,7 +66,8 @@ export const GetCharityById = () => {
                image: charity.charityImage,
                categoryName:
                   categoriesWithEnglishPropertiesName[charity.category],
-               createdDate: convertDateFormat(charity.createdAt),
+               createdDate:
+                  charity.createdAt && convertDateFormat(charity.createdAt),
                subCategoryName:
                   subCategoriesWithEnglishPropertiesName[charity.subCategory],
                state: charity.condition === 'USED' ? 'Б/У' : 'Новый',
@@ -61,7 +77,9 @@ export const GetCharityById = () => {
                owner: {
                   userName: charity.fullName,
                   image: charity.userImage,
+                  phoneNumber: charity.ownerPhoneNumber,
                },
+               text: charity.description,
                complaints: [],
                status:
                   charity.status === 'RESERVED' ||

@@ -23,8 +23,9 @@ const transformObjectRoutesToArray = (role) =>
 
 const getLastElementOfPath = (path) => path.slice(-1)
 
-export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
+export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
+
    const breadcrumbs = useBreadcrumbs(routesArray, {
       excludePaths: ['/', 'user', 'admin'],
    })
@@ -56,7 +57,6 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
          window.removeEventListener('providerEvent', handleDataUpdated)
       }
    }, [])
-
    const latestCharities = charities
       .toSorted((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       .slice(0, 3)
@@ -65,7 +65,9 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
       <>
          <Sidebar roleName={role} />
          <MainContainer>
-            <Header variantOfSelect={headerSelectType} />
+            <Header
+               variantOfSelect={routes[role][path['*']]?.headerSelectType}
+            />
             <MainContentWrapper>
                <StyledMainContentHeader>
                   <ImagesAndBreadcrumbsWrapper>

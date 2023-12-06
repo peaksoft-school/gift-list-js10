@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use((config) => {
    const updateConfig = { ...config }
    // const { token } = store.getState().authLogin
    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDE0OTk2NTUsImlhdCI6MTcwMTM2NzY1NSwidXNlcm5hbWUiOiJtbnVyYWp5bTlAZ21haWwuY29tIn0.ha1gNt4qvHpJEQ7b1BJ5Ax1AeiLubcudhr5iu16Qx9k'
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDE5NzM3ODQsImlhdCI6MTcwMTg0MTc4NCwidXNlcm5hbWUiOiJtbnVyYWp5bTlAZ21haWwuY29tIn0.j1bWEh9MPKeEljp-rVVYYvU9OXJPhEQ7pLvmSfW2FfI'
    if (token) {
       updateConfig.headers.Authorization = `Bearer ${token}`
    }
@@ -31,7 +31,7 @@ axiosInstance.interceptors.response.use(
       if (error.response.status === 401) {
          store.dispatch(logout())
       }
-      return Promise.reject(error.response.data || error)
+      return Promise.reject(error)
    }
 )
 

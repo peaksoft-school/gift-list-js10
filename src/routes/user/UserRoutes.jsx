@@ -7,6 +7,8 @@ import { GetAllCharity } from '../../pages/charity/GetAllCharity'
 import { GetCharityById } from '../../pages/charity/GetCharityById'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { UserProfilePage } from '../../pages/profile/UserProfilePage'
+import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -14,7 +16,15 @@ export const UserRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { feed, charity, charityById, addOrEditCharity } = routes[role]
+   const {
+      feed,
+      profile,
+      edit,
+      charity,
+      charityById,
+      addCharity,
+      editCharity,
+   } = routes[role]
    return (
       <Routes>
          <Route
@@ -24,7 +34,6 @@ export const UserRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
-                  headerSelectType={feed.headerSelectType}
                />
             }
          >
@@ -34,6 +43,26 @@ export const UserRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<h1>Here should render the component</h1>}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={profile.path}
+               element={
+                  <PrivateRoutes
+                     Component={<UserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={`${profile.path}/${edit.path}`}
+               element={
+                  <PrivateRoutes
+                     Component={<UpdateUserProfilePage />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -60,7 +89,17 @@ export const UserRoutes = () => {
                }
             />
             <Route
-               path={addOrEditCharity.path}
+               path={addCharity.path}
+               element={
+                  <PrivateRoutes
+                     Component={<EditOrAddCharityFormPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={editCharity.path}
                element={
                   <PrivateRoutes
                      Component={<EditOrAddCharityFormPage />}

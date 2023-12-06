@@ -46,5 +46,6 @@ export { ReactComponent as ProfileIcon } from './icons/profile-icon.svg'
 export { ReactComponent as LogoutIcon } from './icons/logout-icon.svg'
 export { ReactComponent as CardIcon } from './icons/card-icon.svg'
 export { ReactComponent as ListIcon } from './icons/list-icon.svg'
-export { ReactComponent as LockIcon } from './icons/lock-icon.svg' // del
-export { ReactComponent as IncognitoIcon } from './icons/incognito-icon.svg' // del
+export { ReactComponent as ChangePasswordXIcon } from './icons/changepassword-x-icon.svg'
+export { ReactComponent as LockIcon } from './icons/lock-icon.svg'
+export { ReactComponent as IncognitoIcon } from './icons/incognito-icon.svg'

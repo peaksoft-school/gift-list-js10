@@ -23,13 +23,28 @@ export const routes = {
          onClick: (navigate) => navigate('charity/addCharity'),
       },
       charityById: {
-         path: 'charity/:charityId/:ownerId',
+         path: 'charity/:charityId',
          headerSelectType: 'select',
       },
-      addOrEditCharity: {
-         path: 'charity/:charityId/:ownerId/addOrEditCharity',
+      editCharity: {
+         path: 'charity/editCharity',
+         breadcrumb: 'Обновить подарок',
+         headerSelectType: 'select',
+         showListActions: true,
+      },
+      addCharity: {
+         path: 'charity/addCharity',
          breadcrumb: 'Добавить подарок',
          headerSelectType: 'select',
+         showListActions: true,
+      },
+      profile: {
+         path: 'profile',
+         breadcrumb: 'Профиль',
+      },
+      edit: {
+         path: 'edit',
+         breadcrumb: 'Рассказать о себе',
       },
    },
 }
@@ -41,12 +56,14 @@ export const users = [
       email: 'admin@gmail.com',
       role: 'ADMIN',
       token: 'token',
+      fullName: 'Naruto Uzumaki',
    },
    {
-      id: 2,
+      id: 3,
       password: '1234',
       email: 'user@gmail.com',
       role: 'USER',
       token: 'token',
+      fullName: 'Adia Karimova',
    },
 ]

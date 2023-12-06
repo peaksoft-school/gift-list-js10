@@ -1,4 +1,5 @@
-import { SamatOkenov, Ellipse, Aida, Askar } from '../../assets'
+import dayjs from 'dayjs'
+import { Aida, Askar, Ellipse, SamatOkenov } from '../../assets'
 import { axiosInstanceMultiPartFormData } from '../../config/axiosInstanceWithMultipartFormDataType'
 import { notifyTypes, toastWithoutPromise } from './toast'
 
@@ -52,33 +53,8 @@ export const isValidDateFormat = (formattedDate) => {
    return dateRegex.test(formattedDate)
 }
 
-export function convertDateFormat(inputDate) {
-   const dateObject = new Date(inputDate)
-
-   const year = dateObject.getFullYear() % 100
-   const month = dateObject.getMonth() + 1
-   const day = dateObject.getDate()
-
-   const formattedMonth = month < 10 ? `0${month}` : `${month}`
-   const formattedDay = day < 10 ? `0${day}` : `${day}`
-
-   const formattedDate = `${formattedMonth}.${formattedDay}.${year}`
-
-   return formattedDate
-}
-
-export function findNumberLength(inputString) {
-   const numbersArray = inputString.match(/\d+/g)
-
-   if (numbersArray) {
-      const totalLength = numbersArray.reduce(
-         (acc, number) => acc + number.length,
-         0
-      )
-      return totalLength
-   }
-
-   return 0
+export const formatDate = (date) => {
+   return dayjs(date).format('YYYY-MM-DD')
 }
 
 export const uploadFile = async (file) => {
@@ -98,4 +74,39 @@ export const uploadFile = async (file) => {
       )
       return error
    }
+}
+
+export function convertDateFormat(inputDate) {
+   const dateParts = inputDate.split('-')
+
+   const originalDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+
+   const day = originalDate.getDate()
+   const month = originalDate.getMonth() + 1
+   const year = originalDate.getFullYear()
+
+   const formattedDate = `${day < 10 ? '0' : ''}${day}.${
+      month < 10 ? '0' : ''
+   }${month}.${year}`
+
+   return formattedDate
+}
+
+export function changeText(txt, maxlength) {
+   if (txt.length > maxlength) return `${txt.slice(0, maxlength - 3)}...`
+   return txt
+}
+
+export function findNumberLength(inputString) {
+   const numbersArray = inputString.match(/\d+/g)
+
+   if (numbersArray) {
+      const totalLength = numbersArray.reduce(
+         (acc, number) => acc + number.length,
+         0
+      )
+      return totalLength
+   }
+
+   return 0
 }

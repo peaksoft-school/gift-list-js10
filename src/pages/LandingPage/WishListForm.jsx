@@ -55,15 +55,19 @@ const initialDatePickerValues = {
    invalidErrorMessage: '',
 }
 
-export const WishListForm = ({ onClose, variant, onSubmit, defaultValues }) => {
+export const WishListForm = ({
+   onClose,
+   variant,
+   onSubmit,
+   defaultValues = initialValues,
+   image,
+}) => {
    const [datePickerError, setDatePickerError] = useState(
       initialDatePickerValues
    )
 
-   const [preview, setPreview] = useState({ file: '' })
+   const [preview, setPreview] = useState({ file: '', url: image })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
-
-   console.log(defaultValues)
 
    const {
       register,
@@ -75,7 +79,7 @@ export const WishListForm = ({ onClose, variant, onSubmit, defaultValues }) => {
       getValues,
    } = useForm({
       defaultValues: {
-         ...initialValues,
+         ...defaultValues,
       },
       mode: 'onBlur',
       resolver: !variant
