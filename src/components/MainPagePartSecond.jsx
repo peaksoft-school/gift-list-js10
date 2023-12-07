@@ -133,6 +133,7 @@ const Container = styled('div')({
    flexDirection: 'column',
    alignItems: 'center',
    textAlign: 'center',
+   width: '100%',
 })
 
 const PartStage = styled('div')({

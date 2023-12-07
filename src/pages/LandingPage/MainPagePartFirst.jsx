@@ -13,20 +13,20 @@ import {
    VkIcon,
 } from '../../assets'
 
+export const scrollToAboutProjectComponentHandler = () => {
+   window.scrollTo({
+      top: 2700,
+      behavior: 'smooth',
+   })
+}
+export const scrollToMainPagePartOneComponentHandler = () => {
+   window.scrollTo({
+      top: 1770,
+      behavior: 'smooth',
+   })
+}
 export const MainPagePartFirst = () => {
    const navigate = useNavigate()
-   const scrollToAboutProjectComponentHandler = () => {
-      window.scrollTo({
-         top: 2600,
-         behavior: 'smooth',
-      })
-   }
-   const scrollToMainPagePartOneComponentHandler = () => {
-      window.scrollTo({
-         top: 1690,
-         behavior: 'smooth',
-      })
-   }
 
    const onLogin = () => {
       navigate('/login')
@@ -128,6 +128,8 @@ const MainPageContainer = styled(Box)`
    padding: 1.5rem 9.6rem 7.5rem 9.6rem;
    color: white;
    background-color: #8639b5;
+   width: 100%;
+   height: 55rem;
 `
 
 const MainPageHeader = styled(Box)``
