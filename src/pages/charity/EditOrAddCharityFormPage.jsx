@@ -12,7 +12,7 @@ export const EditOrAddCharityFormPage = () => {
    const onCloseForm = () => navigate(-1)
    const { state } = useLocation()
 
-   const onSubmitForm = async (values, data) => {
+   const onSubmitForm = async (values, data, reset) => {
       let image
       if (data?.file) {
          const response = await uploadFile(data.file)
@@ -28,6 +28,7 @@ export const EditOrAddCharityFormPage = () => {
                charityId: state.charityId,
                charity: { ...values, image },
                navigate,
+               reset,
             })
          )
       }
@@ -37,6 +38,7 @@ export const EditOrAddCharityFormPage = () => {
             userId: id,
             charity: { ...values, image },
             navigate,
+            reset,
          })
       )
    }

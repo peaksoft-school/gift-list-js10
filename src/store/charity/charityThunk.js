@@ -85,7 +85,10 @@ export const deleteCharityById = createAsyncThunk(
 
 export const addCharity = createAsyncThunk(
    '/charity/addCharity',
-   async ({ userId, charity, navigate }, { rejectWithValue, dispatch }) => {
+   async (
+      { userId, charity, navigate, reset },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const newCharity = {
             nameCharity: charity.holidayName,
@@ -106,6 +109,7 @@ export const addCharity = createAsyncThunk(
             axiosInstance.post(`/charity`, newCharity)
          )
          navigate(-1)
+         reset()
          dispatch(getAllCharityByUserId(userId))
       } catch (error) {
          rejectWithValue(error)
@@ -116,7 +120,7 @@ export const addCharity = createAsyncThunk(
 export const updateCharity = createAsyncThunk(
    '/charity/addCharity',
    async (
-      { userId, charityId, charity, navigate },
+      { userId, charityId, charity, navigate, reset },
       { rejectWithValue, dispatch }
    ) => {
       try {
@@ -141,6 +145,7 @@ export const updateCharity = createAsyncThunk(
             )
          )
          navigate(-1)
+         reset()
          dispatch(getAllCharityByUserId(userId))
       } catch (error) {
          rejectWithValue(error)

@@ -149,8 +149,7 @@ export const WishListForm = ({
          </BlockOne>
          <BlockTwo
             onSubmit={handleSubmit((data) => {
-               onSubmit(data, preview)
-               reset()
+               onSubmit(data, preview, reset)
                setPreview(image ? { file: '', url: image } : null)
                setValues(variant ? initialValues[0] : {})
             })}

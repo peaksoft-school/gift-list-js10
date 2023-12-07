@@ -17,7 +17,7 @@ axiosInstanceMultiPartFormData.interceptors.request.use((config) => {
    const updateConfig = { ...config }
    // const { token } = store.getState().authLogin
    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDE5NzM3ODQsImlhdCI6MTcwMTg0MTc4NCwidXNlcm5hbWUiOiJtbnVyYWp5bTlAZ21haWwuY29tIn0.j1bWEh9MPKeEljp-rVVYYvU9OXJPhEQ7pLvmSfW2FfI'
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDIxMTU2OTAsImlhdCI6MTcwMTk4MzY5MCwidXNlcm5hbWUiOiJtbnVyYWp5bTlAZ21haWwuY29tIn0.YSdIyzWK7ftLIpMSdusH4xjD6TiCbUAs9M8bUHbBT-8'
    if (token) {
       updateConfig.headers.Authorization = `Bearer ${token}`
    }
