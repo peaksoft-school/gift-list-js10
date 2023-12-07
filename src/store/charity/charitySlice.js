@@ -3,6 +3,7 @@ import {
    getAllCharity,
    getAllCharityByUserId,
    getCharityById,
+   searchCharity,
 } from './charityThunk'
 
 const initialState = {
@@ -50,6 +51,22 @@ export const charitySlice = createSlice({
             pending: false,
             error: null,
             charities: payload,
+         }))
+         .addCase(searchCharity.fulfilled, (state, { payload }) => ({
+            ...state,
+            pending: false,
+            error: null,
+            charities: payload,
+         }))
+         .addCase(searchCharity.pending, (state) => ({
+            ...state,
+            pending: true,
+            error: null,
+         }))
+         .addCase(searchCharity.rejected, (state, { payload }) => ({
+            ...state,
+            pending: false,
+            error: payload.message,
          }))
    },
 })

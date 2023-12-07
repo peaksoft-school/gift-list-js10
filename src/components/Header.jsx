@@ -1,17 +1,25 @@
 import { AccountCircle } from '@mui/icons-material'
 import { AppBar, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useDebounce } from 'use-debounce'
 import { LogoutIcon, ProfileIcon } from '../assets'
 import { logout } from '../store/auth/authSlice'
+import { searchCharity } from '../store/charity/charityThunk'
 import { routes } from '../utils/constants'
+import {
+   categoriesWithRussianPropertiesName,
+   conditionWithRussianPropertiesName,
+   russianCountries,
+   subCategoriesWithRussianPropertiesName,
+} from '../utils/constants/constants'
+import { Modal } from './Modal'
 import { Notification } from './Notification'
+import { Button } from './UI/Button'
 import { MeatBalls } from './UI/MeatBalls'
 import { SearchSelect } from './UI/SearchSelect'
-import { Modal } from './Modal'
-import { Button } from './UI/Button'
 
 const selectProperties = {
    state: '',
@@ -22,22 +30,57 @@ const selectProperties = {
 }
 
 export const Header = ({ variantOfSelect = '' }) => {
+   const [searchParams, setSearchParams] = useSearchParams()
+   let defaultSelectProperites = selectProperties
+   if (variantOfSelect === 'select') {
+      defaultSelectProperites = {
+         state: searchParams.get('state') || '',
+         category: searchParams.get('category') || '',
+         subCategory: searchParams.get('subCategory') || '',
+         country: searchParams.get('country') || '',
+         search: searchParams.get('search') || '',
+      }
+   }
    const { reset, setValue } = useForm({
-      defaultValues: selectProperties,
+      defaultValues: defaultSelectProperites,
    })
    const { fullName } = useSelector((state) => state.authLogin)
-   const [values, setValues] = useState(selectProperties)
+   const [values, setValues] = useState(defaultSelectProperites)
    const { role } = useSelector((state) => state.authLogin)
+   const [searchTerm, setSearchTerm] = useState('')
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const [isOpenModal, setIsOpenModal] = useState(false)
+   const [debouncedValue] = useDebounce(searchTerm, 1000)
+   useEffect(() => {
+      dispatch(
+         searchCharity({
+            value: debouncedValue,
+            condition: conditionWithRussianPropertiesName[values.state],
+            category: categoriesWithRussianPropertiesName[values.category],
+            subCategory:
+               subCategoriesWithRussianPropertiesName[values.subCategory],
+            country: russianCountries[values.country],
+         })
+      )
+   }, [
+      debouncedValue,
+      values.category,
+      values.country,
+      values.state,
+      values.subCategory,
+   ])
    const handleChange = (e) => {
+      if (e.target.name === 'search') setSearchTerm(e.target.value)
+      searchParams.set(e.target.name, e.target.value)
+      setSearchParams(searchParams)
       setValue(e.target.name, e.target.value)
       setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
    }
    const handleReset = () => {
+      setSearchParams({})
       reset()
-      setValues(selectProperties)
+      setValues(defaultSelectProperites)
    }
    const toggleModal = () => setIsOpenModal((prev) => !prev)
    const meetballsChange = (e) => {

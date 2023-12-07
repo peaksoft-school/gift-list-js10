@@ -19,6 +19,10 @@ const englishCountries = {
 const russianCountries = {
    Азербайджан: 'AZERBAIJAN',
    Кыргызстан: 'KYRGYZSTAN',
+   Россия: 'RUSSIA',
+   Казахстан: 'KAZAKHSTAN',
+   Узбекистан: 'UZBEKISTAN',
+   Таджикистан: 'TAJIKISTAN',
 }
 
 const shoeSizes = [35, 36, 37, 38, 39, 40, 41, 42, 43, 44]

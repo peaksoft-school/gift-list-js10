@@ -10,6 +10,7 @@ import {
    conditionWithRussianPropertiesName,
    subCategoriesWithRussianPropertiesName,
 } from '../../utils/constants/constants'
+import { serializeObjectToQueryParams } from '../../utils/helpers/constants'
 
 export const getAllCharityByUserId = createAsyncThunk(
    '/charity/getAllCharityByUserId',
@@ -171,6 +172,35 @@ export const blockOrUnblockCharityById = createAsyncThunk(
          )
       } catch (error) {
          rejectWithValue(error)
+      }
+   }
+)
+
+export const searchCharity = createAsyncThunk(
+   '/charity/searchCharity',
+   async (
+      { value, condition, category, subCategory, country },
+      { rejectWithValue }
+   ) => {
+      try {
+         const queryParams = serializeObjectToQueryParams({
+            value,
+            condition: condition === 'ALL' ? '' : condition,
+            category,
+            subCategory,
+            country,
+         })
+         const response = await axiosInstance(
+            `/charity/searchCharity?${queryParams}`
+         )
+         return response.data
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка',
+            error
+         )
+         return rejectWithValue(error)
       }
    }
 )

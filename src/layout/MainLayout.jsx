@@ -35,7 +35,6 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const buttonContent = routes[role][path['*']]?.buttonContent
    const navigate = useNavigate()
    const { charities } = useSelector((state) => state.charity)
-   const { id } = useSelector((state) => state.authLogin)
 
    useEffect(() => {
       if (path['*'].includes('/')) {
@@ -118,9 +117,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                        action: 'name',
                                        payload: charity.nameCharity,
                                     })
-                                    navigate(
-                                       `charity/${charity.charityId}/${id}`
-                                    )
+                                    navigate(`charity/${charity.charityId}`)
                                  }}
                                  key={charity.charityId}
                               >

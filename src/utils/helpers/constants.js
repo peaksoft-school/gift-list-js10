@@ -110,3 +110,18 @@ export function findNumberLength(inputString) {
 
    return 0
 }
+
+export function serializeObjectToQueryParams(obj) {
+   const queryParams = []
+   Object.entries(obj).forEach(([key, value]) => {
+      if (value) {
+         const value = obj[key]
+         if (value !== undefined) {
+            queryParams.push(
+               `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+            )
+         }
+      }
+   })
+   return queryParams.join('&')
+}
