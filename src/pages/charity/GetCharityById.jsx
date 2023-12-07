@@ -13,6 +13,7 @@ import {
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/constants'
 import { convertDateFormat } from '../../utils/helpers/constants'
+import { providerEvent } from '../../events/customEvents'
 // import { WishListForm } from '../LandingPage/WishListForm'
 
 export const GetCharityById = () => {
@@ -24,7 +25,6 @@ export const GetCharityById = () => {
    useEffect(() => {
       dispatch(getCharityById(charityId))
    }, [])
-
    if (pending) {
       return 'Loading...'
    }
@@ -33,6 +33,7 @@ export const GetCharityById = () => {
       dispatch(deleteCharityById({ charityId, navigate }))
    }
 
+   providerEvent({ action: 'name', payload: charity.nameCharity })
    const onEditOrOnBlock = () => {
       if (role === 'USER') {
          navigate('/user/charity/editCharity', {
@@ -44,7 +45,9 @@ export const GetCharityById = () => {
                   holidayName: charity.nameCharity,
                   subCategory:
                      subCategoriesWithEnglishPropertiesName[
-                        charity.subCategory
+                        Object.keys(
+                           subCategoriesWithEnglishPropertiesName
+                        ).find((key) => key.includes(charity.subCategory))
                      ],
                   description: charity.description,
                },
@@ -70,7 +73,11 @@ export const GetCharityById = () => {
                createdDate:
                   charity.createdAt && convertDateFormat(charity.createdAt),
                subCategoryName:
-                  subCategoriesWithEnglishPropertiesName[charity.subCategory],
+                  subCategoriesWithEnglishPropertiesName[
+                     Object.keys(subCategoriesWithEnglishPropertiesName).find(
+                        (key) => key.includes(charity.subCategory)
+                     )
+                  ],
                state: charity.condition === 'USED' ? 'Б/У' : 'Новый',
                buker: {
                   image: charity.bookedUserImage,
