@@ -134,7 +134,10 @@ export const SignIn = () => {
                </ContinueWithGoogleButton>
                <SignUpLink>
                   Нет аккаунта?
-                  <Link to={routes.REGISTRATION}> Зарегистрироваться</Link>
+                  <Link to={`/main-page/${routes.REGISTRATION}`}>
+                     {' '}
+                     Зарегистрироваться
+                  </Link>
                </SignUpLink>
             </SignInForm>
          </MainContainer>

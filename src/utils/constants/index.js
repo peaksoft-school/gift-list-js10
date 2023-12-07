@@ -1,4 +1,5 @@
 export const USER_KEY = 'GIFT-LIST_USER_KEY'
+export const USER_TOKEN_KEY = 'GIFT_LIST_USER_TOKEN_KEY'
 
 export const routes = {
    LOGIN: 'login',

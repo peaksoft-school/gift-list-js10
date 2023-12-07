@@ -81,11 +81,7 @@ export const ForgotPassword = () => {
                   helperText={errors.email?.message}
                   error={Boolean(errors.email)}
                />
-               <Button
-                  type="submit"
-                  variant="primary"
-                  // disabled={isButtonClickedState}
-               >
+               <Button type="submit" variant="primary">
                   Отправить
                </Button>
                <CancelButton

@@ -10,8 +10,16 @@ export function App() {
    const navigate = useNavigate()
 
    useEffect(() => {
-      const USER_DATA = localStorage.getItem(USER_KEY)
-      const parserData = JSON.parse(USER_DATA)
+      const USER_DATA_FROM_LOCAL_STORAGE = localStorage.getItem(USER_KEY)
+      const USER_DATA_FROM_SESSION_STORAGE = sessionStorage.getItem(USER_KEY)
+      const parserData =
+         JSON.parse(USER_DATA_FROM_LOCAL_STORAGE) ||
+         JSON.parse(USER_DATA_FROM_SESSION_STORAGE)
+      console.log(
+         USER_DATA_FROM_LOCAL_STORAGE,
+         USER_DATA_FROM_SESSION_STORAGE,
+         parserData
+      )
       if (parserData?.token) {
          dispatch(login({ data: parserData, navigate }))
       }

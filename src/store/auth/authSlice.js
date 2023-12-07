@@ -8,6 +8,7 @@ const initialState = {
    token: null,
    role: null,
    fullName: null,
+   image: '',
 }
 
 export const authSlice = createSlice({
@@ -22,6 +23,7 @@ export const authSlice = createSlice({
          newState.id = data.id
          newState.fullName = data.fullName
          newState.isAuth = true
+         newState.image = data.image
          navigate(routes[data.role].path)
          return newState
       },
@@ -32,7 +34,8 @@ export const authSlice = createSlice({
       },
       forgotPassword: (state, { payload: { data } }) => {
          const newState = state
-         newState.email = data.email
+         newState.httpStatus = data.httpStatus
+         newState.message = data.message
          return newState
       },
       changePassword: (state, { payload: { data } }) => {
