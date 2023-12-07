@@ -19,12 +19,14 @@ export const scrollToAboutProjectComponentHandler = () => {
       behavior: 'smooth',
    })
 }
+
 export const scrollToMainPagePartOneComponentHandler = () => {
    window.scrollTo({
       top: 1770,
       behavior: 'smooth',
    })
 }
+
 export const MainPagePartFirst = () => {
    const navigate = useNavigate()
 
