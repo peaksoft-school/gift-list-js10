@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Typography, styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -33,7 +33,6 @@ export const ForgotPassword = () => {
    }
 
    const onSubmit = (userData) => {
-      localStorage.setItem('email', userData.email)
       dispatch(forgotPasswordQuery(userData.email))
       setValue('email')
    }
@@ -41,13 +40,6 @@ export const ForgotPassword = () => {
    const goBackToPreviousPageHandler = () => {
       navigate(-1)
    }
-
-   useEffect(() => {
-      const storedEmail = localStorage.getItem('email')
-      if (storedEmail) {
-         setValue('email', storedEmail)
-      }
-   }, [setValue])
 
    return (
       <Modal isOpen={isForgotPasswordModalOpen} handleClose={closeModalHandler}>

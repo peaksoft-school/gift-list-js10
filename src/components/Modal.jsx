@@ -7,12 +7,11 @@ const StyledModal = styled(MUIModal)({
    justifyContent: 'center',
 })
 
-const ModalContent = styled('div')(({ padding, height }) => ({
+const ModalContent = styled('div')(({ padding }) => ({
    outline: 'none',
    backgroundColor: '#ffffff',
    borderRadius: '0.625rem',
    padding,
-   height,
 }))
 
 export function Modal({ children, handleClose, isOpen, padding = '1rem' }) {
