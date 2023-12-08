@@ -35,8 +35,6 @@ export const MainPagePartFirst = () => {
       navigate('/main-page/registration')
    }
 
-   // const handleSignInModalClose = () => setIsSignInModalOpen((prev) => !prev)
-
    return (
       <>
          <StyledMuiMainPage component="div">

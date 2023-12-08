@@ -44,7 +44,6 @@ export const ChangePassword = ({ variant, handleClose }) => {
    }
 
    const onSubmit = (value) => {
-      console.log(value)
       if (!variant) {
          dispatch(
             changePasswordQuery({

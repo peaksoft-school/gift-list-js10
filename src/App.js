@@ -15,11 +15,7 @@ export function App() {
       const parserData =
          JSON.parse(USER_DATA_FROM_LOCAL_STORAGE) ||
          JSON.parse(USER_DATA_FROM_SESSION_STORAGE)
-      console.log(
-         USER_DATA_FROM_LOCAL_STORAGE,
-         USER_DATA_FROM_SESSION_STORAGE,
-         parserData
-      )
+
       if (parserData?.token) {
          dispatch(login({ data: parserData, navigate }))
       }

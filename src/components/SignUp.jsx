@@ -60,7 +60,7 @@ export const SignUp = () => {
    }
 
    const onSingUpWithGoogleHandler = () => {
-      dispatch(authWithGoogle())
+      dispatch(authWithGoogle(navigate))
    }
    // passwords state
 
@@ -80,12 +80,7 @@ export const SignUp = () => {
    }
 
    return (
-      <Modal
-         isOpen={isSignUpModalOpen}
-         handleClose={closeModalHandler}
-         padding="20px"
-         height="74%"
-      >
+      <Modal isOpen={isSignUpModalOpen} handleClose={closeModalHandler}>
          <MainContainer component="div">
             <SignUpForm component="form" onSubmit={handleSubmit(onSubmit)}>
                <FormTitleAndCloseIcon>

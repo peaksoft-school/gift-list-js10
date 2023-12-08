@@ -9,7 +9,6 @@ import { forgotPasswordQuery } from '../store/auth/authThunk'
 import { forgotPasswordValidationSchema } from '../utils/helpers/forgot-password-validation'
 import { Button } from './UI/Button'
 import { Input } from './UI/input/Input'
-import { auth } from '../config/firebase'
 import { Modal } from './Modal'
 
 export const ForgotPassword = () => {
@@ -32,19 +31,9 @@ export const ForgotPassword = () => {
       navigate('/main-page')
       setForgotPasswordModalOpen(false)
    }
-   const [isButtonClickedState, setIsButtonClickedState] = useState('')
-
-   const isButtonClickedStateChangeHandler = () => {
-      setIsButtonClickedState((prevState) => !prevState)
-   }
-
-   console.log(auth)
-
-   console.log(isButtonClickedState)
 
    const onSubmit = (userData) => {
       localStorage.setItem('email', userData.email)
-      isButtonClickedStateChangeHandler()
       dispatch(forgotPasswordQuery(userData.email))
       setValue('email')
    }

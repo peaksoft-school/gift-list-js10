@@ -65,7 +65,7 @@ export const forgotPasswordQuery = createAsyncThunk(
             'На вашу почту в скорое время придет ссылка для сброса пароля',
             'Ошибка',
             axiosInstance.put(
-               `/auth/forgotPassword?email=${userData}&linkToChangePassword=http://localhost:3001/main-page/reset-password`
+               `/auth/forgotPassword?email=${userData}&linkToChangePassword=http://localhost:3000/main-page/reset-password`
             )
          )
          localStorage.setItem(USER_TOKEN_KEY, response.data.message)

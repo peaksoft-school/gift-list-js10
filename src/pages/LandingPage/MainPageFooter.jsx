@@ -3,6 +3,18 @@ import { FacebookImg, VkImg, InstagramImg, IconButton } from '../../assets'
 import { Input } from '../../components/UI/input/Input'
 
 export const MainPageFooter = () => {
+   const scrollToMainPagePartOneComponentHandler = () => {
+      window.scrollTo({
+         top: 1690,
+         behavior: 'smooth',
+      })
+   }
+   const scrollToAboutProjectComponentHandler = () => {
+      window.scrollTo({
+         top: 2600,
+         behavior: 'smooth',
+      })
+   }
    return (
       <FooterContainer>
          <FooterIcon>
@@ -10,15 +22,25 @@ export const MainPageFooter = () => {
                <Paragraph>GIFT LIST</Paragraph>
                <ParagraphCol>Социальная сеть нового поколения</ParagraphCol>
                <ImgContainer>
-                  <FacebookImg />
-                  <VkImg />
-                  <InstagramImg />
+                  <a href="https://www.facebook.com/" target="blank">
+                     <FacebookImg />
+                  </a>
+                  <a href="https://vk.com/" target="blank">
+                     <VkImg />
+                  </a>
+                  <a href="https://www.instagram.com/" target="blank">
+                     <InstagramImg />
+                  </a>
                </ImgContainer>
             </FooterText>
             <FooterText>
                <Paragraph>Навигация</Paragraph>
-               <ParagraphSt>О проекте</ParagraphSt>
-               <p>Благотворительность</p>
+               <ParagraphSt onClick={scrollToAboutProjectComponentHandler}>
+                  О проекте
+               </ParagraphSt>
+               <ParagraphSt onClick={scrollToMainPagePartOneComponentHandler}>
+                  Благотворительность
+               </ParagraphSt>
             </FooterText>
             <div>
                <Paragraph>Подписатся на рассылку </Paragraph>
@@ -93,6 +115,7 @@ const FooterEnding = styled('div')({
 })
 const ParagraphSt = styled('p')({
    paddingBottom: '0.625rem',
+   cursor: 'pointer',
 })
 
 const IconButtonComponent = styled('button')({
