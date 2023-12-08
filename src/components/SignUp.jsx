@@ -62,6 +62,7 @@ export const SignUp = () => {
    const onSingUpWithGoogleHandler = () => {
       dispatch(authWithGoogle(navigate))
    }
+
    // passwords state
 
    const [

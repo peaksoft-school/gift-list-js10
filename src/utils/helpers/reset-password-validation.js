@@ -1,6 +1,5 @@
 import * as yup from 'yup'
 import YupPassword from 'yup-password'
-// import { valueIsNotEmpty } from './update-profile-validations'
 
 YupPassword(yup)
 

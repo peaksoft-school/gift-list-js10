@@ -15,18 +15,10 @@ const ModalContent = styled('div')(({ padding, height }) => ({
    height,
 }))
 
-export function Modal({
-   children,
-   handleClose,
-   isOpen,
-   padding = '1rem',
-   height,
-}) {
+export function Modal({ children, handleClose, isOpen, padding = '1rem' }) {
    return (
       <StyledModal open={isOpen} onClose={handleClose}>
-         <ModalContent padding={padding} height={height}>
-            {children}
-         </ModalContent>
+         <ModalContent padding={padding}>{children}</ModalContent>
       </StyledModal>
    )
 }

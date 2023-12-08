@@ -3,7 +3,11 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { axiosInstance } from '../../config/axiosInstance'
 import { auth } from '../../config/firebase'
 import { USER_KEY, USER_TOKEN_KEY } from '../../utils/constants'
-import { notifyTypes, toastWithPromise } from '../../utils/helpers/toast'
+import {
+   notifyTypes,
+   toastWithPromise,
+   toastWithoutPromise,
+} from '../../utils/helpers/toast'
 import { login } from './authSlice'
 
 export const loginQuery = createAsyncThunk(
@@ -105,23 +109,14 @@ export const authWithGoogle = createAsyncThunk(
    async (navigate, { rejectWithValue, dispatch }) => {
       const provider = new GoogleAuthProvider()
       try {
-         const response = await toastWithPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
-            'Информация',
-            'Вы авторизовались',
-            'Ошибка',
-            signInWithPopup(auth, provider)
+         const response = await signInWithPopup(auth, provider)
+         const secondResponse = await axiosInstance.post(
+            `/auth/auth-google?tokenId=${response.user.accessToken}`
          )
-         const secondResponse = await toastWithPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+         toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
             'Информация',
-            'Вы авторизовались',
-            'Ошибка',
-            axiosInstance.post(
-               `/auth/auth-google?tokenId=${response.user.accessToken}`
-            )
+            'Вы авторизовались'
          )
          return dispatch(
             login({
@@ -130,6 +125,11 @@ export const authWithGoogle = createAsyncThunk(
             })
          )
       } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка',
+            error.message
+         )
          return rejectWithValue(error)
       }
    }

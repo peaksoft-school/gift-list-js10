@@ -70,7 +70,3 @@ export const UserProfilePage = () => {
       </div>
    )
 }
-
-// const StyledChangePasswordXIcon = styled(ChangePasswordXIcon)({
-//    cursor: 'pointer',
-// })

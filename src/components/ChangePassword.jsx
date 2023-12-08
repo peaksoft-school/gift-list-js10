@@ -67,6 +67,7 @@ export const ChangePassword = ({ variant, handleClose }) => {
          )
       }
    }
+
    // password state
 
    const [

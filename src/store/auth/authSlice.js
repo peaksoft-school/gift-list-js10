@@ -32,20 +32,7 @@ export const authSlice = createSlice({
          localStorage.removeItem(USER_KEY)
          return newState
       },
-      forgotPassword: (state, { payload: { data } }) => {
-         const newState = state
-         newState.httpStatus = data.httpStatus
-         newState.message = data.message
-         return newState
-      },
-      changePassword: (state, { payload: { data } }) => {
-         const newState = state
-         newState.newPassword = data.newPassword
-         newState.verifyPassword = data.verifyPassword
-         return newState
-      },
    },
 })
 
-export const { login, logout, register, forgotPassword, changePassword } =
-   authSlice.actions
+export const { login, logout } = authSlice.actions
