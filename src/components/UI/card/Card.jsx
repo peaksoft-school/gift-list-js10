@@ -35,12 +35,14 @@ export const Card = ({
    onGetUserById,
    showBottomBooker,
    showHoliday = true,
+   showTopOwner,
 }) => {
    const listClassName = list && 'list'
    const bookedStatus =
       bookerImage || status === 'RESERVED_ANONYMOUSLY'
          ? 'Забронирован'
          : 'В ожидании'
+   const showOwnerOnTheTop = variant === 'tertiary' && showTopOwner
    return (
       <StyledCard className={listClassName} onClick={onGetThingById}>
          {listClassName && (
@@ -51,7 +53,9 @@ export const Card = ({
                list && variant === 'secondary' && 'listWithoutHeader'
             }`}
          >
-            {(variant === 'primary' || variant === 'withStatusTop') && (
+            {(variant === 'primary' ||
+               variant === 'withStatusTop' ||
+               showOwnerOnTheTop) && (
                <CardHeader
                   avatar={
                      ownerImage ? (

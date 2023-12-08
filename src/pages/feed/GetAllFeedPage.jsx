@@ -227,6 +227,7 @@ export const GetAllFeedPage = ({ isList }) => {
                         // navigate to friend profile
                         console.log(userId)
                      }}
+                     showTopOwner
                      variant={variant}
                      onGetThingById={() => getById(thingId, name, feed.type)}
                      key={`${thingId}${feed.type}`}
