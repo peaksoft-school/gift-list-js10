@@ -66,7 +66,7 @@ export const charitySlice = createSlice({
          .addCase(searchCharity.rejected, (state, { payload }) => ({
             ...state,
             pending: false,
-            error: payload.message,
+            error: payload,
          }))
    },
 })
