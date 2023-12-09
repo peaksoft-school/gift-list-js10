@@ -101,6 +101,7 @@ export const GetWishFromFeedById = () => {
          bookerImage={bookedUserImage}
          status={bookedStatus}
          ownerId={ownerId}
+         linkToWish={wish?.linkToWish}
       />
    )
 }

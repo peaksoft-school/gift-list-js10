@@ -24,24 +24,42 @@ import {
 import { convertDateFormat } from '../../utils/helpers/constants'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
-const isWishBooked = (bookerId, myId, type) => {
+const isWishBooked = (bookerId, myId, type, allReadyInWishList) => {
+   console.log(allReadyInWishList)
+   let meatballsOptionsForReturn = []
    switch (type) {
       case 'WISH':
          if (!bookerId) {
-            return meetballsFeedOptionsForWish.isWishFree
+            meatballsOptionsForReturn = meetballsFeedOptionsForWish.isWishFree
          }
          if (bookerId === myId) {
-            return meetballsFeedOptionsForWish.iBookThisWish
+            meatballsOptionsForReturn =
+               meetballsFeedOptionsForWish.iBookThisWish
          }
-         return meetballsFeedOptionsForWish.strangersBook
+         meatballsOptionsForReturn = meetballsFeedOptionsForWish.strangersBook
+         if (allReadyInWishList) {
+            meatballsOptionsForReturn = meatballsOptionsForReturn.filter(
+               ({ title }) => title !== 'Добавить в мои подарки'
+            )
+         }
+         return meatballsOptionsForReturn
       case 'CHARITY':
          if (!bookerId) {
-            return meetballsFeedOptionsForCharity.isCharityFree
+            meatballsOptionsForReturn =
+               meetballsFeedOptionsForCharity.isCharityFree
          }
          if (bookerId === myId) {
-            return meetballsFeedOptionsForCharity.iBookThisCharity
+            meatballsOptionsForReturn =
+               meetballsFeedOptionsForCharity.iBookThisCharity
          }
-         return meetballsFeedOptionsForCharity.strangersBook
+         meatballsOptionsForReturn =
+            meetballsFeedOptionsForCharity.strangersBook
+         if (allReadyInWishList) {
+            meatballsOptionsForReturn = meatballsOptionsForReturn.filter(
+               ({ title }) => title !== 'Добавить в мои подарки'
+            )
+         }
+         return meatballsOptionsForReturn
       default:
          return []
    }
@@ -240,7 +258,12 @@ export const GetAllFeedPage = ({ isList }) => {
                      holiday={holidayName}
                      ownerImage={ownerImage}
                      ownerName={feed.fullName || ''}
-                     meatballsOptions={isWishBooked(reservoirId, id, feed.type)}
+                     meatballsOptions={isWishBooked(
+                        reservoirId,
+                        id,
+                        feed.type,
+                        feed.allReadyInWishList
+                     )}
                      status={bookedStatus}
                      newOrOld={feed.condition === 'USED' ? 'Б/У' : 'Новый'}
                      showHoliday={showHoliday}

@@ -28,6 +28,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    category,
    subcategory,
    newOrOld,
+   linkToWish,
 }) => {
    const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
    const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
@@ -84,7 +85,13 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                      </UserContainer>
                   </UsersInfoContainer>
                )}
-               <StyledCardName>{cardName}</StyledCardName>
+               <StyledLinnkToWish
+                  href={linkToWish}
+                  target="_blank"
+                  rel="noopener noreferrer"
+               >
+                  <StyledCardName>{cardName}</StyledCardName>
+               </StyledLinnkToWish>
                <p>{description}</p>
                {type === 'CHARITY' && (
                   <StyledCharityInfoContainer>
@@ -138,6 +145,8 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
       </ContentWrapper>
    )
 }
+
+const StyledLinnkToWish = styled('a')({ color: '#3774D0' })
 
 const StyledCharityInfoContainer = styled('div')({
    display: 'grid',
