@@ -1,11 +1,13 @@
 import { styled } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
 import {
    acceptRequest,
    deleteFriendById,
+   rejectRequests,
+   sendRequestToUser,
 } from '../../store/slices/my-friends/friendsThunk'
 import { meetballsFriendOptions } from '../../utils/constants/meetballs-options'
 import { Profile } from '../LandingPage/Profile'
@@ -13,19 +15,96 @@ import { getProfileByUserId } from '../../store/slices/profile-slice/profileById
 import { getWishListByUserId } from '../../store/slices/wishes/wishThunk'
 import { getHolidaysByUserId } from '../../store/slices/holidays/holidayThunk'
 import { getCharitiesByUserId } from '../../store/slices/charities/chaririesThunk'
+import {
+   bookingCharityThunk,
+   bookingWishThunk,
+   unBookingWishThunk,
+   unbookingCharityThunk,
+} from '../../store/slices/booking/bookingThunk'
+import { shoeSizeObject } from '../../utils/constants/constants'
+import { providerEvent } from '../../events/customEvents'
 
-const isWishBooked = (bookerId, myId) => {
+export const isWishBooked = (bookerId, myId) => {
+   let meatballsOptions = []
    if (bookerId === myId) {
-      return meetballsFriendOptions.unBooking
+      meatballsOptions = meetballsFriendOptions.unBooking
+   } else if (!bookerId) {
+      meatballsOptions = meetballsFriendOptions.booking
    }
-   return meetballsFriendOptions.booking
+   return meatballsOptions
+}
+
+export const handleOptionsChange = {
+   WISH: (e, wishId, dispatch, userId) => {
+      const selectedOption = e.target.innerText
+
+      if (selectedOption === 'Забронировать') {
+         dispatch(
+            bookingWishThunk({
+               wishId,
+               isBookingAnonymous: false,
+               userId,
+               getSomethingFunction: getWishListByUserId,
+            })
+         )
+      } else if (selectedOption === 'Забронировать анонимно') {
+         dispatch(
+            bookingWishThunk({
+               wishId,
+               isBookingAnonymous: true,
+               userId,
+               getSomethingFunction: getWishListByUserId,
+            })
+         )
+      } else {
+         dispatch(
+            unBookingWishThunk({
+               wishId,
+               userId,
+               getSomethingFunction: getWishListByUserId,
+            })
+         )
+      }
+   },
+   CHARITY: (e, charityId, dispatch, userId) => {
+      const selectedOption = e.target.innerText
+      if (selectedOption === 'Забронировать') {
+         dispatch(
+            bookingCharityThunk({
+               charityId,
+               isBookingAnonymous: false,
+               userId,
+               getSomethingFunction: getCharitiesByUserId,
+            })
+         )
+      } else if (selectedOption === 'Забронировать анонимно') {
+         dispatch(
+            bookingCharityThunk({
+               charityId,
+               isBookingAnonymous: true,
+               userId,
+               getSomethingFunction: getCharitiesByUserId,
+            })
+         )
+      } else {
+         dispatch(
+            unbookingCharityThunk({
+               charityId,
+               userId,
+               getSomethingFunction: getCharitiesByUserId,
+            })
+         )
+      }
+   },
 }
 
 export const ProfileDetail = ({ variant }) => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const { friendId } = useParams()
 
    const profile = useSelector((state) => state.profile.friendId)
+
    const { id } = useSelector((state) => state.authLogin)
 
    const friendWishes = useSelector((state) => state.friendWishes.wishes)
@@ -48,8 +127,29 @@ export const ProfileDetail = ({ variant }) => {
       dispatch(deleteFriendById(userId))
    }
 
-   const handleAceptRequestFriendById = (userId) => {
-      dispatch(acceptRequest(userId))
+   const handleAcceptRequestFriendById = (userId, friendName) => {
+      dispatch(
+         acceptRequest({ userId, name: friendName, isAccept: 'ACCEPT_REQUEST' })
+      )
+   }
+
+   const handleRejectRequestFriendById = (userId, friendName) => {
+      dispatch(
+         rejectRequests({
+            userId,
+            name: friendName,
+            isReject: 'REJECT_REQUEST',
+         })
+      )
+   }
+
+   const handleSendRequest = (friendId) => {
+      dispatch(sendRequestToUser(friendId))
+   }
+
+   const handleOpenProfile = (userId, nameFriend) => {
+      providerEvent({ action: 'name', payload: nameFriend })
+      navigate(`/user/friends/${userId}`)
    }
 
    return (
@@ -67,14 +167,15 @@ export const ProfileDetail = ({ variant }) => {
                interesAndHobbies={profile.hobby}
                importantToKnow={profile.important}
                clothSize={profile.clothingSize}
-               shoesSize={profile.shoeSize}
+               shoesSize={shoeSizeObject[profile.shoeSize]}
                vk={profile.vkontakte}
                telegram={profile.telegram}
                instagram={profile.instagram}
                facebook={profile.linkFacebook}
-               onClick={() => handleDeleteFriendById(profile.userId)}
+               onDelete={() => handleDeleteFriendById(profile.userId)}
             />
          )}
+
          {variant === 'requests' && (
             <Profile
                variant="applicationToFriends"
@@ -88,12 +189,45 @@ export const ProfileDetail = ({ variant }) => {
                interesAndHobbies={profile.hobby}
                importantToKnow={profile.important}
                clothSize={profile.clothingSize}
-               shoesSize={profile.shoeSize}
+               shoesSize={shoeSizeObject[profile.shoeSize]}
                vk={profile.vkontakte}
                telegram={profile.telegram}
                instagram={profile.instagram}
                facebook={profile.linkFacebook}
-               onClick={() => handleAceptRequestFriendById(profile.userId)}
+               onAcceptFriend={() =>
+                  handleAcceptRequestFriendById(
+                     profile.userId,
+                     profile.fullName
+                  )
+               }
+               onRejectFriend={() =>
+                  handleRejectRequestFriendById(
+                     profile.userId,
+                     profile.fullName
+                  )
+               }
+            />
+         )}
+
+         {variant === 'addMyFriends' && (
+            <Profile
+               variant="primary"
+               key={profile.userId}
+               image={profile.image}
+               fullName={profile.fullName}
+               city={profile.country}
+               email={profile.email}
+               birthdate={profile.dateOfBirth}
+               phoneNumber={profile.phoneNumber}
+               interesAndHobbies={profile.hobby}
+               importantToKnow={profile.important}
+               clothSize={profile.clothingSize}
+               shoesSize={shoeSizeObject[profile.shoeSize]}
+               vk={profile.vkontakte}
+               telegram={profile.telegram}
+               instagram={profile.instagram}
+               facebook={profile.linkFacebook}
+               onClick={() => handleSendRequest(profile.userId)}
             />
          )}
 
@@ -112,6 +246,18 @@ export const ProfileDetail = ({ variant }) => {
                      date={card.dateOfHoliday}
                      cardImage={card.wishImage}
                      variant="secondary"
+                     showBottomBooker="true"
+                     isBlock={card.isBlock}
+                     bookerImage={card.reservoirImage}
+                     onGetBookerById={() => handleOpenProfile(card.reservoirId)}
+                     handleChange={(e) =>
+                        handleOptionsChange.WISH(
+                           e,
+                           card.wishId,
+                           dispatch,
+                           card.ownerId
+                        )
+                     }
                      meatballsOptions={isWishBooked(card.reservoirId, id)}
                   />
                ))}
@@ -149,6 +295,20 @@ export const ProfileDetail = ({ variant }) => {
                      status={charity.status}
                      newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
                      variant="withStatusBottom"
+                     showBottomBooker="true"
+                     isBlock={charity.isBlock}
+                     bookerImage={charity.bookedUserImage}
+                     onGetBookerById={() =>
+                        handleOpenProfile(charity.charityReservoirId)
+                     }
+                     handleChange={(e) =>
+                        handleOptionsChange.CHARITY(
+                           e,
+                           charity.charityId,
+                           dispatch,
+                           charity.userId
+                        )
+                     }
                      meatballsOptions={isWishBooked(
                         charity.charityReservoirId,
                         id

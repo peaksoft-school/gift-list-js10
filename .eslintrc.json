@@ -43,10 +43,7 @@
       ],
       "react/prop-types": "off",
       "import/no-extraneous-dependencies": "off",
-<<<<<<< HEAD
-=======
       "import/newline-after-import": "off",
->>>>>>> development
       "import/no-cycle": "off"
    }
 }

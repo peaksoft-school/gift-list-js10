@@ -24,6 +24,9 @@ export const Profile = ({
    interesAndHobbies,
    birthdate,
    importantToKnow,
+   onDelete,
+   onAcceptFriend,
+   onRejectFriend,
    onClick,
 }) => {
    return (
@@ -39,23 +42,29 @@ export const Profile = ({
                      case 'applicationToFriends':
                         return (
                            <ApplicationToFriendsContainer>
-                              <StyledButton variant="primary">
+                              <StyledButton
+                                 variant="primary"
+                                 onClick={onAcceptFriend}
+                              >
                                  Принять заявку
                               </StyledButton>
-                              <StyledButton variant="outlined">
+                              <StyledButton
+                                 variant="outlined"
+                                 onClick={onRejectFriend}
+                              >
                                  Отклонить
                               </StyledButton>
                            </ApplicationToFriendsContainer>
                         )
                      case 'removeFromFriends':
                         return (
-                           <StyledButton variant="outlined" onClick={onClick}>
+                           <StyledButton variant="outlined" onClick={onDelete}>
                               Удалить из друзей
                            </StyledButton>
                         )
                      default:
                         return (
-                           <StyledButton variant="primary">
+                           <StyledButton variant="primary" onClick={onClick}>
                               Добавить в друзья
                            </StyledButton>
                         )

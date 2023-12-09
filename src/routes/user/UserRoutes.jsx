@@ -34,6 +34,7 @@ export const UserRoutes = () => {
       charities,
       profile,
       edit,
+      userProfileById,
    } = routes[role]
 
    return (
@@ -86,6 +87,16 @@ export const UserRoutes = () => {
             </Route>
 
             <Route
+               path={getFriendById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<ProfileDetail variant="myFriendProfile" />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
                path={getRequestsById.path}
                element={
                   <PrivateRoutes
@@ -96,10 +107,10 @@ export const UserRoutes = () => {
                }
             />
             <Route
-               path={getFriendById.path}
+               path={userProfileById.path}
                element={
                   <PrivateRoutes
-                     Component={<ProfileDetail variant="myFriendProfile" />}
+                     Component={<ProfileDetail variant="addMyFriends" />}
                      isAuth={isAuth}
                      fallback="/"
                   />

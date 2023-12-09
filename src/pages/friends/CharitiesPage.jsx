@@ -1,14 +1,20 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { providerEvent } from '../../events/customEvents'
 import { Card } from '../../components/UI/card/Card'
-import { getProfileByUserId } from '../../store/slices/profile-slice/profileByIdThunk'
+import { handleOptionsChange, isWishBooked } from './ProfileDetail'
 
 export const CharitiesPage = () => {
+   const navigate = useNavigate()
    const dispatch = useDispatch()
-   const friendCharities = useSelector((state) => state.charities.charities)
 
-   const handleOpenProfileByBookerOrOwnerId = (userId) => {
-      dispatch(getProfileByUserId(userId))
+   const friendCharities = useSelector((state) => state.charities.charities)
+   const { id } = useSelector((state) => state.authLogin)
+
+   const handleOpenDetailProfile = (friendId, nameFriend) => {
+      providerEvent({ action: 'name', payload: nameFriend })
+      navigate(`/user/friends/${friendId}`)
    }
    return (
       <div>
@@ -25,15 +31,26 @@ export const CharitiesPage = () => {
                   ownerName={charity.fullName}
                   ownerImage={charity.userImage}
                   bookerImage={charity.bookedUserImage}
-                  onClick={() =>
-                     handleOpenProfileByBookerOrOwnerId(
-                        charity.charityReservoirId
+                  isBlock={charity.isBlock}
+                  showBottomBooker="true"
+                  handleChange={(e) =>
+                     handleOptionsChange.CHARITY(
+                        e,
+                        charity.charityId,
+                        dispatch,
+                        id
                      )
                   }
-                  //   meatballsOptions={isWishBooked(
-                  //      charity.charityReservoirId,
-                  //      id
-                  //   )}
+                  onGetBookerById={() =>
+                     handleOpenDetailProfile(charity.charityReservoirId)
+                  }
+                  onGetOwnerById={() =>
+                     handleOpenDetailProfile(charity.userId, charity.fullName)
+                  }
+                  meatballsOptions={isWishBooked(
+                     charity.charityReservoirId,
+                     id
+                  )}
                />
             ))}
          </div>

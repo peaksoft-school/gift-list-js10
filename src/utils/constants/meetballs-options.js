@@ -1,21 +1,9 @@
-import {
-   AddToMyWish,
-   AnonimBookingIcon,
-   Complain,
-   IconBooking,
-   UnBookingIcon,
-} from '../../assets'
+import { IncognitoIcon, LockIcon, UnLockIcon } from '../../assets'
 
 export const meetballsFriendOptions = {
    booking: [
-      { title: 'Забронировать', icon: <IconBooking /> },
-      { title: 'Забронировать анонимно', icon: <AnonimBookingIcon /> },
-      { title: 'Добавить в мои подарки', icon: <AddToMyWish /> },
-      { title: 'Пожаловаться', icon: <Complain /> },
+      { title: 'Забронировать', icon: <LockIcon /> },
+      { title: 'Забронировать анонимно', icon: <IncognitoIcon /> },
    ],
-   unBooking: [
-      { title: 'Снять бронь', icon: <UnBookingIcon /> },
-      { title: 'Добавить в мои подарки', icon: <AddToMyWish /> },
-      { title: 'Пожаловаться', icon: <Complain /> },
-   ],
+   unBooking: [{ title: 'Снять бронь', icon: <UnLockIcon /> }],
 }

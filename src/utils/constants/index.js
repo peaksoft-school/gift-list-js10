@@ -14,6 +14,7 @@ export const routes = {
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
+         showListActions: true,
       },
       friends: {
          path: 'friends',
@@ -27,6 +28,9 @@ export const routes = {
       },
       getRequestsById: {
          path: 'friends/requests/:friendId',
+      },
+      userProfileById: {
+         path: 'friends/:userId',
       },
       wishes: {
          path: 'wishes',

@@ -5,6 +5,7 @@ import {
    toastWithPromise,
    toastWithoutPromise,
 } from '../../../utils/helpers/toast'
+import { getProfileByUserId } from '../profile-slice/profileByIdThunk'
 
 export const getFriends = createAsyncThunk(
    'user/friends',
@@ -19,57 +20,90 @@ export const getFriends = createAsyncThunk(
             'Ошибка!',
             error.message
          )
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const deleteFriendById = createAsyncThunk(
    '/myFriends',
-   async (userId, { dispatch }) => {
+   async (userId, { dispatch, rejectWithValue }) => {
       try {
          await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
-            'hello',
+            'Информация',
+            'Пользователь успешно удален из списка друзей',
+            'При удалении друга произошла ошибка',
             axiosInstance.delete(`/myFriends/${userId}`)
          )
 
-         return dispatch(getFriends())
+         return dispatch(getProfileByUserId(userId))
       } catch (error) {
-         return error
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const sendRequestToUser = createAsyncThunk(
    '/myFriends/{friendId}',
-   async (friendId, { dispatch }) => {
+   async (friendId, { dispatch, rejectWithValue }) => {
       try {
          await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
+            'Информация',
             'Ваш запрос успешно отправлен',
+            'При отправке запроса произошла ошибка',
             axiosInstance.post(`/myFriends/${friendId}`)
          )
-         return dispatch(getFriends())
+         return dispatch(getProfileByUserId(friendId))
       } catch (error) {
-         return error
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const acceptRequest = createAsyncThunk(
    '/myFriends/acceptFriend',
-   async (friendId, { dispatch }) => {
+   async ({ userId, name, isAccept }, { dispatch, rejectWithValue }) => {
+      console.log(userId, name)
       try {
          await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
-            'helloooooo',
-            axiosInstance.post(`/myFriends/acceptFriend${friendId}`)
+            'Информация',
+            `Вы приняли запрос от ${name}`,
+            'Произошла ошибка',
+            axiosInstance.post(
+               `/myFriends/acceptFriend/${userId}?request=${isAccept}`
+            )
          )
 
-         return dispatch(getFriends())
+         return dispatch(getProfileByUserId(userId))
       } catch (error) {
-         return error
+         return rejectWithValue(error.message)
+      }
+   }
+)
+
+export const rejectRequests = createAsyncThunk(
+   '/myFriends/rejectRequest',
+   async ({ userId, name, isAccept }, { dispatch, rejectWithValue }) => {
+      try {
+         await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
+            notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
+            'Информация',
+            `Вы отклонили запрос от ${name}`,
+            'Произошла ошибка',
+            axiosInstance.post(
+               `/myFriends/acceptFriend/${userId}?request=${isAccept}`
+            )
+         )
+         return dispatch(getProfileByUserId(userId))
+      } catch (error) {
+         return rejectWithValue(error.message)
       }
    }
 )

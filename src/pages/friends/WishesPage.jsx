@@ -1,11 +1,22 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { providerEvent } from '../../events/customEvents'
 import { Card } from '../../components/UI/card/Card'
+import { handleOptionsChange, isWishBooked } from './ProfileDetail'
 
 export const WishesPage = () => {
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
+
    const friendWishes = useSelector((state) => state.friendWishes.wishes)
-   console.log(friendWishes)
+   const { id } = useSelector((state) => state.authLogin)
+
+   const handleOpenProfile = (userId, nameFriend) => {
+      providerEvent({ action: 'name', payload: nameFriend })
+      navigate(`/user/friends/${userId}`)
+   }
 
    return (
       <Container>
@@ -21,7 +32,17 @@ export const WishesPage = () => {
                   cardImage={wish.wishImage}
                   ownerImage={wish.userImage}
                   ownerName={wish.fullName}
+                  isBlock={wish.isBlock}
                   bookerImage={wish.reservoirImage}
+                  showBottomBooker="true"
+                  handleChange={(e) =>
+                     handleOptionsChange.WISH(e, wish.wishId, dispatch, id)
+                  }
+                  onGetOwnerById={() =>
+                     handleOpenProfile(wish.ownerId, wish.fullName)
+                  }
+                  onGetBookerById={() => handleOpenProfile(wish.reservoirId)}
+                  meatballsOptions={isWishBooked(wish.wishId, id)}
                />
             ))}
          </CardContainer>

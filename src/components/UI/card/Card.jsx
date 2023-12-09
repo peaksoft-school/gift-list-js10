@@ -33,7 +33,9 @@ export const Card = ({
    date,
    newOrOld,
    status,
-   onGetUserById,
+   isBlock,
+   onGetOwnerById,
+   onGetBookerById,
    showBottomBooker,
    showHoliday = true,
 }) => {
@@ -45,6 +47,7 @@ export const Card = ({
 
    const inputDate = date
    const formattedDate = convertDateFormat(inputDate)
+
    return (
       <StyledCard className={listClassName} onClick={onGetThingById}>
          {listClassName && (
@@ -55,19 +58,30 @@ export const Card = ({
                list && variant === 'secondary' && 'listWithoutHeader'
             }`}
          >
+            <StyledBlockedCard>
+               {isBlock ? <p>Это заблокированный контент!</p> : null}
+            </StyledBlockedCard>
+
             {(variant === 'primary' || variant === 'withStatusTop') && (
                <CardHeader
                   avatar={
                      ownerImage ? (
-                        <StyledAvatarIcon alt={ownerName} src={ownerImage} />
+                        <StyledAvatarIcon
+                           alt={ownerName}
+                           src={ownerImage}
+                           onClick={onGetOwnerById}
+                        />
                      ) : (
-                        <StyledAvatarIcon aria-label="recipe">
+                        <StyledAvatarIcon
+                           aria-label="recipe"
+                           onClick={onGetOwnerById}
+                        >
                            {ownerName.charAt(0)}
                         </StyledAvatarIcon>
                      )
                   }
                   title={
-                     <StyledOwnerWrapper type="button" onClick={onGetUserById}>
+                     <StyledOwnerWrapper type="button" onClick={onGetOwnerById}>
                         {ownerName}
                      </StyledOwnerWrapper>
                   }
@@ -128,6 +142,7 @@ export const Card = ({
                            <StyledAvatarIcon
                               alt="Фотография человека который забронировал это"
                               src={bookerImage}
+                              onClick={onGetBookerById}
                            />
                         )}
                         <span>{bookedStatus}</span>
@@ -145,6 +160,10 @@ export const Card = ({
       </StyledCard>
    )
 }
+
+const StyledBlockedCard = styled('div')({
+   color: '#ca3636',
+})
 const StyledOwnerWrapper = styled('button')({
    backgroundColor: 'transparent',
    border: 'none',
@@ -178,6 +197,9 @@ const StyledTypography = styled(Typography)({
    fontSize: '0.875rem',
    overflow: 'hidden',
    maxHeight: '3rem',
+   '&.grey': {
+      color: 'grey',
+   },
 })
 const StyledCardContent = styled(CardContent)(() => ({
    padding: '0',

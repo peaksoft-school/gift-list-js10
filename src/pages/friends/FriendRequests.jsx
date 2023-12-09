@@ -4,21 +4,48 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { FriendCard } from '../../components/UI/FriendCard'
 import { getRequestsFromUsers } from '../../store/slices/requests/requestThunk'
+import {
+   acceptRequest,
+   rejectRequests,
+} from '../../store/slices/my-friends/friendsThunk'
+import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
+import { providerEvent } from '../../events/customEvents'
 
 export const FriendRequests = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
    const requests = useSelector((state) => state.requests.requests)
-   console.log(requests)
 
    useEffect(() => {
       dispatch(getRequestsFromUsers())
    }, [dispatch])
 
-   const openDetailUserProfile = (userId) => {
+   const openDetailUserProfile = (userId, nameFriend) => {
+      providerEvent({ action: 'name', payload: nameFriend })
       navigate(`${userId}`)
    }
+
+   const handleAcceptRequestFriendById = (userId, nameFriend) => {
+      dispatch(
+         acceptRequest({
+            userId,
+            name: nameFriend,
+            isAccept: 'ACCEPT_REQUEST',
+         })
+      )
+   }
+
+   const handleRejectRequestFriendById = (userId, nameFriend) => {
+      dispatch(
+         rejectRequests({
+            userId,
+            name: nameFriend,
+            isAccept: 'REJECT_REQUEST',
+         })
+      )
+   }
+
    return (
       <>
          <FriendCardContainer>
@@ -31,11 +58,28 @@ export const FriendRequests = () => {
                      key={request.friendId}
                      wish={request.countWish}
                      holidays={request.countHoliday}
-                     onClick={() => openDetailUserProfile(request.friendId)}
+                     onClick={() =>
+                        openDetailUserProfile(
+                           request.friendId,
+                           request.nameFriend
+                        )
+                     }
+                     onAcceptFriend={() =>
+                        handleAcceptRequestFriendById(
+                           request.friendId,
+                           request.nameFriend
+                        )
+                     }
+                     onRejectFriend={() =>
+                        handleRejectRequestFriendById(
+                           request.friendId,
+                           request.nameFriend
+                        )
+                     }
                   />
                ))
             ) : (
-               <h3>У вас пока нет уведомлений</h3>
+               <SecondEmptyComponent text="У вас пока нет запросов в друзья " />
             )}
          </FriendCardContainer>
          <Outlet />
@@ -48,5 +92,4 @@ const FriendCardContainer = styled('div')({
    display: 'flex',
    gap: '20px',
    flexWrap: 'wrap',
-   height: '48vh',
 })

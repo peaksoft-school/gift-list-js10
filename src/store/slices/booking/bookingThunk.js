@@ -1,13 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../../config/axiosInstance'
 import { notifyTypes, toastWithPromise } from '../../../utils/helpers/toast'
-import { getWishListByUserId } from '../wishes/wishThunk'
-import { getCharitiesByUserId } from '../charities/chaririesThunk'
 
 export const bookingWishThunk = createAsyncThunk(
    '/booking/bookingWishThunk',
    async (
-      { wishId, isBookingAnonymous, userId },
+      { wishId, isBookingAnonymous, userId, getSomethingFunction },
       { rejectWithValue, dispatch }
    ) => {
       try {
@@ -21,17 +19,20 @@ export const bookingWishThunk = createAsyncThunk(
                `/booking/bookingWish/${wishId}?reserveAnonymous=${isBookingAnonymous}`
             )
          )
-         dispatch(getWishListByUserId(userId))
+         dispatch(getSomethingFunction(userId))
          return response.data
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const unBookingWishThunk = createAsyncThunk(
    '/booking/unbookingWishThunk',
-   async (wishId, { rejectWithValue, dispatch }) => {
+   async (
+      { wishId, userId, getSomethingFunction },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const response = await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -41,18 +42,20 @@ export const unBookingWishThunk = createAsyncThunk(
             'При разбронировании подарка произошла ошибка',
             axiosInstance.post(`/booking/unBookingWish/${wishId}`)
          )
-         dispatch(getWishListByUserId())
+         dispatch(getSomethingFunction(userId))
          return response.data
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
 
+// userId === 0 ? myId : userId
+
 export const bookingCharityThunk = createAsyncThunk(
    '/booking/bookingCharityThunk',
    async (
-      { charityId, isBookingAnonymous, userId },
+      { charityId, isBookingAnonymous, userId, getSomethingFunction },
       { rejectWithValue, dispatch }
    ) => {
       try {
@@ -66,17 +69,20 @@ export const bookingCharityThunk = createAsyncThunk(
                `/booking/${charityId}?reserveAnonymous=${isBookingAnonymous}`
             )
          )
-         dispatch(getCharitiesByUserId(userId))
+         dispatch(getSomethingFunction(userId))
          return response.data
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
 
-export const unBookingCharityThunk = createAsyncThunk(
+export const unbookingCharityThunk = createAsyncThunk(
    '/charity/unbookingCharityThunk',
-   async ({ charityId, userId }, { rejectWithValue, dispatch }) => {
+   async (
+      { charityId, userId, getSomethingFunction },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
@@ -86,9 +92,9 @@ export const unBookingCharityThunk = createAsyncThunk(
             'Ошибка',
             axiosInstance.post(`/booking/unBookingCharity/${charityId}`)
          )
-         return dispatch(getCharitiesByUserId(userId))
+         return dispatch(getSomethingFunction(userId))
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
