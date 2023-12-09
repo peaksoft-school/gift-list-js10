@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material'
-import { MainContent } from './MainContent'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { MainDisIcon, MainLike, MainLoyIcon } from '../assets'
 import { MainPagePartThird } from '../pages/LandingPage/MainPagePartThird'
+import { MainContent } from './MainContent'
 
 export function MainPagePartSecond() {
    const [userCount, setUserCount] = useState(0)
@@ -14,6 +15,12 @@ export function MainPagePartSecond() {
    const targetGiftCount = 10
    const targetDonationCount = 15
    const targetCheckCount = 9
+
+   const navigate = useNavigate()
+
+   const onSignUp = () => {
+      navigate('/main-page/registration')
+   }
 
    useEffect(() => {
       const userInterval = setInterval(() => {
@@ -121,7 +128,9 @@ export function MainPagePartSecond() {
                </Conter>
             </Feature>
          </BlockStage>
-         <Button type="button">ЗАРЕГИСТРИРОВАТЬСЯ</Button>
+         <Button type="button" onClick={onSignUp}>
+            ЗАРЕГИСТРИРОВАТЬСЯ
+         </Button>
          <MainContent />
          <MainPagePartThird />
       </Container>

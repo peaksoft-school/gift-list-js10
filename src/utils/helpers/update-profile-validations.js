@@ -1,6 +1,8 @@
 import * as yup from 'yup'
 
-export const schema = yup.object().shape({
+export const valueIsNotEmpty = (value) => value?.trim()
+
+export const updateProfileSchema = yup.object().shape({
    name: yup
       .string()
       .required('Введите имя.')
