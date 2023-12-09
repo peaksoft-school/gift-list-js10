@@ -1,6 +1,5 @@
-import { AccountCircle } from '@mui/icons-material'
-import { AppBar, styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { AppBar, Avatar, styled } from '@mui/material'
+import { default as React, default as React, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -46,7 +45,7 @@ export const Header = ({ variantOfSelect = '' }) => {
    })
    const { fullName } = useSelector((state) => state.authLogin)
    const [values, setValues] = useState(defaultSelectProperites)
-   const { role } = useSelector((state) => state.authLogin)
+   const { role, image } = useSelector((state) => state.authLogin)
    const [searchTerm, setSearchTerm] = useState('')
    const navigate = useNavigate()
    const dispatch = useDispatch()
@@ -106,7 +105,7 @@ export const Header = ({ variantOfSelect = '' }) => {
                   <Notification />
                </NotificationWrapper>
                <DropdDownIconWrapper>
-                  <AccountCircle />
+                  <StyledAvatarIcon alt={fullName} src={image} />
                   <StyledUserNameContainer>{fullName}</StyledUserNameContainer>
                   <MeatBalls
                      variant="profile"
@@ -141,6 +140,14 @@ export const Header = ({ variantOfSelect = '' }) => {
       </>
    )
 }
+
+const StyledAvatarIcon = styled(Avatar)((props) => {
+   return {
+      width: '1.25rem',
+      height: '1.25rem',
+      padding: props?.children && '13px',
+   }
+})
 
 const ModalContent = styled('div')({
    display: 'flex',

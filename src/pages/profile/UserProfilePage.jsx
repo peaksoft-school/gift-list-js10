@@ -1,10 +1,8 @@
-import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ChangePasswordXIcon } from '../../assets'
+import { ChangePassword } from '../../components/ChangePassword'
 import { LoadingPage } from '../../components/LoadingPage'
-import { Modal } from '../../components/Modal'
 import { getProfileThunk } from '../../store/profile/profileThunk'
 import { routes } from '../../utils/constants'
 import {
@@ -15,8 +13,8 @@ import { convertDateFormat } from '../../utils/helpers/constants'
 import { Profile } from '../LandingPage/Profile'
 
 export const UserProfilePage = () => {
-   const dispatch = useDispatch()
    const navigate = useNavigate()
+   const dispatch = useDispatch()
    const { profile, error, pending } = useSelector(
       (state) => state.profileSlice
    )
@@ -66,25 +64,9 @@ export const UserProfilePage = () => {
             onClickFirstButton={onEditProfile}
             onClickSecondButton={toggleEditPasswordModalOpen}
          />
-         <Modal
-            handleClose={toggleEditPasswordModalOpen}
-            isOpen={isEditPasswordModalOpen}
-            padding="20px"
-         >
-            <form>
-               <legend>
-                  Смена пароля
-                  <StyledChangePasswordXIcon
-                     onClick={toggleEditPasswordModalOpen}
-                  />
-                  {/* TODO: Kasym baikenikin jazyp koiom */}
-               </legend>
-            </form>
-         </Modal>
+         {isEditPasswordModalOpen && (
+            <ChangePassword variant handleClose={toggleEditPasswordModalOpen} />
+         )}
       </div>
    )
 }
-
-const StyledChangePasswordXIcon = styled(ChangePasswordXIcon)({
-   cursor: 'pointer',
-})
