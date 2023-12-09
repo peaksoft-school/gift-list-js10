@@ -10,8 +10,12 @@ export const holidaySlice = createSlice({
    name: 'holidaySlice',
    initialState,
    reducers: {
-      addHoliday: (state) => {
-         console.log(state)
+      addHoliday: (state, { payload: { data } }) => {
+         const newState = state
+         newState.nameOfHoliday = data.nameOfHoliday
+         newState.dateOfHoliday = data.dateOfHoliday
+         newState.image = data.image
+         return newState
       },
    },
 })
