@@ -5,7 +5,13 @@ import {
    styled,
 } from '@mui/material'
 
-export const Checkbox = ({ disabled, onChange, value, labelTitle }) => {
+export const Checkbox = ({
+   disabled,
+   onChange,
+   value,
+   labelTitle,
+   ...rest
+}) => {
    return (
       <FormControlLabel
          control={
@@ -16,6 +22,7 @@ export const Checkbox = ({ disabled, onChange, value, labelTitle }) => {
             />
          }
          label={labelTitle}
+         {...rest}
       />
    )
 }
