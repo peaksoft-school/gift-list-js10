@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Typography, styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -9,7 +9,6 @@ import { forgotPasswordQuery } from '../store/auth/authThunk'
 import { forgotPasswordValidationSchema } from '../utils/helpers/forgot-password-validation'
 import { Button } from './UI/Button'
 import { Input } from './UI/input/Input'
-import { auth } from '../config/firebase'
 import { Modal } from './Modal'
 
 export const ForgotPassword = () => {
@@ -32,19 +31,8 @@ export const ForgotPassword = () => {
       navigate('/main-page')
       setForgotPasswordModalOpen(false)
    }
-   const [isButtonClickedState, setIsButtonClickedState] = useState('')
-
-   const isButtonClickedStateChangeHandler = () => {
-      setIsButtonClickedState((prevState) => !prevState)
-   }
-
-   console.log(auth)
-
-   console.log(isButtonClickedState)
 
    const onSubmit = (userData) => {
-      localStorage.setItem('email', userData.email)
-      isButtonClickedStateChangeHandler()
       dispatch(forgotPasswordQuery(userData.email))
       setValue('email')
    }
@@ -52,13 +40,6 @@ export const ForgotPassword = () => {
    const goBackToPreviousPageHandler = () => {
       navigate(-1)
    }
-
-   useEffect(() => {
-      const storedEmail = localStorage.getItem('email')
-      if (storedEmail) {
-         setValue('email', storedEmail)
-      }
-   }, [setValue])
 
    return (
       <Modal isOpen={isForgotPasswordModalOpen} handleClose={closeModalHandler}>
@@ -81,11 +62,7 @@ export const ForgotPassword = () => {
                   helperText={errors.email?.message}
                   error={Boolean(errors.email)}
                />
-               <Button
-                  type="submit"
-                  variant="primary"
-                  // disabled={isButtonClickedState}
-               >
+               <Button type="submit" variant="primary">
                   Отправить
                </Button>
                <CancelButton

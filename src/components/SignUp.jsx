@@ -47,16 +47,22 @@ export const SignUp = () => {
    const onSubmit = (values) => {
       dispatch(
          registerQuery({
-            userData: values,
-            isAgree: isAgreeState,
+            userData: {
+               firstName: values.firstName,
+               lastName: values.lastName,
+               email: values.email,
+               password: values.password,
+               isAgree: isAgreeState,
+            },
             navigate,
          })
       )
    }
 
    const onSingUpWithGoogleHandler = () => {
-      dispatch(authWithGoogle())
+      dispatch(authWithGoogle(navigate))
    }
+
    // passwords state
 
    const [
@@ -75,11 +81,7 @@ export const SignUp = () => {
    }
 
    return (
-      <Modal
-         isOpen={isSignUpModalOpen}
-         handleClose={closeModalHandler}
-         padding="3px"
-      >
+      <Modal isOpen={isSignUpModalOpen} handleClose={closeModalHandler}>
          <MainContainer component="div">
             <SignUpForm component="form" onSubmit={handleSubmit(onSubmit)}>
                <FormTitleAndCloseIcon>
@@ -184,7 +186,7 @@ export const SignUp = () => {
                </ContinueWithGoogleButton>
                <SignUpLink>
                   Уже имеете существующий аккаунт?
-                  <Link to={routes.LOGIN}> Войти</Link>
+                  <Link to={`/main-page/${routes.LOGIN}`}> Войти</Link>
                </SignUpLink>
             </SignUpForm>
          </MainContainer>
@@ -195,8 +197,6 @@ export const SignUp = () => {
 const MainContainer = styled(Box)({
    display: 'flex',
    justifyContent: 'center',
-   transform: 'scale(0.8)',
-   height: '95vh',
 })
 
 const SignUpForm = styled(Box)({

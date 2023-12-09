@@ -2,46 +2,70 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Typography, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CloseModalIcon, EyeClose, EyeOpen } from '../assets'
 import { changePasswordQuery } from '../store/auth/authThunk'
-import { resetPasswordValidationSchema } from '../utils/helpers/reset-password-validation'
+import {
+   changePasswordValidationSchema,
+   resetPasswordValidationSchema,
+} from '../utils/helpers/reset-password-validation'
 import { Modal } from './Modal'
 import { Button } from './UI/Button'
 import { Input } from './UI/input/Input'
+import { changePasswordThunk } from '../store/profile/profileThunk'
 
-export const ChangePassword = () => {
+export const ChangePassword = ({ variant, handleClose }) => {
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm({
-      resolver: yupResolver(resetPasswordValidationSchema),
+      resolver: yupResolver(
+         variant
+            ? changePasswordValidationSchema
+            : resetPasswordValidationSchema
+      ),
    })
 
-   const { email } = useSelector((state) => state.authLogin)
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
-   const onSubmit = (value) => {
-      console.log(value)
-      dispatch(
-         changePasswordQuery({
-            email,
-            newPassword: value.newPassword,
-            verifyPassword: value.confirmPassword,
-         })
-      )
-   }
 
    const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] =
       useState(true)
 
    const closeModalHandler = () => {
-      navigate('/main-page')
+      if (!variant) {
+         navigate('/main-page')
+      }
       setIsResetPasswordModalOpen(false)
+      handleClose()
+   }
+
+   const onSubmit = (value) => {
+      if (!variant) {
+         dispatch(
+            changePasswordQuery({
+               userData: {
+                  newPassword: value.newPassword,
+                  verifyPassword: value.confirmPassword,
+               },
+               navigate,
+            })
+         )
+      } else {
+         dispatch(
+            changePasswordThunk({
+               userData: {
+                  oldPassword: value.oldPassword,
+                  newPassword: value.newPassword,
+                  repeatPassword: value.confirmPassword,
+               },
+               closeModalHandler,
+            })
+         )
+      }
    }
 
    // password state
@@ -76,15 +100,39 @@ export const ChangePassword = () => {
                   <FormTitle variant="h4">Смена пароля</FormTitle>
                   <StyledCloseModalIcon onClick={closeModalHandler} />
                </FormTitleAndCloseIcon>
-               {/* {variant && (
+               {variant && (
                   <Input
-                     type="email"
-                     placeholder="Введите address"
-                     {...register('email')}
-                     helperText={errors.email?.message}
-                     error={Boolean(errors.email)}
+                     type={
+                        visibleAndInvisiblePasswordsState.oldPassword
+                           ? 'text'
+                           : 'password'
+                     }
+                     placeholder="Введите старый пароль"
+                     {...register('oldPassword')}
+                     helperText={errors.oldPassword?.message}
+                     error={Boolean(errors.oldPassword)}
+                     InputProps={{
+                        endAdornment:
+                           visibleAndInvisiblePasswordsState.oldPassword ? (
+                              <StyledOpenedEye
+                                 onClick={() =>
+                                    changePasswordVisibleInvisibleStateHandler(
+                                       'oldPassword'
+                                    )
+                                 }
+                              />
+                           ) : (
+                              <StyledClosedEye
+                                 onClick={() =>
+                                    changePasswordVisibleInvisibleStateHandler(
+                                       'oldPassword'
+                                    )
+                                 }
+                              />
+                           ),
+                     }}
                   />
-               )} */}
+               )}
                <Input
                   type={
                      visibleAndInvisiblePasswordsState.newPassword

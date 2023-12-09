@@ -34,8 +34,6 @@ export const SignIn = () => {
    } = useForm({
       resolver: yupResolver(signInValidationSchema),
    })
-
-   // useEffect(() => closeAndOpenModalHandler(), [])
    const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
 
    const rememberMeCheckedHandler = () => {
@@ -62,6 +60,8 @@ export const SignIn = () => {
       }
    }, [dispatch])
 
+   // password state
+
    const [
       visibleAndInvisiblePasswordState,
       setVisibleAndInvisiblePasswordState,
@@ -70,8 +70,6 @@ export const SignIn = () => {
    const onSignInWithGoogleHandler = () => {
       dispatch(authWithGoogle(navigate))
    }
-
-   // password state
 
    const changePasswordVisibleInvisibleStateHandler = () => {
       setVisibleAndInvisiblePasswordState((prevState) => !prevState)
@@ -134,7 +132,9 @@ export const SignIn = () => {
                </ContinueWithGoogleButton>
                <SignUpLink>
                   Нет аккаунта?
-                  <Link to={routes.REGISTRATION}> Зарегистрироваться</Link>
+                  <Link to={`/main-page/${routes.REGISTRATION}`}>
+                     Зарегистрироваться
+                  </Link>
                </SignUpLink>
             </SignInForm>
          </MainContainer>

@@ -1,27 +1,19 @@
 import axios from 'axios'
 import { store } from '../store'
 import { logout } from '../store/auth/authSlice'
-import { BASE_URL } from './axiosInstanceWithMultipartFormDataType'
+
+export const BASE_URL = 'http://giftlist.peaksoftprojects.com/api'
 
 const headers = {
-   'Content-type': 'application/json',
+   'Content-type': 'multipart/form-data',
 }
 
-export const axiosInstance = axios.create({
+export const axiosInstanceMultiPartFormData = axios.create({
    baseURL: BASE_URL,
    headers,
 })
 
-axiosInstance.interceptors.request.use((config) => {
-   const updateConfig = { ...config }
-   const { token } = store.getState().authLogin
-   if (token) {
-      updateConfig.headers.Authorization = `Bearer ${token}`
-   }
-   return updateConfig
-})
-
-axiosInstance.interceptors.response.use(
+axiosInstanceMultiPartFormData.interceptors.response.use(
    (response) => {
       return Promise.resolve(response)
    },

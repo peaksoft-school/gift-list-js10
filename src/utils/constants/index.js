@@ -1,4 +1,5 @@
 export const USER_KEY = 'GIFT-LIST_USER_KEY'
+export const USER_TOKEN_KEY = 'GIFT_LIST_USER_TOKEN_KEY'
 
 export const routes = {
    LOGIN: 'login',
@@ -17,24 +18,16 @@ export const routes = {
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
-         headerSelectType: 'select',
+         // headerSelectType: 'select',
+         showListActions: true,
+      },
+      profile: {
+         path: 'profile',
+         breadcrumb: 'Профиль',
+      },
+      edit: {
+         path: 'edit',
+         breadcrumb: 'Рассказать о себе',
       },
    },
 }
-
-// export const users = [
-//    {
-//       id: 1,
-//       password: '12345678A/',
-//       email: 'admin@gmail.com',
-//       role: 'ADMIN',
-//       token: 'token',
-//    },
-//    {
-//       id: 2,
-//       password: '12345678A/',
-//       email: 'user@gmail.com',
-//       role: 'USER',
-//       token: 'token',
-//    },
-// ]
