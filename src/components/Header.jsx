@@ -1,5 +1,5 @@
 import { AppBar, Avatar, styled } from '@mui/material'
-import { default as React, default as React, useEffect, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
