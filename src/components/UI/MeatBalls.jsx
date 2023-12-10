@@ -36,7 +36,7 @@ export const MeatBalls = ({
                <StyledMenuItem
                   key={title}
                   onClick={(e) => {
-                     handleClose()
+                     handleClose(e)
                      handleChange(e)
                   }}
                   value={title}

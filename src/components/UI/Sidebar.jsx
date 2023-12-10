@@ -16,17 +16,10 @@ import { routes } from '../../utils/constants'
 
 const pathesByRoles = {
    user: [
-<<<<<<< HEAD
-      { title: 'Лента', path: '/feed', icon: FeedIcon },
-      { title: 'Друзья', path: '/friends', icon: UsersIcon },
-      { title: 'Список желаний', path: '/wish', icon: WishListIcon },
-      { title: 'Забронированные', path: '/bookings', icon: BookingIcon },
-=======
       { title: 'Лента', path: 'feed', icon: FeedIcon },
       { title: 'Друзья', path: 'friends', icon: UsersIcon },
-      { title: 'Список желаний', path: 'wish-list', icon: WishListIcon },
+      { title: 'Список желаний', path: 'wish', icon: WishListIcon },
       { title: 'Забронированные', path: 'bookings', icon: BookingIcon },
->>>>>>> 079742bf4d46936e6856ac1ba75d0e113ee8ca53
       {
          title: 'Мои праздники',
          path: 'my-holidays',
@@ -53,6 +46,7 @@ export const Sidebar = ({ roleName = 'user' }) => {
                      key={path}
                      to={`${routes[roleName.toUpperCase()][path]?.path}`}
                   >
+                     {console.log(title)}
                      {path === 'bookings' || path === 'complaints' ? (
                         <img src={Icon} alt={title} />
                      ) : (

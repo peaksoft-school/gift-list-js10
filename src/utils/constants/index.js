@@ -11,20 +11,28 @@ export const routes = {
    },
    USER: {
       path: '/user',
-<<<<<<< HEAD
-      wish: {
-         path: 'wish',
-         breadcrumb: 'Список желаний',
-      },
-      addWish: {
-         path: 'addWish',
-         breadcrumb: 'Добавление желания',
-=======
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
          headerSelectType: 'select',
->>>>>>> 079742bf4d46936e6856ac1ba75d0e113ee8ca53
+      },
+      wish: {
+         path: 'wish',
+         showListActions: 'true',
+         buttonText: 'Добавить желание',
+         breadcrumb: 'Список желаний',
+         onClick: (navigate) => navigate('wish/addWish'),
+      },
+      addWish: {
+         path: 'wish/addWish',
+         breadcrumb: 'Добавление желания',
+      },
+      putWish: {
+         path: 'wish/putWish/:wishId',
+         breadcrumb: 'Редактировать Желание',
+      },
+      getWIshBYId: {
+         path: 'wish/getById',
       },
    },
 }
@@ -38,7 +46,7 @@ export const users = [
       token: 'token',
    },
    {
-      id: 2,
+      id: 3,
       password: '1234',
       email: 'user@gmail.com',
       role: 'USER',

@@ -55,12 +55,18 @@ const initialDatePickerValues = {
    invalidErrorMessage: '',
 }
 
-export const WishListForm = ({ onClose, variant, onSubmit }) => {
+export const WishListForm = ({
+   onClose,
+   variant,
+   onSubmit,
+   defaultValues = initialValues,
+   img,
+}) => {
    const [datePickerError, setDatePickerError] = useState(
       initialDatePickerValues
    )
-
-   const [preview, setPreview] = useState({ file: '' })
+   console.log(defaultValues)
+   const [preview, setPreview] = useState({ file: '', url: img })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
 
    const {
@@ -72,9 +78,7 @@ export const WishListForm = ({ onClose, variant, onSubmit }) => {
       setValue,
       getValues,
    } = useForm({
-      defaultValues: {
-         ...initialValues,
-      },
+      defaultValues: { ...defaultValues },
       mode: 'onBlur',
       resolver: !variant
          ? yupResolver(wishListSchema)
@@ -135,6 +139,7 @@ export const WishListForm = ({ onClose, variant, onSubmit }) => {
          }))
       }
    }
+   console.log(getValues())
 
    return (
       <Container>
@@ -143,7 +148,8 @@ export const WishListForm = ({ onClose, variant, onSubmit }) => {
          </BlockOne>
          <BlockTwo
             onSubmit={handleSubmit((data) => {
-               onSubmit(data)
+               console.log(onSubmit)
+               onSubmit(data, preview.file)
                reset()
                setPreview(null)
                setValues(variant ? initialValues[0] : {})

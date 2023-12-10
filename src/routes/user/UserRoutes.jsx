@@ -1,39 +1,26 @@
-<<<<<<< HEAD
-import React from 'react'
-// import { useDispatch } from 'react-redux'
-// import { logout } from '../../store/slices/authSlice'
-// import { USER_KEY } from '../../utils/constants'
-import { WishListCollection } from '../../pages/WishListCollection'
-
-export const UserRoutes = () => {
-   // const dispatch = useDispatch()
-   // const handleLogout = () => {
-   //    dispatch(logout())
-   //    localStorage.removeItem(USER_KEY)
-   // }
-   return (
-      <div>
-         {/* UserRoutes
-         <button type="button" onClick={handleLogout}>
-            logout
-         </button> */}
-         <WishListCollection />
-      </div>
-=======
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { WishListCollection } from '../../pages/WishListCollection'
+import { EditOrAddWishPage } from '../../pages/EditOrAddWIshPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
    const [isList, setIsList] = useState(false)
-   const toggleList = () => {
-      setIsList((prev) => !prev)
+   const [nameOfActiveCardType, setNameOfActiveCardType] = useState('card')
+
+   const toggleList = (newNameOfAcriveCardType) => {
+      if (nameOfActiveCardType !== newNameOfAcriveCardType) {
+         setIsList((prev) => !prev)
+         setNameOfActiveCardType(newNameOfAcriveCardType)
+      }
    }
-   const { feed } = routes[role]
+
+   const { addWish, feed, wish, putWish } = routes[role]
+   console.log(putWish.path)
    return (
       <Routes>
          <Route
@@ -58,21 +45,38 @@ export const UserRoutes = () => {
                   />
                }
             />
-            {/** You can add your components like this example to bottom
-             <Route
-               path={pahtOfYourComponent}
+            <Route
+               path={wish.path}
                element={
                   <PrivateRoutes
-                     Component={
-                        Here should be your component
-                     }
+                     Component={<WishListCollection isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
                }
-            /> */}
+            />
+
+            <Route
+               path={addWish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<EditOrAddWishPage isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={putWish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<EditOrAddWishPage isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
          </Route>
       </Routes>
->>>>>>> 079742bf4d46936e6856ac1ba75d0e113ee8ca53
    )
 }

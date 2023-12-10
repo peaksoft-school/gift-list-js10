@@ -1,4 +1,11 @@
-import { SamatOkenov, Ellipse, Aida, Askar } from '../../assets'
+import {
+   SamatOkenov,
+   Ellipse,
+   Aida,
+   Askar,
+   EditOptionsIcon,
+   DeleteOptionsIcon,
+} from '../../assets'
 
 export const notifications = [
    {
@@ -42,6 +49,17 @@ export const notifications = [
       image: Askar,
       description: 'отправил запрос в друзья',
       date: '25.05.2022',
+   },
+]
+
+export const wishOptions = [
+   {
+      title: 'Редактировать',
+      icon: <EditOptionsIcon />,
+   },
+   {
+      title: 'Удалить',
+      icon: <DeleteOptionsIcon />,
    },
 ]
 

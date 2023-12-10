@@ -1,59 +1,51 @@
 import { styled } from '@mui/material'
-import { Sidebar } from '../components/UI/Sidebar'
-import { TransitionIcon, SecondTransitionIcon } from '../assets'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { Card } from '../components/UI/card/Card'
+import { deleteWish, getAllWishes } from '../store/wish/wishThunk'
+import { wishOptions } from '../utils/helpers/constants'
 
-export const WishListCollection = () => {
+export const WishListCollection = ({ isList }) => {
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+   const result = useSelector((state) => state.wish.wishes)
+   const { id } = useSelector((state) => state.authLogin)
+   const handleChange = (e, wishId) => {
+      console.log(e.target.innerText)
+      if (e.target.innerText === 'Удалить') {
+         dispatch(deleteWish({ wishId, userId: id }))
+      } else if (e.target.innerText === 'Редактировать') {
+         navigate(`putWish/${wishId}`)
+      }
+   }
+
+   useEffect(() => {
+      dispatch(getAllWishes(id))
+   }, [dispatch])
    return (
-      <div>
-         <Sidebar />
-         <SecondContainer>
-            <IconContainer>
-               <ButtonIcon type="button">
-                  <img src={TransitionIcon} alt="transition-icon" />
-               </ButtonIcon>
-               <ButtonIcon type="button">
-                  <img
-                     src={SecondTransitionIcon}
-                     alt="second-transition-icon"
-                  />
-               </ButtonIcon>
-            </IconContainer>
-            <ButtonContainer>
-               <ButtonComponent type="button">
-                  + Добавить желание
-               </ButtonComponent>
-            </ButtonContainer>
-         </SecondContainer>
-      </div>
+      <Cards>
+         {result.map((item) => (
+            <Card
+               key={item.wishId}
+               cardImage={item.wishImage}
+               cardName={item.wishName}
+               ownerName={item.fullName}
+               ownerImage={item.userImage}
+               holiday={item.holidayName}
+               status={item.wishStatus}
+               date={item.dateOfHoliday}
+               variant="secondary"
+               list={isList}
+               meatBallsOptions={wishOptions}
+               handleChange={(e) => handleChange(e, item.wishId)}
+            />
+         ))}
+      </Cards>
    )
 }
-
-const SecondContainer = styled('div')({
+const Cards = styled('div')({
+   justifyContent: 'center',
    display: 'flex',
-   justifyContent: 'end',
-})
-
-const ButtonIcon = styled('button')({
-   border: 'none',
-   cursor: 'pointer',
-   borderRadius: '5px',
-})
-
-const IconContainer = styled('div')({})
-
-const ButtonContainer = styled('div')({
-   paddingTop: '20px',
-})
-
-const ButtonComponent = styled('button')({
-   width: '219px',
-   height: '35px',
-   color: 'white',
-   backgroundColor: '#8639B5',
-   borderRadius: '5px',
-   border: 'none',
-   cursor: 'pointer',
-   ':hover': {
-      backgroundColor: '#6a1f99',
-   },
+   flexWrap: 'wrap',
 })
