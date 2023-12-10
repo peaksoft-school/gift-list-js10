@@ -1,15 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-<<<<<<< HEAD
-
-import { USER_KEY, users } from '../../utils/constants'
-
-const authLogin = ({ email, password }) => {
-   const currentUser = users.find(
-      (user) => user.email === email && user.password === password
-   )
-   return currentUser
-}
-=======
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { axiosInstance } from '../../config/axiosInstance'
 import { auth } from '../../config/firebase'
@@ -20,7 +9,6 @@ import {
    toastWithoutPromise,
 } from '../../utils/helpers/toast'
 import { login } from './authSlice'
->>>>>>> development
 
 export const loginQuery = createAsyncThunk(
    'authorization/login',

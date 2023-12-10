@@ -52,6 +52,7 @@ export const FriendCard = ({
 const Container = styled('div')({
    display: 'flex',
    flexWrap: 'wrap',
+   width: '100%',
    gap: '1.25rem',
    borderRadius: '0.5rem',
    background: '#F7F8FA',
@@ -74,7 +75,7 @@ const BtnContainer = styled('div')({
 })
 
 const CardContainer = styled(CardMedia)(({ variant }) => ({
-   width: '15vw',
+   // width: '15vw',
    height: variant ? '40vh' : '50vh',
    margin: '1rem',
    boxShadow: 'none',
