@@ -23,7 +23,7 @@ export const getAllCharityByUserId = createAsyncThunk(
       } catch (error) {
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
+            'Ошибка при по лучении всех благотворительностей',
             error.message
          )
          return rejectWithValue(error)
@@ -40,7 +40,7 @@ export const getAllCharity = createAsyncThunk(
       } catch (error) {
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
+            'Ошибка при получении всех благотворительностей',
             error.message
          )
          return rejectWithValue(error)
@@ -57,7 +57,7 @@ export const getCharityById = createAsyncThunk(
       } catch (error) {
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
+            'Ошибка при получени одной благотворительности',
             error.message
          )
          return rejectWithValue(error)
@@ -74,7 +74,7 @@ export const deleteCharityById = createAsyncThunk(
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
             'Успешно',
             'Благотворительность успешно удалена.',
-            'Ошибка',
+            'Ошибка при удалении благотворительности',
             axiosInstance.delete(`/charity?charityId=${charityId}`)
          )
          navigate(-1)
@@ -106,7 +106,7 @@ export const addCharity = createAsyncThunk(
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
             'Успешно',
             'Благотворительность успешно добавлена.',
-            'Ошибка',
+            'Ошибка при добавлении благотворительности',
             axiosInstance.post(`/charity`, newCharity)
          )
          navigate(-1)
@@ -121,7 +121,7 @@ export const addCharity = createAsyncThunk(
 export const updateCharity = createAsyncThunk(
    '/charity/addCharity',
    async (
-      { userId, charityId, charity, navigate, reset },
+      { userId, charityId, charity, reset },
       { rejectWithValue, dispatch }
    ) => {
       try {
@@ -139,13 +139,12 @@ export const updateCharity = createAsyncThunk(
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
             'Успешно',
             'Благотворительность обновлена.',
-            'Ошибка',
+            'Ошибка при обновлении благотворительности',
             axiosInstance.put(
                `/charity/update?charityId=${charityId}`,
                newCharity
             )
          )
-         navigate(-1)
          reset()
          dispatch(getAllCharityByUserId(userId))
       } catch (error) {
@@ -197,7 +196,7 @@ export const searchCharity = createAsyncThunk(
       } catch (error) {
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
+            'Ошибка при поиске благотворительностей',
             error
          )
          return rejectWithValue(error)

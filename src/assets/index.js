@@ -54,3 +54,4 @@ export { ReactComponent as ChangePasswordXIcon } from './icons/changepassword-x-
 export { ReactComponent as LockIcon } from './icons/lock-icon.svg'
 export { ReactComponent as IncognitoIcon } from './icons/incognito-icon.svg'
 export { ReactComponent as UnLockIcon } from './icons/unlock-icon.svg'
+export { ReactComponent as ComplaintIcon } from './icons/complaint-icon.svg'

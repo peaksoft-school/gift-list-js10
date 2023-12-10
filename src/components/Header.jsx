@@ -51,6 +51,19 @@ export const Header = ({ variantOfSelect = '' }) => {
    const dispatch = useDispatch()
    const [isOpenModal, setIsOpenModal] = useState(false)
    const [debouncedValue] = useDebounce(searchTerm, 1000)
+   const [doGet, setDoGet] = useState()
+   const handleDataUpdated = (event) => {
+      if (event.detail.action === 'name') {
+         setDoGet(event.detail.payload)
+      }
+   }
+
+   useEffect(() => {
+      window.addEventListener('providerEvent', handleDataUpdated)
+      return () => {
+         window.removeEventListener('providerEvent', handleDataUpdated)
+      }
+   }, [])
    useEffect(() => {
       dispatch(
          searchCharity({
@@ -68,6 +81,7 @@ export const Header = ({ variantOfSelect = '' }) => {
       values.country,
       values.state,
       values.subCategory,
+      doGet,
    ])
    const handleChange = (e) => {
       if (e.target.name === 'search') setSearchTerm(e.target.value)

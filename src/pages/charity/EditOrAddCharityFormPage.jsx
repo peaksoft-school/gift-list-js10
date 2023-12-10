@@ -22,22 +22,21 @@ export const EditOrAddCharityFormPage = () => {
       }
 
       if (state?.charityId) {
+         navigate(-1)
          return dispatch(
             updateCharity({
                userId: id,
                charityId: state.charityId,
                charity: { ...values, image },
-               navigate,
                reset,
             })
          )
       }
-
+      navigate(-1)
       return dispatch(
          addCharity({
             userId: id,
             charity: { ...values, image },
-            navigate,
             reset,
          })
       )

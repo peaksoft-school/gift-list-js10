@@ -69,7 +69,7 @@ export const uploadFile = async (file) => {
    } catch (error) {
       toastWithoutPromise(
          notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-         'Error while upload file',
+         'Ошибка при загрузке файла',
          error
       )
       return error

@@ -91,12 +91,20 @@ export const toastWithPromise = (
       },
       error: {
          render({ data }) {
+            let message
+            if (typeof data === 'string') {
+               message = data
+            } else if (data.response.data.message) {
+               message = data.response.data.message
+            } else if (data.message) {
+               message = data.message
+            }
             return (
                <Container>
                   <IconWrapper>{notifyIcons[notifyTypeForError]}</IconWrapper>
                   <TextContainer mainColor={errorMainColor}>
                      <p>{errorTitleOfMessage}</p>
-                     <p>{data}</p>
+                     <p>{message}</p>
                   </TextContainer>
                </Container>
             )

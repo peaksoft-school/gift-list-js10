@@ -25,6 +25,7 @@ export const Card = ({
    handleChange,
    meatballsOptions = [],
    onClick,
+   isBlock,
 }) => {
    const {
       owner: { name: ownerName, image: ownerImage },
@@ -37,7 +38,7 @@ export const Card = ({
    } = card
    const listClassName = list && 'list'
    return (
-      <StyledCard className={listClassName}>
+      <StyledCard className={listClassName + isBlock ? ' blocked' : ''}>
          {listClassName && (
             <CardMedia component="img" image={cardImage} alt={cardName} />
          )}
@@ -181,6 +182,9 @@ const StyledCard = styled(MUICard)(() => {
       width: '21.8125rem',
       padding: '15px',
       maxHeight: '18.8125rem',
+      '.blocked': {
+         backgroundColor: 'grey',
+      },
       '&.list': {
          width: '33.3125rem',
          display: 'flex',

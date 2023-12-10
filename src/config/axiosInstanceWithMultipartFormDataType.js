@@ -15,9 +15,7 @@ export const axiosInstanceMultiPartFormData = axios.create({
 
 axiosInstanceMultiPartFormData.interceptors.request.use((config) => {
    const updateConfig = { ...config }
-   // const { token } = store.getState().authLogin
-   const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDIxMTU2OTAsImlhdCI6MTcwMTk4MzY5MCwidXNlcm5hbWUiOiJtbnVyYWp5bTlAZ21haWwuY29tIn0.YSdIyzWK7ftLIpMSdusH4xjD6TiCbUAs9M8bUHbBT-8'
+   const { token } = store.getState().authLogin
    if (token) {
       updateConfig.headers.Authorization = `Bearer ${token}`
    }
@@ -32,6 +30,6 @@ axiosInstanceMultiPartFormData.interceptors.response.use(
       if (error.response.status === 401) {
          store.dispatch(logout())
       }
-      return Promise.reject(error)
+      return Promise.reject(error.response.data.message || error.message)
    }
 )

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AdminState } from '../../components/GiftInnerContent'
+import { providerEvent } from '../../events/customEvents'
 import {
    blockOrUnblockCharityById,
    deleteCharityById,
@@ -13,15 +14,15 @@ import {
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/constants'
 import { convertDateFormat } from '../../utils/helpers/constants'
-import { providerEvent } from '../../events/customEvents'
-// import { WishListForm } from '../LandingPage/WishListForm'
 
 export const GetCharityById = () => {
    const { charityId } = useParams()
+
    const dispatch = useDispatch()
    const { charity, pending } = useSelector((state) => state.charity)
    const { role } = useSelector((state) => state.authLogin)
    const navigate = useNavigate()
+
    useEffect(() => {
       dispatch(getCharityById(charityId))
    }, [])
@@ -29,12 +30,7 @@ export const GetCharityById = () => {
       return 'Loading...'
    }
 
-   const onDeleteCharity = () => {
-      dispatch(deleteCharityById({ charityId, navigate }))
-   }
-
-   providerEvent({ action: 'name', payload: charity.nameCharity })
-   const onEditOrOnBlock = () => {
+   const onEditOrOnBlock = (role, navigate, charity, dispatch, charityId) => {
       if (role === 'USER') {
          navigate('/user/charity/editCharity', {
             state: {
@@ -59,6 +55,14 @@ export const GetCharityById = () => {
          dispatch(blockOrUnblockCharityById({ charityId, blockCharity: true }))
       }
    }
+
+   const onDeleteCharity = () => {
+      dispatch(deleteCharityById({ charityId, navigate }))
+   }
+
+   providerEvent({ action: 'name', payload: charity.nameCharity })
+   // eslint-disable-next-line max-len
+   // TODO: unbooking booking in innerPage of charity => Feed integration merge болгондон кийин жазап койом
 
    return (
       <div>
@@ -94,7 +98,9 @@ export const GetCharityById = () => {
                   charity.status === 'RESERVED_ANONYMOUSLY',
             }}
             onDelete={onDeleteCharity}
-            onEditOrOnBlock={onEditOrOnBlock}
+            onEditOrOnBlock={() =>
+               onEditOrOnBlock(role, navigate, charity, dispatch, charityId)
+            }
          />
       </div>
    )
