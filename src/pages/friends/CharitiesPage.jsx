@@ -14,7 +14,7 @@ export const CharitiesPage = () => {
 
    const handleOpenDetailProfile = (friendId, nameFriend) => {
       providerEvent({ action: 'name', payload: nameFriend })
-      navigate(`/user/friends/${friendId}`)
+      navigate(`/user/addToMyFriends/${friendId}`)
    }
    return (
       <div>

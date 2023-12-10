@@ -72,22 +72,22 @@ export const Profile = ({
                })()}
             <UserSocialMediaContainer component="div">
                {facebook && (
-                  <a href={facebook} target="blank">
+                  <a href={facebook} target="blank" aria-label="facebook">
                      <ProfileFacebook />
                   </a>
                )}
                {instagram && (
-                  <a href={instagram} target="blank">
+                  <a href={instagram} target="blank" aria-label="Insatgram">
                      <ProfileInstagram />
                   </a>
                )}
                {telegram && (
-                  <a href={telegram} target="blank">
+                  <a href={telegram} target="blank" aria-label="Telegram">
                      <ProfileTelegram />
                   </a>
                )}
                {vk && (
-                  <a href={vk} target="blank">
+                  <a href={vk} target="blank" aria-label="Vk">
                      <ProfileVk />
                   </a>
                )}

@@ -22,7 +22,6 @@ import {
    unbookingCharityThunk,
 } from '../../store/slices/booking/bookingThunk'
 import { shoeSizeObject } from '../../utils/constants/constants'
-import { providerEvent } from '../../events/customEvents'
 
 export const isWishBooked = (bookerId, myId) => {
    let meatballsOptions = []
@@ -129,7 +128,12 @@ export const ProfileDetail = ({ variant }) => {
 
    const handleAcceptRequestFriendById = (userId, friendName) => {
       dispatch(
-         acceptRequest({ userId, name: friendName, isAccept: 'ACCEPT_REQUEST' })
+         acceptRequest({
+            userId,
+            name: friendName,
+            isAccept: 'ACCEPT_REQUEST',
+            navigate,
+         })
       )
    }
 
@@ -139,17 +143,17 @@ export const ProfileDetail = ({ variant }) => {
             userId,
             name: friendName,
             isReject: 'REJECT_REQUEST',
+            navigate,
          })
       )
    }
 
    const handleSendRequest = (friendId) => {
-      dispatch(sendRequestToUser(friendId))
+      dispatch(sendRequestToUser({ friendId, navigate }))
    }
 
-   const handleOpenProfile = (userId, nameFriend) => {
-      providerEvent({ action: 'name', payload: nameFriend })
-      navigate(`/user/friends/${userId}`)
+   const handleOpenProfile = (userId) => {
+      navigate(`/user/addToMyFriends/${userId}`)
    }
 
    return (

@@ -34,7 +34,7 @@ export const routes = {
          path: 'friends/requests/:friendId',
       },
       userProfileById: {
-         path: 'friends/:userId',
+         path: 'addToMyFriends/:friendId',
       },
       wishes: {
          path: 'wishes',

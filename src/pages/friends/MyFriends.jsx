@@ -7,6 +7,7 @@ import { Tabs } from '../../components/UI/Tabs'
 import { providerEvent } from '../../events/customEvents'
 import { getFriends } from '../../store/slices/my-friends/friendsThunk'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
+import { getRequestsFromUsers } from '../../store/slices/requests/requestThunk'
 
 export const MyFriends = () => {
    const myFriends = useSelector((state) => {
@@ -30,6 +31,7 @@ export const MyFriends = () => {
 
    useEffect(() => {
       dispatch(getFriends())
+      dispatch(getRequestsFromUsers())
    }, [dispatch])
    return (
       <>
@@ -41,19 +43,21 @@ export const MyFriends = () => {
                <>
                   {myFriends.length !== 0 &&
                      myFriends?.map((item) => (
-                        <FriendCard
-                           key={item.nameFriend}
-                           name={item.nameFriend}
-                           wish={item.countWish}
-                           holidays={item.countHoliday}
-                           image={item.image}
-                           onClick={() => {
-                              handleOpenDetailProfile(
-                                 item.friendId,
-                                 item.nameFriend
-                              )
-                           }}
-                        />
+                        <div key={item.friendId}>
+                           <FriendCard
+                              key={item.nameFriend}
+                              name={item.nameFriend}
+                              wish={item.countWish}
+                              holidays={item.countHoliday}
+                              image={item.image}
+                              onClick={() => {
+                                 handleOpenDetailProfile(
+                                    item.friendId,
+                                    item.nameFriend
+                                 )
+                              }}
+                           />
+                        </div>
                      ))}
                   {myFriends.length === 0 && (
                      <SecondEmptyComponent text="Здесь будет отображен список ваших друзей." />

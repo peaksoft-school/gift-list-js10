@@ -15,7 +15,7 @@ export const WishesPage = () => {
 
    const handleOpenProfile = (userId, nameFriend) => {
       providerEvent({ action: 'name', payload: nameFriend })
-      navigate(`/user/friends/${userId}`)
+      navigate(`/user/addToMyFriends/${userId}`)
    }
 
    return (

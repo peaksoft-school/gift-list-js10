@@ -5,7 +5,6 @@ import {
    toastWithPromise,
    toastWithoutPromise,
 } from '../../../utils/helpers/toast'
-import { getProfileByUserId } from '../profile-slice/profileByIdThunk'
 
 export const getFriends = createAsyncThunk(
    'user/friends',
@@ -38,7 +37,7 @@ export const deleteFriendById = createAsyncThunk(
             axiosInstance.delete(`/myFriends/${userId}`)
          )
 
-         return dispatch(getProfileByUserId(userId))
+         return dispatch(getFriends())
       } catch (error) {
          return rejectWithValue(error.message)
       }
@@ -47,7 +46,7 @@ export const deleteFriendById = createAsyncThunk(
 
 export const sendRequestToUser = createAsyncThunk(
    '/myFriends/{friendId}',
-   async (friendId, { dispatch, rejectWithValue }) => {
+   async ({ friendId, navigate }, { rejectWithValue }) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -57,7 +56,7 @@ export const sendRequestToUser = createAsyncThunk(
             'При отправке запроса произошла ошибка',
             axiosInstance.post(`/myFriends/${friendId}`)
          )
-         return dispatch(getProfileByUserId(friendId))
+         return navigate(-1)
       } catch (error) {
          return rejectWithValue(error.message)
       }
@@ -66,8 +65,7 @@ export const sendRequestToUser = createAsyncThunk(
 
 export const acceptRequest = createAsyncThunk(
    '/myFriends/acceptFriend',
-   async ({ userId, name, isAccept }, { dispatch, rejectWithValue }) => {
-      console.log(userId, name)
+   async ({ userId, name, isAccept, navigate }, { rejectWithValue }) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -80,7 +78,7 @@ export const acceptRequest = createAsyncThunk(
             )
          )
 
-         return dispatch(getProfileByUserId(userId))
+         return navigate(`user/friends/${userId}`)
       } catch (error) {
          return rejectWithValue(error.message)
       }
@@ -89,7 +87,7 @@ export const acceptRequest = createAsyncThunk(
 
 export const rejectRequests = createAsyncThunk(
    '/myFriends/rejectRequest',
-   async ({ userId, name, isAccept }, { dispatch, rejectWithValue }) => {
+   async ({ userId, name, isAccept, navigate }, { rejectWithValue }) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -101,7 +99,7 @@ export const rejectRequests = createAsyncThunk(
                `/myFriends/acceptFriend/${userId}?request=${isAccept}`
             )
          )
-         return dispatch(getProfileByUserId(userId))
+         return navigate('user/friends/requests')
       } catch (error) {
          return rejectWithValue(error.message)
       }

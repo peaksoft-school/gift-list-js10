@@ -75,7 +75,7 @@ const BtnContainer = styled('div')({
 })
 
 const CardContainer = styled(CardMedia)(({ variant }) => ({
-   // width: '15vw',
+   width: '15vw',
    height: variant ? '40vh' : '50vh',
    margin: '1rem',
    boxShadow: 'none',
