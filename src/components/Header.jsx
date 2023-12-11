@@ -65,16 +65,24 @@ export const Header = ({ variantOfSelect = '' }) => {
       }
    }, [])
    useEffect(() => {
-      dispatch(
-         searchCharity({
-            value: debouncedValue,
-            condition: conditionWithRussianPropertiesName[values.state],
-            category: categoriesWithRussianPropertiesName[values.category],
-            subCategory:
-               subCategoriesWithRussianPropertiesName[values.subCategory],
-            country: russianCountries[values.country],
-         })
-      )
+      if (
+         debouncedValue ||
+         values.category ||
+         values.country ||
+         values.state ||
+         values.subCategory
+      ) {
+         dispatch(
+            searchCharity({
+               value: debouncedValue,
+               condition: conditionWithRussianPropertiesName[values.state],
+               category: categoriesWithRussianPropertiesName[values.category],
+               subCategory:
+                  subCategoriesWithRussianPropertiesName[values.subCategory],
+               country: russianCountries[values.country],
+            })
+         )
+      }
    }, [
       debouncedValue,
       values.category,
