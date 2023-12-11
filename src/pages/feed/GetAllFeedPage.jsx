@@ -25,7 +25,6 @@ import { convertDateFormat } from '../../utils/helpers/constants'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
 const isWishBooked = (bookerId, myId, type, allReadyInWishList) => {
-   console.log(allReadyInWishList)
    let meatballsOptionsForReturn = []
    switch (type) {
       case 'WISH':
@@ -247,7 +246,14 @@ export const GetAllFeedPage = ({ isList }) => {
                      }}
                      showTopOwner
                      variant={variant}
-                     onGetThingById={() => getById(thingId, name, feed.type)}
+                     onGetThingById={() =>
+                        getById(
+                           thingId,
+                           name,
+                           feed.type,
+                           feed.allReadyInWishList
+                        )
+                     }
                      key={`${thingId}${feed.type}`}
                      list={isList}
                      bookerImage={reservoirImage}

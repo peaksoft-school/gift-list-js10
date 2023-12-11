@@ -85,13 +85,17 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                      </UserContainer>
                   </UsersInfoContainer>
                )}
-               <StyledLinnkToWish
-                  href={linkToWish}
-                  target="_blank"
-                  rel="noopener noreferrer"
-               >
+               {type === 'WISH' ? (
+                  <StyledLinnkToWish
+                     href={linkToWish}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                  >
+                     <StyledCardName>{cardName}</StyledCardName>
+                  </StyledLinnkToWish>
+               ) : (
                   <StyledCardName>{cardName}</StyledCardName>
-               </StyledLinnkToWish>
+               )}
                <p>{description}</p>
                {type === 'CHARITY' && (
                   <StyledCharityInfoContainer>

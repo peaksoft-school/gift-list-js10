@@ -27,7 +27,7 @@ export const getFeedsThunk = createAsyncThunk(
 
 export const addToMyGifts = createAsyncThunk(
    '/feed/addToMyGifts',
-   async (payload, { rejectWithValue }) => {
+   async (payload, { rejectWithValue, dispatch }) => {
       try {
          const { userId, wishId } = payload
          const response = await toastWithPromise(
@@ -38,6 +38,7 @@ export const addToMyGifts = createAsyncThunk(
             'Ошибка',
             axiosInstance.post(`/feeds/assign/${wishId}/${userId}`)
          )
+         dispatch(getFeedsThunk(userId))
          return response.data
       } catch (error) {
          return rejectWithValue(error)
