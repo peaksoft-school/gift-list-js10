@@ -30,16 +30,8 @@ const selectProperties = {
 
 export const Header = ({ variantOfSelect = '' }) => {
    const [searchParams, setSearchParams] = useSearchParams()
-   let defaultSelectProperites = selectProperties
-   if (variantOfSelect === 'select') {
-      defaultSelectProperites = {
-         state: searchParams.get('state') || '',
-         category: searchParams.get('category') || '',
-         subCategory: searchParams.get('subCategory') || '',
-         country: searchParams.get('country') || '',
-         search: searchParams.get('search') || '',
-      }
-   }
+   const [defaultSelectProperites, setDefaultSelectProperites] =
+      useState(selectProperties)
    const { reset, setValue } = useForm({
       defaultValues: defaultSelectProperites,
    })
@@ -53,13 +45,21 @@ export const Header = ({ variantOfSelect = '' }) => {
    const [debouncedValue] = useDebounce(searchTerm, 1000)
    const [doGet, setDoGet] = useState()
    const handleDataUpdated = (event) => {
-      if (event.detail.action === 'name') {
+      if (event.detail.action === 'search') {
          setDoGet(event.detail.payload)
       }
    }
-
    useEffect(() => {
       window.addEventListener('providerEvent', handleDataUpdated)
+      if (variantOfSelect === 'select') {
+         setDefaultSelectProperites({
+            state: searchParams.get('state') || '',
+            category: searchParams.get('category') || '',
+            subCategory: searchParams.get('subCategory') || '',
+            country: searchParams.get('country') || '',
+            search: searchParams.get('search') || '',
+         })
+      }
       return () => {
          window.removeEventListener('providerEvent', handleDataUpdated)
       }

@@ -34,6 +34,9 @@ const isWishBooked = (bookerId, myId, role, ownerId) => {
    return []
 }
 
+export const makeEventForUpdateTheAfterMeatballs = () =>
+   providerEvent({ action: 'search', payload: Math.random() })
+
 const handleMeatballsChange = (
    e,
    charityId,
@@ -52,7 +55,7 @@ const handleMeatballsChange = (
                charityId,
                isBookingAnonymous: false,
                userId,
-               getAllCharity,
+               getSomethingsByUserId: makeEventForUpdateTheAfterMeatballs,
             })
          )
          break
@@ -62,6 +65,7 @@ const handleMeatballsChange = (
                charityId,
                isBookingAnonymous: true,
                userId,
+               getSomethingsByUserId: makeEventForUpdateTheAfterMeatballs,
             })
          )
          break
@@ -70,10 +74,9 @@ const handleMeatballsChange = (
             unbookingCharityThunk({
                charityId,
                userId,
-               getAllCharityByUserId,
+               getSomethingsByUserId: makeEventForUpdateTheAfterMeatballs,
             })
          )
-         providerEvent({ action: 'doGet', payload: Math.random() })
          break
    }
 }
@@ -168,7 +171,11 @@ export const GetAllCharity = () => {
          ))}
          {charities.length === 0 &&
             (role === 'USER' ? (
-               <EmptyComponent />
+               <EmptyComponent
+                  title="Вы пока еще не добавляли благотворительностей"
+                  buttonText="Добавить благотворительность"
+                  onClick={() => navigate('addCharity')}
+               />
             ) : (
                <SecondEmptyComponent text="Пользователи еще не добавляли благотворительностей" />
             ))}

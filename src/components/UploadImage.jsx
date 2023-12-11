@@ -4,24 +4,33 @@ import { useDropzone } from 'react-dropzone'
 import { CancelIcon, UploadImageIcon } from '../assets'
 
 export const UploadImage = ({
+   error,
    preview = { file: '', url: '' },
    setPreview,
+   setImageError,
 }) => {
    const onDrop = useCallback((acceptedFiles) => {
       const file = new FileReader()
       file.onload = () => {
          setPreview({ file: acceptedFiles[0], url: file.result })
+         if (setImageError) {
+            setImageError(false)
+         }
       }
       file.readAsDataURL(acceptedFiles[0])
    }, [])
    const { getRootProps, getInputProps } = useDropzone({ onDrop })
    return (
-      <StyledContainer {...getRootProps()}>
+      <StyledContainer {...getRootProps()} className={error && 'error'}>
          <input {...getInputProps()} />
          {!preview?.url && (
             <>
                <UploadImageIcon />
-               <p>Нажмите для добавления фотографии</p>
+               <StyledTextContent className={error && 'error'}>
+                  {error
+                     ? 'Выберите изображение!'
+                     : 'Нажмите для добавления фотографии'}
+               </StyledTextContent>
             </>
          )}
          {preview?.url && (
@@ -39,6 +48,10 @@ export const UploadImage = ({
    )
 }
 
+const StyledTextContent = styled('p')({
+   '&.error': { color: 'red' },
+})
+
 const StyledCancelIcon = styled(CancelIcon)({
    position: 'absolute',
    top: '0',
@@ -52,6 +65,12 @@ const StyledContainer = styled('div')({
    justifyContent: 'center',
    backgroundColor: '#F6F6F9',
    border: '1px solid #DCDCE4',
+   '&.error': {
+      borderColor: 'red',
+      path: {
+         fill: 'red',
+      },
+   },
    textAlign: 'center',
    gap: '20px',
    height: '27vh',
@@ -61,5 +80,8 @@ const StyledContainer = styled('div')({
       objectFit: 'contain',
       width: '100%',
       height: '100%',
+   },
+   svg: {
+      fill: '#8E8EA9',
    },
 })

@@ -59,14 +59,15 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const latestCharities = charities
       .toSorted((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       .slice(0, 3)
-
+   let charityHeaderSelectType
+   if (path['*'].includes('charity')) {
+      charityHeaderSelectType = 'select'
+   }
    return (
       <>
          <Sidebar roleName={role} />
          <MainContainer>
-            <Header
-               variantOfSelect={routes[role][path['*']]?.headerSelectType}
-            />
+            <Header variantOfSelect={charityHeaderSelectType} />
             <MainContentWrapper>
                <StyledMainContentHeader>
                   <ImagesAndBreadcrumbsWrapper>

@@ -61,6 +61,7 @@ export const WishListForm = ({
    onSubmit,
    defaultValues = initialValues,
    image,
+   imageIsReqired,
 }) => {
    const [datePickerError, setDatePickerError] = useState(
       initialDatePickerValues
@@ -68,6 +69,7 @@ export const WishListForm = ({
 
    const [preview, setPreview] = useState({ file: '', url: image })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
+   const [imageError, setImageError] = useState(false)
 
    const {
       register,
@@ -90,7 +92,7 @@ export const WishListForm = ({
    useEffect(() => {
       if (isSubmitSuccessful) {
          reset()
-         setPreview(null)
+         setPreview({})
       }
    }, [isSubmitSuccessful, reset])
 
@@ -145,12 +147,17 @@ export const WishListForm = ({
    return (
       <Container>
          <BlockOne>
-            <UploadImage preview={preview} setPreview={setPreview} />
+            <UploadImage
+               preview={preview}
+               setPreview={setPreview}
+               error={imageError}
+               setImageError={setImageError}
+            />
          </BlockOne>
          <BlockTwo
             onSubmit={handleSubmit((data) => {
                onSubmit(data, preview, reset)
-               setPreview(image ? { file: '', url: image } : null)
+               setPreview(image ? { file: '', url: image } : {})
                setValues(variant ? initialValues[0] : {})
             })}
          >
@@ -254,6 +261,9 @@ export const WishListForm = ({
                         ...prev,
                         emptyErrorMessage: errorMessage,
                      }))
+                     if (imageIsReqired && !preview?.file && !preview?.url) {
+                        setImageError(true)
+                     }
                   }}
                   type="submit"
                   variant="primary"

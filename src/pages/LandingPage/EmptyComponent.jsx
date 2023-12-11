@@ -1,21 +1,16 @@
-import {
-   Typography,
-   Button,
-   CardMedia,
-   CardContent,
-   styled,
-   Box,
-} from '@mui/material'
+import { Box, CardContent, CardMedia, styled } from '@mui/material'
 
 import Empty from '../../assets/images/Empty.png'
+import { Button } from '../../components/UI/Button'
 
-export const EmptyComponent = ({ variant }) => {
+export const EmptyComponent = ({
+   variant,
+   title = 'Вы пока не добавили желание!',
+   buttonText = 'Добавить желание',
+   onClick,
+}) => {
    return (
       <Container>
-         <Typography variant="h6">
-            {variant ? 'Список желаний' : 'Название праздника'}
-         </Typography>
-
          <EmptyContent>
             <CardMedia
                image={Empty}
@@ -25,13 +20,11 @@ export const EmptyComponent = ({ variant }) => {
             />
 
             <CardContent>
-               {variant
-                  ? 'Вы пока не добавили желание!'
-                  : ' Вы пока не добавили желаемый подарок на этот праздник'}
+               {variant ? 'Вы пока не добавили желание!' : title}
             </CardContent>
-            <Button variant="contained">+ Добавить желание</Button>
-            {/* // azyryncha mui button koshup turdum kiyin Button componneta merge
-         bolgondo oshonu chakyryp koiobuz// */}
+            <Button onClick={onClick} variant="primary">
+               + {buttonText}
+            </Button>
          </EmptyContent>
       </Container>
    )
@@ -39,8 +32,8 @@ export const EmptyComponent = ({ variant }) => {
 
 const EmptyContent = styled(Box)({
    width: '600px',
-   margin: '0 auto',
-   height: '100vh',
+   // margin: '0 auto',
+   // height: '100vh',
    display: 'flex',
    flexDirection: 'column',
    gap: '33px',
@@ -50,4 +43,7 @@ const EmptyContent = styled(Box)({
 const Container = styled('div')({
    background: '#F7F8FA',
    padding: '20px',
+   width: '100%',
+   display: 'flex',
+   justifyContent: 'center',
 })

@@ -50,6 +50,7 @@ export const EditOrAddCharityFormPage = () => {
             image={state?.charityImage}
             onClose={onCloseForm}
             onSubmit={onSubmitForm}
+            imageIsReqired
          />
       </div>
    )
