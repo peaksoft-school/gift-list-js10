@@ -45,7 +45,6 @@ export const MyFriends = () => {
                      myFriends?.map((item) => (
                         <div key={item.friendId}>
                            <FriendCard
-                              key={item.nameFriend}
                               name={item.nameFriend}
                               wish={item.countWish}
                               holidays={item.countHoliday}

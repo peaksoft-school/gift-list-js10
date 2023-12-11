@@ -14,7 +14,7 @@ export const FriendCard = ({
 }) => {
    return (
       <Container onClick={onClick}>
-         <CardContainer>
+         <CardContainer variant={variant}>
             {image ? (
                <Image image={image} component="img" alt={name} />
             ) : (
@@ -76,7 +76,7 @@ const BtnContainer = styled('div')({
 
 const CardContainer = styled(CardMedia)(({ variant }) => ({
    width: '15vw',
-   height: variant ? '40vh' : '50vh',
+   height: variant ? '50vh' : '40vh',
    margin: '1rem',
    boxShadow: 'none',
    display: 'flex',

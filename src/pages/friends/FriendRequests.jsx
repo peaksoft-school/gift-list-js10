@@ -32,6 +32,7 @@ export const FriendRequests = () => {
             userId,
             name: nameFriend,
             isAccept: 'ACCEPT_REQUEST',
+            navigate,
          })
       )
    }
@@ -42,6 +43,7 @@ export const FriendRequests = () => {
             userId,
             name: nameFriend,
             isAccept: 'REJECT_REQUEST',
+            navigate,
          })
       )
    }
@@ -51,32 +53,33 @@ export const FriendRequests = () => {
          <FriendCardContainer>
             {requests?.length > 0 ? (
                requests.map((request) => (
-                  <FriendCard
-                     variant="true"
-                     name={request.nameFriend}
-                     image={request.image}
-                     key={request.friendId}
-                     wish={request.countWish}
-                     holidays={request.countHoliday}
-                     onClick={() =>
-                        openDetailUserProfile(
-                           request.friendId,
-                           request.nameFriend
-                        )
-                     }
-                     onAcceptFriend={() =>
-                        handleAcceptRequestFriendById(
-                           request.friendId,
-                           request.nameFriend
-                        )
-                     }
-                     onRejectFriend={() =>
-                        handleRejectRequestFriendById(
-                           request.friendId,
-                           request.nameFriend
-                        )
-                     }
-                  />
+                  <div key={request.friendId}>
+                     <FriendCard
+                        variant="true"
+                        name={request.nameFriend}
+                        image={request.image}
+                        wish={request.countWish}
+                        holidays={request.countHoliday}
+                        onClick={() =>
+                           openDetailUserProfile(
+                              request.friendId,
+                              request.nameFriend
+                           )
+                        }
+                        onAcceptFriend={() =>
+                           handleAcceptRequestFriendById(
+                              request.friendId,
+                              request.nameFriend
+                           )
+                        }
+                        onRejectFriend={() =>
+                           handleRejectRequestFriendById(
+                              request.friendId,
+                              request.nameFriend
+                           )
+                        }
+                     />
+                  </div>
                ))
             ) : (
                <SecondEmptyComponent text="У вас пока нет запросов в друзья " />

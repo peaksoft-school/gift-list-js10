@@ -26,7 +26,7 @@ export const getFriends = createAsyncThunk(
 
 export const deleteFriendById = createAsyncThunk(
    '/myFriends',
-   async (userId, { dispatch, rejectWithValue }) => {
+   async ({ userId, navigate }, { rejectWithValue }) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -37,7 +37,7 @@ export const deleteFriendById = createAsyncThunk(
             axiosInstance.delete(`/myFriends/${userId}`)
          )
 
-         return dispatch(getFriends())
+         return navigate(-1)
       } catch (error) {
          return rejectWithValue(error.message)
       }
@@ -78,7 +78,7 @@ export const acceptRequest = createAsyncThunk(
             )
          )
 
-         return navigate(`user/friends/${userId}`)
+         return navigate(-1)
       } catch (error) {
          return rejectWithValue(error.message)
       }
@@ -99,7 +99,7 @@ export const rejectRequests = createAsyncThunk(
                `/myFriends/acceptFriend/${userId}?request=${isAccept}`
             )
          )
-         return navigate('user/friends/requests')
+         return navigate(-1)
       } catch (error) {
          return rejectWithValue(error.message)
       }

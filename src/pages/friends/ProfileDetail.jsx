@@ -22,6 +22,7 @@ import {
    unbookingCharityThunk,
 } from '../../store/slices/booking/bookingThunk'
 import { shoeSizeObject } from '../../utils/constants/constants'
+import { providerEvent } from '../../events/customEvents'
 
 export const isWishBooked = (bookerId, myId) => {
    let meatballsOptions = []
@@ -123,7 +124,7 @@ export const ProfileDetail = ({ variant }) => {
    }, [dispatch])
 
    const handleDeleteFriendById = (userId) => {
-      dispatch(deleteFriendById(userId))
+      dispatch(deleteFriendById({ userId, navigate }))
    }
 
    const handleAcceptRequestFriendById = (userId, friendName) => {
@@ -152,7 +153,8 @@ export const ProfileDetail = ({ variant }) => {
       dispatch(sendRequestToUser({ friendId, navigate }))
    }
 
-   const handleOpenProfile = (userId) => {
+   const handleOpenProfile = (userId, nameFriend) => {
+      providerEvent({ action: 'name', payload: nameFriend })
       navigate(`/user/addToMyFriends/${userId}`)
    }
 
@@ -253,7 +255,9 @@ export const ProfileDetail = ({ variant }) => {
                      showBottomBooker="true"
                      isBlock={card.isBlock}
                      bookerImage={card.reservoirImage}
-                     onGetBookerById={() => handleOpenProfile(card.reservoirId)}
+                     onGetBookerById={() =>
+                        handleOpenProfile(card.reservoirId, card.bookerName)
+                     }
                      handleChange={(e) =>
                         handleOptionsChange.WISH(
                            e,
@@ -303,7 +307,10 @@ export const ProfileDetail = ({ variant }) => {
                      isBlock={charity.isBlock}
                      bookerImage={charity.bookedUserImage}
                      onGetBookerById={() =>
-                        handleOpenProfile(charity.charityReservoirId)
+                        handleOpenProfile(
+                           charity.charityReservoirId,
+                           charity.bookerName
+                        )
                      }
                      handleChange={(e) =>
                         handleOptionsChange.CHARITY(
