@@ -1,5 +1,4 @@
-import { AccountCircle } from '@mui/icons-material'
-import { AppBar, styled } from '@mui/material'
+import { AppBar, Avatar, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,7 +26,7 @@ export const Header = ({ variantOfSelect = '' }) => {
    })
    const { fullName } = useSelector((state) => state.authLogin)
    const [values, setValues] = useState(selectProperties)
-   const { role } = useSelector((state) => state.authLogin)
+   const { role, image } = useSelector((state) => state.authLogin)
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const [isOpenModal, setIsOpenModal] = useState(false)
@@ -63,7 +62,7 @@ export const Header = ({ variantOfSelect = '' }) => {
                   <Notification />
                </NotificationWrapper>
                <DropdDownIconWrapper>
-                  <AccountCircle />
+                  <StyledAvatarIcon alt={fullName} src={image} />
                   <StyledUserNameContainer>{fullName}</StyledUserNameContainer>
                   <MeatBalls
                      variant="profile"
@@ -98,6 +97,14 @@ export const Header = ({ variantOfSelect = '' }) => {
       </>
    )
 }
+
+const StyledAvatarIcon = styled(Avatar)((props) => {
+   return {
+      width: '1.25rem',
+      height: '1.25rem',
+      padding: props?.children && '13px',
+   }
+})
 
 const ModalContent = styled('div')({
    display: 'flex',

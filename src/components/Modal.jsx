@@ -8,6 +8,7 @@ const StyledModal = styled(MUIModal)({
 })
 
 const ModalContent = styled('div')(({ padding }) => ({
+   outline: 'none',
    backgroundColor: '#ffffff',
    borderRadius: '0.625rem',
    padding,

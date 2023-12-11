@@ -21,7 +21,7 @@ import {
    countries,
    shoeSizes,
 } from '../utils/constants/constants'
-import { schema } from '../utils/helpers/update-profile'
+import { updateProfileSchema } from '../utils/helpers/update-profile-validations'
 import { uploadFile } from '../utils/helpers/constants'
 
 const sizesSelect = [
@@ -49,7 +49,7 @@ export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
       setValue,
    } = useForm({
       defaultValues,
-      resolver: yupResolver(schema),
+      resolver: yupResolver(updateProfileSchema),
    })
    const [preview, setPreview] = useState({
       file: '',
