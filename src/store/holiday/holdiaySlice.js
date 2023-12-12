@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getAllHolidaysByUserId } from './holidayThunk'
 
 const initialState = {
    nameOfHoliday: null,
    dateOfHoliday: null,
    image: null,
+   holidays: [],
 }
 
 export const holidaySlice = createSlice({
@@ -17,6 +19,14 @@ export const holidaySlice = createSlice({
          newState.image = data.image
          return newState
       },
+   },
+   extraReducers: (builder) => {
+      builder.addCase(
+         getAllHolidaysByUserId.fulfilled,
+         (state, { payload }) => {
+            return { ...state, holidays: payload }
+         }
+      )
    },
 })
 

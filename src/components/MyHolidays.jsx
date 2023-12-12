@@ -1,13 +1,17 @@
 import { Box, Typography, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
-import { AddHolidayPlusIcon } from '../assets'
-import { addHoliday } from '../store/holiday/holdiaySlice'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+   addHolidayQuery,
+   getAllHolidaysByUserId,
+} from '../store/holiday/holidayThunk'
+import { uploadFile } from '../utils/helpers/constants'
 import { Modal } from './Modal'
 import { Button } from './UI/Button'
 import { Input } from './UI/input/Input'
 import { UploadImage } from './UploadImage'
+import { Card } from './UI/card/Card'
 
 export const MyHolidays = () => {
    const { register, handleSubmit } = useForm()
@@ -15,16 +19,32 @@ export const MyHolidays = () => {
 
    const [addNewHolidayModalState, setAddNewHolidayModalState] = useState(false)
    const dispatch = useDispatch()
+   const { holidays } = useSelector((state) => state.holidaySlice)
+   const { id } = useSelector((state) => state.authLogin)
 
-   const onSubmit = (data) => {
-      dispatch(
-         addHoliday({
-            userData: data,
-            image: preview.url,
-         })
-      )
+   useEffect(() => {
+      const handleModalChange = (event) => {
+         if (event.detail?.action === 'my-holidaysModalOpen') {
+            setAddNewHolidayModalState(event.detail?.payload)
+         }
+      }
+      window.addEventListener('providerEvent', handleModalChange)
+      dispatch(getAllHolidaysByUserId(id))
+      return () =>
+         window.removeEventListener('providerEvent', handleModalChange)
+   }, [])
+
+   const onSubmit = (values) => {
+      uploadFile(preview.file).then(({ link }) => {
+         dispatch(
+            addHolidayQuery({
+               userData: values,
+               image: link,
+            })
+         )
+      })
    }
-
+   console.log(holidays)
    const openAndCloseHolidayModalHandler = () => {
       setAddNewHolidayModalState((prevState) => !prevState)
    }
@@ -32,15 +52,9 @@ export const MyHolidays = () => {
    return (
       <StyledMyHolidays component="div">
          <MyHolidaysContainer component="div">
-            <TitleAndAddButton component="div">
-               <StyledTitle variant="h1">Мои праздники</StyledTitle>
-               <StyledButton
-                  variant="primary"
-                  onClick={openAndCloseHolidayModalHandler}
-               >
-                  <AddHolidayPlusIcon /> Добавить праздник
-               </StyledButton>
-            </TitleAndAddButton>
+            {holidays.map((holiday) => (
+               <Card variant="" />
+            ))}
             <Modal isOpen={addNewHolidayModalState} padding="20px">
                <ModalContainer>
                   <StyledForm
@@ -58,13 +72,13 @@ export const MyHolidays = () => {
                      </StyledUploadImageWrapper>
                      <Input
                         type="text"
-                        {...register('holidayName')}
+                        {...register('nameOfHoliday')}
                         labelText="название праздника"
                         placeholder="Введите название праздника"
                      />
                      <Input
                         type="date"
-                        {...register('holidayDate')}
+                        {...register('dateOfHoliday')}
                         labelText="Дата праздника"
                         placeholder="Укажите дату праздника"
                      />
@@ -89,36 +103,18 @@ export const MyHolidays = () => {
 
 const StyledMyHolidays = styled(Box)({
    backgroundColor: '#F7F8FA',
-   height: '100vh',
    display: 'flex',
    justifyContent: 'center',
 })
 
 const MyHolidaysContainer = styled(Box)({
    paddingTop: '20px',
-   width: '67.875rem',
-})
-
-const TitleAndAddButton = styled(Box)({
-   display: 'flex',
-   alignItems: 'center',
-   justifyContent: 'space-between',
-})
-
-const StyledTitle = styled(Typography)({
-   fontSize: '1.5rem',
-   fontWeight: '500',
 })
 
 const StyledAddHolidayTitle = styled(Typography)({
    fontSize: '1.5rem',
    fontWeight: '500',
    textAlign: 'center',
-})
-
-const StyledButton = styled(Button)({
-   display: 'flex',
-   gap: '10px',
 })
 
 const ModalContainer = styled(Box)({

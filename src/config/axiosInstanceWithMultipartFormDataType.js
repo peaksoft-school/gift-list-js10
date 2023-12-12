@@ -13,6 +13,15 @@ export const axiosInstanceMultiPartFormData = axios.create({
    headers,
 })
 
+axiosInstanceMultiPartFormData.interceptors.request.use((config) => {
+   const updateConfig = { ...config }
+   const { token } = store.getState().authLogin
+   if (token) {
+      updateConfig.headers.Authorization = `Bearer ${token}`
+   }
+   return updateConfig
+})
+
 axiosInstanceMultiPartFormData.interceptors.response.use(
    (response) => {
       return Promise.resolve(response)

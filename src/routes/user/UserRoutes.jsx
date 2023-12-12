@@ -6,6 +6,7 @@ import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
+import { MyHolidays } from '../../components/MyHolidays'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -56,6 +57,10 @@ export const UserRoutes = () => {
                      fallback="/"
                   />
                }
+            />
+            <Route
+               path={routes[role]['my-holidays'].path}
+               element={<MyHolidays />}
             />
          </Route>
       </Routes>
