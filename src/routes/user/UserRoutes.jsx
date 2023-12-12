@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { MyFriends } from '../../pages/friends/MyFriends'
+import { FriendRequests } from '../../pages/friends/FriendRequests'
+import { ProfileDetail } from '../../pages/friends/ProfileDetail'
+import { WishesPage } from '../../pages/friends/WishesPage'
+import { CharitiesPage } from '../../pages/friends/CharitiesPage'
+import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 
@@ -13,7 +19,24 @@ export const UserRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { feed, profile, edit } = routes[role]
+
+   const params = useParams()
+   const path = params['*']
+
+   const {
+      feed,
+      friends,
+      request,
+      getFriendById,
+      getRequestsById,
+      wishes,
+      holidays,
+      charities,
+      profile,
+      edit,
+      userProfileById,
+   } = routes[role]
+
    return (
       <Routes>
          <Route
@@ -23,6 +46,8 @@ export const UserRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
+                  headerSelectType={routes[role][path]?.headerSelectType}
+                  variant
                />
             }
          >
@@ -37,6 +62,95 @@ export const UserRoutes = () => {
                   />
                }
             />
+
+            <Route
+               path={friends.path}
+               element={
+                  <PrivateRoutes
+                     Component={<MyFriends />}
+                     isAuth={isAuth}
+                     fallback="/"
+                     variant
+                  />
+               }
+            >
+               <Route
+                  path={request.path}
+                  element={
+                     <PrivateRoutes
+                        Component={<FriendRequests />}
+                        isAuth={isAuth}
+                        fallback="/"
+                     />
+                  }
+               />
+            </Route>
+
+            <Route
+               path={getFriendById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<ProfileDetail variant="myFriendProfile" />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getRequestsById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<ProfileDetail variant="requests" />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={userProfileById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<ProfileDetail variant="addMyFriends" />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+
+            <Route
+               path={wishes.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishesPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charities.path}
+               element={
+                  <PrivateRoutes
+                     Component={<CharitiesPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={holidays.path}
+               element={
+                  <PrivateRoutes
+                     Component={<HolidaysPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+
+            {/* You can add your components like this example to bottom
+             <Route
+               path={pahtOfYourComponent} */}
             <Route
                path={profile.path}
                element={

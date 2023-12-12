@@ -96,7 +96,7 @@ export const toastWithPromise = (
                   <IconWrapper>{notifyIcons[notifyTypeForError]}</IconWrapper>
                   <TextContainer mainColor={errorMainColor}>
                      <p>{errorTitleOfMessage}</p>
-                     <p>{data}</p>
+                     <p>{data.response.data.message}</p>
                   </TextContainer>
                </Container>
             )
