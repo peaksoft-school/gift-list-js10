@@ -4,6 +4,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+// import UsersPage from '../../pages/users/UsersPage'
+import { UserProfile } from '../../pages/users/userProfile/UserProfile'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -30,12 +32,13 @@ export const AdminRoutes = () => {
                path={users.path}
                element={
                   <PrivateRoutes
-                     Component={<h1>Here should be your component</h1>}
+                     Component={<UserProfile />}
                      isAuth={isAuth}
                      fallback="/"
                   />
                }
             />
+            <Route path="/user-profile" element={<div>boka boka boka</div>} />
          </Route>
       </Routes>
    )
