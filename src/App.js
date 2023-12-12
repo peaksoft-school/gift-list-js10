@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppRoutes } from './routes/AppRoutes'
 import { login } from './store/auth/authSlice'
 import { USER_KEY } from './utils/constants'
+// import { LoadingPage } from './components/loading/LoadingPage'
 
 export function App() {
    const dispatch = useDispatch()
@@ -23,6 +24,7 @@ export function App() {
    return (
       <div>
          <AppRoutes />
+         {/* <LoadingPage /> */}
       </div>
    )
 }

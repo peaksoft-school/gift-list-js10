@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ChangePassword } from '../../components/ChangePassword'
-import { LoadingPage } from '../../components/LoadingPage'
+import { LoadingPage } from '../../components/loading/LoadingPage'
 import { getProfileThunk } from '../../store/profile/profileThunk'
 import { routes } from '../../utils/constants'
 import {
