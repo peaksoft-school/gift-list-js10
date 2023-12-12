@@ -29,9 +29,14 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const [inner, setInner] = useState(false)
    const path = useParams()
    const [byIdName, setByIdName] = useState('')
+   const [breadcrumbsForRequests, setBreadcrumbsForRequests] =
+      useState(breadcrumbs)
 
    useEffect(() => {
-      if (path['*'].includes('/')) {
+      if (
+         path['*'].includes('/') &&
+         path['*'].split('/').pop() !== 'requests'
+      ) {
          setInner(true)
       } else {
          setInner(false)
@@ -46,6 +51,9 @@ export const MainLayout = ({ role, isList, toggleList }) => {
 
    useEffect(() => {
       window.addEventListener('providerEvent', handleDataUpdated)
+      if (path['*'].split('/').pop() === 'requests') {
+         setBreadcrumbsForRequests(breadcrumbs.slice(0, 1))
+      }
 
       return () => {
          window.removeEventListener('providerEvent', handleDataUpdated)
@@ -61,12 +69,14 @@ export const MainLayout = ({ role, isList, toggleList }) => {
             <MainContentWrapper>
                <StyledMainContentHeader>
                   <StyledLegend isinner={inner}>
-                     {breadcrumbs.map(({ match }, index) => (
+                     {breadcrumbsForRequests.map(({ match }, index) => (
                         <Fragment key={match.pathname}>
                            <StyledNavLink
                               to={match.pathname}
                               active={
-                                 breadcrumbs.length - 1 === index ? 'true' : ''
+                                 breadcrumbsForRequests.length - 1 === index
+                                    ? 'true'
+                                    : ''
                               }
                            >
                               {isNumber(getLastElementOfPath(match.pathname))
@@ -75,7 +85,8 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                  : routes[role][match.pathname.split('/').pop()]
                                       ?.breadcrumb}
                            </StyledNavLink>
-                           {index !== breadcrumbs.length - 1 && ' / '}
+                           {index !== breadcrumbsForRequests.length - 1 &&
+                              ' / '}
                         </Fragment>
                      ))}
                   </StyledLegend>
