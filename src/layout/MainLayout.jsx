@@ -7,7 +7,6 @@ import { Header } from '../components/Header'
 import { Button } from '../components/UI/Button'
 import { Sidebar } from '../components/UI/Sidebar'
 import { routes } from '../utils/constants'
-import { findNumberLength } from '../utils/helpers/constants'
 
 const isNumber = (textForTest) => /^\d+$/.test(textForTest)
 const transformObjectRoutesToArray = (role) =>
@@ -28,9 +27,14 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const [byIdName, setByIdName] = useState('')
    const buttonContent = routes[role][path['*']]?.buttonContent
    const navigate = useNavigate()
+   const [breadcrumbsForRequests, setBreadcrumbsForRequests] =
+      useState(breadcrumbs)
 
    useEffect(() => {
-      if (path['*'].includes('/')) {
+      if (
+         path['*'].includes('/') &&
+         path['*'].split('/').pop() !== 'requests'
+      ) {
          setInner(true)
       } else {
          setInner(false)
@@ -43,6 +47,10 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    }
    useEffect(() => {
       window.addEventListener('providerEvent', handleDataUpdated)
+      if (path['*'].split('/').pop() === 'requests') {
+         setBreadcrumbsForRequests(breadcrumbs.slice(0, 1))
+      }
+
       return () => {
          window.removeEventListener('providerEvent', handleDataUpdated)
       }
@@ -57,45 +65,28 @@ export const MainLayout = ({ role, isList, toggleList }) => {
             />
             <MainContentWrapper>
                <StyledMainContentHeader>
-                  <ImagesAndBreadcrumbsWrapper>
-                     <StyledLegend isinner={inner}>
-                        {breadcrumbs.map(({ match }, index) => (
-                           <Fragment key={match.pathname}>
-                              {(index !== 1 &&
-                                 isNumber(
-                                    getLastElementOfPath(match.pathname)
-                                 )) || (
-                                 <StyledNavLink
-                                    to={
-                                       (findNumberLength(match.pathname) &&
-                                          path['*']) ||
-                                       match.pathname
-                                    }
-                                    active={
-                                       breadcrumbs.length - 1 === index ||
-                                       findNumberLength(match.pathname)
-                                          ? 'true'
-                                          : ''
-                                    }
-                                 >
-                                    {isNumber(
-                                       getLastElementOfPath(match.pathname)
-                                    )
-                                       ? isNumber(
-                                            match.pathname.split('/').pop()
-                                         ) && byIdName
-                                       : routes[role][
-                                            match.pathname.split('/').pop()
-                                         ]?.breadcrumb}
-                                 </StyledNavLink>
-                              )}
-                              {index !== 1 &&
-                                 index !== breadcrumbs.length - 1 &&
-                                 ' / '}
-                           </Fragment>
-                        ))}
-                     </StyledLegend>
-                  </ImagesAndBreadcrumbsWrapper>
+                  <StyledLegend isinner={inner}>
+                     {breadcrumbsForRequests.map(({ match }, index) => (
+                        <Fragment key={match.pathname}>
+                           <StyledNavLink
+                              to={match.pathname}
+                              active={
+                                 breadcrumbsForRequests.length - 1 === index
+                                    ? 'true'
+                                    : ''
+                              }
+                           >
+                              {isNumber(getLastElementOfPath(match.pathname))
+                                 ? isNumber(match.pathname.split('/').pop()) &&
+                                   byIdName
+                                 : routes[role][match.pathname.split('/').pop()]
+                                      ?.breadcrumb}
+                           </StyledNavLink>
+                           {index !== breadcrumbsForRequests.length - 1 &&
+                              ' / '}
+                        </Fragment>
+                     ))}
+                  </StyledLegend>
                   <StyledActions>
                      {!inner && routes[role][path['*']]?.showListActions && (
                         <div>
@@ -125,11 +116,6 @@ export const MainLayout = ({ role, isList, toggleList }) => {
       </>
    )
 }
-const ImagesAndBreadcrumbsWrapper = styled('div')({
-   display: 'flex',
-   gap: '35px',
-   alignItems: 'center',
-})
 
 const StyledSomethingAddButton = styled(Button)({ padding: '6px 20px' })
 const StyledActions = styled('div')({

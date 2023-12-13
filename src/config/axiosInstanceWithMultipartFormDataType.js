@@ -33,10 +33,3 @@ axiosInstanceMultiPartFormData.interceptors.response.use(
       return Promise.reject(error)
    }
 )
-
-let storeForInject
-
-export const injectStore = (_store) => {
-   storeForInject = _store
-   return storeForInject
-}
