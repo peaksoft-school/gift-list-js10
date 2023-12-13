@@ -2,13 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../../config/axiosInstance'
 import { notifyTypes, toastWithoutPromise } from '../../../utils/helpers/toast'
 
-export const getWishesWithComplaints = createAsyncThunk(
-   'complaints/wish',
-   async (_, { rejectWithValue }) => {
+export const getWishlistByWishId = createAsyncThunk(
+   'wish/wishId',
+   async (wishId, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get(
-            '/complaint/getAllWishesWithComplaints'
-         )
+         const response = await axiosInstance.get(`/wishlists/${wishId}`)
          return response.data
       } catch (error) {
          toastWithoutPromise(

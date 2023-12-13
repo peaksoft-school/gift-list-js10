@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { getWishesWithComplaints } from '../../store/slices/complaints-slice/complaintsThunk'
 import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
+import { meatballsComplaintsOptions } from '../../utils/constants/meetballs-options'
 
 export const Complaints = () => {
    const dispatch = useDispatch()
@@ -20,6 +21,15 @@ export const Complaints = () => {
       providerEvent({ action: 'name', payload: nameWish })
       navigate(`${wishId}`)
    }
+
+   // const optionsChangeHandle = (e, wishId, dispatch) => {
+   //    const selectedOption = e.target.innerText
+   //    if (selectedOption === 'Заблокировать') {
+   //       dispatch(bookingWishThunk(wishId))
+   //    } else {
+   //       dispatch()
+   //    }
+   // }
    return (
       <Container>
          {complaints?.map((item, complaint) => (
@@ -36,6 +46,10 @@ export const Complaints = () => {
                status={item.statusWish}
                holiday={item.nameHoliday}
                bookerImage={item[complaint.complainUserInfoImage]}
+               meatballsOptions={meatballsComplaintsOptions}
+               // handleChange={(e) =>
+               //    optionsChangeHandle(e, item.wishId, dispatch)
+               // }
             />
          ))}
       </Container>
