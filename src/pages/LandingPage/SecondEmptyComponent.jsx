@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { CardContent, CardMedia, styled } from '@mui/material'
+import { styled, CardMedia, CardContent } from '@mui/material'
 
 import EmptyState from '../../assets/images/EmptyState.png'
 
@@ -20,15 +20,16 @@ export const SecondEmptyComponent = ({ text }) => {
 }
 
 const EmptyContent = styled('div')({
-   width: '500px',
+   width: '30%',
    margin: '0 auto',
+   height: '40vh',
    display: 'flex',
    flexDirection: 'column',
    gap: '33px',
    alignItems: 'center',
    textAlign: 'center',
    '& > p': {
-      width: '335px',
+      width: '90%',
    },
 })
 

@@ -13,9 +13,11 @@ export const MeatBalls = ({
    const [anchorEl, setAnchorEl] = useState(null)
    const open = Boolean(anchorEl)
    const handleClick = (event) => {
+      event.stopPropagation()
       setAnchorEl(event.currentTarget)
    }
-   const handleClose = () => {
+   const handleClose = (event) => {
+      event.stopPropagation()
       setAnchorEl(null)
    }
    return (
@@ -32,16 +34,17 @@ export const MeatBalls = ({
             open={open}
             onClick={handleClose}
          >
-            {options.map(({ title, icon }) => (
+            {options?.map(({ title, icon }) => (
                <StyledMenuItem
                   key={title}
                   onClick={(e) => {
+                     e.stopPropagation()
                      handleClose(e)
                      handleChange(e)
                   }}
                   value={title}
                >
-                  {icon}
+                  {icon && React.isValidElement(icon) && icon}
                   {title}
                </StyledMenuItem>
             ))}

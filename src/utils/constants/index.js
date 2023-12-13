@@ -27,6 +27,7 @@ export const routes = {
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
+         showListActions: true,
       },
       charity: {
          path: 'charity',
@@ -51,6 +52,32 @@ export const routes = {
          headerSelectType: 'select',
          showListActions: true,
       },
+      friends: {
+         path: 'friends',
+         breadcrumb: 'Друзья',
+      },
+      request: {
+         path: 'requests',
+      },
+      getFriendById: {
+         path: 'friends/:friendId',
+      },
+      getRequestsById: {
+         path: 'friends/requests/:friendId',
+      },
+      userProfileById: {
+         path: 'addToMyFriends/:friendId',
+      },
+      wishes: {
+         path: 'wishes',
+      },
+      holidays: {
+         path: 'holidays',
+      },
+      charities: {
+         path: 'charities',
+         showListActions: true,
+      },
       profile: {
          path: 'profile',
          breadcrumb: 'Профиль',
@@ -58,6 +85,9 @@ export const routes = {
       edit: {
          path: 'edit',
          breadcrumb: 'Рассказать о себе',
+      },
+      'wish-list': {
+         path: 'wish-list',
       },
    },
 }

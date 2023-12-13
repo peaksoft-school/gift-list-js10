@@ -6,7 +6,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
 import { LogoutIcon, ProfileIcon } from '../assets'
 import { logout } from '../store/auth/authSlice'
-import { searchCharity } from '../store/charity/charityThunk'
+import {
+   getAllCharityByUserId,
+   searchCharity,
+} from '../store/charity/charityThunk'
 import { routes } from '../utils/constants'
 import {
    categoriesWithRussianPropertiesName,
@@ -37,7 +40,7 @@ export const Header = ({ variantOfSelect = '' }) => {
    })
    const { fullName } = useSelector((state) => state.authLogin)
    const [values, setValues] = useState(defaultSelectProperites)
-   const { role, image } = useSelector((state) => state.authLogin)
+   const { role, id, image } = useSelector((state) => state.authLogin)
    const [searchTerm, setSearchTerm] = useState('')
    const navigate = useNavigate()
    const dispatch = useDispatch()
@@ -101,6 +104,7 @@ export const Header = ({ variantOfSelect = '' }) => {
    const handleReset = () => {
       setSearchParams({})
       reset()
+      dispatch(getAllCharityByUserId(id))
       setValues(defaultSelectProperites)
    }
    const toggleModal = () => setIsOpenModal((prev) => !prev)

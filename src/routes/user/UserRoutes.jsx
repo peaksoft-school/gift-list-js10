@@ -1,30 +1,52 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { EditOrAddCharityFormPage } from '../../pages/charity/EditOrAddCharityFormPage'
 import { GetAllCharity } from '../../pages/charity/GetAllCharity'
 import { GetCharityById } from '../../pages/charity/GetCharityById'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { MyFriends } from '../../pages/friends/MyFriends'
+import { FriendRequests } from '../../pages/friends/FriendRequests'
+import { ProfileDetail } from '../../pages/friends/ProfileDetail'
+import { WishesPage } from '../../pages/friends/WishesPage'
+import { CharitiesPage } from '../../pages/friends/CharitiesPage'
+import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
    const [isList, setIsList] = useState(false)
-   const toggleList = () => {
-      setIsList((prev) => !prev)
+   const [nameOfActiveCardType, setNameOfActiveCardType] = useState('card')
+   const toggleList = (newNameOfAcriveCardType) => {
+      if (nameOfActiveCardType !== newNameOfAcriveCardType) {
+         setIsList((prev) => !prev)
+         setNameOfActiveCardType(newNameOfAcriveCardType)
+      }
    }
+   const params = useParams()
+   const path = params['*']
+
    const {
       feed,
+      friends,
+      request,
+      getFriendById,
+      getRequestsById,
+      wishes,
+      holidays,
+      charities,
       profile,
       edit,
+      userProfileById,
       charity,
       charityById,
       addCharity,
       editCharity,
    } = routes[role]
+
    return (
       <Routes>
          <Route
@@ -34,6 +56,8 @@ export const UserRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
+                  headerSelectType={routes[role][path]?.headerSelectType}
+                  variant
                />
             }
          >
@@ -48,6 +72,92 @@ export const UserRoutes = () => {
                   />
                }
             />
+
+            <Route
+               path={friends.path}
+               element={
+                  <PrivateRoutes
+                     Component={<MyFriends />}
+                     isAuth={isAuth}
+                     fallback="/"
+                     variant
+                  />
+               }
+            >
+               <Route
+                  path={request.path}
+                  element={
+                     <PrivateRoutes
+                        Component={<FriendRequests />}
+                        isAuth={isAuth}
+                        fallback="/"
+                     />
+                  }
+               />
+            </Route>
+
+            <Route
+               path={getFriendById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<ProfileDetail variant="myFriendProfile" />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getRequestsById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<ProfileDetail variant="requests" />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={userProfileById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<ProfileDetail variant="addMyFriends" />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+
+            <Route
+               path={wishes.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishesPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charities.path}
+               element={
+                  <PrivateRoutes
+                     Component={<CharitiesPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={holidays.path}
+               element={
+                  <PrivateRoutes
+                     Component={<HolidaysPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+
             <Route
                path={profile.path}
                element={
@@ -103,6 +213,16 @@ export const UserRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<EditOrAddCharityFormPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={routes[role]['wish-list'].path}
+               element={
+                  <PrivateRoutes
+                     Component={<h1>wishes</h1>}
                      isAuth={isAuth}
                      fallback="/"
                   />

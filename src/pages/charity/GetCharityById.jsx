@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AdminState } from '../../components/GiftInnerContent'
-import { providerEvent } from '../../events/customEvents'
 import {
    blockOrUnblockCharityById,
    deleteCharityById,
@@ -60,7 +59,6 @@ export const GetCharityById = () => {
       dispatch(deleteCharityById({ charityId, navigate }))
    }
 
-   providerEvent({ action: 'name', payload: charity.nameCharity })
    // eslint-disable-next-line max-len
    // TODO: unbooking booking in innerPage of charity => Feed integration merge болгондон кийин жазап койом
 

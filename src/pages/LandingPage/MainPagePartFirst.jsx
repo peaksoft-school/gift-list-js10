@@ -64,6 +64,7 @@ export const MainPagePartFirst = () => {
                            target="_blank"
                            rel="noreferrer"
                            href="https://www.facebook.com/"
+                           aria-label="Facebook"
                         >
                            <FacebookIcon />
                         </a>
@@ -71,6 +72,7 @@ export const MainPagePartFirst = () => {
                            target="_blank"
                            rel="noreferrer"
                            href="https://vk.com/feed"
+                           aria-label="Vk"
                         >
                            <VkIcon />
                         </a>
@@ -78,6 +80,7 @@ export const MainPagePartFirst = () => {
                            target="_blank"
                            rel="noreferrer"
                            href="https://www.instagram.com/"
+                           aria-label="Instagram"
                         >
                            <InstagramIcon />
                         </a>

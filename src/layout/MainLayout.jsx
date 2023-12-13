@@ -1,7 +1,13 @@
 import { styled } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom'
+import {
+   NavLink,
+   Outlet,
+   useLocation,
+   useNavigate,
+   useParams,
+} from 'react-router-dom'
 import useBreadcrumbs from 'use-react-router-breadcrumbs'
 import { CardIcon, ListIcon } from '../assets'
 import { Header } from '../components/Header'
@@ -35,9 +41,15 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const buttonContent = routes[role][path['*']]?.buttonContent
    const navigate = useNavigate()
    const { charities } = useSelector((state) => state.charity)
+   const [breadcrumbsForRequests, setBreadcrumbsForRequests] =
+      useState(breadcrumbs)
+   const location = useLocation()
 
    useEffect(() => {
-      if (path['*'].includes('/')) {
+      if (
+         path['*'].includes('/') &&
+         path['*'].split('/').pop() !== 'requests'
+      ) {
          setInner(true)
       } else {
          setInner(false)
@@ -52,6 +64,10 @@ export const MainLayout = ({ role, isList, toggleList }) => {
 
    useEffect(() => {
       window.addEventListener('providerEvent', handleDataUpdated)
+      if (path['*'].split('/').pop() === 'requests') {
+         setBreadcrumbsForRequests(breadcrumbs.slice(0, 1))
+      }
+
       return () => {
          window.removeEventListener('providerEvent', handleDataUpdated)
       }
@@ -63,6 +79,11 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    if (path['*'].includes('charity')) {
       charityHeaderSelectType = 'select'
    }
+
+   useEffect(() => {
+      setBreadcrumbsForRequests(breadcrumbs)
+   }, [location])
+
    return (
       <>
          <Sidebar roleName={role} />
@@ -72,7 +93,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                <StyledMainContentHeader>
                   <ImagesAndBreadcrumbsWrapper>
                      <StyledLegend isinner={inner}>
-                        {breadcrumbs.map(({ match }, index) => (
+                        {breadcrumbsForRequests.map(({ match }, index) => (
                            <Fragment key={match.pathname}>
                               {(index !== 1 &&
                                  isNumber(
@@ -85,7 +106,8 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                        match.pathname
                                     }
                                     active={
-                                       breadcrumbs.length - 1 === index ||
+                                       breadcrumbsForRequests.length - 1 ===
+                                          index ||
                                        findNumberLength(match.pathname)
                                           ? 'true'
                                           : ''
@@ -103,7 +125,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                  </StyledNavLink>
                               )}
                               {index !== 1 &&
-                                 index !== breadcrumbs.length - 1 &&
+                                 index !== breadcrumbsForRequests.length - 1 &&
                                  ' / '}
                            </Fragment>
                         ))}
@@ -134,10 +156,16 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                   <StyledActions>
                      {!inner && routes[role][path['*']]?.showListActions && (
                         <div>
-                           <StyledButton onClick={toggleList} disableRipple>
+                           <StyledButton
+                              onClick={() => toggleList('card')}
+                              disableRipple
+                           >
                               <CardIcon className={`${!isList && 'active'}`} />
                            </StyledButton>
-                           <StyledButton onClick={toggleList} disableRipple>
+                           <StyledButton
+                              onClick={() => toggleList('list')}
+                              disableRipple
+                           >
                               <ListIcon className={`${isList && 'active'}`} />
                            </StyledButton>
                         </div>
@@ -184,7 +212,7 @@ const StyledImagesContainer = styled('div')({
    },
 })
 
-const StyledSomethingAddButton = styled(Button)({ padding: '6px 20px' })
+const StyledSomethingAddButton = styled(Button)({ padding: '5px 25px' })
 
 const StyledActions = styled('div')({
    display: 'flex',

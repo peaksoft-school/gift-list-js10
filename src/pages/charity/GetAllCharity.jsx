@@ -18,7 +18,6 @@ import {
    bookingOptions,
    unBookingOption,
 } from '../../utils/constants/meatballsOptions'
-import { convertDateFormat } from '../../utils/helpers/constants'
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
@@ -133,23 +132,20 @@ export const GetAllCharity = () => {
          {charities.map((charity) => (
             <Card
                key={charity.charityId}
-               onClick={() => onGetById(charity.charityId, charity.nameCharity)}
+               onGetThingById={() =>
+                  onGetById(charity.charityId, charity.nameCharity)
+               }
                variant="withStatusTop"
-               card={{
-                  owner: {
-                     name: charity.fullName,
-                     image: charity.userImage,
-                  },
-                  name: charity.nameCharity,
-                  image: charity.charityImage,
-                  status:
-                     charity.status === 'PENDING' ? 'Ожидание' : 'Забронирован',
-                  date: convertDateFormat(charity.createdAt),
-                  newOrOld: charity.condition === 'USED' ? 'Б/У' : 'Новый',
-                  booker: {
-                     image: charity.bookedUserImage,
-                  },
-               }}
+               ownerName={charity.fullName}
+               ownerImage={charity.userImage}
+               cardName={charity.nameCharity}
+               cardImage={charity.charityImage}
+               status={
+                  charity.status === 'PENDING' ? 'Ожидание' : 'Забронирован'
+               }
+               date={charity.createdAt}
+               newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
+               bookerImage={charity.bookedUserImage}
                showBottomBooker="true"
                isBlock={charity.isBlock}
                handleChange={(e) =>
