@@ -53,12 +53,13 @@ export const DatePicker = ({
    control,
    ref,
    datePickerHandleChange,
+   defaultValue,
    ...rest
 }) => {
    const { field } = useController({
       control,
       name,
-      defaultValue: null,
+      defaultValue,
    })
 
    const useEffectDependencies = datePickerHandleChange

@@ -7,6 +7,8 @@ const initialState = {
    email: null,
    token: null,
    role: null,
+   fullName: null,
+   image: '',
 }
 
 export const authSlice = createSlice({
@@ -19,13 +21,16 @@ export const authSlice = createSlice({
          newState.role = data.role
          newState.token = data.token
          newState.id = data.id
+         newState.fullName = data.fullName
          newState.isAuth = true
+         newState.image = data.image
          navigate(routes[data.role].path)
          return newState
       },
       logout: () => {
          const newState = initialState
          localStorage.removeItem(USER_KEY)
+         sessionStorage.removeItem(USER_KEY)
          return newState
       },
    },

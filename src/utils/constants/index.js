@@ -1,7 +1,11 @@
 export const USER_KEY = 'GIFT-LIST_USER_KEY'
+export const USER_TOKEN_KEY = 'GIFT_LIST_USER_TOKEN_KEY'
 
 export const routes = {
-   LOGIN: '/login',
+   LOGIN: 'login',
+   REGISTRATION: 'registration',
+   FORGOTPASSWORD: 'forgot-password',
+   RESETPASSWORD: 'reset-password',
    ADMIN: {
       path: '/admin',
       users: {
@@ -14,7 +18,16 @@ export const routes = {
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
-         headerSelectType: 'select',
+         // headerSelectType: 'select',
+         showListActions: true,
+      },
+      profile: {
+         path: 'profile',
+         breadcrumb: 'Профиль',
+      },
+      edit: {
+         path: 'edit',
+         breadcrumb: 'Рассказать о себе',
       },
       wish: {
          path: 'wish',
@@ -31,25 +44,8 @@ export const routes = {
          path: 'wish/putWish/:wishId',
          breadcrumb: 'Редактировать Желание',
       },
-      getWIshBYId: {
+      getWishById: {
          path: 'wish/getById',
       },
    },
 }
-
-export const users = [
-   {
-      id: 1,
-      password: '1234',
-      email: 'admin@gmail.com',
-      role: 'ADMIN',
-      token: 'token',
-   },
-   {
-      id: 3,
-      password: '1234',
-      email: 'user@gmail.com',
-      role: 'USER',
-      token: 'token',
-   },
-]

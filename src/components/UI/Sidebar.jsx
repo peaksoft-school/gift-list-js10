@@ -46,7 +46,6 @@ export const Sidebar = ({ roleName = 'user' }) => {
                      key={path}
                      to={`${routes[roleName.toUpperCase()][path]?.path}`}
                   >
-                     {console.log(title)}
                      {path === 'bookings' || path === 'complaints' ? (
                         <img src={Icon} alt={title} />
                      ) : (

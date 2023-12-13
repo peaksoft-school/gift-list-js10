@@ -96,7 +96,7 @@ export const toastWithPromise = (
                   <IconWrapper>{notifyIcons[notifyTypeForError]}</IconWrapper>
                   <TextContainer mainColor={errorMainColor}>
                      <p>{errorTitleOfMessage}</p>
-                     <p>{data.message}</p>
+                     <p>{data}</p>
                   </TextContainer>
                </Container>
             )
@@ -165,5 +165,5 @@ const TextContainer = styled('div')(({ mainColor }) => {
 })
 
 export const StyledToastContainer = styled(ToastContainer)({
-   minWidth: '40%',
+   minWidth: '25%',
 })

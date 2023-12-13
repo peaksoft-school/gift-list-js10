@@ -1,9 +1,8 @@
 import { Box, Typography, styled } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { MainPagePartSecond } from '../../components/MainPagePartSecond'
 import { Button } from '../../components/UI/Button'
-
 import {
    ArrowDown,
    FacebookIcon,
@@ -15,6 +14,7 @@ import {
 
 export const MainPagePartFirst = () => {
    const navigate = useNavigate()
+
    const scrollToAboutProjectComponentHandler = () => {
       window.scrollTo({
          top: 2600,
@@ -29,91 +29,99 @@ export const MainPagePartFirst = () => {
    }
 
    const onLogin = () => {
-      navigate('/login')
+      navigate('/main-page/login')
    }
    const onSignUp = () => {
-      navigate('/registration')
+      navigate('/main-page/registration')
    }
 
    return (
-      <StyledMuiMainPage component="div">
-         <MainPageContainer component="div">
-            <MainPageHeader component="header">
-               <MainPageNav component="nav">
-                  <AboutProjectAndCharityTitle
-                     onClick={scrollToAboutProjectComponentHandler}
-                     variant="p"
-                  >
-                     О проекте
-                  </AboutProjectAndCharityTitle>
-                  <ProjectTitle variant="h1">GIFT LIST</ProjectTitle>
-                  <AboutProjectAndCharityTitle
-                     onClick={scrollToMainPagePartOneComponentHandler}
-                     variant="p"
-                  >
-                     Благотворительность
-                  </AboutProjectAndCharityTitle>
-               </MainPageNav>
-            </MainPageHeader>
-            <MainPageInfoBlock>
-               <SocialMediasAndFriendMakeASelphyContainer>
-                  <SocialMediasContainer>
-                     <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://www.facebook.com/"
+      <>
+         <StyledMuiMainPage component="div">
+            <MainPageContainer component="div">
+               <MainPageHeader component="header">
+                  <MainPageNav component="nav">
+                     <AboutProjectAndCharityTitle
+                        onClick={scrollToAboutProjectComponentHandler}
+                        variant="p"
                      >
-                        <FacebookIcon />
-                     </a>
-                     <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://vk.com/feed"
+                        О проекте
+                     </AboutProjectAndCharityTitle>
+                     <ProjectTitle variant="h1">GIFT LIST</ProjectTitle>
+                     <AboutProjectAndCharityTitle
+                        onClick={scrollToMainPagePartOneComponentHandler}
+                        variant="p"
                      >
-                        <VkIcon />
-                     </a>
-                     <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://www.instagram.com/"
-                     >
-                        <InstagramIcon />
-                     </a>
-                  </SocialMediasContainer>
-                  <FriendsMakeASelphyImageContainer>
-                     <img src={FriendsMakeASelphyImage} alt="friends" />
-                  </FriendsMakeASelphyImageContainer>
-               </SocialMediasAndFriendMakeASelphyContainer>
-               <ProjectInfo component="div">
-                  <MainTitle variant="h1">
-                     Социальная сеть нового поколения
-                  </MainTitle>
-                  <Description variant="p">
-                     Всегда подскажет, что подарить близким и осуществит твои
-                     желания
-                  </Description>
-                  <ButtonsContainer component="div">
-                     <StyledButton variant="contained" onClick={onLogin}>
-                        Войти
-                     </StyledButton>
-                     <StyledButton variant="outlined" onClick={onSignUp}>
-                        Регистрация
-                     </StyledButton>
-                  </ButtonsContainer>
-               </ProjectInfo>
-               <ScrollDownAndGirlsImageContainer component="div">
-                  <ImageWithGirlsContainer component="div">
-                     <img src={GirlsImage} alt="girls img" />
-                  </ImageWithGirlsContainer>
-                  <ScrollDown component="div">
-                     <ArrowImg />
-                     <ScrollDownText variant="p">Листайте вниз</ScrollDownText>
-                  </ScrollDown>
-               </ScrollDownAndGirlsImageContainer>
-            </MainPageInfoBlock>
-         </MainPageContainer>
-         <MainPagePartSecond />
-      </StyledMuiMainPage>
+                        Благотворительность
+                     </AboutProjectAndCharityTitle>
+                  </MainPageNav>
+               </MainPageHeader>
+               <MainPageInfoBlock>
+                  <SocialMediasAndFriendMakeASelphyContainer>
+                     <SocialMediasContainer>
+                        <a
+                           aria-label="hftf"
+                           target="_blank"
+                           rel="noreferrer"
+                           href="https://www.facebook.com/"
+                        >
+                           <FacebookIcon />
+                        </a>
+                        <a
+                           aria-label="hftf"
+                           target="_blank"
+                           rel="noreferrer"
+                           href="https://vk.com/feed"
+                        >
+                           <VkIcon />
+                        </a>
+                        <a
+                           aria-label="hftf"
+                           target="_blank"
+                           rel="noreferrer"
+                           href="https://www.instagram.com/"
+                        >
+                           <InstagramIcon />
+                        </a>
+                     </SocialMediasContainer>
+                     <FriendsMakeASelphyImageContainer>
+                        <img src={FriendsMakeASelphyImage} alt="friends" />
+                     </FriendsMakeASelphyImageContainer>
+                  </SocialMediasAndFriendMakeASelphyContainer>
+                  <ProjectInfo component="div">
+                     <MainTitle variant="h1">
+                        Социальная сеть нового поколения
+                     </MainTitle>
+                     <Description variant="p">
+                        Всегда подскажет, что подарить близким и осуществит твои
+                        желания
+                     </Description>
+                     <ButtonsContainer component="div">
+                        <StyledButton variant="contained" onClick={onLogin}>
+                           Войти
+                        </StyledButton>
+                        <StyledButton variant="outlined" onClick={onSignUp}>
+                           Регистрация
+                        </StyledButton>
+                     </ButtonsContainer>
+                  </ProjectInfo>
+                  <ScrollDownAndGirlsImageContainer component="div">
+                     <ImageWithGirlsContainer component="div">
+                        <img src={GirlsImage} alt="girls img" />
+                     </ImageWithGirlsContainer>
+                     <ScrollDown component="div">
+                        <ArrowImg />
+                        <ScrollDownText variant="p">
+                           Листайте вниз
+                        </ScrollDownText>
+                     </ScrollDown>
+                  </ScrollDownAndGirlsImageContainer>
+               </MainPageInfoBlock>
+            </MainPageContainer>
+            <MainPagePartSecond />
+         </StyledMuiMainPage>
+         <Outlet />
+      </>
    )
 }
 

@@ -18,13 +18,13 @@ const transformObjectRoutesToArray = (role) =>
       .slice(1)
 const getLastElementOfPath = (path) => path.slice(-1)
 
-export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
-   const navigate = useNavigate()
-
+export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
+
    const breadcrumbs = useBreadcrumbs(routesArray, {
       excludePaths: ['/', 'user', 'admin'],
    })
+   const navigate = useNavigate()
    const [inner, setInner] = useState(false)
    const path = useParams()
    const [byIdName, setByIdName] = useState('')
@@ -38,21 +38,25 @@ export const MainLayout = ({ role, isList, toggleList, headerSelectType }) => {
    }, [path])
 
    const handleDataUpdated = (event) => {
-      setByIdName(event.detail)
+      if (event.detail.action === 'name') {
+         setByIdName(event.detail.payload)
+      }
    }
 
    useEffect(() => {
-      window.addEventListener('name', handleDataUpdated)
+      window.addEventListener('providerEvent', handleDataUpdated)
+
       return () => {
-         window.removeEventListener('name', handleDataUpdated)
+         window.removeEventListener('providerEvent', handleDataUpdated)
       }
    }, [])
-
    return (
       <>
          <Sidebar roleName={role} />
          <MainContainer>
-            <Header variantOfSelect={headerSelectType} />
+            <Header
+               variantOfSelect={routes[role][path['*']]?.headerSelectType}
+            />
             <MainContentWrapper>
                <StyledMainContentHeader>
                   <StyledLegend isinner={inner}>

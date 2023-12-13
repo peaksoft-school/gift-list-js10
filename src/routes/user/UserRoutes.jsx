@@ -4,6 +4,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { UserProfilePage } from '../../pages/profile/UserProfilePage'
+import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 import { WishListCollection } from '../../pages/WishListCollection'
 import { EditOrAddWishPage } from '../../pages/EditOrAddWIshPage'
 
@@ -18,9 +20,7 @@ export const UserRoutes = () => {
          setNameOfActiveCardType(newNameOfAcriveCardType)
       }
    }
-
-   const { addWish, feed, wish, putWish } = routes[role]
-   console.log(putWish.path)
+   const { feed, profile, edit, addWish, wish, putWish } = routes[role]
    return (
       <Routes>
          <Route
@@ -30,7 +30,6 @@ export const UserRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
-                  headerSelectType={feed.headerSelectType}
                />
             }
          >
@@ -46,16 +45,34 @@ export const UserRoutes = () => {
                }
             />
             <Route
-               path={wish.path}
+               path={profile.path}
                element={
                   <PrivateRoutes
-                     Component={<WishListCollection isList={isList} />}
+                     Component={<UserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={`${profile.path}/${edit.path}`}
+               element={
+                  <PrivateRoutes
+                     Component={<UpdateUserProfilePage />}
                      isAuth={isAuth}
                      fallback="/"
                   />
                }
             />
 
+            <Route
+               path={wish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishListCollection isList={isList} />}
+                  />
+               }
+            />
             <Route
                path={addWish.path}
                element={
@@ -71,6 +88,16 @@ export const UserRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<EditOrAddWishPage isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path="bookings"
+               element={
+                  <PrivateRoutes
+                     Component={<h1>bookings</h1>}
                      isAuth={isAuth}
                      fallback="/"
                   />

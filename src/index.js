@@ -9,9 +9,9 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { injectStore } from './config/axiosInstance'
 import './index.css'
+import { store } from './store'
 import { globalTheme } from './theme/globalTheme'
 import { StyledToastContainer } from './utils/helpers/toast'
-import { store } from './store'
 import { App } from './App'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
