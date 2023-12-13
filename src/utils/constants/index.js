@@ -12,6 +12,14 @@ export const routes = {
          path: 'users',
          breadcrumb: 'Пользователи',
       },
+      complaints: {
+         path: 'complaints',
+         breadcrumb: 'Жалобы',
+      },
+      innerComplaint: {
+         path: 'complaints/:wishId',
+         headerSelectType: 'select',
+      },
    },
    USER: {
       path: '/user',
