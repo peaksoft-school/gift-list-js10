@@ -2,73 +2,88 @@ import { Button, styled } from '@mui/material'
 import React from 'react'
 import { Field } from './GiftInnerContentFooter'
 
-const complaint = {
-   id: '1',
-   name: 'Рубашка',
-   image: 'https://i.pinimg.com/474x/f7/d6/16/f7d6164f24b5d0d99a6a2a1937a188ef.jpg',
-   status: false,
-   categoryName: 'Школьные',
-   createdDate: '12.04.2022',
-   subCategoryName: 'Сумка',
-   state: 'Б/У',
-   buker: {
-      id: '1',
-      image: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-   },
-   owner: {
-      userName: 'Аида Каримова',
-      phoneNumber: '+996 705 86 95 44',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ4qSRZgiuO9RnzO-CfhMlJrSe23bsHqOvog&usqp=CAU',
-      id: '3',
-   },
-   text: `Рубашка с технологией ProMotion и быстрым, плавным
-   откликом. Грандиозный апгрейд системы камер, открывающий
-   совершенно новые возможности. Исключительная прочность. A15
-   Bionic — самый быстрый чип для iPhone. И впечатляющее время
-   работы без подзарядки. Всё это Pro.`,
-   complaints: [
-      {
-         userName: 'Аида Каримова',
-         reasonForComplaint: 'Причина жалобы',
-         userImg:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgF2suM5kFwk9AdFjesEr8EP1qcyUvah8G7w&usqp=CAU',
-         comlaintId: '1',
-      },
-   ],
-}
+// const complaint = {
+//    id: '1',
+//    name: 'Рубашка',
+//    image: 'https://i.pinimg.com/474x/f7/d6/16/f7d6164f24b5d0d99a6a2a1937a188ef.jpg',
+//    status: false,
+//    categoryName: 'Школьные',
+//    createdDate: '12.04.2022',
+//    subCategoryName: 'Сумка',
+//    state: 'Б/У',
+//    buker: {
+//       id: '1',
+//       image: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+//    },
+//    owner: {
+//       userName: 'Аида Каримова',
+//       phoneNumber: '+996 705 86 95 44',
+//       image: 'https://encrypted-tbn0.gstatic.comqSRZgiuO9RnzO-CfhMlJrSe23bsHqOvog&usqp=CAU',
+//       id: '3',
+//    },
+//    text: `Рубашка с технологией ProMotion и быстрым, плавным
+//    откликом. Грандиозный апгрейд системы камер, открывающий
+//    совершенно новые возможности. Исключительная прочность. A15
+//    Bionic — самый быстрый чип для iPhone. И впечатляющее время
+//    работы без подзарядки. Всё это Pro.`,
+//    complaints: [
+//       {
+//          userName: 'Аида Каримова',
+//          reasonForComplaint: 'Причина жалобы',
+//          userImg:
+//             'https://encrypted-tbn0.gstatic.com/iuM5kFwk9AdFjesEr8EP1qcyUvah8G7w&usqp=CAU',
+//          comlaintId: '1',
+//       },
+//    ],
+// }
 
-export function AdminState({ role = 'user' }) {
+export function AdminState({
+   role = 'user',
+   image,
+   ownerImage,
+   ownerName,
+   bookerImage,
+   status,
+   wishName,
+   description,
+   ownerPhoneNumber,
+   onDeleteWishById,
+   ...complaints
+}) {
    return (
       <Container>
-         <Icon src={complaint.image} alt={complaint.title} />
+         <Icon src={image} alt={wishName} />
          <SecondContainer>
             <FrowContent>
                <BlockContent>
-                  <Image src={complaint.owner.image} alt="user-data" />
+                  <Image src={ownerImage} alt="user-data" />
                   <OwnerContent>
-                     <span>{complaint.owner.userName}</span>
-                     <Span>{complaint.owner.phoneNumber}</Span>
+                     <span>{ownerName}</span>
+                     <Span>{ownerPhoneNumber}</Span>
                   </OwnerContent>
                </BlockContent>
                <UserContainer>
-                  {complaint.status && (
+                  {status && (
                      <div>
-                        <Img src={complaint.buker.image} alt="user-wait" />
+                        <Img src={bookerImage} alt="user-wait" />
                      </div>
                   )}
-                  <Title>
-                     {complaint.status ? 'Забронирован' : 'В ожидании'}
-                  </Title>
+                  <Title>{status ? 'Забронирован' : 'В ожидании'}</Title>
                </UserContainer>
             </FrowContent>
             <Main>
-               <MainContext>{complaint.name}</MainContext>
-               <FieldText>{complaint.text}</FieldText>
+               <MainContext>{wishName}</MainContext>
+               <FieldText>{description}</FieldText>
             </Main>
             <StyledFooter>
-               <Field role={role} {...complaint} />
+               <Field role={role} {...complaints} />
                <ButtonContainer>
-                  <StyledButton className="delete" variant="text" type="button">
+                  <StyledButton
+                     className="delete"
+                     variant="text"
+                     type="button"
+                     onClick={onDeleteWishById}
+                  >
                      Удалить
                   </StyledButton>
                   <StyledButton variant="contained" type="button">

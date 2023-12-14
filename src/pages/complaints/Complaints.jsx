@@ -32,9 +32,9 @@ export const Complaints = () => {
    // }
    return (
       <Container>
-         {complaints?.map((item, complaint) => (
+         {complaints?.map((item, index) => (
             <Card
-               key={item.userId}
+               key={[index]}
                onGetThingById={() =>
                   openWishesInnerPage(item.wishId, item.nameWish)
                }
@@ -43,10 +43,9 @@ export const Complaints = () => {
                cardName={item.nameWish}
                cardImage={item.wishImage}
                date={item.dateOfHoliday}
-               status={item.statusWish}
                holiday={item.nameHoliday}
-               bookerImage={item[complaint.complainUserInfoImage]}
                meatballsOptions={meatballsComplaintsOptions}
+
                // handleChange={(e) =>
                //    optionsChangeHandle(e, item.wishId, dispatch)
                // }

@@ -1,19 +1,50 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { AdminState } from '../../components/GiftInnerContent'
-import { getWishlistByWishId } from '../../store/slices/wishesById/wishByIdThunk'
+import {
+   getWishlistByWishId,
+   isBlockWishById,
+   isUnBlockWishById,
+} from '../../store/slices/wishesById/wishByIdThunk'
+import { deleteWishById } from '../../store/slices/complaints-slice/complaintsThunk'
 
 export const WishesInnerPage = () => {
+   const { wishId } = useParams()
+   const wish = useSelector((state) => state.wish.wish)
+
    const dispatch = useDispatch()
-   useEffect(
-      (wishId) => {
-         dispatch(getWishlistByWishId(wishId))
-      },
-      [dispatch]
-   )
+   useEffect(() => {
+      dispatch(getWishlistByWishId(wishId))
+   }, [dispatch])
+
+   const handleDeleteWishById = (wishId) => {
+      dispatch(deleteWishById(wishId))
+   }
+
+   const handleBlockWish = (wishId) => {
+      dispatch(isBlockWishById({ wishId, isBlock: 'true' }))
+   }
+
+   const handleUnBlockedWish = (wishId) => {
+      dispatch(isUnBlockWishById({ wishId, isBlock: 'false' }))
+   }
    return (
       <div>
-         <AdminState />
+         <AdminState
+            image={wish.wishImage}
+            ownerImage={wish.ownerImage}
+            ownerName={wish.fullName}
+            bookerImage={wish.reservoirImage}
+            status={wish.statusWish}
+            wishName={wish.wishName}
+            description={wish.description}
+            ownerPhoneNumber={wish.phoneNumber}
+            {...wish.complaints}
+            onDeleteWishById={() => handleDeleteWishById(wish.wishId)}
+            onBlockedWishById={() => handleBlockWish(wish.wishId)}
+            onUnBlockedWishById={() => handleUnBlockedWish(wish.wishId)}
+         />
       </div>
    )
 }

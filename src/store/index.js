@@ -9,6 +9,7 @@ import { bookingSlice } from './slices/booking/bookingSlice'
 import { charitiesSlice } from './slices/charities/charitiesSlice'
 import { profileSlice } from './profile/profileSlice'
 import { complaintsSlice } from './slices/complaints-slice/complaintsSlice'
+import { wishByIdSlice } from './slices/wishesById/wishByIdSlice'
 
 export const store = configureStore({
    reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
       [charitiesSlice.name]: charitiesSlice.reducer,
       [profileSlice.name]: profileSlice.reducer,
       [complaintsSlice.name]: complaintsSlice.reducer,
+      [wishByIdSlice.name]: wishByIdSlice.reducer,
    },
 })
