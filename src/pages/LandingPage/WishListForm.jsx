@@ -57,7 +57,6 @@ export const WishListForm = ({
    defaultValues = initialValues,
    img,
 }) => {
-   console.log(defaultValues)
    const [preview, setPreview] = useState({ file: '', url: img })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
 
@@ -93,7 +92,6 @@ export const WishListForm = ({
          setValue('holiday', defaultValues.holiday)
       }
    }, [])
-   console.log(getValues())
    useEffect(() => {
       if (isSubmitSuccessful) {
          reset()

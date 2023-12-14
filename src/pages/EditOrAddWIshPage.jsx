@@ -10,9 +10,7 @@ export const EditOrAddWishPage = () => {
    const { wish } = useSelector((state) => state.wish)
    const { id: userId } = useSelector((state) => state.authLogin)
    const dispatch = useDispatch()
-   console.log(wish)
    const params = useParams()
-   console.log(params.wishId)
    useEffect(() => {
       if (params.wishId) {
          dispatch(getWishById(params.wishId))
