@@ -1,29 +1,64 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Typography, styled } from '@mui/material'
 import { axiosInstance } from '../../../config/axiosInstance'
 import { Button } from '../../../components/UI/Button'
 import {
+   DeleteIcon,
+   EditIcon,
    ProfileFacebook,
    ProfileInstagram,
    ProfileTelegram,
    ProfileVk,
-   RedDeleteIcon,
 } from '../../../assets'
-import { Modal } from '../../../components/Modal'
+import { Card } from '../../../components/UI/card/Card'
+import { DeleteModal } from '../../../components/UI/DeleteModal'
 
 export const UserProfile = () => {
    const [user, setUser] = useState([])
+   const [userWishes, setUserWishes] = useState([])
+   const [userHolidays, setUserHolidays] = useState([])
+   const [userCharities, setUserCharities] = useState([])
    const [openModal, setOpenModal] = useState(false)
+   const navigate = useNavigate()
+
+   const { userId } = useSelector((state) => state.users)
 
    const getUser = async () => {
-      const response = await axiosInstance.get('/user/2')
-      setUser(response.data)
+      try {
+         const userResponse = await axiosInstance.get(`/user/${userId}`)
+         setUser(userResponse.data)
+         const wishesResponse = await axiosInstance.get(
+            `/wishlists/user/${userId}`
+         )
+         setUserWishes(wishesResponse.data)
+         const holidaysResponse = await axiosInstance.get(
+            `/holidays/getHolidaysByUserId/${userId}`
+         )
+         setUserHolidays(holidaysResponse.data)
+         const charityResponse = await axiosInstance.get(
+            `/charity/myCharities?userId=${userId}`
+         )
+         setUserCharities(charityResponse.data)
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
+   const handleChange = (e) => {
+      if (e.target.innerText === 'Редактировать') {
+         console.log('edit')
+      } else if (e.target.innerText === 'Удалить') {
+         setOpenModal(true)
+      }
    }
 
    useEffect(() => {
       getUser()
    }, [])
-   console.log(user)
 
    return (
       <div>
@@ -62,7 +97,7 @@ export const UserProfile = () => {
                      <p className="greyText email">Email:</p>
                      <p className="normalText">{user.email}</p>
                      <p className="violetText">Интересы, хобби</p>
-                     <p className="greyText">Интересы,хобби:</p>
+                     <p className="greyText">Интересы, хобби:</p>
                      <p className="normalText">{user.hobby}</p>
                      <p className="violetText">Доп. инфа</p>
                      <p className="greyText">Размер одежды:</p>
@@ -99,54 +134,136 @@ export const UserProfile = () => {
                </Button>
             </div>
          </MainContainer>
-         {openModal && (
-            <Modal isOpen={openModal} handleClose={() => setOpenModal(false)}>
-               <ModalContainer>
-                  <div className="blabla">
-                     <div>
-                        <RedDeleteIcon />
-                     </div>
-                     <div className="deleteandquestion">
-                        <p className="delete">Удаление</p>
-                        <p>Вы уверены что хотите удалить ? </p>
-                     </div>
-                  </div>
-                  <div className="buttons">
-                     <Button
-                        style={{ height: '37px', width: '232px' }}
-                        variant="outlined"
-                        onClick={() => setOpenModal(false)}
-                     >
-                        Отмена
-                     </Button>
-                     <Button
-                        style={{
-                           background: '#E53535',
-                           height: '37px',
-                           width: '232px',
-                        }}
-                        variant="contained"
-                        onMouseOver={(e) => {
-                           e.target.style.backgroundColor = '#DD0B37'
-                        }}
-                        onMouseOut={(e) => {
-                           e.target.style.backgroundColor = '#E53535'
-                        }}
-                     >
-                        Удалить
-                     </Button>
-                  </div>
-               </ModalContainer>
-            </Modal>
-         )}
+         {openModal && <DeleteModal open={openModal} setOpen={setOpenModal} />}
+         <ReusableContainer>
+            <div className="title">
+               <p>Желаемые подарки</p>
+               <p onClick={() => navigate(`wishes`)}>Смотреть все</p>
+            </div>
+            <div className="cards">
+               {userWishes.slice(0, 3).map((wish) => {
+                  return (
+                     <Card
+                        key={wish.wishId}
+                        variant="secondary"
+                        status={wish.wishStatus}
+                        holiday={wish.holidayName}
+                        cardName={wish.wishName}
+                        date={wish.dateOfHoliday}
+                        cardImage={wish.wishImage}
+                        ownerImage={wish.userImage}
+                        ownerName={wish.fullName}
+                        isBlock={wish.isBlock}
+                        bookerImage={wish.reservoirImage}
+                        showBottomBooker="true"
+                        meatballsOptions={[
+                           { title: 'Редактировать', icon: <EditIcon /> },
+                           { title: 'Удалить', icon: <DeleteIcon /> },
+                        ]}
+                        handleChange={(e) => handleChange(e, wish.id)}
+                     />
+                  )
+               })}
+            </div>
+         </ReusableContainer>
+         <ReusableContainer>
+            <div className="title">
+               <p>Праздники</p>
+               <p onClick={() => navigate('holidays')}>Смотреть все</p>
+            </div>
+            <div className="cards">
+               {userHolidays.slice(0, 3).map((holiday) => {
+                  return (
+                     <Card
+                        key={holiday.holidayId}
+                        date={holiday.dateOfHoliday}
+                        cardImage={holiday.image}
+                        holiday={holiday.nameHoliday}
+                        variant="tertiary"
+                        meatballsOptions={[
+                           { title: 'Редактировать', icon: <EditIcon /> },
+                           { title: 'Удалить', icon: <DeleteIcon /> },
+                        ]}
+                        handleChange={(e) => handleChange(e, holiday.id)}
+                     />
+                  )
+               })}
+            </div>
+         </ReusableContainer>
+         <ReusableContainer>
+            <div className="title">
+               <p>Благотворительность</p>
+               <p onClick={() => navigate('charities')}>Смотреть все</p>
+            </div>
+            <div className="cards">
+               {userCharities.slice(0, 3).map((charity) => {
+                  return (
+                     <Card
+                        key={charity?.charityId}
+                        date={charity?.createdAt}
+                        cardImage={charity?.charityImage}
+                        holiday={charity?.nameCharity}
+                        status={charity?.status}
+                        newOrOld={
+                           charity?.condition === 'USED' ? 'Б/У' : 'Новый'
+                        }
+                        variant="withStatusBottom"
+                        showBottomBooker="true"
+                        isBlock={charity?.isBlock}
+                        bookerImage={charity?.bookedUserImage}
+                        meatballsOptions={[
+                           { title: 'Редактировать', icon: <EditIcon /> },
+                           { title: 'Удалить', icon: <DeleteIcon /> },
+                        ]}
+                        handleChange={(e) => handleChange(e, charity.id)}
+                     />
+                  )
+               })}
+            </div>
+         </ReusableContainer>
       </div>
    )
 }
 
+const ReusableContainer = styled('div')`
+   width: 73vw;
+   & .cards {
+      display: flex;
+      gap: 2.4vw;
+      flex-wrap: wrap;
+   }
+   & .title {
+      margin: 50px 0 23px 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      & :first-child {
+         color: var(--black, #020202);
+         font-family: Inter;
+         font-size: 18px;
+         font-style: normal;
+         font-weight: 500;
+         line-height: normal;
+         letter-spacing: 0.2px;
+      }
+      & :first-child + p {
+         color: #3772ff;
+         font-family: Inter;
+         font-style: normal;
+         letter-spacing: 0.5px;
+         border-bottom: 1px solid #3772ff;
+         cursor: pointer;
+         &:hover {
+            border-bottom: 2px solid #3772ff;
+         }
+      }
+   }
+`
+
 const MainContainer = styled('div')`
-   max-width: 1160px;
    background-color: white;
    padding: 20px;
+   width: 73vw;
    border-radius: 10px;
    .container {
       display: flex;
@@ -182,8 +299,8 @@ const MainContainer = styled('div')`
    }
    .mainInformation {
       display: flex;
-      column-gap: 129px;
-      margin-left: 60px;
+      column-gap: 8.9vw;
+      margin-left: 4.1vw;
       .violetText {
          color: var(--Violet, #8639b5);
          font-family: Inter;
@@ -220,38 +337,6 @@ const MainContainer = styled('div')`
       }
       .email {
          margin-top: 16px;
-      }
-   }
-`
-const ModalContainer = styled('div')`
-   padding: 20px 32px 20px 32px;
-   .blabla {
-      display: flex;
-      .deleteandquestion {
-         margin-left: 20px;
-      }
-      & .delete {
-         color: var(--color-dark-dark, #23262f);
-         font-family: Inter;
-         font-size: 24px;
-         font-style: normal;
-         font-weight: 400;
-         line-height: 24px;
-      }
-      & .delete + p {
-         margin-top: 8px;
-         color: var(--color-dark-dark-2, #87898e);
-         font-family: Inter;
-         font-size: 14px;
-         font-style: normal;
-         font-weight: 400;
-         line-height: 16px;
-      }
-   }
-   .buttons {
-      margin-top: 24px;
-      & :first-child {
-         margin-right: 16px;
       }
    }
 `

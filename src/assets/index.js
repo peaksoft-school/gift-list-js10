@@ -59,3 +59,4 @@ export { ReactComponent as ChangePasswordXIcon } from './icons/changepassword-x-
 export { ReactComponent as DeleteIcon } from './icons/delete-icon.svg'
 export { ReactComponent as Zablock } from './icons/zablockIcon.svg'
 export { ReactComponent as RedDeleteIcon } from './icons/red-delete-icon.svg'
+export { ReactComponent as EditIcon } from './icons/edit-icon.svg'

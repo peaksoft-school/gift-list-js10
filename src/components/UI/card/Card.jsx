@@ -214,6 +214,12 @@ const StyledCard = styled(MUICard)(() => {
       width: '21.8125rem',
       padding: '15px',
       maxHeight: '18.8125rem',
+      borderRadius: '9px',
+      ':hover': {
+         boxShadow: '0px 0px 43px -10px rgba(209, 209, 209, 1)',
+         transitionDuration: '0.6s',
+         cursor: 'pointer',
+      },
       '&.list': {
          width: '33.3125rem',
          display: 'flex',

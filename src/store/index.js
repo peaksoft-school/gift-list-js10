@@ -8,6 +8,7 @@ import { requestSlice } from './slices/requests/requestSlice'
 import { bookingSlice } from './slices/booking/bookingSlice'
 import { charitiesSlice } from './slices/charities/charitiesSlice'
 import { profileSlice } from './profile/profileSlice'
+import { usersSlice } from './slices/users/users-slice'
 
 export const store = configureStore({
    reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
       [bookingSlice.name]: bookingSlice.reducer,
       [charitiesSlice.name]: charitiesSlice.reducer,
       [profileSlice.name]: profileSlice.reducer,
+      [usersSlice.name]: usersSlice.reducer,
    },
 })

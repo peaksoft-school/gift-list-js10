@@ -4,8 +4,11 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
-// import UsersPage from '../../pages/users/UsersPage'
+import UsersPage from '../../pages/users/UsersPage'
 import { UserProfile } from '../../pages/users/userProfile/UserProfile'
+import { UserWishes } from '../../pages/users/userWishes'
+import { UserHolidays } from '../../pages/users/UserHolidays'
+import { UserCharities } from '../../pages/users/UserCharities'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -32,13 +35,52 @@ export const AdminRoutes = () => {
                path={users.path}
                element={
                   <PrivateRoutes
+                     Component={<UsersPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path="users/user-profile/:userId"
+               element={
+                  <PrivateRoutes
                      Component={<UserProfile />}
                      isAuth={isAuth}
                      fallback="/"
                   />
                }
             />
-            <Route path="/user-profile" element={<div>boka boka boka</div>} />
+            <Route
+               path="users/user-profile/:userId/wishes"
+               element={
+                  <PrivateRoutes
+                     Component={<UserWishes />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path="users/user-profile/:userId/holidays"
+               element={
+                  <PrivateRoutes
+                     Component={<UserHolidays />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path="users/user-profile/:userId/charities"
+               element={
+                  <PrivateRoutes
+                     Component={<UserCharities />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
          </Route>
       </Routes>
    )

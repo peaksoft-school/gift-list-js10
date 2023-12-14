@@ -1,17 +1,23 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react'
 import { Typography, styled } from '@mui/material'
-// import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { axiosInstance } from '../../config/axiosInstance'
 import { MeatBalls } from '../../components/UI/MeatBalls'
 import { DeleteIcon, RedDeleteIcon, Zablock } from '../../assets'
 import { Modal } from '../../components/Modal'
 import { Button } from '../../components/UI/Button'
+import { providerEvent } from '../../events/customEvents'
+import { usersSlice } from '../../store/slices/users/users-slice'
 
 const UsersPage = () => {
    const [users, setUsers] = useState([])
    const [openModal, setOpenModal] = useState(false)
-   //    const navigate = useNavigate()
+   const navigate = useNavigate()
    const [userID, setUserID] = useState(null)
+   const dispatch = useDispatch()
 
    const getUsers = async () => {
       const response = await axiosInstance.get('/user/getAllUsers')
@@ -40,16 +46,24 @@ const UsersPage = () => {
       { title: 'Удалить', icon: <DeleteIcon /> },
    ]
 
+   const goToUserProfile = (userId, name) => {
+      providerEvent({ action: 'name', payload: name })
+      dispatch(usersSlice.actions.addUserId(userId))
+      navigate(`user-profile/${userId}`)
+   }
+
    return (
       <div>
          <Container>
-            {/* <button type="button" onClick={() => navigate('/user-profile')}>
-               text
-            </button> */}
             {users.map((user) => {
                return (
                   <UserCard key={user.userId}>
-                     <div className="userData">
+                     <div
+                        className="userData"
+                        onClick={() =>
+                           goToUserProfile(user.userId, user.fullName)
+                        }
+                     >
                         <div className="imgdiv">
                            <img
                               width="130px"
