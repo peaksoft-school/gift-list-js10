@@ -18,7 +18,32 @@ export const routes = {
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
-         // headerSelectType: 'select',
+         showListActions: true,
+      },
+      friends: {
+         path: 'friends',
+         breadcrumb: 'Друзья',
+      },
+      request: {
+         path: 'requests',
+      },
+      getFriendById: {
+         path: 'friends/:friendId',
+      },
+      getRequestsById: {
+         path: 'friends/requests/:friendId',
+      },
+      userProfileById: {
+         path: 'addToMyFriends/:friendId',
+      },
+      wishes: {
+         path: 'wishes',
+      },
+      holidays: {
+         path: 'holidays',
+      },
+      charities: {
+         path: 'charities',
          showListActions: true,
       },
       profile: {
@@ -32,7 +57,7 @@ export const routes = {
       wish: {
          path: 'wish',
          showListActions: 'true',
-         buttonText: 'Добавить желание',
+         buttonContent: 'Добавить желание',
          breadcrumb: 'Список желаний',
          onClick: (navigate) => navigate('wish/addWish'),
       },
@@ -45,7 +70,7 @@ export const routes = {
          breadcrumb: 'Редактировать Желание',
       },
       getWishById: {
-         path: 'wish/getById',
+         path: 'wish/:wishId',
       },
    },
 }

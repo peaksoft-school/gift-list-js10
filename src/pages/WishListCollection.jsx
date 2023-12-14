@@ -19,33 +19,40 @@ export const WishListCollection = ({ isList }) => {
          navigate(`putWish/${wishId}`)
       }
    }
+   const cardPage = (wishId) => {
+      navigate(`${wishId}`)
+   }
 
    useEffect(() => {
       dispatch(getAllWishes(id))
    }, [dispatch])
    return (
       <Cards>
-         {result.map((item) => (
+         {result.map((wish) => (
             <Card
-               key={item.wishId}
-               cardImage={item.wishImage}
-               cardName={item.wishName}
-               ownerName={item.fullName}
-               ownerImage={item.userImage}
-               holiday={item.holidayName}
-               status={item.wishStatus}
-               date={item.dateOfHoliday}
+               key={wish.wishId}
+               cardImage={wish.wishImage}
+               cardName={wish.wishName}
+               ownerName={wish.fullName}
+               ownerImage={wish.userImage}
+               holiday={wish.holidayName}
+               status={wish.wishStatus}
+               date={wish.dateOfHoliday}
                variant="secondary"
                list={isList}
-               meatBallsOptions={wishOptions}
-               handleChange={(e) => handleChange(e, item.wishId)}
+               meatballsOptions={wishOptions}
+               handleChange={(e) => handleChange(e, wish.wishId)}
+               showBottomBooker="true"
+               onGetThingById={() => cardPage(wish.wishId)}
             />
          ))}
       </Cards>
    )
 }
+
 const Cards = styled('div')({
-   justifyContent: 'center',
+   justifyContent: 'start',
    display: 'flex',
    flexWrap: 'wrap',
+   gap: '20px',
 })

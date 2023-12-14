@@ -60,26 +60,26 @@ export const MainPagePartFirst = () => {
                   <SocialMediasAndFriendMakeASelphyContainer>
                      <SocialMediasContainer>
                         <a
-                           aria-label="hftf"
                            target="_blank"
                            rel="noreferrer"
                            href="https://www.facebook.com/"
+                           aria-label="Facebook"
                         >
                            <FacebookIcon />
                         </a>
                         <a
-                           aria-label="hftf"
                            target="_blank"
                            rel="noreferrer"
                            href="https://vk.com/feed"
+                           aria-label="Vk"
                         >
                            <VkIcon />
                         </a>
                         <a
-                           aria-label="hftf"
                            target="_blank"
                            rel="noreferrer"
                            href="https://www.instagram.com/"
+                           aria-label="Instagram"
                         >
                            <InstagramIcon />
                         </a>

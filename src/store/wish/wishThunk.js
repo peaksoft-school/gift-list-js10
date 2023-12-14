@@ -26,17 +26,21 @@ export const getAllWishes = createAsyncThunk(
 
 export const addWish = createAsyncThunk(
    '/wish/addWish',
-   async ({ wishData, userId }, { dispatch }) => {
+   async ({ wishData, userId, holidayId, navigate }, { dispatch }) => {
       try {
+         console.log('in addWish')
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
             notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
             'Sucess',
             'Успешно сохранено!',
             'Ошибка',
-            axiosInstance.post('wishlists/1', wishData)
+            axiosInstance.post(`/wishlists/${holidayId}`, wishData)
          )
+         navigate(-1)
+         console.log('in addWish 2')
          dispatch(getAllWishes(userId))
+         console.log('in addWish 3')
       } catch (error) {
          dispatch(addWish.rejected(error))
       }
@@ -64,7 +68,10 @@ export const deleteWish = createAsyncThunk(
 
 export const putWish = createAsyncThunk(
    'wish/putWish',
-   async ({ wishId, userId }, { dispatch, rejectWithValue }) => {
+   async (
+      { wishId, wishData, userId, navigate },
+      { dispatch, rejectWithValue }
+   ) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
@@ -72,8 +79,9 @@ export const putWish = createAsyncThunk(
             'Success',
             'Успешно обнавлено!',
             'Ошибка',
-            axiosInstance.put(`/wishlists/${wishId}`)
+            axiosInstance.put(`/wishlists/${wishId}`, wishData)
          )
+         navigate(-1)
          dispatch(getAllWishes(userId))
       } catch (error) {
          console.log('Error', error)

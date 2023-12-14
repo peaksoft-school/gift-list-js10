@@ -2,8 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import dayjs from 'dayjs'
-import { DatePicker } from '../../components/DatePicker'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/UI/Button'
 import { SelectComponent } from '../../components/UI/SelectComponent'
 import { TextArea } from '../../components/UI/TextArea'
@@ -19,7 +18,8 @@ import {
    variantSchema,
    wishListSchema,
 } from '../../utils/helpers/wishListValidates'
-import { isValidDateFormat } from '../../utils/helpers/constants'
+
+import { getAllHolidaysByUserId } from '../../store/slices/holidays/holidayThunk'
 
 const arrayState = [
    {
@@ -50,11 +50,6 @@ const initialValues = [
    },
 ]
 
-const initialDatePickerValues = {
-   emptyErrorMessage: '',
-   invalidErrorMessage: '',
-}
-
 export const WishListForm = ({
    onClose,
    variant,
@@ -62,9 +57,6 @@ export const WishListForm = ({
    defaultValues = initialValues,
    img,
 }) => {
-   const [datePickerError, setDatePickerError] = useState(
-      initialDatePickerValues
-   )
    console.log(defaultValues)
    const [preview, setPreview] = useState({ file: '', url: img })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
@@ -85,6 +77,23 @@ export const WishListForm = ({
          : yupResolver(variantSchema),
    })
 
+   const valuesFromForm = getValues()
+
+   useEffect(() => {
+      if (defaultValues?.description !== valuesFromForm.description) {
+         setValue('description', defaultValues.description)
+      }
+      if (defaultValues?.holidayName !== valuesFromForm.holidayName) {
+         setValue('holidayName', defaultValues.holidayName)
+      }
+      if (defaultValues?.link !== valuesFromForm.link) {
+         setValue('link', defaultValues.link)
+      }
+      if (defaultValues?.holiday !== valuesFromForm.holiday) {
+         setValue('holiday', defaultValues.holiday)
+      }
+   }, [])
+   console.log(getValues())
    useEffect(() => {
       if (isSubmitSuccessful) {
          reset()
@@ -97,50 +106,18 @@ export const WishListForm = ({
       setValues((prev) => ({ ...prev, [name]: value }))
    }
 
-   const onError = (error) => {
-      let errorMessage = null
-      if (error === 'invalidDate') {
-         errorMessage = 'Неправильная дата'
-      }
-      setDatePickerError((prev) => ({
-         ...prev,
-         invalidErrorMessage: errorMessage,
-      }))
-   }
+   const { holidays } = useSelector((state) => state.holidays)
+   const { id } = useSelector((state) => state.authLogin)
 
-   const datePickerHandleChange = (value) => {
-      const newHolidayDate = dayjs(value)
-      const todayDate = new Date()
+   const dispatch = useDispatch()
+   useEffect(() => {
+      dispatch(getAllHolidaysByUserId(id))
+   }, [])
 
-      const formattedDate = newHolidayDate.format('DD-MM-YYYY')
-      if (isValidDateFormat(formattedDate)) {
-         setDatePickerError(initialDatePickerValues)
-      }
-      if (newHolidayDate.year() < todayDate.getFullYear()) {
-         setDatePickerError((prev) => ({
-            ...prev,
-            invalidErrorMessage: 'Этот год уже не наступит',
-         }))
-      } else if (
-         newHolidayDate.year() === todayDate.getFullYear() &&
-         newHolidayDate.date() < todayDate.getDate()
-      ) {
-         setDatePickerError((prev) => ({
-            ...prev,
-            invalidErrorMessage: 'Этот день уже прошел',
-         }))
-      } else if (
-         newHolidayDate.year() === todayDate.getFullYear() &&
-         newHolidayDate.month() + 1 < todayDate.getMonth() + 1
-      ) {
-         setDatePickerError((prev) => ({
-            ...prev,
-            invalidErrorMessage: ' Этот месяц уже прошел',
-         }))
-      }
-   }
-   console.log(getValues())
-
+   const holidayNames = holidays.map((holiday) => {
+      return holiday.nameHoliday
+   })
+   const holiday = holidays.find((el) => el.nameHoliday === values.holiday)
    return (
       <Container>
          <BlockOne>
@@ -148,8 +125,7 @@ export const WishListForm = ({
          </BlockOne>
          <BlockTwo
             onSubmit={handleSubmit((data) => {
-               console.log(onSubmit)
-               onSubmit(data, preview.file)
+               onSubmit(data, preview.file, holiday.holidayId)
                reset()
                setPreview(null)
                setValues(variant ? initialValues[0] : {})
@@ -177,37 +153,22 @@ export const WishListForm = ({
                         error={Boolean(errors.link)}
                         helperText={errors.link?.message}
                      />
-                     {holidayOptions.map(
-                        ({ name, placeholder, labelName, options }) => (
-                           <SelectComponent
-                              key={name}
-                              data={options}
-                              label={name}
-                              isButton="true"
-                              placeholder={placeholder}
-                              name={labelName}
-                              control={control}
-                              error={Boolean(errors.holiday)}
-                              helperText={errors.holiday?.message}
-                              handleChange={handleChange}
-                              value={values[labelName] || ''}
-                           />
-                        )
-                     )}
-
-                     <StyledDatePicker
-                        placeholder="Укажите дату праздника"
-                        control={control}
-                        label="Дата праздника"
-                        name="holidayDate"
-                        errorMessage={
-                           datePickerError.invalidErrorMessage ||
-                           datePickerError.emptyErrorMessage
-                        }
-                        onError={onError}
-                        disablePast
-                        datePickerHandleChange={datePickerHandleChange}
-                     />
+                     {holidayOptions.map(({ name, placeholder, labelName }) => (
+                        <SelectComponent
+                           key={name}
+                           data={holidayNames}
+                           label={name}
+                           isButton="true"
+                           placeholder={placeholder}
+                           name={labelName}
+                           control={control}
+                           disabled={Boolean(img)}
+                           error={Boolean(errors.holiday)}
+                           helperText={errors.holiday?.message}
+                           handleChange={handleChange}
+                           value={values[labelName] || ''}
+                        />
+                     ))}
                   </>
                ) : (
                   <>
@@ -244,22 +205,8 @@ export const WishListForm = ({
             />
             <ButtonContainer>
                <Button onClick={onClose}>Отмена</Button>
-               <Button
-                  onClick={() => {
-                     const { holidayDate } = getValues()
-                     let errorMessage = null
-                     if (!holidayDate) {
-                        errorMessage = 'Укажите дату праздника!'
-                     }
-                     setDatePickerError((prev) => ({
-                        ...prev,
-                        emptyErrorMessage: errorMessage,
-                     }))
-                  }}
-                  type="submit"
-                  variant="primary"
-               >
-                  Добавить
+               <Button type="submit" variant="primary">
+                  {img ? 'Сохранить' : 'Добавить'}
                </Button>
             </ButtonContainer>
          </BlockTwo>
@@ -303,11 +250,6 @@ const ButtonContainer = styled('div')({
    '& > Button': {
       borderRadius: '10px',
       textTransform: 'uppercase',
-   },
-})
-const StyledDatePicker = styled(DatePicker)({
-   input: {
-      height: '3.2vh',
    },
 })
 
