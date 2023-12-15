@@ -5,11 +5,11 @@ import { myFriendWishesSlice } from './slices/wishes/wishSlices'
 import { profileByIdSlice } from './slices/profile-slice/profileByIdSlice'
 import { holidaySlice } from './slices/holidays/holidaySlice'
 import { requestSlice } from './slices/requests/requestSlice'
-import { bookingSlice } from './slices/booking/bookingSlice'
-import { charitiesSlice } from './slices/charities/charitiesSlice'
+import { bookingSlice } from './booking/bookingSlice'
+import { charitiesSlice } from './charities/charitiesSlice'
 import { profileSlice } from './profile/profileSlice'
-import { complaintsSlice } from './slices/complaints-slice/complaintsSlice'
-import { wishByIdSlice } from './slices/wishesById/wishByIdSlice'
+import { complaintsSlice } from './complaints-slice/complaintsSlice'
+import { wishByIdSlice } from './wishesById/wishByIdSlice'
 
 export const store = configureStore({
    reducer: {

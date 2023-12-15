@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { getWishesWithComplaints } from '../../store/slices/complaints-slice/complaintsThunk'
 import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
 import { meatballsComplaintsOptions } from '../../utils/constants/meetballs-options'
+import { getWishesWithComplaints } from '../../store/complaints-slice/complaintsThunk'
 
 export const Complaints = () => {
    const dispatch = useDispatch()

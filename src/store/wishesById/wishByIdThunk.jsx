@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../config/axiosInstance'
+import { axiosInstance } from '../../config/axiosInstance'
 import {
    notifyTypes,
    toastWithPromise,
    toastWithoutPromise,
-} from '../../../utils/helpers/toast'
+} from '../../utils/helpers/toast'
 
 export const getWishlistByWishId = createAsyncThunk(
    'wish/wishId',
@@ -35,7 +35,7 @@ export const isBlockWishById = createAsyncThunk(
             'Информация',
             'Пожелание успешно заблокирован!',
             'При заблокировании желания произошла ошибка',
-            axiosInstance.post(
+            axiosInstance.put(
                `/wishlists/blockOrUnblock/${wishId}?block=${isBlock}`
             )
          )
@@ -56,7 +56,7 @@ export const isUnBlockWishById = createAsyncThunk(
             'Информация',
             'Пожелание успешно разблокирован!',
             'При раблокировки желания произошла ошибка',
-            axiosInstance.post(
+            axiosInstance.put(
                `/wishlists/blockOrUnblock/${wishId}?block=${isBlock}`
             )
          )

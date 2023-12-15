@@ -6,8 +6,8 @@ import {
    getWishlistByWishId,
    isBlockWishById,
    isUnBlockWishById,
-} from '../../store/slices/wishesById/wishByIdThunk'
-import { deleteWishById } from '../../store/slices/complaints-slice/complaintsThunk'
+} from '../../store/wishesById/wishByIdThunk'
+import { deleteWishById } from '../../store/complaints-slice/complaintsThunk'
 
 export const WishesInnerPage = () => {
    const { wishId } = useParams()

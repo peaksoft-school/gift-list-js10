@@ -14,15 +14,16 @@ import { Profile } from '../LandingPage/Profile'
 import { getProfileByUserId } from '../../store/slices/profile-slice/profileByIdThunk'
 import { getWishListByUserId } from '../../store/slices/wishes/wishThunk'
 import { getHolidaysByUserId } from '../../store/slices/holidays/holidayThunk'
-import { getCharitiesByUserId } from '../../store/slices/charities/chaririesThunk'
+
+import { shoeSizeObject } from '../../utils/constants/constants'
+import { providerEvent } from '../../events/customEvents'
 import {
    bookingCharityThunk,
    bookingWishThunk,
    unBookingWishThunk,
    unbookingCharityThunk,
-} from '../../store/slices/booking/bookingThunk'
-import { shoeSizeObject } from '../../utils/constants/constants'
-import { providerEvent } from '../../events/customEvents'
+} from '../../store/booking/bookingThunk'
+import { getCharitiesByUserId } from '../../store/charities/chaririesThunk'
 
 export const isWishBooked = (bookerId, myId) => {
    let meatballsOptions = []

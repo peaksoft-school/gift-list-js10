@@ -18,7 +18,6 @@ export const routes = {
       },
       innerComplaint: {
          path: 'complaints/:wishId',
-         headerSelectType: 'select',
       },
    },
    USER: {

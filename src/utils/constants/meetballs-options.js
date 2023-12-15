@@ -1,10 +1,4 @@
-import {
-   BlockIcon,
-   DeleteIcon,
-   IncognitoIcon,
-   LockIcon,
-   UnLockIcon,
-} from '../../assets'
+import { DeleteIcon, IncognitoIcon, LockIcon, UnLockIcon } from '../../assets'
 
 export const meetballsFriendOptions = {
    booking: [
@@ -14,7 +8,13 @@ export const meetballsFriendOptions = {
    unBooking: [{ title: 'Снять бронь', icon: <UnLockIcon /> }],
 }
 
-export const meatballsComplaintsOptions = [
-   { title: 'Заблокировать', icon: <BlockIcon /> },
-   { title: 'Удалить', icon: <DeleteIcon /> },
-]
+export const meatballsComplaintsOptions = {
+   isBlock: [
+      { title: 'Заблокировать', icon: <LockIcon /> },
+      { title: 'Удалить', icon: <DeleteIcon /> },
+   ],
+   isUnBlock: [
+      { title: 'Раблокировать', icon: <UnLockIcon /> },
+      { title: 'Удалить', icon: <DeleteIcon /> },
+   ],
+}
