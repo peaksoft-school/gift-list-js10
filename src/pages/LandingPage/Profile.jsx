@@ -10,177 +10,142 @@ import { Button } from '../../components/UI/Button'
 
 export const Profile = ({
    variant,
-   id,
-   userName,
-   userPicture,
+   image,
+   fullName,
+   phoneNumber,
    facebook,
-   instagram,
    telegram,
+   instagram,
    vk,
    city,
    email,
-   birthdate,
-   phoneNumber,
-   interesAndHobbies,
-   importantToKnow,
-   clothSize,
    shoesSize,
-   onClickFirstButton,
-   onClickSecondButton,
+   clothSize,
+   interesAndHobbies,
+   birthdate,
+   importantToKnow,
+   onDelete,
+   onAcceptFriend,
+   onRejectFriend,
+   onClick,
 }) => {
    return (
       <ProfileContainer component="div">
-         {
-            <React.Fragment key={id}>
-               <UserProfilePictureAndUserNameAndSocialsMediaContainer component="div">
-                  <UserProfilePictureContainer component="div">
-                     <img src={userPicture} alt={userName} />
-                  </UserProfilePictureContainer>
-                  <UserName variant="p">{userName}</UserName>
-                  {variant !== 'roleAdmin' &&
-                     (() => {
-                        switch (variant) {
-                           case 'emptyProfile':
-                              return (
-                                 <ApplicationToFriendsContainer>
-                                    <StyledButton
-                                       variant="primary"
-                                       onClick={onClickFirstButton}
-                                    >
-                                       Расскажите о себе
-                                    </StyledButton>
-                                    <StyledButton
-                                       onClick={onClickSecondButton}
-                                       variant="outlined"
-                                    >
-                                       Сменить пароль
-                                    </StyledButton>
-                                 </ApplicationToFriendsContainer>
-                              )
-                           case 'myProfile':
-                              return (
-                                 <ApplicationToFriendsContainer>
-                                    <StyledButton
-                                       variant="primary"
-                                       onClick={onClickFirstButton}
-                                    >
-                                       Редактировать
-                                    </StyledButton>
-                                    <StyledButton
-                                       onClick={onClickSecondButton}
-                                       variant="outlined"
-                                    >
-                                       Сменить пароль
-                                    </StyledButton>
-                                 </ApplicationToFriendsContainer>
-                              )
-                           case 'applicationToFriends':
-                              return (
-                                 <ApplicationToFriendsContainer>
-                                    <StyledButton variant="primary">
-                                       Принять заявку
-                                    </StyledButton>
-                                    <StyledButton variant="outlined">
-                                       Отклонить
-                                    </StyledButton>
-                                 </ApplicationToFriendsContainer>
-                              )
-                           case 'removeFromFriends':
-                              return (
-                                 <StyledButton variant="outlined">
-                                    Удалить из друзей
-                                 </StyledButton>
-                              )
-                           default:
-                              return (
-                                 <StyledButton variant="primary">
-                                    Добавить в друзья
-                                 </StyledButton>
-                              )
-                        }
-                     })()}
-                  {/* {variant !== 'emptyProfile' && ( */}
-                  <UserSocialMediaContainer component="div">
-                     {facebook && (
-                        <a href={facebook} target="blank">
-                           <ProfileFacebook />
-                        </a>
-                     )}
-                     {instagram && (
-                        <a href={instagram} target="blank">
-                           <ProfileInstagram />
-                        </a>
-                     )}
-                     {telegram && (
-                        <a href={telegram} target="blank">
-                           <ProfileTelegram />
-                        </a>
-                     )}
-                     {vk && (
-                        <a href={vk} target="blank">
-                           <ProfileVk />
-                        </a>
-                     )}
-                  </UserSocialMediaContainer>
-                  {/* )} */}
-               </UserProfilePictureAndUserNameAndSocialsMediaContainer>
+         <UserProfilePictureAndUserNameAndSocialsMediaContainer component="div">
+            <UserProfilePictureContainer component="div">
+               <img src={image} alt={fullName} />
+            </UserProfilePictureContainer>
+            <UserName variant="p">{fullName}</UserName>
+            {variant !== 'roleAdmin' &&
+               (() => {
+                  switch (variant) {
+                     case 'applicationToFriends':
+                        return (
+                           <ApplicationToFriendsContainer>
+                              <StyledButton
+                                 variant="primary"
+                                 onClick={onAcceptFriend}
+                              >
+                                 Принять заявку
+                              </StyledButton>
+                              <StyledButton
+                                 variant="outlined"
+                                 onClick={onRejectFriend}
+                              >
+                                 Отклонить
+                              </StyledButton>
+                           </ApplicationToFriendsContainer>
+                        )
+                     case 'removeFromFriends':
+                        return (
+                           <StyledButton variant="outlined" onClick={onDelete}>
+                              Удалить из друзей
+                           </StyledButton>
+                        )
+                     default:
+                        return (
+                           <StyledButton variant="primary" onClick={onClick}>
+                              Добавить в друзья
+                           </StyledButton>
+                        )
+                  }
+               })()}
+            <UserSocialMediaContainer component="div">
+               {facebook && (
+                  <a href={facebook} target="blank" aria-label="facebook">
+                     <ProfileFacebook />
+                  </a>
+               )}
+               {instagram && (
+                  <a href={instagram} target="blank" aria-label="Insatgram">
+                     <ProfileInstagram />
+                  </a>
+               )}
+               {telegram && (
+                  <a href={telegram} target="blank" aria-label="Telegram">
+                     <ProfileTelegram />
+                  </a>
+               )}
+               {vk && (
+                  <a href={vk} target="blank" aria-label="Vk">
+                     <ProfileVk />
+                  </a>
+               )}
+            </UserSocialMediaContainer>
+         </UserProfilePictureAndUserNameAndSocialsMediaContainer>
 
-               <UserInfoContainer component="div">
-                  {/* basic information */}
-                  <InformationText>Основная информация</InformationText>
-                  <StyledContentWrapper>
-                     <StyledBlockOne>
-                        <UserInformationAreaBlockOne>
-                           Город: <StyledContent>{city}</StyledContent>
-                        </UserInformationAreaBlockOne>
-                        <UserInformationAreaBlockOne>
-                           Email: <StyledContent>{email}</StyledContent>
-                        </UserInformationAreaBlockOne>
-                        <div>
-                           <InformationText>Интересы, хобби</InformationText>
-                           <UserInformationAreaBlockOne>
-                              Интересы,хобби:
-                              <StyledContent>{interesAndHobbies}</StyledContent>
-                           </UserInformationAreaBlockOne>
-                        </div>
-                        <div>
-                           <InformationText>Доп. инфа</InformationText>
-                           <UserInformationAreaBlockOne>
-                              Размер одежды:
-                              <StyledContent>{clothSize}</StyledContent>
-                           </UserInformationAreaBlockOne>
-                        </div>
-                     </StyledBlockOne>
-                     <StyledBlockTwo>
-                        <UserInformationAreaBlockOne>
-                           Дата рождения:
-                           <StyledContent>{birthdate}</StyledContent>
-                        </UserInformationAreaBlockOne>
-                        <UserInformationAreaBlockOne>
-                           Номер телефона:
-                           <StyledContent>{phoneNumber}</StyledContent>
-                        </UserInformationAreaBlockOne>
-                        <UserInformationAreaBlockTwo className="important">
-                           Важно знать:
-                           <StyledContent>{importantToKnow}</StyledContent>
-                        </UserInformationAreaBlockTwo>
-                        <UserInformationAreaBlockTwo>
-                           Размер обуви:
-                           <StyledContent>{shoesSize}</StyledContent>
-                        </UserInformationAreaBlockTwo>
-                     </StyledBlockTwo>
-                  </StyledContentWrapper>
-                  {variant === 'roleAdmin' && (
-                     <RemoveOrBlockContainer component="div">
-                        <RemoveButton variant="outlined">Удалить</RemoveButton>
-                        <StyledButton variant="primary">
-                           Заблокировать
-                        </StyledButton>
-                     </RemoveOrBlockContainer>
-                  )}
-               </UserInfoContainer>
-            </React.Fragment>
-         }
+         <UserInfoContainer component="div">
+            {/* basic information */}
+            <InformationText>Основная информация</InformationText>
+            <StyledContentWrapper>
+               <StyledBlockOne>
+                  <UserInformationAreaBlockOne>
+                     Город: <StyledContent>{city}</StyledContent>
+                  </UserInformationAreaBlockOne>
+                  <UserInformationAreaBlockOne>
+                     Email: <StyledContent>{email}</StyledContent>
+                  </UserInformationAreaBlockOne>
+                  <div>
+                     <InformationText>Интересы, хобби</InformationText>
+                     <UserInformationAreaBlockOne>
+                        Интересы,хобби:
+                        <StyledContent>{interesAndHobbies}</StyledContent>
+                     </UserInformationAreaBlockOne>
+                  </div>
+                  <div>
+                     <InformationText>Доп. инфа</InformationText>
+                     <UserInformationAreaBlockOne>
+                        Размер одежды:
+                        <StyledContent>{clothSize}</StyledContent>
+                     </UserInformationAreaBlockOne>
+                  </div>
+               </StyledBlockOne>
+               <StyledBlockTwo>
+                  <UserInformationAreaBlockOne>
+                     Дата рождения:
+                     <StyledContent>{birthdate}</StyledContent>
+                  </UserInformationAreaBlockOne>
+                  <UserInformationAreaBlockOne>
+                     Номер телефона:
+                     <StyledContent>{phoneNumber}</StyledContent>
+                  </UserInformationAreaBlockOne>
+                  <UserInformationAreaBlockTwo className="important">
+                     Важно знать:
+                     <StyledContent>{importantToKnow}</StyledContent>
+                  </UserInformationAreaBlockTwo>
+                  <UserInformationAreaBlockTwo>
+                     Размер обуви:
+                     <StyledContent>{shoesSize}</StyledContent>
+                  </UserInformationAreaBlockTwo>
+               </StyledBlockTwo>
+            </StyledContentWrapper>
+            {variant === 'roleAdmin' && (
+               <RemoveOrBlockContainer component="div">
+                  <RemoveButton variant="outlined">Удалить</RemoveButton>
+                  <StyledButton variant="primary">Заблокировать</StyledButton>
+               </RemoveOrBlockContainer>
+            )}
+         </UserInfoContainer>
       </ProfileContainer>
    )
 }
@@ -279,6 +244,12 @@ const RemoveOrBlockContainer = styled(Box)({
    width: '100%',
    gap: '0.625rem',
 })
+const UserInformationAreaBlockTwo = styled('div')({
+   fontSize: '0.875rem',
+   fontWeight: '400',
+   color: '#5C5C5C',
+   paddingTop: '37px',
+})
 
 const InformationText = styled('p')({
    color: '#8639B5',
@@ -292,13 +263,6 @@ const UserInformationAreaBlockOne = styled('div')({
    fontSize: '0.875rem',
    fontWeight: '400',
    color: '#5C5C5C',
-})
-
-const UserInformationAreaBlockTwo = styled('div')({
-   fontSize: '0.875rem',
-   fontWeight: '400',
-   color: '#5C5C5C',
-   paddingTop: '37px',
 })
 
 const ApplicationToFriendsContainer = styled(Box)({

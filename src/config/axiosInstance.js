@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
       if (error.response.status === 401) {
          store.dispatch(logout())
       }
-      return Promise.reject(error.message)
+      return Promise.reject(error)
    }
 )
 

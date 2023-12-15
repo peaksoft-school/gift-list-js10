@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getWishById } from './wishThunk'
+import { getWishById, getWishListByUserId } from './wishThunk'
 
 const initialState = {
    wish: {},
    pending: false,
    error: null,
+   wishes: [],
 }
 
 export const wishSlice = createSlice({
@@ -29,5 +30,24 @@ export const wishSlice = createSlice({
             pending: false,
             error: payload,
          }))
+         .addCase(getWishListByUserId.pending, (state) => {
+            return {
+               ...state,
+            }
+         })
+         .addCase(getWishListByUserId.fulfilled, (state, action) => {
+            return {
+               ...state,
+               wishes: action.payload,
+               error: null,
+               isLoading: false,
+            }
+         })
+         .addCase(getWishListByUserId.rejected, (state, action) => {
+            return {
+               ...state,
+               error: action.error.message,
+            }
+         })
    },
 })

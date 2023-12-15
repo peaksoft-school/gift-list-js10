@@ -36,3 +36,11 @@ export const meetballsFeedOptionsForCharity = {
    ],
    strangersBook: [{ title: 'Пожаловаться', icon: <ComplaintIcon /> }],
 }
+
+export const meetballsFriendOptions = {
+   booking: [
+      { title: 'Забронировать', icon: <LockIcon /> },
+      { title: 'Забронировать анонимно', icon: <IncognitoIcon /> },
+   ],
+   unBooking: [{ title: 'Снять бронь', icon: <UnLockIcon /> }],
+}

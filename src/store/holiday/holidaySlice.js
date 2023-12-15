@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getHolidayByIdThunk } from './holidayThunk'
+import { getHolidayByIdThunk, getHolidaysByUserId } from './holidayThunk'
 
-const initialState = { holiday: {}, pending: false }
+const initialState = { holiday: {}, pending: false, holidays: [] }
 
 export const holidaySlice = createSlice({
    name: 'holiday',
@@ -18,5 +18,26 @@ export const holidaySlice = createSlice({
             pending: false,
             holiday: payload,
          }))
+         .addCase(getHolidaysByUserId.pending, (state) => {
+            return {
+               ...state,
+               isloading: true,
+               error: null,
+            }
+         })
+         .addCase(getHolidaysByUserId.fulfilled, (state, action) => {
+            return {
+               ...state,
+               holidays: action.payload,
+               error: null,
+               isloading: false,
+            }
+         })
+         .addCase(getHolidaysByUserId.rejected, (state, action) => {
+            return {
+               ...state,
+               error: action.payload,
+            }
+         })
    },
 })

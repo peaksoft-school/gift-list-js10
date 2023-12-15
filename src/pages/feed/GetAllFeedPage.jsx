@@ -35,7 +35,10 @@ const isWishBooked = (bookerId, myId, type, allReadyInWishList) => {
             meatballsOptionsForReturn =
                meetballsFeedOptionsForWish.iBookThisWish
          }
-         meatballsOptionsForReturn = meetballsFeedOptionsForWish.strangersBook
+         if (bookerId && bookerId !== myId) {
+            meatballsOptionsForReturn =
+               meetballsFeedOptionsForWish.strangersBook
+         }
          if (allReadyInWishList) {
             meatballsOptionsForReturn = meatballsOptionsForReturn.filter(
                ({ title }) => title !== 'Добавить в мои подарки'
@@ -76,16 +79,32 @@ const functionsRealtiveTypeOfThing = {
             break
          case 'Забронировать':
             dispatch(
-               bookingWishThunk({ wishId, isBookingAnonymous: false, userId })
+               bookingWishThunk({
+                  wishId,
+                  isBookingAnonymous: false,
+                  userId,
+                  getSomethingFunction: getFeedsThunk,
+               })
             )
             break
          case 'Забронировать анонимно':
             dispatch(
-               bookingWishThunk({ wishId, isBookingAnonymous: true, userId })
+               bookingWishThunk({
+                  wishId,
+                  isBookingAnonymous: true,
+                  userId,
+                  getSomethingFunction: getFeedsThunk,
+               })
             )
             break
          default:
-            dispatch(unBookingWishThunk({ wishId, userId }))
+            dispatch(
+               unBookingWishThunk({
+                  wishId,
+                  userId,
+                  getSomethingFunction: getFeedsThunk,
+               })
+            )
             break
       }
    },
@@ -163,9 +182,6 @@ export const GetAllFeedPage = ({ isList }) => {
 
    useEffect(() => {
       dispatch(getFeedsThunk(id))
-      if (feeds.length) {
-         providerEvent({ action: 'showActionsButton', payload: false })
-      }
    }, [])
 
    if (pending) {
@@ -240,10 +256,7 @@ export const GetAllFeedPage = ({ isList }) => {
                            feed.type
                         )
                      }}
-                     onGetUserById={() => {
-                        // navigate to friend profile
-                        console.log(userId)
-                     }}
+                     onGetOwnerById={() => navigate(`/user/friends/${userId}`)}
                      showTopOwner
                      variant={variant}
                      onGetThingById={() =>
@@ -276,7 +289,12 @@ export const GetAllFeedPage = ({ isList }) => {
                   />
                )
             })}
-            {!Object.keys(feeds).length && <SecondEmptyComponent />}
+            {!feeds.length && (
+               <SecondEmptyComponent
+                  text="Здесь будет отображен список желаемых 
+подарков ваших друзей."
+               />
+            )}
          </StyledPaper>
          <ComplaintModal
             toggleModal={toggleCompolaintModal}

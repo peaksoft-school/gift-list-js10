@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { CardContent, CardMedia, styled } from '@mui/material'
+import { styled, CardMedia, CardContent } from '@mui/material'
 
 import EmptyState from '../../assets/images/EmptyState.png'
 
-export const SecondEmptyComponent = () => {
+export const SecondEmptyComponent = ({ text }) => {
    return (
       <EmptyContent>
          <CardMedia
@@ -14,22 +14,22 @@ export const SecondEmptyComponent = () => {
             alt="empty-image"
          />
          <CardText>Ничего нет</CardText>
-         <p>Здесь будет отображен список желаемых подарков ваших друзей.</p>
+         <p>{text}</p>
       </EmptyContent>
    )
 }
 
 const EmptyContent = styled('div')({
-   width: '600px',
+   width: '30%',
    margin: '0 auto',
-   height: '100vh',
+   height: '40vh',
    display: 'flex',
    flexDirection: 'column',
    gap: '33px',
    alignItems: 'center',
    textAlign: 'center',
    '& > p': {
-      width: '335px',
+      width: '90%',
    },
 })
 

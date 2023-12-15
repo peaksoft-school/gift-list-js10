@@ -15,28 +15,29 @@ export const feedSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(getFeedsThunk.fulfilled, (state, { payload }) => {
+            const feeds = Object.keys(payload).length
+               ? [
+                    ...(payload?.wishesResponses.map((response) => ({
+                       ...response,
+                       type: 'WISH',
+                    })) || []),
+                    ...(payload?.charityResponses.map((response) => ({
+                       ...response,
+                       type: 'CHARITY',
+                    })) || []),
+                    ...(payload?.holidayResponses.map((response) => ({
+                       ...response,
+                       type: 'HOLIDAY',
+                    })) || {}),
+                 ]
+               : []
             providerEvent({
                action: 'showActionsButton',
-               payload: Object.keys(payload).length,
+               payload: feeds.length,
             })
             return {
                ...state,
-               feeds: Object.keys(payload).length
-                  ? [
-                       ...(payload?.wishesResponses.map((response) => ({
-                          ...response,
-                          type: 'WISH',
-                       })) || []),
-                       ...(payload?.charityResponses.map((response) => ({
-                          ...response,
-                          type: 'CHARITY',
-                       })) || []),
-                       ...(payload?.holidayResponses.map((response) => ({
-                          ...response,
-                          type: 'HOLIDAY',
-                       })) || {}),
-                    ]
-                  : [],
+               feeds,
                pending: false,
                error: null,
             }

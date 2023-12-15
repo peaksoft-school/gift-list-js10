@@ -23,6 +23,31 @@ export const routes = {
       thingFromFeedById: {
          path: 'feed/:thingId',
          breadcrumb: '',
+      },
+      friends: {
+         path: 'friends',
+         breadcrumb: 'Друзья',
+      },
+      request: {
+         path: 'requests',
+      },
+      getFriendById: {
+         path: 'friends/:friendId',
+      },
+      getRequestsById: {
+         path: 'friends/requests/:friendId',
+      },
+      userProfileById: {
+         path: 'addToMyFriends/:friendId',
+      },
+      wishes: {
+         path: 'wishes',
+      },
+      holidays: {
+         path: 'holidays',
+      },
+      charities: {
+         path: 'charities',
          showListActions: true,
       },
       profile: {

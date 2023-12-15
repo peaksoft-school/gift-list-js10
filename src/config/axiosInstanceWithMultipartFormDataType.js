@@ -21,13 +21,6 @@ axiosInstanceMultiPartFormData.interceptors.response.use(
       if (error.response.status === 401) {
          store.dispatch(logout())
       }
-      return Promise.reject(error.message)
+      return Promise.reject(error)
    }
 )
-
-let storeForInject
-
-export const injectStore = (_store) => {
-   storeForInject = _store
-   return storeForInject
-}

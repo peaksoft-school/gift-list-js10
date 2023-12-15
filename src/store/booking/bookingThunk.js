@@ -1,12 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../config/axiosInstance'
 import { notifyTypes, toastWithPromise } from '../../utils/helpers/toast'
-import { getFeedsThunk } from '../feed/feedThunk'
 
 export const bookingWishThunk = createAsyncThunk(
    '/booking/bookingWishThunk',
    async (
-      { wishId, isBookingAnonymous, userId },
+      { wishId, isBookingAnonymous, userId, getSomethingFunction },
       { rejectWithValue, dispatch }
    ) => {
       try {
@@ -20,42 +19,20 @@ export const bookingWishThunk = createAsyncThunk(
                `/booking/bookingWish/${wishId}?reserveAnonymous=${isBookingAnonymous}`
             )
          )
-         dispatch(getFeedsThunk(userId))
+         dispatch(getSomethingFunction(userId))
          return response.data
       } catch (error) {
-         return rejectWithValue(error)
-      }
-   }
-)
-
-export const bookingCharityThunk = createAsyncThunk(
-   '/booking/bookingCharityThunk',
-   async (
-      { charityId, isBookingAnonymous, userId },
-      { rejectWithValue, dispatch }
-   ) => {
-      try {
-         const response = await toastWithPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
-            notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
-            'Информация',
-            'Благотворительность успешно забронирована',
-            'При бронировании подарка произошла ошибка',
-            axiosInstance.post(
-               `/booking/${charityId}?reserveAnonymous=${isBookingAnonymous}`
-            )
-         )
-         dispatch(getFeedsThunk(userId))
-         return response.data
-      } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const unBookingWishThunk = createAsyncThunk(
    '/booking/unbookingWishThunk',
-   async ({ wishId, userId }, { rejectWithValue, dispatch }) => {
+   async (
+      { wishId, userId, getSomethingFunction },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const response = await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -65,17 +42,45 @@ export const unBookingWishThunk = createAsyncThunk(
             'При разбронировании подарка произошла ошибка',
             axiosInstance.post(`/booking/unBookingWish/${wishId}`)
          )
-         dispatch(getFeedsThunk(userId))
+         dispatch(getSomethingFunction(userId))
          return response.data
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
+      }
+   }
+)
+
+export const bookingCharityThunk = createAsyncThunk(
+   '/booking/bookingCharityThunk',
+   async (
+      { charityId, isBookingAnonymous, userId, getSomethingFunction },
+      { rejectWithValue, dispatch }
+   ) => {
+      try {
+         const response = await toastWithPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
+            notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
+            'Информация',
+            'Благотворительность успешно забронирована',
+            'При бронировании благотворительности произошла ошибка',
+            axiosInstance.post(
+               `/booking/${charityId}?reserveAnonymous=${isBookingAnonymous}`
+            )
+         )
+         dispatch(getSomethingFunction(userId))
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const unbookingCharityThunk = createAsyncThunk(
    '/charity/unbookingCharityThunk',
-   async ({ charityId, userId }, { rejectWithValue, dispatch }) => {
+   async (
+      { charityId, userId, getSomethingFunction },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
@@ -85,9 +90,9 @@ export const unbookingCharityThunk = createAsyncThunk(
             'Ошибка',
             axiosInstance.post(`/booking/unBookingCharity/${charityId}`)
          )
-         return dispatch(getFeedsThunk(userId))
+         return dispatch(getSomethingFunction(userId))
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )

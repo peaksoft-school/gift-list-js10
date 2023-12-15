@@ -12,6 +12,7 @@ import React from 'react'
 import { globalTheme } from '../../../theme/globalTheme'
 import { MeatBalls } from '../MeatBalls'
 import { CardDescription } from './CardDescription'
+import { convertDateFormat } from '../../../utils/constants/formatedDate'
 
 // variants:
 // primary, secondary, tertiary, quaternary,
@@ -20,7 +21,7 @@ import { CardDescription } from './CardDescription'
 export const Card = ({
    variant = 'primary',
    list = false,
-   meatballsOptions,
+   meatballsOptions = [],
    handleChange,
    onGetThingById,
    ownerName,
@@ -32,10 +33,12 @@ export const Card = ({
    date,
    newOrOld,
    status,
-   onGetUserById,
    showBottomBooker,
-   showHoliday = true,
    showTopOwner,
+   isBlock,
+   onGetOwnerById,
+   onGetBookerById,
+   showHoliday = true,
 }) => {
    const listClassName = list && 'list'
    const bookedStatus =
@@ -43,6 +46,10 @@ export const Card = ({
          ? 'Забронирован'
          : 'В ожидании'
    const showOwnerOnTheTop = variant === 'tertiary' && showTopOwner
+
+   const inputDate = date
+   const formattedDate = convertDateFormat(inputDate)
+
    return (
       <StyledCard className={listClassName} onClick={onGetThingById}>
          {listClassName && (
@@ -53,6 +60,10 @@ export const Card = ({
                list && variant === 'secondary' && 'listWithoutHeader'
             }`}
          >
+            <StyledBlockedCard>
+               {isBlock ? <p>Это заблокированный контент!</p> : null}
+            </StyledBlockedCard>
+
             {(variant === 'primary' ||
                variant === 'withStatusTop' ||
                showOwnerOnTheTop) && (
@@ -61,7 +72,7 @@ export const Card = ({
                      ownerImage ? (
                         <StyledAvatarIcon
                            onClick={(event) => {
-                              onGetUserById()
+                              onGetOwnerById()
                               event.stopPropagation()
                            }}
                            alt={ownerName}
@@ -70,7 +81,7 @@ export const Card = ({
                      ) : (
                         <StyledAvatarIcon
                            onClick={(event) => {
-                              onGetUserById()
+                              onGetOwnerById()
                               event.stopPropagation()
                            }}
                            aria-label="recipe"
@@ -82,7 +93,7 @@ export const Card = ({
                   title={
                      <StyledOwnerWrapper
                         onClick={(event) => {
-                           onGetUserById()
+                           onGetOwnerById()
                            event.stopPropagation()
                         }}
                         type="button"
@@ -115,7 +126,6 @@ export const Card = ({
                   variant={variant}
                />
             )}
-
             <StyledCardContent>
                {variant === 'primary' && (
                   <StyledTypography variant="h6">{cardName}</StyledTypography>
@@ -124,7 +134,6 @@ export const Card = ({
                   <CardMedia component="img" image={cardImage} alt={cardName} />
                )}
             </StyledCardContent>
-
             {variant !== 'primary' && variant !== 'withStatusTop' && (
                <CardDescription
                   text1={variant === 'secondary' ? cardName : holiday}
@@ -143,13 +152,14 @@ export const Card = ({
                      list && variant === 'secondary' && 'listWithoutHeader'
                   }`}
                >
-                  <Date>{date}</Date>
+                  <Date>{formattedDate}</Date>
                   {showBottomBooker && (
                      <StyledCardActionsPar1>
                         {status === 'RESERVED' && (
                            <StyledAvatarIcon
                               alt="Фотография человека который забронировал это"
                               src={bookerImage}
+                              onClick={onGetBookerById}
                            />
                         )}
                         <span>{bookedStatus}</span>
@@ -168,9 +178,14 @@ export const Card = ({
    )
 }
 
+const StyledBlockedCard = styled('div')({
+   color: '#ca3636',
+})
+
 const StyledOwnerWrapper = styled('button')({
    backgroundColor: 'transparent',
    border: 'none',
+   cursor: 'pointer',
 })
 
 const ActionsWrapper = styled('div')({
@@ -190,7 +205,7 @@ const ContentContainer = styled('div')({
    },
    flexDirection: 'column',
    '&.list': {
-      gap: '21px',
+      // gap: '21px',
    },
    gap: '12px',
    width: '100%',
@@ -205,6 +220,9 @@ const StyledTypography = styled(Typography)({
    fontSize: '0.875rem',
    overflow: 'hidden',
    maxHeight: '3rem',
+   '&.grey': {
+      color: 'grey',
+   },
 })
 
 const StyledCardContent = styled(CardContent)(() => ({
@@ -268,6 +286,7 @@ const StyledAvatarIcon = styled(Avatar)((props) => {
       width: '1.25rem',
       height: '1.25rem',
       padding: props?.children && '13px',
+      cursor: 'pointer',
    }
 })
 

@@ -44,7 +44,7 @@ export const MeatBalls = ({
                   }}
                   value={title}
                >
-                  {Icon}
+                  {Icon && React.isValidElement(Icon) && Icon}
                   {title}
                </StyledMenuItem>
             ))}

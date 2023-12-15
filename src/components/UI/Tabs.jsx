@@ -1,21 +1,37 @@
 import { styled } from '@mui/material'
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { NavLink, useLocation } from 'react-router-dom'
+import { getFriends } from '../../store/my-friends/friendsThunk'
+import { getRequestsFromUsers } from '../../store/requests/requestThunk'
 
-export const Tabs = ({
-   friendsCount,
-   requestCount,
-   routeToMyFriends,
-   routeToRequest,
-}) => {
+export const Tabs = ({ countFriends, countRequests }) => {
+   const { pathname } = useLocation()
+   const dispatch = useDispatch()
+   useEffect(() => {
+      console.log('gfdfgdfgdsrevf')
+
+      dispatch(getFriends())
+      dispatch(getRequestsFromUsers())
+   }, [dispatch])
+
    return (
       <StyledTabs>
-         <StyledNavLink to={routeToMyFriends} className="tabs">
+         <StyledNavLink
+            pathname={pathname}
+            to="/user/friends"
+            className={`tabs ${pathname === '/user/friends' && 'activee'}`}
+         >
             Мои друзья
-            <Counter>{friendsCount}</Counter>
+            <Counter>{countFriends}</Counter>
          </StyledNavLink>
-         <StyledNavLink to={routeToRequest} className="tabs">
-            Запросы в друзья <Counter>{requestCount}</Counter>
+         <StyledNavLink
+            to="/user/friends/requests"
+            className={`tabs ${
+               pathname === '/user/friends/requests' && 'activee'
+            }`}
+         >
+            Запросы в друзья <Counter>{countRequests}</Counter>
          </StyledNavLink>
       </StyledTabs>
    )
@@ -46,7 +62,7 @@ const StyledNavLink = styled(NavLink)({
          background: '#595656',
       },
    },
-   '&.active': {
+   '&.activee': {
       background: '#8639b5',
       color: 'white',
       '&> span': {
@@ -57,11 +73,11 @@ const StyledNavLink = styled(NavLink)({
 })
 
 const Counter = styled('span')({
-   width: '3%',
+   width: '1.3vw',
    height: '2.5vh',
-   borderRadius: '50px',
+   borderRadius: '50%',
    fontSize: '0.875rem',
    fontWeight: 400,
    textAlign: 'center',
-   paddingTop: '3px',
+   paddingTop: '2px',
 })

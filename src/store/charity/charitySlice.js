@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getCharityById } from './charityThunk'
+import { getCharitiesByUserId, getCharityById } from './charityThunk'
 
 const initialState = {
-   pending: false,
+   isLoading: false,
    error: null,
    charity: {},
+   charities: [],
 }
 
 export const charitySlice = createSlice({
@@ -15,14 +16,28 @@ export const charitySlice = createSlice({
       builder
          .addCase(getCharityById.fulfilled, (state, { payload }) => ({
             ...state,
-            pending: false,
+            isLoading: false,
             error: null,
             charity: payload,
          }))
          .addCase(getCharityById.pending, (state) => ({
             ...state,
-            pending: true,
+            isLoading: true,
             error: null,
          }))
+         .addCase(getCharitiesByUserId.pending, (state) => {
+            return { ...state, isLoading: true, error: null }
+         })
+         .addCase(getCharitiesByUserId.fulfilled, (state, action) => {
+            return {
+               ...state,
+               charities: action.payload,
+               isLoading: false,
+               error: null,
+            }
+         })
+         .addCase(getCharitiesByUserId.rejected, (state, action) => {
+            return { ...state, isLoading: false, error: action.payload }
+         })
    },
 })
