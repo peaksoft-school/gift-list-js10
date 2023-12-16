@@ -270,7 +270,6 @@ const StyledCardActionsPar1 = styled('div')({
       color: '#595656',
    },
    fontSize: '0.875rem',
-   width: '60%',
    justifyContent: 'flex-end',
    gap: '10px',
 })

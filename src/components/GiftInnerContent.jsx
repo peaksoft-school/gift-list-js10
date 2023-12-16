@@ -5,9 +5,8 @@ import { Field } from './GiftInnerContentFooter'
 export function GiftInnerContent({
    role = 'user',
    complaint,
-   variant,
-   // onDelete,
-   // onEditOrOnBlock,
+   onDelete,
+   onPutChange,
 }) {
    return (
       <Container>
@@ -33,17 +32,28 @@ export function GiftInnerContent({
                </UserContainer>
             </FrowContent>
             <Main>
-               <MainContext>{complaint.name}</MainContext>
+               <MainContext href={complaint.linkToWish}>
+                  {complaint.name}
+               </MainContext>
                <FieldText>{complaint.text}</FieldText>
             </Main>
             <StyledFooter>
-               {!variant && <Field role={role} {...complaint} />}
+               <Field role={role} {...complaint} />
                <ButtonContainer>
-                  <StyledButton className="delete" variant="text" type="button">
+                  <StyledButton
+                     className="delete"
+                     variant="text"
+                     type="button"
+                     onClick={onDelete}
+                  >
                      Удалить
                   </StyledButton>
-                  <StyledButton variant="contained" type="button">
-                     {role === 'user' ? 'Редактировать' : 'Заблокировать'}
+                  <StyledButton
+                     variant="contained"
+                     type="button"
+                     onClick={onPutChange}
+                  >
+                     {role === 'user' ? 'Заблокировать' : 'Редактировать'}
                   </StyledButton>
                </ButtonContainer>
             </StyledFooter>
@@ -71,7 +81,7 @@ const Image = styled('img')({
    flexShrink: '0',
 })
 
-const MainContext = styled('p')({
+const MainContext = styled('a')({
    fontSize: '1.25rem',
 })
 
@@ -110,7 +120,6 @@ const ButtonContainer = styled('div')({
    display: 'flex',
    gap: '0.625rem',
    paddingTop: '10rem',
-   paddingLeft: '30rem',
 })
 
 const BlockContent = styled('div')({
@@ -145,6 +154,12 @@ const StyledButton = styled(Button)({
    height: 'fit-content',
    padding: '0.625rem 0.938rem',
    '&.delete': {
-      color: '#8D949E',
+      color: '#5c5c5c',
+      border: 'solid gray 1px',
+      '&:hover': {
+         backgroundColor: '#948a8a',
+         color: 'white',
+      },
    },
+   borderRadius: '0.5rem',
 })

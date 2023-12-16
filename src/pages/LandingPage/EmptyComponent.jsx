@@ -1,21 +1,11 @@
-import {
-   Typography,
-   Button,
-   CardMedia,
-   CardContent,
-   styled,
-   Box,
-} from '@mui/material'
+import { CardMedia, CardContent, styled, Box } from '@mui/material'
 
 import Empty from '../../assets/images/Empty.png'
+import { Button } from '../../components/UI/Button'
 
-export const EmptyComponent = ({ variant }) => {
+export const EmptyComponent = ({ variant, onAddSomething }) => {
    return (
       <Container>
-         <Typography variant="h6">
-            {variant ? 'Список желаний' : 'Название праздника'}
-         </Typography>
-
          <EmptyContent>
             <CardMedia
                image={Empty}
@@ -29,9 +19,9 @@ export const EmptyComponent = ({ variant }) => {
                   ? 'Вы пока не добавили желание!'
                   : ' Вы пока не добавили желаемый подарок на этот праздник'}
             </CardContent>
-            <Button variant="contained">+ Добавить желание</Button>
-            {/* // azyryncha mui button koshup turdum kiyin Button componneta merge
-         bolgondo oshonu chakyryp koiobuz// */}
+            <Button variant="primary" onClick={onAddSomething}>
+               + Добавить желание
+            </Button>
          </EmptyContent>
       </Container>
    )

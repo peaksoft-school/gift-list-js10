@@ -1,51 +1,68 @@
 import { styled } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Card } from '../components/UI/card/Card'
-import { deleteWish, getAllWishes } from '../store/wish/wishThunk'
+import { deleteWish, getAllWishes, getWishById } from '../store/wish/wishThunk'
 import { wishOptions } from '../utils/helpers/constants'
+import { EmptyComponent } from './LandingPage/EmptyComponent'
 
 export const WishListCollection = ({ isList }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const result = useSelector((state) => state.wish.wishes)
+   const { wishes, wish } = useSelector((state) => state.wish)
    const { id } = useSelector((state) => state.authLogin)
-   const handleChange = (e, wishId) => {
+   const [wishId, setWishId] = useState(null)
+   const handleChange = async (e, wishId) => {
       if (e.target.innerText === 'Удалить') {
          dispatch(deleteWish({ wishId, userId: id }))
       } else if (e.target.innerText === 'Редактировать') {
-         navigate(`putWish/${wishId}`)
+         setWishId(wishId)
+         dispatch(getWishById(wishId))
+            .unwrap()
+            .then(() => navigate(`putWish/${wishId}`, { state: { wish } }))
       }
    }
    const cardPage = (wishId) => {
       navigate(`${wishId}`)
    }
+   const onAddWish = () => {
+      navigate('addWish')
+   }
 
    useEffect(() => {
       dispatch(getAllWishes(id))
+      if (wishId) {
+         return () => {
+            navigate(`putWish/${wishId}`, { state: { wish } })
+         }
+      }
+      return () => {}
    }, [dispatch])
    return (
-      <Cards>
-         {result.map((wish) => (
-            <Card
-               key={wish.wishId}
-               cardImage={wish.wishImage}
-               cardName={wish.wishName}
-               ownerName={wish.fullName}
-               ownerImage={wish.userImage}
-               holiday={wish.holidayName}
-               status={wish.wishStatus}
-               date={wish.dateOfHoliday}
-               variant="secondary"
-               list={isList}
-               meatballsOptions={wishOptions}
-               handleChange={(e) => handleChange(e, wish.wishId)}
-               showBottomBooker="true"
-               onGetThingById={() => cardPage(wish.wishId)}
-            />
-         ))}
-      </Cards>
+      <>
+         <Cards>
+            {wishes.map((wish) => (
+               <Card
+                  key={wish.wishId}
+                  cardImage={wish.wishImage}
+                  cardName={wish.wishName}
+                  ownerName={wish.fullName}
+                  ownerImage={wish.userImage}
+                  holiday={wish.holidayName}
+                  status={wish.wishStatus}
+                  date={wish.dateOfHoliday}
+                  variant="secondary"
+                  list={isList}
+                  meatballsOptions={wishOptions}
+                  handleChange={(e) => handleChange(e, wish.wishId)}
+                  showBottomBooker="true"
+                  onGetThingById={() => cardPage(wish.wishId)}
+               />
+            ))}
+         </Cards>
+         {!wishes.length && <EmptyComponent onAddSomething={onAddWish} />}
+      </>
    )
 }
 

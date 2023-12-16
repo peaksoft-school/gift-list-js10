@@ -7,27 +7,47 @@ export function Field({
    state,
    createdDate,
    role,
+   variant = 'wish',
+   dateOfHoliday,
+   holidayName,
 }) {
    return (
       <div>
          <div>
             <DefContent>
-               <Display>
-                  <Paragraph>
-                     Категория: <TextFeature>{categoryName}</TextFeature>
-                  </Paragraph>
-                  <Paragraph>
-                     Состояние: <TextFeature>{state}</TextFeature>
-                  </Paragraph>
-               </Display>
-               <Around>
-                  <Paragraph>
-                     Подкатегория: <TextFeature>{subCategoryName}</TextFeature>
-                  </Paragraph>
-                  <Paragraph>
-                     Дата добавления: <TextFeature>{createdDate}</TextFeature>
-                  </Paragraph>
-               </Around>
+               {variant === 'charity' ? (
+                  <>
+                     <Display>
+                        <Paragraph>
+                           Категория: <TextFeature>{categoryName}</TextFeature>
+                        </Paragraph>
+                        <Paragraph>
+                           Состояние: <TextFeature>{state}</TextFeature>
+                        </Paragraph>
+                     </Display>
+                     <Around>
+                        <Paragraph>
+                           Подкатегория:
+                           <TextFeature>{subCategoryName}</TextFeature>
+                        </Paragraph>
+                        <Paragraph>
+                           Дата добавления:
+                           <TextFeature>{createdDate}</TextFeature>
+                        </Paragraph>
+                     </Around>
+                  </>
+               ) : (
+                  <ParagraphStyle>
+                     <Paragraph>
+                        Дата праздника:
+                        <TextFeature>{dateOfHoliday}</TextFeature>
+                     </Paragraph>
+                     <Paragraph>
+                        Название праздника:
+                        <TextHolidayName>{holidayName}</TextHolidayName>
+                     </Paragraph>
+                  </ParagraphStyle>
+               )}
             </DefContent>
          </div>
          {role !== 'user' &&
@@ -43,6 +63,11 @@ export function Field({
       </div>
    )
 }
+
+const ParagraphStyle = styled('div')({
+   display: 'flex',
+   gap: '6rem',
+})
 
 const Display = styled('div')({
    display: 'flex',
@@ -69,6 +94,9 @@ const Paragraph = styled('p')({
 
 const TextFeature = styled('p')({
    color: '#000',
+})
+const TextHolidayName = styled('p')({
+   color: '#0BA360',
 })
 
 const IconContainer = styled('div')({

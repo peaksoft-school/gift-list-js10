@@ -18,7 +18,6 @@ import {
    variantSchema,
    wishListSchema,
 } from '../../utils/helpers/wishListValidates'
-
 import { getAllHolidaysByUserId } from '../../store/slices/holidays/holidayThunk'
 
 const arrayState = [
@@ -67,7 +66,7 @@ export const WishListForm = ({
       reset,
       control,
       setValue,
-      getValues,
+      // getValues,
    } = useForm({
       defaultValues: { ...defaultValues },
       mode: 'onBlur',
@@ -76,22 +75,6 @@ export const WishListForm = ({
          : yupResolver(variantSchema),
    })
 
-   const valuesFromForm = getValues()
-
-   useEffect(() => {
-      if (defaultValues?.description !== valuesFromForm.description) {
-         setValue('description', defaultValues.description)
-      }
-      if (defaultValues?.holidayName !== valuesFromForm.holidayName) {
-         setValue('holidayName', defaultValues.holidayName)
-      }
-      if (defaultValues?.link !== valuesFromForm.link) {
-         setValue('link', defaultValues.link)
-      }
-      if (defaultValues?.holiday !== valuesFromForm.holiday) {
-         setValue('holiday', defaultValues.holiday)
-      }
-   }, [])
    useEffect(() => {
       if (isSubmitSuccessful) {
          reset()

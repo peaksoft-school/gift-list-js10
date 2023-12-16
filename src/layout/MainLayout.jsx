@@ -31,11 +31,15 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    })
    const [inner, setInner] = useState(false)
    const path = useParams()
+
    const [byIdName, setByIdName] = useState('')
    const buttonContent = routes[role][path['*']]?.buttonContent
    const navigate = useNavigate()
    const [breadcrumbsForRequests, setBreadcrumbsForRequests] =
       useState(breadcrumbs)
+   const [showActionsButtons, setShowActionsButtons] = useState(
+      routes[role][path['*']?.showListActions]
+   )
    useEffect(() => {
       if (
          path['*'].includes('/') &&
@@ -49,6 +53,9 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const handleDataUpdated = (event) => {
       if (event.detail.action === 'name') {
          setByIdName(event.detail.payload)
+      }
+      if (event.detail.action === 'showActionsButton') {
+         setShowActionsButtons(Boolean(event.detail.payload))
       }
    }
    useEffect(() => {
@@ -117,34 +124,40 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                         ))}
                      </StyledLegend>
                   </ImagesAndBreadcrumbsWrapper>
-                  <StyledActions>
-                     {!inner && routes[role][path['*']]?.showListActions && (
-                        <div>
-                           <StyledButton
-                              onClick={() => toggleList('card')}
-                              disableRipple
+                  {showActionsButtons && (
+                     <StyledActions>
+                        {!inner && routes[role][path['*']]?.showListActions && (
+                           <div>
+                              <StyledButton
+                                 onClick={() => toggleList('card')}
+                                 disableRipple
+                              >
+                                 <CardIcon
+                                    className={`${!isList && 'active'}`}
+                                 />
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={() => toggleList('list')}
+                                 disableRipple
+                              >
+                                 <ListIcon
+                                    className={`${isList && 'active'}`}
+                                 />
+                              </StyledButton>
+                           </div>
+                        )}
+                        {buttonContent && (
+                           <StyledSomethingAddButton
+                              variant="primary"
+                              onClick={() =>
+                                 routes[role][path['*']]?.onClick(navigate)
+                              }
                            >
-                              <CardIcon className={`${!isList && 'active'}`} />
-                           </StyledButton>
-                           <StyledButton
-                              onClick={() => toggleList('list')}
-                              disableRipple
-                           >
-                              <ListIcon className={`${isList && 'active'}`} />
-                           </StyledButton>
-                        </div>
-                     )}
-                     {buttonContent && (
-                        <StyledSomethingAddButton
-                           variant="primary"
-                           onClick={() =>
-                              routes[role][path['*']]?.onClick(navigate)
-                           }
-                        >
-                           + {buttonContent}
-                        </StyledSomethingAddButton>
-                     )}
-                  </StyledActions>
+                              + {buttonContent}
+                           </StyledSomethingAddButton>
+                        )}
+                     </StyledActions>
+                  )}
                </StyledMainContentHeader>
                <Outlet />
             </MainContentWrapper>
