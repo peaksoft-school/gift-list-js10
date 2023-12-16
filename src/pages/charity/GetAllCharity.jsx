@@ -54,7 +54,7 @@ const handleMeatballsChange = (
                charityId,
                isBookingAnonymous: false,
                userId,
-               getSomethingsByUserId: makeEventForUpdateTheAfterMeatballs,
+               getSomethingsByUserId: () => getAllCharityByUserId(userId),
             })
          )
          break
@@ -64,7 +64,7 @@ const handleMeatballsChange = (
                charityId,
                isBookingAnonymous: true,
                userId,
-               getSomethingsByUserId: makeEventForUpdateTheAfterMeatballs,
+               getSomethingsByUserId: () => getAllCharityByUserId(userId),
             })
          )
          break
@@ -73,7 +73,7 @@ const handleMeatballsChange = (
             unbookingCharityThunk({
                charityId,
                userId,
-               getSomethingsByUserId: makeEventForUpdateTheAfterMeatballs,
+               getSomethingsByUserId: () => getAllCharityByUserId(userId),
             })
          )
          break

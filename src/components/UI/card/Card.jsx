@@ -147,7 +147,7 @@ export const Card = ({
                   <Date>{formattedDate}</Date>
                   {showBottomBooker && (
                      <StyledCardActionsPar1>
-                        {status === 'RESERVED' && (
+                        {status === 'Забронирован' && (
                            <StyledAvatarIcon
                               alt="Фотография человека который забронировал это"
                               src={bookerImage}

@@ -218,16 +218,6 @@ export const UserRoutes = () => {
                   />
                }
             />
-            <Route
-               path={routes[role]['wish-list'].path}
-               element={
-                  <PrivateRoutes
-                     Component={<h1>wishes</h1>}
-                     isAuth={isAuth}
-                     fallback="/"
-                  />
-               }
-            />
          </Route>
       </Routes>
    )
