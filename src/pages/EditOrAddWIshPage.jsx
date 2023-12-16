@@ -16,7 +16,6 @@ export const EditOrAddWishPage = () => {
    const [newWish, setNewWish] = useState(Wish2)
 
    useEffect(() => {
-      console.log('in useEffect')
       setWish2(wish)
       setNewWish(wish)
    }, [wish])
@@ -60,7 +59,6 @@ export const EditOrAddWishPage = () => {
 
    return (
       <div>
-         {console.log('in div', wish, params)}
          <WishListForm
             defaultValues={
                params?.wishId && {
