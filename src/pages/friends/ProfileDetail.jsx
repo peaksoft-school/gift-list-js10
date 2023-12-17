@@ -9,7 +9,7 @@ import {
    rejectRequests,
    sendRequestToUser,
 } from '../../store/slices/my-friends/friendsThunk'
-import { meetballsFriendOptions } from '../../utils/constants/meetballs-options'
+import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
 import { Profile } from '../LandingPage/Profile'
 import { getProfileByUserId } from '../../store/slices/profile-slice/profileByIdThunk'
 import { getWishListByUserId } from '../../store/slices/wishes/wishThunk'

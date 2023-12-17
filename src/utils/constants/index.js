@@ -64,5 +64,8 @@ export const routes = {
             providerEvent({ action: 'my-holidaysModalOpen', payload: true })
          },
       },
+      holidayInnerPage: {
+         path: 'my-holidays/:holidayId',
+      },
    },
 }

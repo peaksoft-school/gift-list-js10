@@ -1,23 +1,29 @@
-import { Box, Typography, styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import {
    addHolidayQuery,
+   deleteHolidayById,
    getAllHolidaysByUserId,
+   updateHolidayQuery,
 } from '../store/holiday/holidayThunk'
-import { uploadFile } from '../utils/helpers/constants'
-import { Modal } from './Modal'
-import { Button } from './UI/Button'
-import { Input } from './UI/input/Input'
-import { UploadImage } from './UploadImage'
+import { convertDateFormat } from '../utils/constants/formatedDate'
+import { meatballsDeleteAndEditOptions } from '../utils/constants/meatballs-options'
+import { formatDate, uploadFile } from '../utils/helpers/constants'
+import { EditOrAddHolidayModal } from './EditOrAddHolidayModal'
 import { Card } from './UI/card/Card'
+import { providerEvent } from '../events/customEvents'
 
 export const MyHolidays = () => {
-   const { register, handleSubmit } = useForm()
    const [preview, setPreview] = useState({ file: '', url: '' })
+   const navigate = useNavigate()
 
-   const [addNewHolidayModalState, setAddNewHolidayModalState] = useState(false)
+   const [addNewHolidayModalState, setAddNewHolidayModalState] = useState({
+      isOpen: false,
+      defaultValues: {},
+      holidayId: 0,
+   })
    const dispatch = useDispatch()
    const { holidays } = useSelector((state) => state.holidaySlice)
    const { id } = useSelector((state) => state.authLogin)
@@ -25,7 +31,10 @@ export const MyHolidays = () => {
    useEffect(() => {
       const handleModalChange = (event) => {
          if (event.detail?.action === 'my-holidaysModalOpen') {
-            setAddNewHolidayModalState(event.detail?.payload)
+            setAddNewHolidayModalState((prev) => ({
+               ...prev,
+               isOpen: event.detail?.payload,
+            }))
          }
       }
       window.addEventListener('providerEvent', handleModalChange)
@@ -34,68 +43,102 @@ export const MyHolidays = () => {
          window.removeEventListener('providerEvent', handleModalChange)
    }, [])
 
-   const onSubmit = (values) => {
-      uploadFile(preview.file).then(({ link }) => {
+   const openAndCloseHolidayModalHandler = (defaultValues, holidayId) => {
+      setAddNewHolidayModalState((prevState) => ({
+         isOpen: !prevState.isOpen,
+         defaultValues,
+         holidayId,
+      }))
+   }
+   const onSubmit = async (values, type, holidayId) => {
+      let image = preview.url
+      if (preview.file) {
+         const response = await uploadFile(preview.file)
+         image = response.link
+      }
+      if (type === 'save') {
          dispatch(
             addHolidayQuery({
-               userData: values,
-               image: link,
+               userData: {
+                  ...values,
+                  dateOfHoliday: formatDate(values.dateOfHoliday),
+               },
+               image,
+               userId: id,
             })
          )
-      })
-   }
-   console.log(holidays)
-   const openAndCloseHolidayModalHandler = () => {
-      setAddNewHolidayModalState((prevState) => !prevState)
-   }
+      } else if (type === 'edit') {
+         dispatch(
+            updateHolidayQuery({
+               holidayId,
+               userData: {
+                  ...values,
+                  dateOfHoliday: formatDate(values.dateOfHoliday),
+               },
+               image,
+               userId: id,
+            })
+         )
+      }
 
+      openAndCloseHolidayModalHandler()
+      setPreview('')
+   }
+   const onGetHolidayById = (holidayId, holidayName) => {
+      providerEvent({ action: 'name', payload: holidayName })
+      navigate(`${holidayId}`)
+   }
    return (
       <StyledMyHolidays component="div">
          <MyHolidaysContainer component="div">
             {holidays.map((holiday) => (
-               <Card variant="" />
+               <Card
+                  key={holiday.holidayId}
+                  variant="tertiary"
+                  holiday={holiday.nameHoliday}
+                  date={convertDateFormat(holiday.dateOfHoliday)}
+                  cardImage={holiday.image}
+                  meatballsOptions={meatballsDeleteAndEditOptions}
+                  onGetThingById={() =>
+                     onGetHolidayById(holiday.holidayId, holiday.nameHoliday)
+                  }
+                  handleChange={(event) => {
+                     switch (event.target.innerText) {
+                        case 'Редактировать':
+                           setPreview({
+                              file: null,
+                              url: holiday.image,
+                           })
+                           openAndCloseHolidayModalHandler(
+                              {
+                                 nameHoliday: holiday.nameHoliday,
+                                 // image: holiday.image,
+                                 dateOfHoliday: holiday.dateOfHoliday,
+                              },
+                              holiday.holidayId
+                           )
+                           break
+                        default:
+                           dispatch(
+                              deleteHolidayById({
+                                 holidayId: holiday.holidayId,
+                                 userId: id,
+                              })
+                           )
+                           break
+                     }
+                  }}
+               />
             ))}
-            <Modal isOpen={addNewHolidayModalState} padding="20px">
-               <ModalContainer>
-                  <StyledForm
-                     component="form"
-                     onSubmit={handleSubmit(onSubmit)}
-                  >
-                     <StyledAddHolidayTitle variant="h1">
-                        Добавление праздника
-                     </StyledAddHolidayTitle>
-                     <StyledUploadImageWrapper>
-                        <UploadImage
-                           setPreview={setPreview}
-                           preview={preview}
-                        />
-                     </StyledUploadImageWrapper>
-                     <Input
-                        type="text"
-                        {...register('nameOfHoliday')}
-                        labelText="название праздника"
-                        placeholder="Введите название праздника"
-                     />
-                     <Input
-                        type="date"
-                        {...register('dateOfHoliday')}
-                        labelText="Дата праздника"
-                        placeholder="Укажите дату праздника"
-                     />
-                     <AddAndCancelButtonsContainer>
-                        <StyledHolidayButton
-                           variant="outlined"
-                           onClick={openAndCloseHolidayModalHandler}
-                        >
-                           Отмена
-                        </StyledHolidayButton>
-                        <StyledHolidayButton variant="primary" type="submit">
-                           Добавить
-                        </StyledHolidayButton>
-                     </AddAndCancelButtonsContainer>
-                  </StyledForm>
-               </ModalContainer>
-            </Modal>
+            {addNewHolidayModalState.isOpen && (
+               <EditOrAddHolidayModal
+                  preview={preview}
+                  setPreview={setPreview}
+                  onSubmit={onSubmit}
+                  addNewHolidayModalState={addNewHolidayModalState}
+                  closeHandler={openAndCloseHolidayModalHandler}
+               />
+            )}
          </MyHolidaysContainer>
       </StyledMyHolidays>
    )
@@ -103,48 +146,17 @@ export const MyHolidays = () => {
 
 const StyledMyHolidays = styled(Box)({
    backgroundColor: '#F7F8FA',
-   display: 'flex',
-   justifyContent: 'center',
 })
 
 const MyHolidaysContainer = styled(Box)({
-   paddingTop: '20px',
-})
-
-const StyledAddHolidayTitle = styled(Typography)({
-   fontSize: '1.5rem',
-   fontWeight: '500',
-   textAlign: 'center',
-})
-
-const ModalContainer = styled(Box)({
-   width: '30rem',
    display: 'flex',
-   flexDirection: 'column',
-   gap: '40px',
-})
-
-const StyledForm = styled(Box)({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '30px',
-})
-
-const AddAndCancelButtonsContainer = styled(Box)({
-   display: 'flex',
-   justifyContent: 'space-between',
-})
-
-const StyledHolidayButton = styled(Button)({
-   width: '48%',
-   textAlign: 'center',
-})
-
-const StyledUploadImageWrapper = styled('div')({
-   alignSelf: 'center',
-   height: '13.563rem',
-   width: '13.563rem',
-   '& .css-1vlo6bj': {
-      height: '100%',
+   flexWrap: 'wrap',
+   gap: '10px',
+   '& > .MuiPaper-root': {
+      width: '20.5rem',
+      marginBottom: '10px',
+   },
+   '& .MuiCardMedia-img': {
+      width: '18.75rem',
    },
 })

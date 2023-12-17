@@ -40,10 +40,9 @@ export const Card = ({
    showHoliday = true,
 }) => {
    const listClassName = list && 'list'
-   const bookedStatus =
-      bookerImage || status === 'RESERVED_ANONYMOUSLY'
-         ? 'Забронирован'
-         : 'В ожидании'
+   const bookedStatus = status?.includes('RESERVED')
+      ? 'Забронирован'
+      : 'В ожидании'
 
    const inputDate = date
    const formattedDate = convertDateFormat(inputDate)
@@ -76,7 +75,7 @@ export const Card = ({
                            aria-label="recipe"
                            onClick={onGetOwnerById}
                         >
-                           {ownerName.charAt(0)}
+                           {ownerName?.charAt(0)}
                         </StyledAvatarIcon>
                      )
                   }

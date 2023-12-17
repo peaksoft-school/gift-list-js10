@@ -1,25 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getAllHolidaysByUserId } from './holidayThunk'
+import { getAllHolidaysByUserId, getAllWishesByHolidayId } from './holidayThunk'
 
 const initialState = {
-   nameOfHoliday: null,
-   dateOfHoliday: null,
-   image: null,
+   // nameOfHoliday: null,
+   // dateOfHoliday: null,
+   // image: null,
    holidays: [],
+   wishesByHolidayId: [],
 }
 
-export const holidaySlice = createSlice({
+export const holidaysSlice = createSlice({
    name: 'holidaySlice',
    initialState,
-   reducers: {
-      addHoliday: (state, { payload: { data } }) => {
-         const newState = state
-         newState.nameOfHoliday = data.nameOfHoliday
-         newState.dateOfHoliday = data.dateOfHoliday
-         newState.image = data.image
-         return newState
-      },
-   },
+   reducers: {},
    extraReducers: (builder) => {
       builder.addCase(
          getAllHolidaysByUserId.fulfilled,
@@ -27,7 +20,11 @@ export const holidaySlice = createSlice({
             return { ...state, holidays: payload }
          }
       )
+      builder.addCase(
+         getAllWishesByHolidayId.fulfilled,
+         (state, { payload }) => {
+            return { ...state, wishesByHolidayId: payload }
+         }
+      )
    },
 })
-
-export const { addHoliday } = holidaySlice.actions

@@ -13,6 +13,7 @@ import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 import { MyHolidays } from '../../components/MyHolidays'
+import { HolidayInnerPage } from '../../components/HolidayInnerPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -36,6 +37,7 @@ export const UserRoutes = () => {
       profile,
       edit,
       userProfileById,
+      holidayInnerPage,
    } = routes[role]
 
    return (
@@ -149,9 +151,6 @@ export const UserRoutes = () => {
                }
             />
 
-            {/* You can add your components like this example to bottom
-             <Route
-               path={pahtOfYourComponent} */}
             <Route
                path={profile.path}
                element={
@@ -175,6 +174,10 @@ export const UserRoutes = () => {
             <Route
                path={routes[role]['my-holidays'].path}
                element={<MyHolidays />}
+            />
+            <Route
+               path={holidayInnerPage.path}
+               element={<HolidayInnerPage />}
             />
          </Route>
       </Routes>

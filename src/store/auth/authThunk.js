@@ -106,7 +106,7 @@ export const changePasswordQuery = createAsyncThunk(
 
 export const authWithGoogle = createAsyncThunk(
    'sign-in-with-google',
-   async (navigate, { rejectWithValue, dispatch }) => {
+   async ({ navigate, isRememberMeChecked }, { rejectWithValue, dispatch }) => {
       const provider = new GoogleAuthProvider()
       try {
          const response = await signInWithPopup(auth, provider)
@@ -118,6 +118,14 @@ export const authWithGoogle = createAsyncThunk(
             'Информация',
             'Вы авторизовались'
          )
+         if (isRememberMeChecked) {
+            localStorage.setItem(USER_KEY, JSON.stringify(secondResponse.data))
+         } else {
+            sessionStorage.setItem(
+               USER_KEY,
+               JSON.stringify(secondResponse.data)
+            )
+         }
          return dispatch(
             login({
                data: secondResponse.data,
