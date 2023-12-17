@@ -58,7 +58,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
       }
       navigate(-1)
    }
-   const isBooked = status === 'RESERVED_ANONYMOUSLY' || bookerImage
+   const isBooked = status?.includes('RESERVED') || bookerImage
    return (
       <ContentWrapper>
          <MainContentWrapper>

@@ -21,14 +21,20 @@ import {
    meetballsFeedOptionsForCharity,
    meetballsFeedOptionsForWish,
 } from '../../utils/constants/meatballs-options'
-import { convertDateFormat } from '../../utils/helpers/constants'
+import { convertDateFormat } from '../../utils/constants/formatedDate'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
-const isWishBooked = (bookerId, myId, type, allReadyInWishList) => {
-   let meatballsOptionsForReturn = []
+const isWishBooked = (
+   bookerId,
+   myId,
+   type,
+   allReadyInWishList,
+   bookedStatus
+) => {
+   let meatballsOptionsForReturn = meetballsFeedOptionsForCharity.strangersBook
    switch (type) {
       case 'WISH':
-         if (!bookerId) {
+         if (!bookerId && !bookedStatus?.includes('RESERVED')) {
             meatballsOptionsForReturn = meetballsFeedOptionsForWish.isWishFree
          }
          if (bookerId === myId) {
@@ -53,13 +59,6 @@ const isWishBooked = (bookerId, myId, type, allReadyInWishList) => {
          if (bookerId === myId) {
             meatballsOptionsForReturn =
                meetballsFeedOptionsForCharity.iBookThisCharity
-         }
-         meatballsOptionsForReturn =
-            meetballsFeedOptionsForCharity.strangersBook
-         if (allReadyInWishList) {
-            meatballsOptionsForReturn = meatballsOptionsForReturn.filter(
-               ({ title }) => title !== 'Добавить в мои подарки'
-            )
          }
          return meatballsOptionsForReturn
       default:
@@ -120,6 +119,7 @@ const functionsRealtiveTypeOfThing = {
                   charityId,
                   isBookingAnonymous: false,
                   userId,
+                  getSomethingFunction: getFeedsThunk,
                })
             )
             break
@@ -129,11 +129,18 @@ const functionsRealtiveTypeOfThing = {
                   charityId,
                   isBookingAnonymous: true,
                   userId,
+                  getSomethingFunction: getFeedsThunk,
                })
             )
             break
          default:
-            dispatch(unbookingCharityThunk({ charityId, userId }))
+            dispatch(
+               unbookingCharityThunk({
+                  charityId,
+                  userId,
+                  getSomethingFunction: getFeedsThunk,
+               })
+            )
             break
       }
    },
@@ -177,7 +184,7 @@ export const GetAllFeedPage = ({ isList }) => {
 
    const getById = (id, wishName, type) => {
       providerEvent({ action: 'name', payload: wishName })
-      navigate(`${id}`, { state: { type } })
+      navigate(`${id}/${type}`)
    }
 
    useEffect(() => {
@@ -197,7 +204,6 @@ export const GetAllFeedPage = ({ isList }) => {
                   name,
                   date,
                   variant,
-                  userId,
                   reservoirId,
                   reservoirImage,
                   ownerImage,
@@ -210,7 +216,6 @@ export const GetAllFeedPage = ({ isList }) => {
                if (feed.type === 'WISH') {
                   date = feed.dateOfHoliday
                   holidayName = feed.holidayName
-                  userId = feed.ownerId
                   reservoirId = feed.reservoirId
                   reservoirImage = feed.reservoirImage
                   ownerImage = feed.userImage
@@ -224,7 +229,6 @@ export const GetAllFeedPage = ({ isList }) => {
                   thingId = feed.charityId
                   name = feed.nameCharity
                   date = feed.createdAt
-                  userId = feed.userId
                   reservoirId = feed.charityReservoirId
                   reservoirImage = feed.bookedUserImage
                   ownerImage = feed.userImage
@@ -236,7 +240,6 @@ export const GetAllFeedPage = ({ isList }) => {
                   thingId = feed.holidayId
                   name = feed.nameHoliday
                   date = feed.dateOfHoliday
-                  userId = feed.firendId
                   ownerImage = feed.friendImage
                   thingImage = feed.image
                   holidayName = feed.nameHoliday
@@ -256,7 +259,6 @@ export const GetAllFeedPage = ({ isList }) => {
                            feed.type
                         )
                      }}
-                     onGetOwnerById={() => navigate(`/user/friends/${userId}`)}
                      showTopOwner
                      variant={variant}
                      onGetThingById={() =>
@@ -281,7 +283,8 @@ export const GetAllFeedPage = ({ isList }) => {
                         reservoirId,
                         id,
                         feed.type,
-                        feed.allReadyInWishList
+                        feed.allReadyInWishList,
+                        bookedStatus
                      )}
                      status={bookedStatus}
                      newOrOld={feed.condition === 'USED' ? 'Б/У' : 'Новый'}

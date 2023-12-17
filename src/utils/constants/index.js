@@ -21,7 +21,7 @@ export const routes = {
          showListActions: true,
       },
       thingFromFeedById: {
-         path: 'feed/:thingId',
+         path: 'feed/:thingId/:thingType',
          breadcrumb: '',
       },
       friends: {

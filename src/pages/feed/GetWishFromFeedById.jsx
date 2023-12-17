@@ -1,24 +1,23 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { InnerPageOfGiftWithAnonymousBookingAndMailing } from '../../components/InnerPageOfGiftWithAnonymousBookingAndMailing'
 import { getCharityById } from '../../store/charity/charityThunk'
-import { formatDate } from '../../utils/helpers/constants'
+import { getHolidayByIdThunk } from '../../store/holiday/holidayThunk'
+import { getWishById } from '../../store/wish/wishThunk'
 import {
    categoriesWithEnglishPropertiesName,
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/options'
-import { getWishById } from '../../store/wish/wishThunk'
-import { getHolidayByIdThunk } from '../../store/holiday/holidayThunk'
+import { formatDate } from '../../utils/helpers/constants'
 
 export const GetWishFromFeedById = () => {
    const params = useParams()
-   const location = useLocation()
    const dispatch = useDispatch()
    const { charity } = useSelector((state) => state.charity)
    const { wish } = useSelector((state) => state.wish)
    const { holiday: holidayById } = useSelector((state) => state.holiday)
-   const { type } = location.state
+   const type = params?.thingType
    useEffect(() => {
       switch (type) {
          case 'WISH':

@@ -41,10 +41,9 @@ export const Card = ({
    showHoliday = true,
 }) => {
    const listClassName = list && 'list'
-   const bookedStatus =
-      bookerImage || status === 'RESERVED_ANONYMOUSLY'
-         ? 'Забронирован'
-         : 'В ожидании'
+   const bookedStatus = status?.includes('RESERVED')
+      ? 'Забронирован'
+      : 'В ожидании'
    const showOwnerOnTheTop = variant === 'tertiary' && showTopOwner
 
    const inputDate = date
@@ -71,8 +70,9 @@ export const Card = ({
                   avatar={
                      ownerImage ? (
                         <StyledAvatarIcon
+                           showcursorpointer={onGetOwnerById}
                            onClick={(event) => {
-                              onGetOwnerById()
+                              if (onGetOwnerById) onGetOwnerById()
                               event.stopPropagation()
                            }}
                            alt={ownerName}
@@ -80,8 +80,9 @@ export const Card = ({
                         />
                      ) : (
                         <StyledAvatarIcon
+                           showcursorpointer={onGetOwnerById}
                            onClick={(event) => {
-                              onGetOwnerById()
+                              if (onGetOwnerById) onGetOwnerById()
                               event.stopPropagation()
                            }}
                            aria-label="recipe"
@@ -92,8 +93,9 @@ export const Card = ({
                   }
                   title={
                      <StyledOwnerWrapper
+                        showcursorpointer={onGetOwnerById}
                         onClick={(event) => {
-                           onGetOwnerById()
+                           if (onGetOwnerById) onGetOwnerById()
                            event.stopPropagation()
                         }}
                         type="button"
@@ -182,11 +184,11 @@ const StyledBlockedCard = styled('div')({
    color: '#ca3636',
 })
 
-const StyledOwnerWrapper = styled('button')({
+const StyledOwnerWrapper = styled('button')((props) => ({
    backgroundColor: 'transparent',
    border: 'none',
-   cursor: 'pointer',
-})
+   cursor: props.showcursorpointer && 'pointer',
+}))
 
 const ActionsWrapper = styled('div')({
    display: 'flex',
@@ -204,9 +206,6 @@ const ContentContainer = styled('div')({
       display: 'flex',
    },
    flexDirection: 'column',
-   '&.list': {
-      // gap: '21px',
-   },
    gap: '12px',
    width: '100%',
    maxHeight: '18.8125rem',
@@ -286,7 +285,7 @@ const StyledAvatarIcon = styled(Avatar)((props) => {
       width: '1.25rem',
       height: '1.25rem',
       padding: props?.children && '13px',
-      cursor: 'pointer',
+      cursor: props.showcursorpointer && 'pointer',
    }
 })
 

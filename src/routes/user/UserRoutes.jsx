@@ -154,10 +154,6 @@ export const UserRoutes = () => {
                   />
                }
             />
-
-            {/* You can add your components like this example to bottom
-             <Route
-               path={pahtOfYourComponent} */}
             <Route
                path={thingFromFeedById.path}
                element={<GetWishFromFeedById />}

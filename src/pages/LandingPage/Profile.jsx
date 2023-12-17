@@ -27,6 +27,8 @@ export const Profile = ({
    onDelete,
    onAcceptFriend,
    onRejectFriend,
+   onClickFirstButton,
+   onClickSecondButton,
    onClick,
 }) => {
    return (
@@ -39,6 +41,40 @@ export const Profile = ({
             {variant !== 'roleAdmin' &&
                (() => {
                   switch (variant) {
+                     case 'emptyProfile':
+                        return (
+                           <ApplicationToFriendsContainer>
+                              <StyledButton
+                                 variant="primary"
+                                 onClick={onClickFirstButton}
+                              >
+                                 Расскажите о себе
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={onClickSecondButton}
+                                 variant="outlined"
+                              >
+                                 Сменить пароль
+                              </StyledButton>
+                           </ApplicationToFriendsContainer>
+                        )
+                     case 'myProfile':
+                        return (
+                           <ApplicationToFriendsContainer>
+                              <StyledButton
+                                 variant="primary"
+                                 onClick={onClickFirstButton}
+                              >
+                                 Редактировать
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={onClickSecondButton}
+                                 variant="outlined"
+                              >
+                                 Сменить пароль
+                              </StyledButton>
+                           </ApplicationToFriendsContainer>
+                        )
                      case 'applicationToFriends':
                         return (
                            <ApplicationToFriendsContainer>

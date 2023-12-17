@@ -42,16 +42,6 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const navigate = useNavigate()
    const [breadcrumbsForRequests, setBreadcrumbsForRequests] =
       useState(breadcrumbs)
-   useEffect(() => {
-      if (
-         path['*'].includes('/') &&
-         path['*'].split('/').pop() !== 'requests'
-      ) {
-         setInner(true)
-      } else {
-         setInner(false)
-      }
-   }, [path])
    const handleDataUpdated = (event) => {
       if (event.detail.action === 'name') {
          setByIdName(event.detail.payload)
@@ -60,25 +50,32 @@ export const MainLayout = ({ role, isList, toggleList }) => {
          setShowActionsButtons(Boolean(event.detail.payload))
       }
    }
+   const { pathname } = useLocation()
    useEffect(() => {
       window.addEventListener('providerEvent', handleDataUpdated)
+      let breadcrumbsForUpdate = breadcrumbs
       if (path['*'].split('/').pop() === 'requests') {
-         setBreadcrumbsForRequests(breadcrumbs.slice(0, 1))
+         breadcrumbsForUpdate = breadcrumbs.slice(0, 1)
       }
+      if (
+         path['*'].includes('/') &&
+         path['*'].split('/').pop() !== 'requests'
+      ) {
+         setInner(true)
+      } else {
+         setInner(false)
+      }
+      setBreadcrumbsForRequests(breadcrumbsForUpdate)
       return () => {
          window.removeEventListener('providerEvent', handleDataUpdated)
       }
-   }, [])
+   }, [pathname])
 
    let charityHeaderSelectType
    if (path['*'].includes('charity')) {
       charityHeaderSelectType = 'select'
    }
-   const { pathname } = useLocation()
 
-   useEffect(() => {
-      setBreadcrumbsForRequests(breadcrumbs)
-   }, [pathname])
    return (
       <>
          <Sidebar roleName={role} />
