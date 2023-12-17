@@ -70,6 +70,7 @@ export const Header = ({ variantOfSelect = '' }) => {
    useEffect(() => {
       if (
          debouncedValue ||
+         !debouncedValue ||
          values.category ||
          values.country ||
          values.state ||

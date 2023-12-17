@@ -13,6 +13,7 @@ import {
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/constants'
 import { convertDateFormat } from '../../utils/helpers/constants'
+import { makeEventForUpdateTheAfterMeatballs } from './GetAllCharity'
 
 export const GetCharityById = () => {
    const { charityId } = useParams()
@@ -24,7 +25,11 @@ export const GetCharityById = () => {
 
    useEffect(() => {
       dispatch(getCharityById(charityId))
+      return () => {
+         makeEventForUpdateTheAfterMeatballs()
+      }
    }, [])
+
    if (pending) {
       return 'Loading...'
    }

@@ -110,7 +110,7 @@ export const GetAllCharity = () => {
       dispatch(complaintCharityThunk(complaintRequest))
    }
    useEffect(() => {
-      if (role === 'USER') {
+      if (role === 'USER' && !charities.length) {
          dispatch(getAllCharityByUserId(id))
       }
       if (role === 'ADMIN') {
