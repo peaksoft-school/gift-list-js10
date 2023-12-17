@@ -2,7 +2,7 @@ import { AppBar, Avatar, styled } from '@mui/material'
 import { React, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
 import { LogoutIcon, ProfileIcon } from '../assets'
 import { logout } from '../store/auth/authSlice'
@@ -47,6 +47,7 @@ export const Header = ({ variantOfSelect = '' }) => {
    const [isOpenModal, setIsOpenModal] = useState(false)
    const [debouncedValue] = useDebounce(searchTerm, 1000)
    const [doGet, setDoGet] = useState()
+   const result = useLocation()
    const handleDataUpdated = (event) => {
       if (event.detail.action === 'search') {
          setDoGet(event.detail.payload)
@@ -70,7 +71,6 @@ export const Header = ({ variantOfSelect = '' }) => {
    useEffect(() => {
       if (
          debouncedValue ||
-         !debouncedValue ||
          values.category ||
          values.country ||
          values.state ||
@@ -86,6 +86,8 @@ export const Header = ({ variantOfSelect = '' }) => {
                country: russianCountries[values.country],
             })
          )
+      } else if (result.pathname.includes('charity')) {
+         dispatch(getAllCharityByUserId(id))
       }
    }, [
       debouncedValue,
