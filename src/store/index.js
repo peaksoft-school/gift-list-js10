@@ -1,24 +1,26 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { feedSlice } from './feed/feedSlice'
 import { authSlice } from './auth/authSlice'
-import { myFriendsSlice } from './slices/my-friends/friendsSlice'
-import { myFriendWishesSlice } from './slices/wishes/wishSlices'
-import { profileByIdSlice } from './slices/profile-slice/profileByIdSlice'
-import { holidaySlice } from './slices/holidays/holidaySlice'
-import { requestSlice } from './slices/requests/requestSlice'
-import { bookingSlice } from './slices/booking/bookingSlice'
-import { charitiesSlice } from './slices/charities/charitiesSlice'
+import { requestSlice } from './requests/requestSlice'
 import { profileSlice } from './profile/profileSlice'
+import { complaintSlice } from './complaint/complaintSlice'
+import { charitySlice } from './charity/charitySlice'
+import { wishSlice } from './wish/wishSlice'
+import { myFriendsSlice } from './my-friends/friendsSlice'
+import { holidaySlice } from './holiday/holidaySlice'
+import { bookingSlice } from './booking/bookingSlice'
 
 export const store = configureStore({
    reducer: {
       [authSlice.name]: authSlice.reducer,
-      [myFriendsSlice.name]: myFriendsSlice.reducer,
-      [profileByIdSlice.name]: profileByIdSlice.reducer,
-      [myFriendWishesSlice.name]: myFriendWishesSlice.reducer,
-      [holidaySlice.name]: holidaySlice.reducer,
-      [requestSlice.name]: requestSlice.reducer,
       [bookingSlice.name]: bookingSlice.reducer,
-      [charitiesSlice.name]: charitiesSlice.reducer,
+      [charitySlice.name]: charitySlice.reducer,
+      [complaintSlice.name]: complaintSlice.reducer,
+      [feedSlice.name]: feedSlice.reducer,
+      [holidaySlice.name]: holidaySlice.reducer,
+      [myFriendsSlice.name]: myFriendsSlice.reducer,
       [profileSlice.name]: profileSlice.reducer,
+      [requestSlice.name]: requestSlice.reducer,
+      [wishSlice.name]: wishSlice.reducer,
    },
 })

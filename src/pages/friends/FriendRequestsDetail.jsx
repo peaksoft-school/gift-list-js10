@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getProfileByUserId } from '../../store/slices/profile-slice/profileThunk'
 import { Profile } from '../LandingPage/Profile'
+import { getProfileByUserId } from '../../store/profile/profileThunk'
 
 export const FriendRequestsDetail = () => {
    const { friendId } = useParams()

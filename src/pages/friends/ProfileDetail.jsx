@@ -3,26 +3,26 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
-import {
-   acceptRequest,
-   deleteFriendById,
-   rejectRequests,
-   sendRequestToUser,
-} from '../../store/slices/my-friends/friendsThunk'
-import { meetballsFriendOptions } from '../../utils/constants/meetballs-options'
+import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
 import { Profile } from '../LandingPage/Profile'
-import { getProfileByUserId } from '../../store/slices/profile-slice/profileByIdThunk'
-import { getWishListByUserId } from '../../store/slices/wishes/wishThunk'
-import { getHolidaysByUserId } from '../../store/slices/holidays/holidayThunk'
-import { getCharitiesByUserId } from '../../store/slices/charities/chaririesThunk'
+import { shoeSizeObject } from '../../utils/constants/constants'
+import { providerEvent } from '../../events/customEvents'
 import {
    bookingCharityThunk,
    bookingWishThunk,
    unBookingWishThunk,
    unbookingCharityThunk,
-} from '../../store/slices/booking/bookingThunk'
-import { shoeSizeObject } from '../../utils/constants/constants'
-import { providerEvent } from '../../events/customEvents'
+} from '../../store/booking/bookingThunk'
+import { getWishListByUserId } from '../../store/wish/wishThunk'
+import { getCharitiesByUserId } from '../../store/charity/charityThunk'
+import { getProfileByUserId } from '../../store/profile/profileThunk'
+import { getHolidaysByUserId } from '../../store/holiday/holidayThunk'
+import {
+   acceptRequest,
+   deleteFriendById,
+   rejectRequests,
+   sendRequestToUser,
+} from '../../store/my-friends/friendsThunk'
 
 export const isWishBooked = (bookerId, myId) => {
    let meatballsOptions = []
@@ -107,13 +107,13 @@ export const ProfileDetail = ({ variant }) => {
 
    const { id } = useSelector((state) => state.authLogin)
 
-   const friendWishes = useSelector((state) => state.friendWishes.wishes)
+   const friendWishes = useSelector((state) => state.wish.wishes)
    const newFriendWishes = friendWishes.slice(0, 3)
 
-   const friendHolidays = useSelector((state) => state.holidays.holidays)
+   const friendHolidays = useSelector((state) => state.holiday.holidays)
    const newFriendHolidays = friendHolidays.slice(0, 3)
 
-   const friendsCharities = useSelector((state) => state.charities.charities)
+   const friendsCharities = useSelector((state) => state.charity.charities)
    const newFriendsCharities = friendsCharities.slice(0, 3)
 
    useEffect(() => {

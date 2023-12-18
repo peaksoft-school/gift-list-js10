@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { FriendCard } from '../../components/UI/FriendCard'
 import { Tabs } from '../../components/UI/Tabs'
 import { providerEvent } from '../../events/customEvents'
-import { getFriends } from '../../store/slices/my-friends/friendsThunk'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
-import { getRequestsFromUsers } from '../../store/slices/requests/requestThunk'
 
 export const MyFriends = () => {
    const myFriends = useSelector((state) => {
@@ -21,18 +19,14 @@ export const MyFriends = () => {
 
    const { pathname } = useLocation()
 
-   const dispatch = useDispatch()
    const navigate = useNavigate()
 
    const handleOpenDetailProfile = (friendId, nameFriend) => {
       providerEvent({ action: 'name', payload: nameFriend })
       navigate(`/user/friends/${friendId}`)
    }
+   console.log('in my friends compnedn')
 
-   useEffect(() => {
-      dispatch(getFriends())
-      dispatch(getRequestsFromUsers())
-   }, [dispatch])
    return (
       <>
          <div>

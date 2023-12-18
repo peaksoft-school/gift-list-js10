@@ -20,6 +20,10 @@ export const routes = {
          breadcrumb: 'Лента',
          showListActions: true,
       },
+      thingFromFeedById: {
+         path: 'feed/:thingId/:thingType',
+         breadcrumb: '',
+      },
       friends: {
          path: 'friends',
          breadcrumb: 'Друзья',

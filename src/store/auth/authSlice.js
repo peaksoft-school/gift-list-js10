@@ -30,6 +30,7 @@ export const authSlice = createSlice({
       logout: () => {
          const newState = initialState
          localStorage.removeItem(USER_KEY)
+         sessionStorage.removeItem(USER_KEY)
          return newState
       },
    },
