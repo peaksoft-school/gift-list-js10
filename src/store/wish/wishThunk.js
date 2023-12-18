@@ -7,8 +7,8 @@ import {
    toastWithoutPromise,
 } from '../../utils/helpers/toast'
 
-export const getAllWishes = createAsyncThunk(
-   'wish/getAllWishes',
+export const getAllWishesByUserId = createAsyncThunk(
+   'wish/getAllWishesByUserId',
    async (userId, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(`/wishlists/user/${userId}`)
@@ -37,7 +37,7 @@ export const addWish = createAsyncThunk(
             axiosInstance.post(`/wishlists/${holidayId}`, wishData)
          )
          navigate(-1)
-         dispatch(getAllWishes(userId))
+         dispatch(getAllWishesByUserId(userId))
       } catch (error) {
          dispatch(addWish.rejected(error))
       }
@@ -56,7 +56,7 @@ export const deleteWish = createAsyncThunk(
             'Ошибка',
             axiosInstance.delete(`/wishlists/${wishId}`)
          )
-         return dispatch(getAllWishes(userId))
+         return dispatch(getAllWishesByUserId(userId))
       } catch (error) {
          return error
       }
@@ -79,7 +79,7 @@ export const putWish = createAsyncThunk(
             axiosInstance.put(`/wishlists/${wishId}`, wishData)
          )
          navigate(-1)
-         dispatch(getAllWishes(userId))
+         dispatch(getAllWishesByUserId(userId))
       } catch (error) {
          rejectWithValue(error)
       }

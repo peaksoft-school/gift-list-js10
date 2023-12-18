@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getAllWishes, getWishById } from './wishThunk'
+import { getAllWishesByUserId, getWishById } from './wishThunk'
 import { providerEvent } from '../../events/customEvents'
 
 const initialState = {
    wishes: [],
    loading: false,
    error: null,
-   wish: {},
+   wish: null,
 }
 
 const wishSlice = createSlice({
@@ -15,7 +15,7 @@ const wishSlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder
-         .addCase(getAllWishes.fulfilled, (state, action) => {
+         .addCase(getAllWishesByUserId.fulfilled, (state, action) => {
             providerEvent({
                action: 'showActionsButton',
                payload: action.payload.length,
@@ -27,10 +27,10 @@ const wishSlice = createSlice({
                error: null,
             }
          })
-         .addCase(getAllWishes.pending, (state) => {
+         .addCase(getAllWishesByUserId.pending, (state) => {
             return { ...state, loading: true, error: null }
          })
-         .addCase(getAllWishes.rejected, (state, action) => {
+         .addCase(getAllWishesByUserId.rejected, (state, action) => {
             return { ...state, error: action.payload, loading: false }
          })
          .addCase(getWishById.fulfilled, (state, { payload }) => ({

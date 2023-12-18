@@ -73,7 +73,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
       charityHeaderSelectType = 'select'
    }
    const { pathname } = useLocation()
-
+   console.log(breadcrumbsForRequests)
    useEffect(() => {
       setBreadcrumbsForRequests(breadcrumbs)
    }, [pathname])
@@ -88,35 +88,28 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                      <StyledLegend isinner={inner}>
                         {breadcrumbsForRequests.map(({ match }, index) => (
                            <Fragment key={match.pathname}>
-                              {(index !== 1 &&
-                                 isNumber(
-                                    getLastElementOfPath(match.pathname)
-                                 )) || (
-                                 <StyledNavLink
-                                    to={
-                                       (findNumberLength(match.pathname) &&
-                                          path['*']) ||
-                                       match.pathname
-                                    }
-                                    active={
-                                       breadcrumbsForRequests.length - 1 ===
-                                          index ||
-                                       findNumberLength(match.pathname)
-                                          ? 'true'
-                                          : ''
-                                    }
-                                 >
-                                    {isNumber(
-                                       getLastElementOfPath(match.pathname)
-                                    )
-                                       ? isNumber(
-                                            match.pathname.split('/').pop()
-                                         ) && byIdName
-                                       : routes[role][
-                                            match.pathname.split('/').pop()
-                                         ]?.breadcrumb}
-                                 </StyledNavLink>
-                              )}
+                              <StyledNavLink
+                                 to={
+                                    (findNumberLength(match.pathname) &&
+                                       path['*']) ||
+                                    match.pathname
+                                 }
+                                 active={
+                                    breadcrumbsForRequests.length - 1 ===
+                                       index || findNumberLength(match.pathname)
+                                       ? 'true'
+                                       : ''
+                                 }
+                              >
+                                 {console.log('MATCH => ', match)}
+                                 {isNumber(getLastElementOfPath(match.pathname))
+                                    ? isNumber(
+                                         match.pathname.split('/').pop()
+                                      ) && byIdName
+                                    : routes[role][
+                                         match.pathname.split('/').pop()
+                                      ]?.breadcrumb}
+                              </StyledNavLink>
                               {index !== 1 &&
                                  index !== breadcrumbsForRequests.length - 1 &&
                                  ' / '}

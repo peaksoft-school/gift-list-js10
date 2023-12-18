@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { addWish, putWish } from '../store/wish/wishThunk'
+import { useNavigate, useParams } from 'react-router-dom'
+import { addWish, getWishById, putWish } from '../store/wish/wishThunk'
 import { uploadFile } from '../utils/helpers/constants'
 import { WishListForm } from './LandingPage/WishListForm'
 
@@ -11,14 +11,9 @@ export const EditOrAddWishPage = () => {
    const { wish } = useSelector((state) => state.wish)
    const dispatch = useDispatch()
    const params = useParams()
-   const { state } = useLocation()
-   const [Wish2, setWish2] = useState(state?.wish)
-   const [newWish, setNewWish] = useState(Wish2)
-
    useEffect(() => {
-      setWish2(wish)
-      setNewWish(wish)
-   }, [wish])
+      if (params?.wishId) dispatch(getWishById(params?.wishId))
+   }, [])
 
    const onSubmit = async (values, file, holidayId) => {
       let image = wish?.wishImage
@@ -32,6 +27,7 @@ export const EditOrAddWishPage = () => {
          linkToGift: values.link,
          description: values.description,
       }
+      console.log(values)
 
       if (params.wishId) {
          return dispatch(
@@ -62,10 +58,10 @@ export const EditOrAddWishPage = () => {
          <WishListForm
             defaultValues={
                params?.wishId && {
-                  holidayName: newWish.wishName,
-                  link: newWish.linkToWish,
-                  holiday: newWish.holidayName,
-                  description: newWish.description,
+                  holidayName: wish?.wishName,
+                  link: wish?.linkToWish,
+                  holiday: wish?.holidayName,
+                  description: wish?.description,
                }
             }
             img={params?.wishId && wish?.wishImage}

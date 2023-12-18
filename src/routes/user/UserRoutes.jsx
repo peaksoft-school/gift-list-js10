@@ -159,10 +159,6 @@ export const UserRoutes = () => {
                   />
                }
             />
-
-            {/* You can add your components like this example to bottom
-             <Route
-               path={pahtOfYourComponent} */}
             <Route
                path={profile.path}
                element={
@@ -198,7 +194,7 @@ export const UserRoutes = () => {
                path={addWish.path}
                element={
                   <PrivateRoutes
-                     Component={<EditOrAddWishPage isList={isList} />}
+                     Component={<EditOrAddWishPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -208,7 +204,7 @@ export const UserRoutes = () => {
                path={putWish.path}
                element={
                   <PrivateRoutes
-                     Component={<EditOrAddWishPage isList={isList} />}
+                     Component={<EditOrAddWishPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />

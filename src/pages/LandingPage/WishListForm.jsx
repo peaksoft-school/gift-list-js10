@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/UI/Button'
@@ -58,7 +58,6 @@ export const WishListForm = ({
 }) => {
    const [preview, setPreview] = useState({ file: '', url: img })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
-
    const {
       register,
       handleSubmit,
@@ -66,14 +65,17 @@ export const WishListForm = ({
       reset,
       control,
       setValue,
-      // getValues,
    } = useForm({
-      defaultValues: { ...defaultValues },
+      defaultValues: useMemo(() => ({ ...defaultValues })),
       mode: 'onBlur',
       resolver: !variant
          ? yupResolver(wishListSchema)
          : yupResolver(variantSchema),
    })
+
+   useEffect(() => {
+      reset(defaultValues)
+   }, [defaultValues])
 
    useEffect(() => {
       if (isSubmitSuccessful) {

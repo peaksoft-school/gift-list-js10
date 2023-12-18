@@ -1,29 +1,27 @@
 import { styled } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Card } from '../components/UI/card/Card'
-import { deleteWish, getAllWishes, getWishById } from '../store/wish/wishThunk'
+import { deleteWish, getAllWishesByUserId } from '../store/wish/wishThunk'
 import { wishOptions } from '../utils/helpers/constants'
 import { EmptyComponent } from './LandingPage/EmptyComponent'
+import { providerEvent } from '../events/customEvents'
 
 export const WishListCollection = ({ isList }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { wishes, wish } = useSelector((state) => state.wish)
+   const { wishes } = useSelector((state) => state.wish)
    const { id } = useSelector((state) => state.authLogin)
-   const [wishId, setWishId] = useState(null)
    const handleChange = async (e, wishId) => {
       if (e.target.innerText === 'Удалить') {
          dispatch(deleteWish({ wishId, userId: id }))
       } else if (e.target.innerText === 'Редактировать') {
-         setWishId(wishId)
-         dispatch(getWishById(wishId))
-            .unwrap()
-            .then(() => navigate(`putWish/${wishId}`, { state: { wish } }))
+         navigate(`putWish/${wishId}`)
       }
    }
-   const cardPage = (wishId) => {
+   const cardPage = (wishId, wishName) => {
+      providerEvent({ action: 'name', payload: wishName })
       navigate(`${wishId}`)
    }
    const onAddWish = () => {
@@ -31,13 +29,7 @@ export const WishListCollection = ({ isList }) => {
    }
 
    useEffect(() => {
-      dispatch(getAllWishes(id))
-      if (wishId) {
-         return () => {
-            navigate(`putWish/${wishId}`, { state: { wish } })
-         }
-      }
-      return () => {}
+      dispatch(getAllWishesByUserId(id))
    }, [dispatch])
    return (
       <>
@@ -57,7 +49,7 @@ export const WishListCollection = ({ isList }) => {
                   meatballsOptions={wishOptions}
                   handleChange={(e) => handleChange(e, wish.wishId)}
                   showBottomBooker="true"
-                  onGetThingById={() => cardPage(wish.wishId)}
+                  onGetThingById={() => cardPage(wish.wishId, wish.wishName)}
                />
             ))}
          </Cards>
