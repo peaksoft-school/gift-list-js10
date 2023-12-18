@@ -5,10 +5,14 @@ import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
 import UsersPage from '../../pages/users/UsersPage'
-import { UserProfile } from '../../pages/users/userProfile/UserProfile'
+import { UserProfile } from '../../pages/users/profiles/UserProfile'
 import { UserWishes } from '../../pages/users/userWishes'
 import { UserHolidays } from '../../pages/users/UserHolidays'
 import { UserCharities } from '../../pages/users/UserCharities'
+import { Charity } from '../../pages/users/profiles/Charity'
+import { Wish } from '../../pages/users/profiles/Wish'
+// import { Charity } from '../../pages/users/profiles/Charity'
+// import { Wish } from '../../pages/users/profiles/Wish'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -62,6 +66,16 @@ export const AdminRoutes = () => {
                }
             />
             <Route
+               path="users/user-profile/:userId/wishes/wish/:wishId"
+               element={
+                  <PrivateRoutes
+                     Component={<Wish />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
                path="users/user-profile/:userId/holidays"
                element={
                   <PrivateRoutes
@@ -76,6 +90,16 @@ export const AdminRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<UserCharities />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path="users/user-profile/:userId/charities/charity/:charityId"
+               element={
+                  <PrivateRoutes
+                     Component={<Charity />}
                      isAuth={isAuth}
                      fallback="/"
                   />

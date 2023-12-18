@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { styled } from '@mui/material'
 import { axiosInstance } from '../../config/axiosInstance'
 import { Card } from '../../components/UI/card/Card'
@@ -10,6 +11,8 @@ export const UserWishes = () => {
    const { userId } = useSelector((state) => state.users)
    const [openModal, setOpenModal] = useState(false)
    const [userWishes, setUserWishes] = useState([])
+   const [userWishId, setUserWishId] = useState(null)
+   const navigate = useNavigate()
 
    const getUserWishes = async () => {
       const wishesResponse = await axiosInstance.get(
@@ -18,12 +21,23 @@ export const UserWishes = () => {
       setUserWishes(wishesResponse.data)
    }
 
-   const handleChange = (e) => {
+   const handleChange = (e, id) => {
       if (e.target.innerText === 'Редактировать') {
          console.log('edit')
       } else if (e.target.innerText === 'Удалить') {
          setOpenModal(true)
+         setUserWishId(id)
       }
+   }
+
+   const deleteWish = async () => {
+      await axiosInstance.delete(`/wishlists/${userWishId}`)
+      setOpenModal(false)
+      getUserWishes()
+   }
+
+   const goToWishProfile = async (id) => {
+      navigate(`wish/${id}`)
    }
 
    useEffect(() => {
@@ -45,16 +59,23 @@ export const UserWishes = () => {
                   ownerName={wish.fullName}
                   isBlock={wish.isBlock}
                   bookerImage={wish.reservoirImage}
+                  onGetThingById={() => goToWishProfile(wish.wishId)}
                   showBottomBooker="true"
                   meatballsOptions={[
                      { title: 'Редактировать', icon: <EditIcon /> },
                      { title: 'Удалить', icon: <DeleteIcon /> },
                   ]}
-                  handleChange={(e) => handleChange(e, wish.id)}
+                  handleChange={(e) => handleChange(e, wish.wishId)}
                />
             )
          })}
-         {openModal && <DeleteModal open={openModal} setOpen={setOpenModal} />}
+         {openModal && (
+            <DeleteModal
+               open={openModal}
+               setOpen={setOpenModal}
+               onDelete={deleteWish}
+            />
+         )}
       </Container>
    )
 }

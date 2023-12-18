@@ -8,11 +8,11 @@ import { axiosInstance } from '../../../config/axiosInstance'
 import { Button } from '../../../components/UI/Button'
 import {
    DeleteIcon,
-   EditIcon,
    ProfileFacebook,
    ProfileInstagram,
    ProfileTelegram,
    ProfileVk,
+   Zablock,
 } from '../../../assets'
 import { Card } from '../../../components/UI/card/Card'
 import { DeleteModal } from '../../../components/UI/DeleteModal'
@@ -31,10 +31,6 @@ export const UserProfile = () => {
       try {
          const userResponse = await axiosInstance.get(`/user/${userId}`)
          setUser(userResponse.data)
-         const wishesResponse = await axiosInstance.get(
-            `/wishlists/user/${userId}`
-         )
-         setUserWishes(wishesResponse.data)
          const holidaysResponse = await axiosInstance.get(
             `/holidays/getHolidaysByUserId/${userId}`
          )
@@ -48,16 +44,57 @@ export const UserProfile = () => {
       }
    }
 
-   const handleChange = (e) => {
-      if (e.target.innerText === 'Редактировать') {
+   const getWishes = async () => {
+      try {
+         const wishesResponse = await axiosInstance.get(
+            `/wishlists/user/${userId}`
+         )
+         setUserWishes(wishesResponse.data)
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
+   const handleWishChange = async (e, wish) => {
+      if (
+         e.target.innerText === 'Заблокировать' ||
+         e.target.innerText === 'Разблокировать'
+      ) {
+         console.log(wish)
+         await axiosInstance.put(
+            `/wishlists/blockOrUnblock/${wish.wishId}?block=${!wish.block}`
+         )
+         getWishes()
+      } else if (e.target.innerText === 'Удалить') {
+         await axiosInstance.delete(`/wishlists/${wish.wishId}`)
+         getUser()
+      }
+   }
+   const handleCharityChange = async (e, id) => {
+      if (e.target.innerText === 'Заблокировать') {
          console.log('edit')
       } else if (e.target.innerText === 'Удалить') {
-         setOpenModal(true)
+         await axiosInstance.delete(`/charity?charityId=${id}`)
+         getUser()
       }
+   }
+   const handleHolidayChange = async (e, id) => {
+      if (e.target.innerText === 'Заблокировать') {
+         console.log('edit')
+      } else if (e.target.innerText === 'Удалить') {
+         await axiosInstance.delete(`/holidays/${id}`)
+         getUser()
+      }
+   }
+
+   const deleteHandler = async () => {
+      await axiosInstance.delete(`/user/deleteUser/${userId}`)
+      navigate('/admin/users')
    }
 
    useEffect(() => {
       getUser()
+      getWishes()
    }, [])
 
    return (
@@ -129,12 +166,19 @@ export const UserProfile = () => {
                   style={{ border: 'none', height: '36px' }}
                   variant="primary"
                   type="submit"
+                  // onClick={}
                >
                   Заблокировать
                </Button>
             </div>
          </MainContainer>
-         {openModal && <DeleteModal open={openModal} setOpen={setOpenModal} />}
+         {openModal && (
+            <DeleteModal
+               open={openModal}
+               setOpen={setOpenModal}
+               onDelete={deleteHandler}
+            />
+         )}
          <ReusableContainer>
             <div className="title">
                <p>Желаемые подарки</p>
@@ -153,14 +197,22 @@ export const UserProfile = () => {
                         cardImage={wish.wishImage}
                         ownerImage={wish.userImage}
                         ownerName={wish.fullName}
-                        isBlock={wish.isBlock}
+                        isBlock={wish.block}
                         bookerImage={wish.reservoirImage}
                         showBottomBooker="true"
+                        onGetThingById={() => {
+                           navigate(`wishes/wish/${wish.wishId}`)
+                        }}
                         meatballsOptions={[
-                           { title: 'Редактировать', icon: <EditIcon /> },
+                           {
+                              title: wish.block
+                                 ? 'Разблокировать'
+                                 : 'Заблокировать',
+                              icon: <Zablock />,
+                           },
                            { title: 'Удалить', icon: <DeleteIcon /> },
                         ]}
-                        handleChange={(e) => handleChange(e, wish.id)}
+                        handleChange={(e) => handleWishChange(e, wish)}
                      />
                   )
                })}
@@ -181,10 +233,12 @@ export const UserProfile = () => {
                         holiday={holiday.nameHoliday}
                         variant="tertiary"
                         meatballsOptions={[
-                           { title: 'Редактировать', icon: <EditIcon /> },
+                           { title: 'Заблокировать', icon: <Zablock /> },
                            { title: 'Удалить', icon: <DeleteIcon /> },
                         ]}
-                        handleChange={(e) => handleChange(e, holiday.id)}
+                        handleChange={(e) =>
+                           handleHolidayChange(e, holiday.holidayId)
+                        }
                      />
                   )
                })}
@@ -210,12 +264,17 @@ export const UserProfile = () => {
                         variant="withStatusBottom"
                         showBottomBooker="true"
                         isBlock={charity?.isBlock}
+                        onGetThingById={() => {
+                           navigate(`charities/charity/${charity.charityId}`)
+                        }}
                         bookerImage={charity?.bookedUserImage}
                         meatballsOptions={[
-                           { title: 'Редактировать', icon: <EditIcon /> },
+                           { title: 'Заблокировать', icon: <Zablock /> },
                            { title: 'Удалить', icon: <DeleteIcon /> },
                         ]}
-                        handleChange={(e) => handleChange(e, charity.id)}
+                        handleChange={(e) =>
+                           handleCharityChange(e, charity.charityId)
+                        }
                      />
                   )
                })}

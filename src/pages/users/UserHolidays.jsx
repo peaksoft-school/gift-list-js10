@@ -10,6 +10,7 @@ export const UserHolidays = () => {
    const { userId } = useSelector((state) => state.users)
    const [openModal, setOpenModal] = useState(false)
    const [userHolidays, setUserHolidays] = useState([])
+   const [holidayId, setholidayId] = useState(null)
 
    const getUserHolidays = async () => {
       const holidaysResponse = await axiosInstance.get(
@@ -18,17 +19,25 @@ export const UserHolidays = () => {
       setUserHolidays(holidaysResponse.data)
    }
 
-   const handleChange = (e) => {
+   const handleChange = (e, id) => {
       if (e.target.innerText === 'Редактировать') {
          console.log('edit')
       } else if (e.target.innerText === 'Удалить') {
          setOpenModal(true)
+         setholidayId(id)
       }
+   }
+
+   const deleteHoliday = async () => {
+      await axiosInstance.delete(`/holidays/${holidayId}`)
+      setOpenModal(false)
+      getUserHolidays()
    }
 
    useEffect(() => {
       getUserHolidays()
    }, [])
+
    return (
       <Container>
          {userHolidays.map((holiday) => {
@@ -43,11 +52,17 @@ export const UserHolidays = () => {
                      { title: 'Редактировать', icon: <EditIcon /> },
                      { title: 'Удалить', icon: <DeleteIcon /> },
                   ]}
-                  handleChange={(e) => handleChange(e, holiday.id)}
+                  handleChange={(e) => handleChange(e, holiday.holidayId)}
                />
             )
          })}
-         {openModal && <DeleteModal open={openModal} setOpen={setOpenModal} />}
+         {openModal && (
+            <DeleteModal
+               open={openModal}
+               setOpen={setOpenModal}
+               onDelete={deleteHoliday}
+            />
+         )}
       </Container>
    )
 }

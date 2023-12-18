@@ -26,12 +26,13 @@ const UsersPage = () => {
    useEffect(() => {
       getUsers()
    }, [])
-   console.log(users)
 
-   const handleChange = (e, id) => {
+   const handleChange = async (e, id) => {
       if (e.target.innerText === 'Удалить') {
          setOpenModal(true)
          setUserID(id)
+      } else {
+         await axiosInstance.put(`/user/block/3?block=false`)
       }
    }
 

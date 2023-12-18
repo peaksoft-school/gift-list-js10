@@ -4,7 +4,7 @@ import { Modal } from '../Modal'
 import { RedDeleteIcon } from '../../assets'
 import { Button } from './Button'
 
-export const DeleteModal = ({ open, setOpen }) => {
+export const DeleteModal = ({ open, setOpen, onDelete }) => {
    return (
       <Modal isOpen={open} handleClose={() => setOpen(false)}>
          <ModalContainer>
@@ -38,6 +38,7 @@ export const DeleteModal = ({ open, setOpen }) => {
                   onMouseOut={(e) => {
                      e.target.style.backgroundColor = '#E53535'
                   }}
+                  onClick={onDelete}
                >
                   Удалить
                </Button>
