@@ -12,6 +12,7 @@ import { deleteWishById } from '../../store/complaints-slice/complaintsThunk'
 export const WishesInnerPage = () => {
    const { wishId } = useParams()
    const wish = useSelector((state) => state.wish.wish)
+   console.log(wish)
 
    const dispatch = useDispatch()
    useEffect(() => {
@@ -40,7 +41,7 @@ export const WishesInnerPage = () => {
             wishName={wish.wishName}
             description={wish.description}
             ownerPhoneNumber={wish.phoneNumber}
-            {...wish.complaints}
+            complaints={wish.complaints}
             onDeleteWishById={() => handleDeleteWishById(wish.wishId)}
             onBlockedWishById={() => handleBlockWish(wish.wishId)}
             onUnBlockedWishById={() => handleUnBlockedWish(wish.wishId)}

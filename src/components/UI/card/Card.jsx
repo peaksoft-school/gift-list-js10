@@ -40,10 +40,14 @@ export const Card = ({
    showHoliday = true,
 }) => {
    const listClassName = list && 'list'
-   const bookedStatus =
-      bookerImage || status === 'RESERVED_ANONYMOUSLY'
-         ? 'Забронирован'
-         : 'В ожидании'
+   let bookedStatus
+   if (bookerImage || status?.includes('RESERVED')) {
+      bookedStatus = 'Забронирован'
+   } else if (status === 'PENDING') {
+      bookedStatus = 'В ожидании'
+   } else {
+      bookedStatus = status
+   }
 
    const inputDate = date
    const formattedDate = convertDateFormat(inputDate)

@@ -5,6 +5,7 @@ import {
    toastWithPromise,
    toastWithoutPromise,
 } from '../../utils/helpers/toast'
+import { getWishesWithComplaints } from '../complaints-slice/complaintsThunk'
 
 export const getWishlistByWishId = createAsyncThunk(
    'wish/wishId',
@@ -39,7 +40,7 @@ export const isBlockWishById = createAsyncThunk(
                `/wishlists/blockOrUnblock/${wishId}?block=${isBlock}`
             )
          )
-         return dispatch(getWishlistByWishId(wishId))
+         return dispatch(getWishesWithComplaints())
       } catch (error) {
          return rejectWithValue(error)
       }
@@ -60,7 +61,7 @@ export const isUnBlockWishById = createAsyncThunk(
                `/wishlists/blockOrUnblock/${wishId}?block=${isBlock}`
             )
          )
-         return dispatch(getWishlistByWishId(wishId))
+         return dispatch(getWishesWithComplaints())
       } catch (error) {
          return rejectWithValue(error)
       }

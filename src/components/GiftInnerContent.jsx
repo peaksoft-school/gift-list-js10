@@ -1,44 +1,9 @@
 import { Button, styled } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Field } from './GiftInnerContentFooter'
 
-// const complaint = {
-//    id: '1',
-//    name: 'Рубашка',
-//    image: 'https://i.pinimg.com/474x/f7/d6/16/f7d6164f24b5d0d99a6a2a1937a188ef.jpg',
-//    status: false,
-//    categoryName: 'Школьные',
-//    createdDate: '12.04.2022',
-//    subCategoryName: 'Сумка',
-//    state: 'Б/У',
-//    buker: {
-//       id: '1',
-//       image: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-//    },
-//    owner: {
-//       userName: 'Аида Каримова',
-//       phoneNumber: '+996 705 86 95 44',
-//       image: 'https://encrypted-tbn0.gstatic.comqSRZgiuO9RnzO-CfhMlJrSe23bsHqOvog&usqp=CAU',
-//       id: '3',
-//    },
-//    text: `Рубашка с технологией ProMotion и быстрым, плавным
-//    откликом. Грандиозный апгрейд системы камер, открывающий
-//    совершенно новые возможности. Исключительная прочность. A15
-//    Bionic — самый быстрый чип для iPhone. И впечатляющее время
-//    работы без подзарядки. Всё это Pro.`,
-//    complaints: [
-//       {
-//          userName: 'Аида Каримова',
-//          reasonForComplaint: 'Причина жалобы',
-//          userImg:
-//             'https://encrypted-tbn0.gstatic.com/iuM5kFwk9AdFjesEr8EP1qcyUvah8G7w&usqp=CAU',
-//          comlaintId: '1',
-//       },
-//    ],
-// }
-
 export function AdminState({
-   role = 'user',
    image,
    ownerImage,
    ownerName,
@@ -48,8 +13,10 @@ export function AdminState({
    description,
    ownerPhoneNumber,
    onDeleteWishById,
-   ...complaints
+   complaints,
+   onBlockedWishById,
 }) {
+   const { role } = useSelector((state) => state.authLogin)
    return (
       <Container>
          <Icon src={image} alt={wishName} />
@@ -76,7 +43,7 @@ export function AdminState({
                <FieldText>{description}</FieldText>
             </Main>
             <StyledFooter>
-               <Field role={role} {...complaints} />
+               <Field role={role} complaints={complaints} />
                <ButtonContainer>
                   <StyledButton
                      className="delete"
@@ -86,7 +53,11 @@ export function AdminState({
                   >
                      Удалить
                   </StyledButton>
-                  <StyledButton variant="contained" type="button">
+                  <StyledButton
+                     variant="contained"
+                     type="button"
+                     onClick={onBlockedWishById}
+                  >
                      {role === 'user' ? 'Редактировать' : 'Заблокировать'}
                   </StyledButton>
                </ButtonContainer>
@@ -113,6 +84,7 @@ const Image = styled('img')({
    width: '3rem',
    height: '3rem',
    flexShrink: '0',
+   borderRadius: '50%',
 })
 
 const MainContext = styled('p')({
@@ -148,6 +120,7 @@ const Title = styled('span')({
 const Img = styled('img')({
    width: '1.25rem',
    height: '1.25rem',
+   borderRadius: '50%',
 })
 
 const ButtonContainer = styled('div')({

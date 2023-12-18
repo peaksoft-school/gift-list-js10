@@ -4,14 +4,46 @@ import { styled } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
+import {
+   deleteWishById,
+   getWishesWithComplaints,
+} from '../../store/complaints-slice/complaintsThunk'
 import { meatballsComplaintsOptions } from '../../utils/constants/meetballs-options'
-import { getWishesWithComplaints } from '../../store/complaints-slice/complaintsThunk'
+import {
+   isBlockWishById,
+   isUnBlockWishById,
+} from '../../store/wishesById/wishByIdThunk'
+
+export const isBlockOptions = (isBlock) => {
+   console.log(isBlock)
+   if (isBlock) {
+      return meatballsComplaintsOptions.isUnBlock
+   }
+   return meatballsComplaintsOptions.isBlock
+}
 
 export const Complaints = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const complaints = useSelector((state) => state.complaints.complaints)
    console.log(complaints)
+
+   const array = (wishId) => {
+      const newArray = complaints.find((wish) => wish.wishId === wishId)
+      console.log(newArray)
+      if (newArray && newArray.complaints && newArray.complaints.length > 0) {
+         const sortedArray = newArray.complaints
+            .slice()
+            .sort(
+               (a, b) =>
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+            )
+         console.log(sortedArray[0])
+         return sortedArray[0] || {}
+      }
+      return newArray ? newArray.complaints : []
+   }
 
    useEffect(() => {
       dispatch(getWishesWithComplaints())
@@ -22,19 +54,21 @@ export const Complaints = () => {
       navigate(`${wishId}`)
    }
 
-   // const optionsChangeHandle = (e, wishId, dispatch) => {
-   //    const selectedOption = e.target.innerText
-   //    if (selectedOption === 'Заблокировать') {
-   //       dispatch(bookingWishThunk(wishId))
-   //    } else {
-   //       dispatch()
-   //    }
-   // }
+   const optionsChangeHandle = (e, wishId, dispatch) => {
+      const selectedOption = e.target.innerText
+      if (selectedOption === 'Заблокировать') {
+         dispatch(isBlockWishById({ wishId, isBlock: true }))
+      } else if (selectedOption === 'Разблокировать') {
+         dispatch(isUnBlockWishById({ wishId, isBlock: false }))
+      } else {
+         dispatch(deleteWishById(wishId))
+      }
+   }
    return (
       <Container>
-         {complaints?.map((item, index) => (
+         {complaints?.map((item) => (
             <Card
-               key={[index]}
+               key={item.wishId}
                onGetThingById={() =>
                   openWishesInnerPage(item.wishId, item.nameWish)
                }
@@ -44,11 +78,13 @@ export const Complaints = () => {
                cardImage={item.wishImage}
                date={item.dateOfHoliday}
                holiday={item.nameHoliday}
-               meatballsOptions={meatballsComplaintsOptions}
-
-               // handleChange={(e) =>
-               //    optionsChangeHandle(e, item.wishId, dispatch)
-               // }
+               isBlock={item.block}
+               bookerImage={array(item.wishId)?.complainUserInfoImage}
+               meatballsOptions={isBlockOptions(item.block)}
+               status={array(item.wishId)?.textComplain}
+               handleChange={(e) =>
+                  optionsChangeHandle(e, item.wishId, dispatch)
+               }
             />
          ))}
       </Container>

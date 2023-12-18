@@ -1,4 +1,5 @@
 import { styled } from '@mui/material'
+import { convertDateFormat } from '../utils/constants/formatedDate'
 
 export function Field({
    complaints,
@@ -7,38 +8,56 @@ export function Field({
    state,
    createdDate,
    role,
+   variant,
 }) {
    return (
       <div>
          <div>
             <DefContent>
-               <Display>
-                  <Paragraph>
-                     Категория: <TextFeature>{categoryName}</TextFeature>
-                  </Paragraph>
-                  <Paragraph>
-                     Состояние: <TextFeature>{state}</TextFeature>
-                  </Paragraph>
-               </Display>
-               <Around>
-                  <Paragraph>
-                     Подкатегория: <TextFeature>{subCategoryName}</TextFeature>
-                  </Paragraph>
-                  <Paragraph>
-                     Дата добавления: <TextFeature>{createdDate}</TextFeature>
-                  </Paragraph>
-               </Around>
+               {variant === 'charity' ? (
+                  <>
+                     <Display>
+                        <Paragraph>
+                           Категория: <TextFeature>{categoryName}</TextFeature>
+                        </Paragraph>
+                        <Paragraph>
+                           Состояние: <TextFeature>{state}</TextFeature>
+                        </Paragraph>
+                     </Display>
+                     <Around>
+                        <Paragraph>
+                           Подкатегория:
+                           <TextFeature>{subCategoryName}</TextFeature>
+                        </Paragraph>
+                        <Paragraph>
+                           Дата добавления:
+                           <TextFeature>{createdDate}</TextFeature>
+                        </Paragraph>
+                     </Around>
+                  </>
+               ) : null}
             </DefContent>
          </div>
          {role !== 'user' &&
-            complaints.map((complaint) => (
-               <IconContainer key={complaint.id}>
-                  <ImgSoft src={complaint.userImg} alt="human" />
-                  <SpanContent>
-                     <span>{complaint.userName}</span>
-                     <Span>{complaint.reasonForComplaint}</Span>
-                  </SpanContent>
-               </IconContainer>
+            complaints?.map((complaint) => (
+               <div key={complaint.complainUserId}>
+                  <Paragraph>
+                     Дата добавления:
+                     <TextFeature>
+                        {convertDateFormat(complaint.createdAt)}
+                     </TextFeature>
+                  </Paragraph>
+                  <IconContainer>
+                     <ImgSoft
+                        src={complaint.complainUserInfoImage}
+                        alt="human"
+                     />
+                     <SpanContent>
+                        <span>{complaint.complainUserFullName}</span>
+                        <Span>{complaint.textComplain}</Span>
+                     </SpanContent>
+                  </IconContainer>
+               </div>
             ))}
       </div>
    )
@@ -60,7 +79,7 @@ const DefContent = styled('div')({
    gap: '0.990rem',
 })
 
-const Paragraph = styled('p')({
+const Paragraph = styled('div')({
    color: '#5c5c5c',
    display: 'flex',
    flexDirection: 'column',
@@ -90,4 +109,5 @@ const Span = styled('span')({
 const ImgSoft = styled('img')({
    width: '2.5rem',
    height: '2.5rem',
+   borderRadius: '50%',
 })

@@ -14,7 +14,7 @@ export const meatballsComplaintsOptions = {
       { title: 'Удалить', icon: <DeleteIcon /> },
    ],
    isUnBlock: [
-      { title: 'Раблокировать', icon: <UnLockIcon /> },
+      { title: 'Разблокировать', icon: <UnLockIcon /> },
       { title: 'Удалить', icon: <DeleteIcon /> },
    ],
 }
