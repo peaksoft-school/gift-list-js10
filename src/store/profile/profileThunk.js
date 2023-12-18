@@ -98,3 +98,22 @@ export const changePasswordThunk = createAsyncThunk(
       }
    }
 )
+
+export const getProfileByUserId = createAsyncThunk(
+   'user/friends/:friendId',
+   async (friendId, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(`/user/${friendId}`)
+         const result = response.data
+
+         return result
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка!',
+            error.message
+         )
+         return rejectWithValue(error)
+      }
+   }
+)

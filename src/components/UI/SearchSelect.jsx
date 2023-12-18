@@ -48,6 +48,8 @@ export const SearchSelect = ({
          values.search
       ) {
          setIsShowX(true)
+      } else {
+         setIsShowX(false)
       }
    })
    const onResetValues = () => {

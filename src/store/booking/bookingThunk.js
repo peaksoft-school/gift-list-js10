@@ -1,6 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+<<<<<<< HEAD
 import { notifyTypes, toastWithPromise } from '../../utils/helpers/toast'
 import { axiosInstance } from '../../config/axiosInstance'
+=======
+import { axiosInstance } from '../../config/axiosInstance'
+import { notifyTypes, toastWithPromise } from '../../utils/helpers/toast'
+>>>>>>> development
 
 export const bookingWishThunk = createAsyncThunk(
    '/booking/bookingWishThunk',
@@ -50,8 +55,6 @@ export const unBookingWishThunk = createAsyncThunk(
    }
 )
 
-// userId === 0 ? myId : userId
-
 export const bookingCharityThunk = createAsyncThunk(
    '/booking/bookingCharityThunk',
    async (
@@ -64,7 +67,7 @@ export const bookingCharityThunk = createAsyncThunk(
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
             'Информация',
             'Благотворительность успешно забронирована',
-            'При бронировании подарка произошла ошибка',
+            'При бронировании благотворительности произошла ошибка',
             axiosInstance.post(
                `/booking/${charityId}?reserveAnonymous=${isBookingAnonymous}`
             )

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Card } from '../../components/UI/card/Card'
 
 export const HolidaysPage = () => {
-   const holidays = useSelector((state) => state.holidays.holidays)
+   const holidays = useSelector((state) => state.holiday.holidays)
    return (
       <Container>
          <h2>Праздники</h2>

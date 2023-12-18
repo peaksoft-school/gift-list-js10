@@ -33,10 +33,27 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const path = useParams()
    const [byIdName, setByIdName] = useState('')
    const buttonContent = routes[role][path['*']]?.buttonContent
+   const [showActionsButtons, setShowActionsButtons] = useState(
+      routes[role][path['*']]?.showListActions
+   )
    const navigate = useNavigate()
    const [breadcrumbsForRequests, setBreadcrumbsForRequests] =
       useState(breadcrumbs)
+   const handleDataUpdated = (event) => {
+      if (event.detail.action === 'name') {
+         setByIdName(event.detail.payload)
+      }
+      if (event.detail.action === 'showActionsButton') {
+         setShowActionsButtons(Boolean(event.detail.payload))
+      }
+   }
+   const { pathname } = useLocation()
    useEffect(() => {
+      window.addEventListener('providerEvent', handleDataUpdated)
+      let breadcrumbsForUpdate = breadcrumbs
+      if (path['*'].split('/').pop() === 'requests') {
+         breadcrumbsForUpdate = breadcrumbs.slice(0, 1)
+      }
       if (
          path['*'].includes('/') &&
          path['*'].split('/').pop() !== 'requests'
@@ -45,31 +62,16 @@ export const MainLayout = ({ role, isList, toggleList }) => {
       } else {
          setInner(false)
       }
-   }, [path])
-   const handleDataUpdated = (event) => {
-      if (event.detail.action === 'name') {
-         setByIdName(event.detail.payload)
-      }
-   }
-   useEffect(() => {
-      window.addEventListener('providerEvent', handleDataUpdated)
-      if (path['*'].split('/').pop() === 'requests') {
-         setBreadcrumbsForRequests(breadcrumbs.slice(0, 1))
-      }
+      setBreadcrumbsForRequests(breadcrumbsForUpdate)
       return () => {
          window.removeEventListener('providerEvent', handleDataUpdated)
       }
-   }, [])
+   }, [pathname])
 
    let charityHeaderSelectType
    if (path['*'].includes('charity')) {
       charityHeaderSelectType = 'select'
    }
-   const { pathname } = useLocation()
-
-   useEffect(() => {
-      setBreadcrumbsForRequests(breadcrumbs)
-   }, [pathname])
    return (
       <>
          <Sidebar roleName={role} />
@@ -108,7 +110,6 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                        : routes[role][
                                             match.pathname.split('/').pop()
                                          ]?.breadcrumb}
-                                    {console.log(match)}
                                  </StyledNavLink>
                               )}
                               {index !== 1 &&
@@ -118,34 +119,40 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                         ))}
                      </StyledLegend>
                   </ImagesAndBreadcrumbsWrapper>
-                  <StyledActions>
-                     {!inner && routes[role][path['*']]?.showListActions && (
-                        <div>
-                           <StyledButton
-                              onClick={() => toggleList('card')}
-                              disableRipple
+                  {showActionsButtons && (
+                     <StyledActions>
+                        {!inner && routes[role][path['*']]?.showListActions && (
+                           <div>
+                              <StyledButton
+                                 onClick={() => toggleList('card')}
+                                 disableRipple
+                              >
+                                 <CardIcon
+                                    className={`${!isList && 'active'}`}
+                                 />
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={() => toggleList('list')}
+                                 disableRipple
+                              >
+                                 <ListIcon
+                                    className={`${isList && 'active'}`}
+                                 />
+                              </StyledButton>
+                           </div>
+                        )}
+                        {buttonContent && (
+                           <StyledSomethingAddButton
+                              variant="primary"
+                              onClick={() =>
+                                 routes[role][path['*']]?.onClick(navigate)
+                              }
                            >
-                              <CardIcon className={`${!isList && 'active'}`} />
-                           </StyledButton>
-                           <StyledButton
-                              onClick={() => toggleList('list')}
-                              disableRipple
-                           >
-                              <ListIcon className={`${isList && 'active'}`} />
-                           </StyledButton>
-                        </div>
-                     )}
-                     {buttonContent && (
-                        <StyledSomethingAddButton
-                           variant="primary"
-                           onClick={() =>
-                              routes[role][path['*']]?.onClick(navigate)
-                           }
-                        >
-                           + {buttonContent}
-                        </StyledSomethingAddButton>
-                     )}
-                  </StyledActions>
+                              + {buttonContent}
+                           </StyledSomethingAddButton>
+                        )}
+                     </StyledActions>
+                  )}
                </StyledMainContentHeader>
                <Outlet />
             </MainContentWrapper>
@@ -160,6 +167,7 @@ const ImagesAndBreadcrumbsWrapper = styled('div')({
 })
 
 const StyledSomethingAddButton = styled(Button)({ padding: '6px 20px' })
+
 const StyledActions = styled('div')({
    display: 'flex',
    gap: '15px',
