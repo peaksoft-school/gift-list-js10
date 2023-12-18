@@ -12,6 +12,9 @@ export const routes = {
          path: 'users',
          breadcrumb: 'Пользователи',
       },
+      notifications: {
+         path: 'notifications',
+      },
    },
    USER: {
       path: '/user',
