@@ -12,13 +12,15 @@ import {
    ProfileInstagram,
    ProfileTelegram,
    ProfileVk,
+   Razblock,
    Zablock,
 } from '../../../assets'
 import { Card } from '../../../components/UI/card/Card'
 import { DeleteModal } from '../../../components/UI/DeleteModal'
+import { providerEvent } from '../../../events/customEvents'
 
 export const UserProfile = () => {
-   const [user, setUser] = useState([])
+   const [user, setUser] = useState({})
    const [userWishes, setUserWishes] = useState([])
    const [userHolidays, setUserHolidays] = useState([])
    const [userCharities, setUserCharities] = useState([])
@@ -35,13 +37,14 @@ export const UserProfile = () => {
             `/holidays/getHolidaysByUserId/${userId}`
          )
          setUserHolidays(holidaysResponse.data)
-         const charityResponse = await axiosInstance.get(
-            `/charity/myCharities?userId=${userId}`
-         )
-         setUserCharities(charityResponse.data)
       } catch (error) {
          console.log(error)
       }
+   }
+
+   const blockUser = async () => {
+      await axiosInstance.put(`/user/block/${user.userId}?block=${!user.block}`)
+      getUser()
    }
 
    const getWishes = async () => {
@@ -55,36 +58,44 @@ export const UserProfile = () => {
       }
    }
 
+   const getCharities = async () => {
+      const charityResponse = await axiosInstance.get(
+         `/charity/myCharities?userId=${userId}`
+      )
+      setUserCharities(charityResponse.data)
+   }
+
    const handleWishChange = async (e, wish) => {
       if (
          e.target.innerText === 'Заблокировать' ||
          e.target.innerText === 'Разблокировать'
       ) {
-         console.log(wish)
          await axiosInstance.put(
             `/wishlists/blockOrUnblock/${wish.wishId}?block=${!wish.block}`
          )
          getWishes()
       } else if (e.target.innerText === 'Удалить') {
          await axiosInstance.delete(`/wishlists/${wish.wishId}`)
-         getUser()
+         getWishes()
       }
    }
-   const handleCharityChange = async (e, id) => {
-      if (e.target.innerText === 'Заблокировать') {
-         console.log('edit')
+   const handleCharityChange = async (e, charity) => {
+      if (
+         e.target.innerText === 'Заблокировать' ||
+         e.target.innerText === 'Разблокировать'
+      ) {
+         await axiosInstance.put(
+            `/charity/${charity.charityId}?blockCharity=${!charity.isBlock}`
+         )
+         getCharities()
       } else if (e.target.innerText === 'Удалить') {
-         await axiosInstance.delete(`/charity?charityId=${id}`)
-         getUser()
+         await axiosInstance.delete(`/charity?charityId=${charity.charityId}`)
+         getCharities()
       }
    }
    const handleHolidayChange = async (e, id) => {
-      if (e.target.innerText === 'Заблокировать') {
-         console.log('edit')
-      } else if (e.target.innerText === 'Удалить') {
-         await axiosInstance.delete(`/holidays/${id}`)
-         getUser()
-      }
+      await axiosInstance.delete(`/holidays/${id}`)
+      getUser()
    }
 
    const deleteHandler = async () => {
@@ -95,6 +106,7 @@ export const UserProfile = () => {
    useEffect(() => {
       getUser()
       getWishes()
+      getCharities()
    }, [])
 
    return (
@@ -106,10 +118,10 @@ export const UserProfile = () => {
                      <img
                         width="190px"
                         height="190px"
-                        src={user.image}
+                        src={user?.image}
                         alt=""
                      />
-                     <Typography>{user.fullName}</Typography>
+                     <Typography>{user?.fullName}</Typography>
                   </div>
                   <div className="messangers">
                      <a href="@">
@@ -130,25 +142,25 @@ export const UserProfile = () => {
                   <div>
                      <p className="violetText">Основная информация</p>
                      <p className="greyText">Город:</p>
-                     <p className="normalText">{user.country}</p>
+                     <p className="normalText">{user?.country}</p>
                      <p className="greyText email">Email:</p>
-                     <p className="normalText">{user.email}</p>
+                     <p className="normalText">{user?.email}</p>
                      <p className="violetText">Интересы, хобби</p>
                      <p className="greyText">Интересы, хобби:</p>
-                     <p className="normalText">{user.hobby}</p>
+                     <p className="normalText">{user?.hobby}</p>
                      <p className="violetText">Доп. инфа</p>
                      <p className="greyText">Размер одежды:</p>
-                     <p className="normalText">{user.clothingSize}</p>
+                     <p className="normalText">{user?.clothingSize}</p>
                   </div>
                   <div>
                      <p className="greyText margin">Дата рождения:</p>
-                     <p className="normalText">{user.dateOfBirth}</p>
+                     <p className="normalText">{user?.dateOfBirth}</p>
                      <p className="greyText numberPhone">Номер телефона:</p>
-                     <p className="normalText">{user.phoneNumber}</p>
+                     <p className="normalText">{user?.phoneNumber}</p>
                      <p className="greyText margin">Важно знать:</p>
-                     <p className="normalText">{user.important}</p>
+                     <p className="normalText">{user?.important}</p>
                      <p className="greyText margin">Размер обуви:</p>
-                     <p className="normalText">{user.shoeSize}</p>
+                     <p className="normalText">{user?.shoeSize}</p>
                   </div>
                </div>
             </div>
@@ -166,9 +178,9 @@ export const UserProfile = () => {
                   style={{ border: 'none', height: '36px' }}
                   variant="primary"
                   type="submit"
-                  // onClick={}
+                  onClick={() => blockUser()}
                >
-                  Заблокировать
+                  {user.block ? 'Разблокировать' : 'Заблокировать'}
                </Button>
             </div>
          </MainContainer>
@@ -201,6 +213,10 @@ export const UserProfile = () => {
                         bookerImage={wish.reservoirImage}
                         showBottomBooker="true"
                         onGetThingById={() => {
+                           providerEvent({
+                              action: 'innerName',
+                              payload: wish.wishName,
+                           })
                            navigate(`wishes/wish/${wish.wishId}`)
                         }}
                         meatballsOptions={[
@@ -208,7 +224,7 @@ export const UserProfile = () => {
                               title: wish.block
                                  ? 'Разблокировать'
                                  : 'Заблокировать',
-                              icon: <Zablock />,
+                              icon: wish.block ? <Razblock /> : <Zablock />,
                            },
                            { title: 'Удалить', icon: <DeleteIcon /> },
                         ]}
@@ -233,7 +249,6 @@ export const UserProfile = () => {
                         holiday={holiday.nameHoliday}
                         variant="tertiary"
                         meatballsOptions={[
-                           { title: 'Заблокировать', icon: <Zablock /> },
                            { title: 'Удалить', icon: <DeleteIcon /> },
                         ]}
                         handleChange={(e) =>
@@ -269,12 +284,19 @@ export const UserProfile = () => {
                         }}
                         bookerImage={charity?.bookedUserImage}
                         meatballsOptions={[
-                           { title: 'Заблокировать', icon: <Zablock /> },
+                           {
+                              title: charity.isBlock
+                                 ? 'Разблокировать'
+                                 : 'Заблокировать',
+                              icon: charity.isBlock ? (
+                                 <Razblock />
+                              ) : (
+                                 <Zablock />
+                              ),
+                           },
                            { title: 'Удалить', icon: <DeleteIcon /> },
                         ]}
-                        handleChange={(e) =>
-                           handleCharityChange(e, charity.charityId)
-                        }
+                        handleChange={(e) => handleCharityChange(e, charity)}
                      />
                   )
                })}

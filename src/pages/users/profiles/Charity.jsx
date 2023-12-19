@@ -92,7 +92,9 @@ export const Charity = () => {
                            {charity.condition === 'NEW' ? 'Новое' : 'Б/У'}
                         </p>
                         <p className="greyText">Дата добавления:</p>
-                        <p className="holidayName">{charity.createdAt}</p>
+                        <p className="holidayName">
+                           {charity.createdAt?.replaceAll('-', '.')}
+                        </p>
                      </div>
                   </div>
                </div>

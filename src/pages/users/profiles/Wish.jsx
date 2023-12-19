@@ -81,7 +81,7 @@ export const Wish = () => {
                   <div className="dateAndNameHolidayContainer">
                      <div>
                         <p className="greyText">Дата праздника:</p>
-                        <p>{wish.dateOfHoliday}</p>
+                        <p>{wish.dateOfHoliday?.replaceAll('-', '.')}</p>
                      </div>
                      <div>
                         <p className="greyText">Название праздника:</p>

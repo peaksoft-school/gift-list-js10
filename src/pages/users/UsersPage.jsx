@@ -6,11 +6,10 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { axiosInstance } from '../../config/axiosInstance'
 import { MeatBalls } from '../../components/UI/MeatBalls'
-import { DeleteIcon, RedDeleteIcon, Zablock } from '../../assets'
-import { Modal } from '../../components/Modal'
-import { Button } from '../../components/UI/Button'
+import { DeleteIcon, Razblock, Zablock } from '../../assets'
 import { providerEvent } from '../../events/customEvents'
 import { usersSlice } from '../../store/slices/users/users-slice'
+import { DeleteModal } from '../../components/UI/DeleteModal'
 
 const UsersPage = () => {
    const [users, setUsers] = useState([])
@@ -27,30 +26,32 @@ const UsersPage = () => {
       getUsers()
    }, [])
 
-   const handleChange = async (e, id) => {
+   const handleChange = async (e, user) => {
       if (e.target.innerText === 'Удалить') {
          setOpenModal(true)
-         setUserID(id)
+         setUserID(user.userId)
       } else {
-         await axiosInstance.put(`/user/block/3?block=false`)
+         await axiosInstance.put(
+            `/user/block/${user.userId}?block=${!user.block}`
+         )
+         getUsers()
       }
    }
 
    const deleteUser = async () => {
-      await axiosInstance.delete(`/user/deleteUser/${userID}`)
-      setOpenModal(false)
-      getUsers()
+      try {
+         setOpenModal(false)
+         await axiosInstance.delete(`/user/deleteUser/${userID}`)
+         getUsers()
+      } catch (error) {
+         console.log(error)
+      }
    }
-
-   const options = [
-      { title: 'Заблокировать', icon: <Zablock /> },
-      { title: 'Удалить', icon: <DeleteIcon /> },
-   ]
 
    const goToUserProfile = (userId, name) => {
       providerEvent({ action: 'name', payload: name })
-      dispatch(usersSlice.actions.addUserId(userId))
       navigate(`user-profile/${userId}`)
+      dispatch(usersSlice.actions.addUserId(userId))
    }
 
    return (
@@ -85,8 +86,16 @@ const UsersPage = () => {
                      </div>
                      <div className="meatBallsContainer">
                         <MeatBalls
-                           options={options}
-                           handleChange={(e) => handleChange(e, user.userId)}
+                           options={[
+                              {
+                                 title: user.block
+                                    ? 'Разблокировать'
+                                    : 'Заблокировать',
+                                 icon: user.block ? <Razblock /> : <Zablock />,
+                              },
+                              { title: 'Удалить', icon: <DeleteIcon /> },
+                           ]}
+                           handleChange={(e) => handleChange(e, user)}
                         />
                      </div>
                   </UserCard>
@@ -94,82 +103,16 @@ const UsersPage = () => {
             })}
          </Container>
          {openModal && (
-            <Modal isOpen={openModal} handleClose={() => setOpenModal(false)}>
-               <ModalContainer>
-                  <div className="blabla">
-                     <div>
-                        <RedDeleteIcon />
-                     </div>
-                     <div className="deleteandquestion">
-                        <p className="delete">Удаление</p>
-                        <p>Вы уверены что хотите удалить ? </p>
-                     </div>
-                  </div>
-                  <div className="buttons">
-                     <Button
-                        style={{ height: '37px', width: '232px' }}
-                        variant="outlined"
-                        onClick={() => setOpenModal(false)}
-                     >
-                        Отмена
-                     </Button>
-                     <Button
-                        style={{
-                           background: '#E53535',
-                           height: '37px',
-                           width: '232px',
-                        }}
-                        variant="contained"
-                        onMouseOver={(e) => {
-                           e.target.style.backgroundColor = '#DD0B37'
-                        }}
-                        onMouseOut={(e) => {
-                           e.target.style.backgroundColor = '#E53535'
-                        }}
-                        onClick={deleteUser}
-                     >
-                        Удалить
-                     </Button>
-                  </div>
-               </ModalContainer>
-            </Modal>
+            <DeleteModal
+               open={openModal}
+               onDelete={deleteUser}
+               setOpen={setOpenModal}
+            />
          )}
       </div>
    )
 }
 
-const ModalContainer = styled('div')`
-   padding: 20px 32px 20px 32px;
-   .blabla {
-      display: flex;
-      .deleteandquestion {
-         margin-left: 20px;
-      }
-      & .delete {
-         color: var(--color-dark-dark, #23262f);
-         font-family: Inter;
-         font-size: 24px;
-         font-style: normal;
-         font-weight: 400;
-         line-height: 24px;
-      }
-      & .delete + p {
-         margin-top: 8px;
-         color: var(--color-dark-dark-2, #87898e);
-         font-family: Inter;
-         font-size: 14px;
-         font-style: normal;
-         font-weight: 400;
-         line-height: 16px;
-      }
-   }
-   .buttons {
-      margin-top: 24px;
-      & :first-child {
-         margin-right: 16px;
-      }
-   }
-`
 const Container = styled('div')`
    display: flex;
    flex-wrap: wrap;
