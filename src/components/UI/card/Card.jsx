@@ -33,18 +33,19 @@ export const Card = ({
    date,
    newOrOld,
    status,
+   showBottomBooker,
+   showTopOwner,
    isBlock,
    onGetOwnerById,
    onGetBookerById,
-   showBottomBooker,
    onClick,
    showHoliday = true,
 }) => {
    const listClassName = list && 'list'
-   const bookedStatus =
-      bookerImage || status === 'RESERVED_ANONYMOUSLY'
-         ? 'Забронирован'
-         : 'В ожидании'
+   const bookedStatus = status?.includes('RESERVED')
+      ? 'Забронирован'
+      : 'В ожидании'
+   const showOwnerOnTheTop = variant === 'tertiary' && showTopOwner
 
    const inputDate = date
    const formattedDate = convertDateFormat(inputDate)
@@ -53,7 +54,7 @@ export const Card = ({
       <StyledCard
          className={listClassName}
          onClick={onGetThingById}
-         isBlock={isBlock}
+         isblock={String(isBlock)}
       >
          {listClassName && (
             <CardMedia component="img" image={cardImage} alt={cardName} />
@@ -63,31 +64,44 @@ export const Card = ({
                list && variant === 'secondary' && 'listWithoutHeader'
             }`}
          >
-            {/* <StyledBlockedCard>
-               {isBlock ? <p>Это заблокированный контент!</p> : null}
-            </StyledBlockedCard> */}
-
-            {(variant === 'primary' || variant === 'withStatusTop') && (
+            {(variant === 'primary' ||
+               variant === 'withStatusTop' ||
+               showOwnerOnTheTop) && (
                <CardHeader
                   onClick={onClick}
                   avatar={
                      ownerImage ? (
                         <StyledAvatarIcon
+                           showcursorpointer={onGetOwnerById}
+                           onClick={(event) => {
+                              if (onGetOwnerById) onGetOwnerById()
+                              event.stopPropagation()
+                           }}
                            alt={ownerName}
                            src={ownerImage}
-                           onClick={onGetOwnerById}
                         />
                      ) : (
                         <StyledAvatarIcon
+                           showcursorpointer={onGetOwnerById}
+                           onClick={(event) => {
+                              if (onGetOwnerById) onGetOwnerById()
+                              event.stopPropagation()
+                           }}
                            aria-label="recipe"
-                           onClick={onGetOwnerById}
                         >
                            {ownerName.charAt(0)}
                         </StyledAvatarIcon>
                      )
                   }
                   title={
-                     <StyledOwnerWrapper type="button" onClick={onGetOwnerById}>
+                     <StyledOwnerWrapper
+                        showcursorpointer={onGetOwnerById}
+                        onClick={(event) => {
+                           if (onGetOwnerById) onGetOwnerById()
+                           event.stopPropagation()
+                        }}
+                        type="button"
+                     >
                         {ownerName}
                      </StyledOwnerWrapper>
                   }
@@ -103,6 +117,7 @@ export const Card = ({
                   }
                />
             )}
+
             {variant === 'withStatusTop' && (
                <CardDescription
                   onClick={onClick}
@@ -117,7 +132,7 @@ export const Card = ({
                />
             )}
 
-            <StyledCardContent isBlock={isBlock} onClick={onClick}>
+            <StyledCardContent isblock={String(isBlock)} onClick={onClick}>
                {variant === 'primary' && (
                   <StyledTypography variant="h6">{cardName}</StyledTypography>
                )}
@@ -186,10 +201,11 @@ const StyledBlockedCard = styled('div')({
    left: '0',
 })
 
-const StyledOwnerWrapper = styled('button')({
+const StyledOwnerWrapper = styled('button')((props) => ({
    backgroundColor: 'transparent',
    border: 'none',
-})
+   cursor: props.showcursorpointer && 'pointer',
+}))
 
 const ActionsWrapper = styled('div')({
    display: 'flex',
@@ -200,22 +216,22 @@ const ActionsWrapper = styled('div')({
       gap: '127px',
    },
 })
+
 const ContentContainer = styled('div')({
    display: 'grid',
    '&.listWithoutHeader': {
       display: 'flex',
    },
    flexDirection: 'column',
-   '&.list': {
-      gap: '21px',
-   },
    gap: '12px',
    width: '100%',
    maxHeight: '18.8125rem',
 })
+
 const Date = styled('span')({
    fontSize: '0.875rem',
 })
+
 const StyledTypography = styled(Typography)({
    fontSize: '0.875rem',
    overflow: 'hidden',
@@ -224,16 +240,16 @@ const StyledTypography = styled(Typography)({
       color: 'grey',
    },
 })
-const StyledCardContent = styled(CardContent)(({ isBlock }) => ({
+const StyledCardContent = styled(CardContent)(({ isblock }) => ({
    padding: '0',
    img: {
       maxHeight: '9.5625rem',
       borderRadius: '7px',
-      filter: isBlock && 'blur(1px)',
+      filter: isblock && 'blur(1px)',
    },
    width: '19.8125rem',
 }))
-const StyledCard = styled(MUICard)(({ isBlock }) => {
+const StyledCard = styled(MUICard)(({ isblock }) => {
    return {
       width: '21.8125rem',
       padding: '15px',
@@ -245,7 +261,7 @@ const StyledCard = styled(MUICard)(({ isBlock }) => {
          gap: '7px',
          height: '10rem',
          img: {
-            filter: isBlock && 'blur(1px)',
+            filter: isblock && 'blur(1px)',
             minWidth: '30%',
             borderRadius: '7px',
          },
@@ -281,13 +297,16 @@ const StyledCard = styled(MUICard)(({ isBlock }) => {
       },
    }
 })
+
 const StyledAvatarIcon = styled(Avatar)((props) => {
    return {
       width: '1.25rem',
       height: '1.25rem',
       padding: props?.children && '13px',
+      cursor: props.showcursorpointer && 'pointer',
    }
 })
+
 const StyledCardActionsPar1 = styled('div')({
    display: 'flex',
    alignItems: 'center',
@@ -300,6 +319,7 @@ const StyledCardActionsPar1 = styled('div')({
    gap: '10px',
    paddingRight: '5px',
 })
+
 const StyledNewOrOld = styled('div')({
    color: globalTheme.palette.secondary.green,
    '&.orange': {

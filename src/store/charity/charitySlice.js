@@ -7,10 +7,10 @@ import {
 } from './charityThunk'
 
 const initialState = {
-   charities: [],
-   pending: false,
+   isLoading: false,
    error: null,
    charity: {},
+   charities: [],
 }
 
 export const charitySlice = createSlice({
@@ -21,52 +21,55 @@ export const charitySlice = createSlice({
       builder
          .addCase(getAllCharityByUserId.fulfilled, (state, { payload }) => ({
             ...state,
-            pending: false,
+            isLoading: false,
             error: null,
             charities: payload,
          }))
          .addCase(getAllCharityByUserId.pending, (state) => ({
             ...state,
-            pending: true,
+            isLoading: true,
             error: false,
          }))
          .addCase(getCharityById.fulfilled, (state, { payload }) => ({
             ...state,
-            pending: false,
+            isLoading: false,
             error: null,
             charity: payload,
          }))
          .addCase(getCharityById.pending, (state) => ({
             ...state,
-            pending: true,
+            isLoading: true,
             error: null,
          }))
          .addCase(getCharityById.rejected, (state, { payload }) => ({
             ...state,
-            pending: false,
+            isLoading: false,
             error: payload.message,
          }))
          .addCase(getAllCharity.fulfilled, (state, { payload }) => ({
             ...state,
-            pending: false,
+            isLoading: false,
             error: null,
             charities: payload,
          }))
          .addCase(searchCharity.fulfilled, (state, { payload }) => ({
             ...state,
-            pending: false,
+            isLoading: false,
             error: null,
             charities: payload,
          }))
          .addCase(searchCharity.pending, (state) => ({
             ...state,
-            pending: true,
+            isLoading: true,
             error: null,
          }))
          .addCase(searchCharity.rejected, (state, { payload }) => ({
             ...state,
-            pending: false,
+            isLoading: false,
             error: payload,
          }))
+         .addCase(getAllCharityByUserId.rejected, (state, action) => {
+            return { ...state, isLoading: false, error: action.payload }
+         })
    },
 })

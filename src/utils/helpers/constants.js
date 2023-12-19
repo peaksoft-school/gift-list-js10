@@ -97,20 +97,6 @@ export function changeText(txt, maxlength) {
    return txt
 }
 
-export function findNumberLength(inputString) {
-   const numbersArray = inputString.match(/\d+/g)
-
-   if (numbersArray) {
-      const totalLength = numbersArray.reduce(
-         (acc, number) => acc + number.length,
-         0
-      )
-      return totalLength
-   }
-
-   return 0
-}
-
 export function serializeObjectToQueryParams(obj) {
    const queryParams = []
    Object.entries(obj).forEach(([key, value]) => {
@@ -124,4 +110,18 @@ export function serializeObjectToQueryParams(obj) {
       }
    })
    return queryParams.join('&')
+}
+
+export function findNumberLength(inputString) {
+   const numbersArray = inputString.match(/\d+/g)
+
+   if (numbersArray) {
+      const totalLength = numbersArray.reduce(
+         (acc, number) => acc + number.length,
+         0
+      )
+      return totalLength
+   }
+
+   return 0
 }

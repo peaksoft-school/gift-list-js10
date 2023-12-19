@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
-import { EditOrAddCharityFormPage } from '../../pages/charity/EditOrAddCharityFormPage'
-import { GetAllCharity } from '../../pages/charity/GetAllCharity'
-import { GetCharityById } from '../../pages/charity/GetCharityById'
+import { GetAllFeedPage } from '../../pages/feed/GetAllFeedPage'
+import { GetWishFromFeedById } from '../../pages/feed/GetWishFromFeedById'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
 import { MyFriends } from '../../pages/friends/MyFriends'
@@ -15,6 +14,9 @@ import { CharitiesPage } from '../../pages/friends/CharitiesPage'
 import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
+import { GetAllCharity } from '../../pages/charity/GetAllCharity'
+import { GetCharityById } from '../../pages/charity/GetCharityById'
+import { EditOrAddCharityFormPage } from '../../pages/charity/EditOrAddCharityFormPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -45,6 +47,7 @@ export const UserRoutes = () => {
       charityById,
       addCharity,
       editCharity,
+      thingFromFeedById,
    } = routes[role]
 
    return (
@@ -66,7 +69,7 @@ export const UserRoutes = () => {
                path={feed.path}
                element={
                   <PrivateRoutes
-                     Component={<h1>Here should render the component</h1>}
+                     Component={<GetAllFeedPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -157,7 +160,10 @@ export const UserRoutes = () => {
                   />
                }
             />
-
+            <Route
+               path={thingFromFeedById.path}
+               element={<GetWishFromFeedById />}
+            />
             <Route
                path={profile.path}
                element={

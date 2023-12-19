@@ -10,7 +10,7 @@ export const WishesPage = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
-   const friendWishes = useSelector((state) => state.friendWishes.wishes)
+   const friendWishes = useSelector((state) => state.wish.wishes)
    const { id } = useSelector((state) => state.authLogin)
 
    const handleOpenProfile = (userId, nameFriend) => {

@@ -27,9 +27,9 @@ export const Profile = ({
    onDelete,
    onAcceptFriend,
    onRejectFriend,
-   onClick,
    onClickFirstButton,
    onClickSecondButton,
+   onClick,
 }) => {
    return (
       <ProfileContainer component="div">

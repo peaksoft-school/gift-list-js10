@@ -32,8 +32,8 @@ const Title = styled('p')({
 
 const Subheader = styled('span')({
    fontSize: '0.8125rem',
-   color: `${globalTheme.palette.secondary.green}`,
+   color: globalTheme.palette.secondary.green,
    '&.orange': {
-      color: `${globalTheme.palette.secondary.orange}`,
+      color: globalTheme.palette.secondary.orange,
    },
 })

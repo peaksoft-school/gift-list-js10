@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AdminState } from '../../components/GiftInnerContent'
@@ -14,14 +14,27 @@ import {
 } from '../../utils/constants/constants'
 import { convertDateFormat } from '../../utils/helpers/constants'
 import { makeEventForUpdateTheAfterMeatballs } from './GetAllCharity'
+import { bookingCharityThunk } from '../../store/booking/bookingThunk'
 
 export const GetCharityById = () => {
    const { charityId } = useParams()
-
+   const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
+   const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
    const dispatch = useDispatch()
    const { charity, pending } = useSelector((state) => state.charity)
-   const { role } = useSelector((state) => state.authLogin)
+   const { role, id } = useSelector((state) => state.authLogin)
    const navigate = useNavigate()
+   const onBooking = () => {
+      dispatch(
+         bookingCharityThunk({
+            charityId,
+            isBookingAnonymous,
+            userId: id,
+         })
+      )
+      navigate(-1)
+   }
+   const isBooked = charity.status?.includes('RESERVED')
 
    useEffect(() => {
       dispatch(getCharityById(charityId))
@@ -64,9 +77,6 @@ export const GetCharityById = () => {
       dispatch(deleteCharityById({ charityId, navigate }))
    }
 
-   // eslint-disable-next-line max-len
-   // TODO: unbooking booking in innerPage of charity => Feed integration merge болгондон кийин жазап койом
-
    return (
       <div>
          <AdminState
@@ -96,14 +106,24 @@ export const GetCharityById = () => {
                },
                text: charity.description,
                complaints: [],
+               ownerId: charity.userId,
+               myId: id,
+               bookerId: charity.charityReservoirId,
                status:
                   charity.status === 'RESERVED' ||
                   charity.status === 'RESERVED_ANONYMOUSLY',
             }}
+            showEditOrBlockOptions={
+               role === 'USER' ? charity.userId === id : true
+            }
             onDelete={onDeleteCharity}
             onEditOrOnBlock={() =>
                onEditOrOnBlock(role, navigate, charity, dispatch, charityId)
             }
+            isBookingAnonymous={isBookingAnonymous}
+            isShowBookingOptions={isBooked && charity.userId !== id}
+            handleCheckboxChange={handleCheckboxChange}
+            onBooking={onBooking}
          />
       </div>
    )

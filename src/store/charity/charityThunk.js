@@ -47,7 +47,6 @@ export const getAllCharity = createAsyncThunk(
       }
    }
 )
-
 export const getCharityById = createAsyncThunk(
    '/charity/getCharityById',
    async (charityId, { rejectWithValue }) => {
@@ -119,7 +118,7 @@ export const addCharity = createAsyncThunk(
 )
 
 export const updateCharity = createAsyncThunk(
-   '/charity/addCharity',
+   '/charity/updateCharity',
    async (
       { userId, charityId, charity, reset },
       { rejectWithValue, dispatch }

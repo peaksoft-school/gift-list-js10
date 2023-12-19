@@ -25,7 +25,7 @@ export const UpdateUserProfilePage = () => {
       instagram,
       telegram,
       email,
-   } = useSelector((state) => state.profileSlice.profile)
+   } = useSelector((state) => state.profile.profile)
    const dispatch = useDispatch()
 
    const firstName = fullName?.match(/[A-Z][a-z]*/)[0]

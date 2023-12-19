@@ -1,12 +1,18 @@
 import { Button, styled } from '@mui/material'
 import React from 'react'
 import { Field } from './GiftInnerContentFooter'
+import { Checkbox } from './UI/Checkbox'
 
 export function AdminState({
    role = 'user',
    complaint,
    onDelete,
    onEditOrOnBlock,
+   showEditOrBlockOptions,
+   isBookingAnonymous,
+   isShowBookingOptions,
+   handleCheckboxChange,
+   onBooking,
 }) {
    return (
       <Container>
@@ -37,23 +43,42 @@ export function AdminState({
             </Main>
             <StyledFooter>
                <Field role={role} {...complaint} />
-               {!complaint.status && (
+               {!complaint.status && showEditOrBlockOptions && (
                   <ButtonContainer>
-                     <StyledButton
-                        onClick={onDelete}
-                        className="delete"
-                        variant="text"
-                        type="button"
-                     >
-                        Удалить
-                     </StyledButton>
-                     <StyledButton
-                        onClick={onEditOrOnBlock}
-                        variant="contained"
-                        type="button"
-                     >
-                        {role === 'user' ? 'Редактировать' : 'Заблокировать'}
-                     </StyledButton>
+                     {isShowBookingOptions ? (
+                        <>
+                           <p>
+                              <Checkbox
+                                 value={isBookingAnonymous}
+                                 onChange={handleCheckboxChange}
+                              />
+                              Забронировать анонимно
+                           </p>
+                           <Button onClick={onBooking} variant="primary">
+                              Забронировать
+                           </Button>
+                        </>
+                     ) : (
+                        <>
+                           <StyledButton
+                              onClick={onDelete}
+                              className="delete"
+                              variant="text"
+                              type="button"
+                           >
+                              Удалить
+                           </StyledButton>
+                           <StyledButton
+                              onClick={onEditOrOnBlock}
+                              variant="contained"
+                              type="button"
+                           >
+                              {role === 'user'
+                                 ? 'Редактировать'
+                                 : 'Заблокировать'}
+                           </StyledButton>
+                        </>
+                     )}
                   </ButtonContainer>
                )}
             </StyledFooter>
@@ -65,6 +90,9 @@ export function AdminState({
 const Container = styled('div')({
    display: 'flex',
    alignItems: 'flex-start',
+   backgroundColor: '#fff',
+   height: '72vh',
+   paddingRight: '25px',
 })
 
 const Icon = styled('img')({

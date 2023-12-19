@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
-import { Outlet, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { FriendCard } from '../../components/UI/FriendCard'
-import { getRequestsFromUsers } from '../../store/slices/requests/requestThunk'
+import { providerEvent } from '../../events/customEvents'
 import {
    acceptRequest,
    rejectRequests,
-} from '../../store/slices/my-friends/friendsThunk'
+} from '../../store/my-friends/friendsThunk'
+import { getRequestsFromUsers } from '../../store/requests/requestThunk'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
-import { providerEvent } from '../../events/customEvents'
 
 export const FriendRequests = () => {
    const navigate = useNavigate()

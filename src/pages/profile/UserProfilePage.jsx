@@ -15,9 +15,7 @@ import { Profile } from '../LandingPage/Profile'
 export const UserProfilePage = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const { profile, error, pending } = useSelector(
-      (state) => state.profileSlice
-   )
+   const { profile, error, pending } = useSelector((state) => state.profile)
    const [isEditPasswordModalOpen, setIsEditPasswordModalOpen] = useState(false)
 
    useEffect(() => {
@@ -59,7 +57,7 @@ export const UserProfilePage = () => {
             telegram={profile.telegram}
             vk={profile.vkontakte}
             interesAndHobbies={profile.hobby}
-            userPicture={profile.image}
+            image={profile.image}
             instagram={profile.instagram}
             onClickFirstButton={onEditProfile}
             onClickSecondButton={toggleEditPasswordModalOpen}

@@ -48,8 +48,7 @@ export const SearchSelect = ({
          values.search
       ) {
          setIsShowX(true)
-      }
-      if (!values.search) {
+      } else {
          setIsShowX(false)
       }
    })

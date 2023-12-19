@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../config/axiosInstance'
+import { axiosInstance } from '../../config/axiosInstance'
 import {
    notifyTypes,
    toastWithPromise,
    toastWithoutPromise,
-} from '../../../utils/helpers/toast'
+} from '../../utils/helpers/toast'
 
 export const getFriends = createAsyncThunk(
    'user/friends',

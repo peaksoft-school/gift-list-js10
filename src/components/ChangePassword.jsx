@@ -62,7 +62,7 @@ export const ChangePassword = ({ variant, handleClose }) => {
                   newPassword: value.newPassword,
                   repeatPassword: value.confirmPassword,
                },
-               closeModalHandler,
+               onClose: closeModalHandler,
             })
          )
       }

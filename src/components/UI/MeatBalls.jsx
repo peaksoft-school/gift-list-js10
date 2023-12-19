@@ -34,7 +34,7 @@ export const MeatBalls = ({
             open={open}
             onClick={handleClose}
          >
-            {options?.map(({ title, icon }) => (
+            {options.map(({ title, icon: Icon }) => (
                <StyledMenuItem
                   key={title}
                   onClick={(e) => {
@@ -44,7 +44,7 @@ export const MeatBalls = ({
                   }}
                   value={title}
                >
-                  {icon && React.isValidElement(icon) && icon}
+                  {Icon && React.isValidElement(Icon) && Icon}
                   {title}
                </StyledMenuItem>
             ))}
@@ -54,6 +54,7 @@ export const MeatBalls = ({
 }
 
 const StyledMenu = styled(Menu)(({ left, top }) => ({
+   width: '20rem',
    left: `${left}px`,
    top: `${top}px`,
 }))

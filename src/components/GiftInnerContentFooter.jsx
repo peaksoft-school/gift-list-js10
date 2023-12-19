@@ -55,7 +55,7 @@ const Paragraph = styled('div')({
    gap: '0.438rem',
 })
 
-const TextFeature = styled('p')({
+const TextFeature = styled('span')({
    color: '#000',
 })
 
