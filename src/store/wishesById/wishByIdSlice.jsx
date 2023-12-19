@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export const wishByIdSlice = createSlice({
-   name: 'wish',
+   name: 'wishById',
    initialState,
    reducers: {},
    extraReducers: (builder) => {

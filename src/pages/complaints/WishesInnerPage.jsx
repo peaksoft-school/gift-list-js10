@@ -11,8 +11,7 @@ import { deleteWishById } from '../../store/complaints-slice/complaintsThunk'
 
 export const WishesInnerPage = () => {
    const { wishId } = useParams()
-   const wish = useSelector((state) => state.wish.wish)
-   console.log(wish)
+   const wish = useSelector((state) => state.wishById.wish)
 
    const dispatch = useDispatch()
    useEffect(() => {
@@ -23,13 +22,14 @@ export const WishesInnerPage = () => {
       dispatch(deleteWishById(wishId))
    }
 
-   const handleBlockWish = (wishId) => {
-      dispatch(isBlockWishById({ wishId, isBlock: 'true' }))
+   const handleBlocOrUnblockWish = (wishId, block) => {
+      if (!block) {
+         dispatch(isBlockWishById({ wishId, isBlock: 'true' }))
+      } else {
+         dispatch(isUnBlockWishById({ wishId, isBlock: 'false' }))
+      }
    }
 
-   const handleUnBlockedWish = (wishId) => {
-      dispatch(isUnBlockWishById({ wishId, isBlock: 'false' }))
-   }
    return (
       <div>
          <AdminState
@@ -42,9 +42,11 @@ export const WishesInnerPage = () => {
             description={wish.description}
             ownerPhoneNumber={wish.phoneNumber}
             complaints={wish.complaints}
+            isBlock={wish.block}
             onDeleteWishById={() => handleDeleteWishById(wish.wishId)}
-            onBlockedWishById={() => handleBlockWish(wish.wishId)}
-            onUnBlockedWishById={() => handleUnBlockedWish(wish.wishId)}
+            onBlockedOrUnblockWishById={() =>
+               handleBlocOrUnblockWish(wish.wishId, wish.block)
+            }
          />
       </div>
    )

@@ -13,9 +13,8 @@ import {
    unBookingWishThunk,
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
-import { getCharitiesByUserId } from '../../store/charities/chaririesThunk'
-import { getWishListByUserId } from '../../store/wish/wishThunk'
 
+import { getWishListByUserId } from '../../store/wish/wishThunk'
 import { getProfileByUserId } from '../../store/profile/profileThunk'
 import { getHolidaysByUserId } from '../../store/holiday/holidayThunk'
 import {
@@ -24,6 +23,7 @@ import {
    rejectRequests,
    sendRequestToUser,
 } from '../../store/my-friends/friendsThunk'
+import { getCharitiesByUserId } from '../../store/charity/charityThunk'
 
 export const isWishBooked = (bookerId, myId) => {
    let meatballsOptions = []

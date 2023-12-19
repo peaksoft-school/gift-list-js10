@@ -8,14 +8,13 @@ import {
    deleteWishById,
    getWishesWithComplaints,
 } from '../../store/complaints-slice/complaintsThunk'
-import { meatballsComplaintsOptions } from '../../utils/constants/meetballs-options'
 import {
    isBlockWishById,
    isUnBlockWishById,
 } from '../../store/wishesById/wishByIdThunk'
+import { meatballsComplaintsOptions } from '../../utils/constants/meatballs-options'
 
 export const isBlockOptions = (isBlock) => {
-   console.log(isBlock)
    if (isBlock) {
       return meatballsComplaintsOptions.isUnBlock
    }
@@ -26,23 +25,18 @@ export const Complaints = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const complaints = useSelector((state) => state.complaints.complaints)
-   console.log(complaints)
 
-   const array = (wishId) => {
-      const newArray = complaints.find((wish) => wish.wishId === wishId)
-      console.log(newArray)
-      if (newArray && newArray.complaints && newArray.complaints.length > 0) {
-         const sortedArray = newArray.complaints
-            .slice()
-            .sort(
-               (a, b) =>
-                  new Date(b.createdAt).getTime() -
-                  new Date(a.createdAt).getTime()
-            )
-         console.log(sortedArray[0])
-         return sortedArray[0] || {}
+   const handleForSortedWithDate = (wishId) => {
+      const findWish = complaints.find((wish) => {
+         return wish.wishId === wishId
+      })
+      if (findWish && findWish.complaints && findWish.complaints.length > 0) {
+         const sortedComplaints = findWish.complaints.toSorted((a, b) => {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt)
+         })
+         return sortedComplaints[0]
       }
-      return newArray ? newArray.complaints : []
+      return findWish.complaints
    }
 
    useEffect(() => {
@@ -57,9 +51,9 @@ export const Complaints = () => {
    const optionsChangeHandle = (e, wishId, dispatch) => {
       const selectedOption = e.target.innerText
       if (selectedOption === 'Заблокировать') {
-         dispatch(isBlockWishById({ wishId, isBlock: true }))
+         dispatch(isBlockWishById({ wishId, isBlock: true, variant: true }))
       } else if (selectedOption === 'Разблокировать') {
-         dispatch(isUnBlockWishById({ wishId, isBlock: false }))
+         dispatch(isUnBlockWishById({ wishId, isBlock: false, variant: true }))
       } else {
          dispatch(deleteWishById(wishId))
       }
@@ -79,12 +73,16 @@ export const Complaints = () => {
                date={item.dateOfHoliday}
                holiday={item.nameHoliday}
                isBlock={item.block}
-               bookerImage={array(item.wishId)?.complainUserInfoImage}
+               showBookerImage
+               bookerImage={
+                  handleForSortedWithDate(item.wishId)?.complainUserInfoImage
+               }
                meatballsOptions={isBlockOptions(item.block)}
-               status={array(item.wishId)?.textComplain}
+               status={handleForSortedWithDate(item.wishId)?.textComplain}
                handleChange={(e) =>
                   optionsChangeHandle(e, item.wishId, dispatch)
                }
+               showBottomBooker
             />
          ))}
       </Container>

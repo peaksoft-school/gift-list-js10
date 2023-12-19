@@ -17,7 +17,6 @@ export const complaintsSlice = createSlice({
             return { ...state, isLoading: true, error: null }
          })
          .addCase(getWishesWithComplaints.fulfilled, (state, action) => {
-            console.log(action.payload)
             return {
                ...state,
                complaints: action.payload,

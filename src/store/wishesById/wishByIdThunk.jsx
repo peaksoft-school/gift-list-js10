@@ -28,7 +28,7 @@ export const getWishlistByWishId = createAsyncThunk(
 
 export const isBlockWishById = createAsyncThunk(
    'wish/block',
-   async ({ wishId, isBlock }, { rejectWithValue, dispatch }) => {
+   async ({ wishId, isBlock, variant }, { rejectWithValue, dispatch }) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -40,7 +40,10 @@ export const isBlockWishById = createAsyncThunk(
                `/wishlists/blockOrUnblock/${wishId}?block=${isBlock}`
             )
          )
-         return dispatch(getWishesWithComplaints())
+         if (variant) {
+            return dispatch(getWishesWithComplaints())
+         }
+         return dispatch(getWishlistByWishId(wishId))
       } catch (error) {
          return rejectWithValue(error)
       }
@@ -49,7 +52,7 @@ export const isBlockWishById = createAsyncThunk(
 
 export const isUnBlockWishById = createAsyncThunk(
    'wish/unBlock',
-   async ({ wishId, isBlock }, { rejectWithValue, dispatch }) => {
+   async ({ wishId, isBlock, variant }, { rejectWithValue, dispatch }) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -61,7 +64,10 @@ export const isUnBlockWishById = createAsyncThunk(
                `/wishlists/blockOrUnblock/${wishId}?block=${isBlock}`
             )
          )
-         return dispatch(getWishesWithComplaints())
+         if (variant) {
+            return dispatch(getWishesWithComplaints())
+         }
+         return dispatch(getWishlistByWishId(wishId))
       } catch (error) {
          return rejectWithValue(error)
       }

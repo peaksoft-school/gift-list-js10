@@ -14,7 +14,8 @@ export function AdminState({
    ownerPhoneNumber,
    onDeleteWishById,
    complaints,
-   onBlockedWishById,
+   onBlockedOrUnblockWishById,
+   isBlock,
 }) {
    const { role } = useSelector((state) => state.authLogin)
    return (
@@ -53,13 +54,19 @@ export function AdminState({
                   >
                      Удалить
                   </StyledButton>
-                  <StyledButton
-                     variant="contained"
-                     type="button"
-                     onClick={onBlockedWishById}
-                  >
-                     {role === 'user' ? 'Редактировать' : 'Заблокировать'}
-                  </StyledButton>
+                  {role === 'user' ? (
+                     <StyledButton variant="contained" type="button">
+                        Редактировать
+                     </StyledButton>
+                  ) : (
+                     <StyledButton
+                        variant="contained"
+                        type="button"
+                        onClick={onBlockedOrUnblockWishById}
+                     >
+                        {isBlock ? 'Разблокировать' : 'Заблокировать'}
+                     </StyledButton>
+                  )}
                </ButtonContainer>
             </StyledFooter>
          </SecondContainer>
