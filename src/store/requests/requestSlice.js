@@ -17,7 +17,6 @@ export const requestSlice = createSlice({
             return { ...state, isLoading: true }
          })
          .addCase(getRequestsFromUsers.fulfilled, (state, action) => {
-            console.log(action.payload)
             return { ...state, requests: action.payload, isLoading: false }
          })
          .addCase(getRequestsFromUsers.rejected, (state, action) => {

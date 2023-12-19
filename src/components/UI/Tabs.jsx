@@ -1,9 +1,20 @@
 import { styled } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { NavLink, useLocation } from 'react-router-dom'
+import { getFriends } from '../../store/my-friends/friendsThunk'
+import { getRequestsFromUsers } from '../../store/requests/requestThunk'
 
 export const Tabs = ({ countFriends, countRequests }) => {
    const { pathname } = useLocation()
+   const dispatch = useDispatch()
+   useEffect(() => {
+      console.log('gfdfgdfgdsrevf')
+
+      dispatch(getFriends())
+      dispatch(getRequestsFromUsers())
+   }, [dispatch])
+
    return (
       <StyledTabs>
          <StyledNavLink

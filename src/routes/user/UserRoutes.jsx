@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
+import { GetAllFeedPage } from '../../pages/feed/GetAllFeedPage'
+import { GetWishFromFeedById } from '../../pages/feed/GetWishFromFeedById'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
 import { MyFriends } from '../../pages/friends/MyFriends'
@@ -12,14 +14,18 @@ import { CharitiesPage } from '../../pages/friends/CharitiesPage'
 import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
-import { MyHolidays } from '../../components/MyHolidays'
-import { HolidayInnerPage } from '../../components/HolidayInnerPage'
+import { MyHolidays } from '../../pages/holiday/MyHolidays'
+import { HolidayInnerPage } from '../../pages/holiday/HolidayInnerPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
    const [isList, setIsList] = useState(false)
-   const toggleList = () => {
-      setIsList((prev) => !prev)
+   const [nameOfActiveCardType, setNameOfActiveCardType] = useState('card')
+   const toggleList = (newNameOfAcriveCardType) => {
+      if (nameOfActiveCardType !== newNameOfAcriveCardType) {
+         setIsList((prev) => !prev)
+         setNameOfActiveCardType(newNameOfAcriveCardType)
+      }
    }
 
    const params = useParams()
@@ -38,6 +44,7 @@ export const UserRoutes = () => {
       edit,
       userProfileById,
       holidayInnerPage,
+      thingFromFeedById,
    } = routes[role]
 
    return (
@@ -59,7 +66,7 @@ export const UserRoutes = () => {
                path={feed.path}
                element={
                   <PrivateRoutes
-                     Component={<h1>Here should render the component</h1>}
+                     Component={<GetAllFeedPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -150,7 +157,10 @@ export const UserRoutes = () => {
                   />
                }
             />
-
+            <Route
+               path={thingFromFeedById.path}
+               element={<GetWishFromFeedById />}
+            />
             <Route
                path={profile.path}
                element={

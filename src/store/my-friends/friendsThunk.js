@@ -1,15 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../config/axiosInstance'
+import { axiosInstance } from '../../config/axiosInstance'
 import {
    notifyTypes,
    toastWithPromise,
    toastWithoutPromise,
-} from '../../../utils/helpers/toast'
+} from '../../utils/helpers/toast'
 
 export const getFriends = createAsyncThunk(
    'user/friends',
    async (_, { rejectWithValue }) => {
       try {
+         console.log('my frineds thunk')
+
          const response = await axiosInstance.get('/myFriends')
          const result = response.data
          return result

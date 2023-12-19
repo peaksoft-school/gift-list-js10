@@ -2,18 +2,19 @@ import { Box, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { providerEvent } from '../../events/customEvents'
 import {
    addHolidayQuery,
    deleteHolidayById,
    getAllHolidaysByUserId,
    updateHolidayQuery,
-} from '../store/holiday/holidayThunk'
-import { convertDateFormat } from '../utils/constants/formatedDate'
-import { meatballsDeleteAndEditOptions } from '../utils/constants/meatballs-options'
-import { formatDate, uploadFile } from '../utils/helpers/constants'
-import { EditOrAddHolidayModal } from './EditOrAddHolidayModal'
-import { Card } from './UI/card/Card'
-import { providerEvent } from '../events/customEvents'
+} from '../../store/holiday/holidayThunk'
+import { convertDateFormat } from '../../utils/constants/formatedDate'
+import { meatballsDeleteAndEditOptions } from '../../utils/constants/meatballs-options'
+import { formatDate, uploadFile } from '../../utils/helpers/constants'
+import { EditOrAddHolidayModal } from '../../components/EditOrAddHolidayModal'
+import { Card } from '../../components/UI/card/Card'
+import { EmptyComponent } from '../LandingPage/EmptyComponent'
 
 export const MyHolidays = () => {
    const [preview, setPreview] = useState({ file: '', url: '' })
@@ -25,7 +26,7 @@ export const MyHolidays = () => {
       holidayId: 0,
    })
    const dispatch = useDispatch()
-   const { holidays } = useSelector((state) => state.holidaySlice)
+   const { holidays } = useSelector((state) => state.holiday)
    const { id } = useSelector((state) => state.authLogin)
 
    useEffect(() => {
@@ -36,6 +37,9 @@ export const MyHolidays = () => {
                isOpen: event.detail?.payload,
             }))
          }
+      }
+      if (!holidays.length) {
+         providerEvent({ action: 'showActionsButton', payload: false })
       }
       window.addEventListener('providerEvent', handleModalChange)
       dispatch(getAllHolidaysByUserId(id))
@@ -60,7 +64,7 @@ export const MyHolidays = () => {
          dispatch(
             addHolidayQuery({
                userData: {
-                  ...values,
+                  nameHoliday: values.nameHoliday,
                   dateOfHoliday: formatDate(values.dateOfHoliday),
                },
                image,
@@ -72,7 +76,7 @@ export const MyHolidays = () => {
             updateHolidayQuery({
                holidayId,
                userData: {
-                  ...values,
+                  nameHoliday: values.nameHoliday,
                   dateOfHoliday: formatDate(values.dateOfHoliday),
                },
                image,
@@ -112,7 +116,6 @@ export const MyHolidays = () => {
                            openAndCloseHolidayModalHandler(
                               {
                                  nameHoliday: holiday.nameHoliday,
-                                 // image: holiday.image,
                                  dateOfHoliday: holiday.dateOfHoliday,
                               },
                               holiday.holidayId
@@ -130,6 +133,13 @@ export const MyHolidays = () => {
                   }}
                />
             ))}
+            {!holidays.length && (
+               <EmptyComponent
+                  buttonText="Добавить праздник"
+                  text="Вы еще не добавили праздника"
+                  buttonOnClick={openAndCloseHolidayModalHandler}
+               />
+            )}
             {addNewHolidayModalState.isOpen && (
                <EditOrAddHolidayModal
                   preview={preview}

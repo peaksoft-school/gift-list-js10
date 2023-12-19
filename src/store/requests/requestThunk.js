@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../config/axiosInstance'
-import { notifyTypes, toastWithoutPromise } from '../../../utils/helpers/toast'
+import { axiosInstance } from '../../config/axiosInstance'
+import { notifyTypes, toastWithoutPromise } from '../../utils/helpers/toast'
 
 export const getRequestsFromUsers = createAsyncThunk(
    'myFriends/requests',

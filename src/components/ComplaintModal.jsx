@@ -11,34 +11,41 @@ import { Modal } from './Modal'
 import { Button } from './UI/Button'
 import { TextArea } from './UI/TextArea'
 
-const causes = [
+export const causes = [
    {
       complaintId: 1,
       textComplaint: 'Жестокость и шокирующий контент',
+      textInEnglish: 'CRUELTY_AND_SHOCKING_CONTENT',
    },
    {
       complaintId: 2,
       textComplaint: 'Проявление ненависти',
+      textInEnglish: 'MANIFESTATION_OF_HATRED',
    },
    {
       complaintId: 3,
       textComplaint: 'Нелегальные действия или регламентированные товары',
+      textInEnglish: 'ILLEGAL_ACTIVITIES_OR_REGULATED_PRODUCTS',
    },
    {
       complaintId: 4,
       textComplaint: 'Спам',
+      textInEnglish: 'SPAM',
    },
    {
       complaintId: 5,
       textComplaint: 'Призывы к насилию, опасные действия',
+      textInEnglish: 'CALLS_TO_VIOLENCE_DANGEROUS_ACTIONS',
    },
    {
       complaintId: 6,
       textComplaint: 'Сцены порнографического характера',
+      textInEnglish: 'SCENES_OF_A_PORNOGRAPHIC_NATURE',
    },
    {
       complaintId: 7,
       textComplaint: 'Прочее',
+      textInEnglish: 'OTHER',
    },
 ]
 

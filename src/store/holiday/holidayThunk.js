@@ -6,14 +6,54 @@ import {
    toastWithoutPromise,
 } from '../../utils/helpers/toast'
 
-export const getAllHolidaysByUserId = createAsyncThunk(
-   'holiday/getAllHolidaysByUserId',
-   async (userId, { rejectWithValue }) => {
+export const getHolidayByIdThunk = createAsyncThunk(
+   '/holiday/getHolidayById',
+   async (holidayId, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(`/holidays/${holidayId}`)
+         return response.data
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка',
+            error.message
+         )
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const getHolidaysByUserId = createAsyncThunk(
+   '/friend/:friendId',
+   async (friendId, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(
-            `/holidays/getHolidaysByUserId/${userId}`
+            `/holidays/getAllHolidayFrends/${friendId}`
          )
-         return response.data
+         const result = response.data
+
+         return result
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка!',
+            error.message
+         )
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const getAllHolidaysByUserId = createAsyncThunk(
+   '/user/getAllHolidaysByUserId',
+   async (friendId, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(
+            `/holidays/getHolidaysByUserId/${friendId}`
+         )
+         const result = response.data
+
+         return result
       } catch (error) {
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
@@ -92,7 +132,11 @@ export const getAllWishesByHolidayId = createAsyncThunk(
          )
          return response.data
       } catch (error) {
-         // TODO: toast without promise error
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка!',
+            error.message
+         )
          return rejectWithValue(error)
       }
    }
