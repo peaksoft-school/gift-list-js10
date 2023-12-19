@@ -3,8 +3,10 @@ import { Badge, Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { notifications } from '../utils/helpers/constants'
 import { NotificationIcon } from '../assets'
+// import { getNotification } from '../store/notification/notificationThunk'
 
 export const Notification = () => {
+   // const dispatch = useDispatch()
    const [anchorEl, setAnchorEl] = useState(null)
    const [isOpenNotifications, setIsOpenNotifications] = useState(false)
    const [isRead, setIsRead] = useState([])
