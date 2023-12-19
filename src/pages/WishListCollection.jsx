@@ -14,6 +14,8 @@ export const WishListCollection = ({ isList }) => {
    const { wishes } = useSelector((state) => state.wish)
    const { id } = useSelector((state) => state.authLogin)
    const handleChange = async (e, wishId) => {
+      console.log(wishId)
+
       if (e.target.innerText === 'Удалить') {
          dispatch(deleteWish({ wishId, userId: id }))
       } else if (e.target.innerText === 'Редактировать') {

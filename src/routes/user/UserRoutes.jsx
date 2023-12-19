@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
+import { GetAllFeedPage } from '../../pages/feed/GetAllFeedPage'
+import { GetWishFromFeedById } from '../../pages/feed/GetWishFromFeedById'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
 import { MyFriends } from '../../pages/friends/MyFriends'
@@ -20,7 +22,6 @@ export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
    const [isList, setIsList] = useState(false)
    const [nameOfActiveCardType, setNameOfActiveCardType] = useState('card')
-
    const toggleList = (newNameOfAcriveCardType) => {
       if (nameOfActiveCardType !== newNameOfAcriveCardType) {
          setIsList((prev) => !prev)
@@ -47,6 +48,7 @@ export const UserRoutes = () => {
       wish,
       putWish,
       getWishById,
+      thingFromFeedById,
    } = routes[role]
 
    return (
@@ -68,7 +70,7 @@ export const UserRoutes = () => {
                path={feed.path}
                element={
                   <PrivateRoutes
-                     Component={<h1>Here should render the component</h1>}
+                     Component={<GetAllFeedPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -158,6 +160,10 @@ export const UserRoutes = () => {
                      fallback="/"
                   />
                }
+            />
+            <Route
+               path={thingFromFeedById.path}
+               element={<GetWishFromFeedById />}
             />
             <Route
                path={profile.path}

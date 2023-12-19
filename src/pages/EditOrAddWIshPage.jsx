@@ -27,7 +27,6 @@ export const EditOrAddWishPage = () => {
          linkToGift: values.link,
          description: values.description,
       }
-      console.log(values)
 
       if (params.wishId) {
          return dispatch(

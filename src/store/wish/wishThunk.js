@@ -87,7 +87,7 @@ export const putWish = createAsyncThunk(
 )
 
 export const getWishById = createAsyncThunk(
-   'wish/getById',
+   '/wish/getWishById',
    async (wishId, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(`/wishlists/${wishId}`)

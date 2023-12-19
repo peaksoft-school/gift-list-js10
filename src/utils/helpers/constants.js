@@ -115,6 +115,21 @@ export function changeText(txt, maxlength) {
    return txt
 }
 
+export function serializeObjectToQueryParams(obj) {
+   const queryParams = []
+   Object.entries(obj).forEach(([key, value]) => {
+      if (value) {
+         const value = obj[key]
+         if (value !== undefined) {
+            queryParams.push(
+               `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+            )
+         }
+      }
+   })
+   return queryParams.join('&')
+}
+
 export function findNumberLength(inputString) {
    const numbersArray = inputString.match(/\d+/g)
 

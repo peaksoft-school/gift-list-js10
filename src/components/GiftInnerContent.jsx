@@ -65,6 +65,9 @@ export function GiftInnerContent({
 const Container = styled('div')({
    display: 'flex',
    alignItems: 'flex-start',
+   backgroundColor: '#fff',
+   height: '72vh',
+   paddingRight: '25px',
 })
 
 const Icon = styled('img')({

@@ -6,25 +6,18 @@ import EmptyState from '../../assets/images/EmptyState.png'
 
 export const SecondEmptyComponent = ({ text }) => {
    return (
-      <Container>
-         <EmptyContent>
-            <CardMedia
-               image={EmptyState}
-               title="empty-image"
-               component="img"
-               alt="empty-image"
-            />
-            <CardText>Ничего нет</CardText>
-            <p>{text}</p>
-         </EmptyContent>
-      </Container>
+      <EmptyContent>
+         <CardMedia
+            image={EmptyState}
+            title="empty-image"
+            component="img"
+            alt="empty-image"
+         />
+         <CardText>Ничего нет</CardText>
+         <p>{text}</p>
+      </EmptyContent>
    )
 }
-
-const Container = styled('div')({
-   background: '#F7F8FA',
-   padding: '20px',
-})
 
 const EmptyContent = styled('div')({
    width: '30%',

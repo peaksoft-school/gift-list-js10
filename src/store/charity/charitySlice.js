@@ -1,18 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getCharitiesByUserId } from './chaririesThunk'
+import { getCharitiesByUserId, getCharityById } from './charityThunk'
 
 const initialState = {
-   charities: [],
-   error: null,
    isLoading: false,
+   error: null,
+   charity: {},
+   charities: [],
 }
 
-export const charitiesSlice = createSlice({
-   name: 'charities',
+export const charitySlice = createSlice({
+   name: 'charity',
    initialState,
    reducers: {},
    extraReducers: (builder) => {
       builder
+         .addCase(getCharityById.fulfilled, (state, { payload }) => ({
+            ...state,
+            isLoading: false,
+            error: null,
+            charity: payload,
+         }))
+         .addCase(getCharityById.pending, (state) => ({
+            ...state,
+            isLoading: true,
+            error: null,
+         }))
          .addCase(getCharitiesByUserId.pending, (state) => {
             return { ...state, isLoading: true, error: null }
          })

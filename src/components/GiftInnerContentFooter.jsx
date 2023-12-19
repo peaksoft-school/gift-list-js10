@@ -92,7 +92,7 @@ const Paragraph = styled('p')({
    gap: '0.438rem',
 })
 
-const TextFeature = styled('p')({
+const TextFeature = styled('span')({
    color: '#000',
 })
 const TextHolidayName = styled('p')({

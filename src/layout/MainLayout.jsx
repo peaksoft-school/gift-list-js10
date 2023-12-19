@@ -34,22 +34,12 @@ export const MainLayout = ({ role, isList, toggleList }) => {
 
    const [byIdName, setByIdName] = useState('')
    const buttonContent = routes[role][path['*']]?.buttonContent
+   const [showActionsButtons, setShowActionsButtons] = useState(
+      routes[role][path['*']]?.showListActions
+   )
    const navigate = useNavigate()
    const [breadcrumbsForRequests, setBreadcrumbsForRequests] =
       useState(breadcrumbs)
-   const [showActionsButtons, setShowActionsButtons] = useState(
-      routes[role][path['*']?.showListActions]
-   )
-   useEffect(() => {
-      if (
-         path['*'].includes('/') &&
-         path['*'].split('/').pop() !== 'requests'
-      ) {
-         setInner(true)
-      } else {
-         setInner(false)
-      }
-   }, [path])
    const handleDataUpdated = (event) => {
       if (event.detail.action === 'name') {
          setByIdName(event.detail.payload)
@@ -58,25 +48,31 @@ export const MainLayout = ({ role, isList, toggleList }) => {
          setShowActionsButtons(Boolean(event.detail.payload))
       }
    }
+   const { pathname } = useLocation()
    useEffect(() => {
       window.addEventListener('providerEvent', handleDataUpdated)
+      let breadcrumbsForUpdate = breadcrumbs
       if (path['*'].split('/').pop() === 'requests') {
-         setBreadcrumbsForRequests(breadcrumbs.slice(0, 1))
+         breadcrumbsForUpdate = breadcrumbs.slice(0, 1)
       }
+      if (
+         path['*'].includes('/') &&
+         path['*'].split('/').pop() !== 'requests'
+      ) {
+         setInner(true)
+      } else {
+         setInner(false)
+      }
+      setBreadcrumbsForRequests(breadcrumbsForUpdate)
       return () => {
          window.removeEventListener('providerEvent', handleDataUpdated)
       }
-   }, [])
+   }, [pathname])
 
    let charityHeaderSelectType
    if (path['*'].includes('charity')) {
       charityHeaderSelectType = 'select'
    }
-   const { pathname } = useLocation()
-   console.log(breadcrumbsForRequests)
-   useEffect(() => {
-      setBreadcrumbsForRequests(breadcrumbs)
-   }, [pathname])
    return (
       <>
          <Sidebar roleName={role} />
@@ -88,28 +84,35 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                      <StyledLegend isinner={inner}>
                         {breadcrumbsForRequests.map(({ match }, index) => (
                            <Fragment key={match.pathname}>
-                              <StyledNavLink
-                                 to={
-                                    (findNumberLength(match.pathname) &&
-                                       path['*']) ||
-                                    match.pathname
-                                 }
-                                 active={
-                                    breadcrumbsForRequests.length - 1 ===
-                                       index || findNumberLength(match.pathname)
-                                       ? 'true'
-                                       : ''
-                                 }
-                              >
-                                 {console.log('MATCH => ', match)}
-                                 {isNumber(getLastElementOfPath(match.pathname))
-                                    ? isNumber(
-                                         match.pathname.split('/').pop()
-                                      ) && byIdName
-                                    : routes[role][
-                                         match.pathname.split('/').pop()
-                                      ]?.breadcrumb}
-                              </StyledNavLink>
+                              {(index !== 1 &&
+                                 isNumber(
+                                    getLastElementOfPath(match.pathname)
+                                 )) || (
+                                 <StyledNavLink
+                                    to={
+                                       (findNumberLength(match.pathname) &&
+                                          path['*']) ||
+                                       match.pathname
+                                    }
+                                    active={
+                                       breadcrumbsForRequests.length - 1 ===
+                                          index ||
+                                       findNumberLength(match.pathname)
+                                          ? 'true'
+                                          : ''
+                                    }
+                                 >
+                                    {isNumber(
+                                       getLastElementOfPath(match.pathname)
+                                    )
+                                       ? isNumber(
+                                            match.pathname.split('/').pop()
+                                         ) && byIdName
+                                       : routes[role][
+                                            match.pathname.split('/').pop()
+                                         ]?.breadcrumb}
+                                 </StyledNavLink>
+                              )}
                               {index !== 1 &&
                                  index !== breadcrumbsForRequests.length - 1 &&
                                  ' / '}
@@ -164,9 +167,8 @@ const ImagesAndBreadcrumbsWrapper = styled('div')({
    alignItems: 'center',
 })
 
-const StyledSomethingAddButton = styled(Button)({
-   padding: '5px 25px',
-})
+const StyledSomethingAddButton = styled(Button)({ padding: '6px 20px' })
+
 const StyledActions = styled('div')({
    display: 'flex',
    gap: '15px',

@@ -18,7 +18,7 @@ import {
    variantSchema,
    wishListSchema,
 } from '../../utils/helpers/wishListValidates'
-import { getAllHolidaysByUserId } from '../../store/slices/holidays/holidayThunk'
+import { getAllHolidaysByUserId } from '../../store/holiday/holidayThunk'
 
 const arrayState = [
    {
@@ -54,7 +54,7 @@ export const WishListForm = ({
    variant,
    onSubmit,
    defaultValues = initialValues,
-   img,
+   img = '',
 }) => {
    const [preview, setPreview] = useState({ file: '', url: img })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
@@ -74,7 +74,10 @@ export const WishListForm = ({
    })
 
    useEffect(() => {
-      reset(defaultValues)
+      if (img) {
+         setPreview((prev) => ({ ...prev, url: img }))
+         reset(defaultValues)
+      }
    }, [defaultValues])
 
    useEffect(() => {
@@ -89,7 +92,7 @@ export const WishListForm = ({
       setValues((prev) => ({ ...prev, [name]: value }))
    }
 
-   const { holidays } = useSelector((state) => state.holidays)
+   const { holidays } = useSelector((state) => state.holiday)
    const { id } = useSelector((state) => state.authLogin)
 
    const dispatch = useDispatch()

@@ -3,13 +3,13 @@ import { getAllWishesByUserId, getWishById } from './wishThunk'
 import { providerEvent } from '../../events/customEvents'
 
 const initialState = {
-   wishes: [],
-   loading: false,
+   wish: {},
+   pending: false,
    error: null,
-   wish: null,
+   wishes: [],
 }
 
-const wishSlice = createSlice({
+export const wishSlice = createSlice({
    name: 'wish',
    initialState,
    reducers: {},
@@ -36,11 +36,21 @@ const wishSlice = createSlice({
          .addCase(getWishById.fulfilled, (state, { payload }) => ({
             ...state,
             wish: payload,
+            pending: false,
+            error: null,
+         }))
+         .addCase(getWishById.pending, (state) => ({
+            ...state,
+            pending: true,
+            error: null,
+         }))
+         .addCase(getWishById.rejected, (state, { payload }) => ({
+            ...state,
+            pending: false,
+            error: payload,
          }))
    },
 })
 
 export const { removeWish } = wishSlice.actions
 export const selectWishes = (state) => state.wish.wishes
-
-export default wishSlice
