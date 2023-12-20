@@ -16,7 +16,6 @@ import { routes } from '../utils/constants'
 import { findNumberLength } from '../utils/helpers/constants'
 
 const isNumber = (textForTest) => /^\d+$/.test(textForTest)
-
 const transformObjectRoutesToArray = (role) =>
    Object.entries(routes[role])
       .map(([pathname, breadcrumb]) => ({
@@ -24,9 +23,7 @@ const transformObjectRoutesToArray = (role) =>
          breadcrumb: breadcrumb.breadcrumb,
       }))
       .slice(1)
-
 const getLastElementOfPath = (path) => path.slice(-1)
-
 export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
    const breadcrumbs = useBreadcrumbs(routesArray, {
@@ -75,7 +72,6 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    if (path['*'].includes('charity')) {
       charityHeaderSelectType = 'select'
    }
-
    return (
       <>
          <Sidebar roleName={role} />
@@ -164,7 +160,6 @@ export const MainLayout = ({ role, isList, toggleList }) => {
       </>
    )
 }
-
 const ImagesAndBreadcrumbsWrapper = styled('div')({
    display: 'flex',
    gap: '35px',
@@ -178,12 +173,10 @@ const StyledActions = styled('div')({
    gap: '15px',
    alignItems: 'center',
 })
-
 const StyledNavLink = styled(NavLink)(({ active }) => ({
    color: active ? '#000000' : '#B4B4B4',
    textDecoration: 'none',
 }))
-
 const StyledButton = styled(Button)({
    borderRadius: '3px',
    padding: '2px',
@@ -202,19 +195,16 @@ const StyledButton = styled(Button)({
       backgroundColor: '#BDBDBD',
    },
 })
-
 const StyledMainContentHeader = styled('div')({
    display: 'flex',
    justifyContent: 'space-between',
    paddingBottom: '30px',
    paddingRight: '21px',
 })
-
 const MainContentWrapper = styled('fieldset')({
    border: 'none',
    padding: '20px',
 })
-
 const MainContainer = styled('div')({
    backgroundColor: '#F7F8FA',
    marginLeft: '18.4rem',
@@ -223,7 +213,6 @@ const MainContainer = styled('div')({
    gap: '50px',
    minHeight: '100vh',
 })
-
 const StyledLegend = styled('legend')(({ isinner }) => ({
    fontSize: isinner ? '0.875rem' : '1.5rem',
    fontWeight: '500',

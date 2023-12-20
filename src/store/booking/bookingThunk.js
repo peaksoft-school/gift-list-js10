@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../config/axiosInstance'
 import { notifyTypes, toastWithPromise } from '../../utils/helpers/toast'
+import { axiosInstance } from '../../config/axiosInstance'
 
 export const bookingWishThunk = createAsyncThunk(
    '/booking/bookingWishThunk',
