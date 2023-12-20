@@ -38,14 +38,18 @@ export const MyHolidays = () => {
             }))
          }
       }
-      if (!holidays.length) {
-         providerEvent({ action: 'showActionsButton', payload: false })
-      }
       window.addEventListener('providerEvent', handleModalChange)
       dispatch(getAllHolidaysByUserId(id))
       return () =>
          window.removeEventListener('providerEvent', handleModalChange)
    }, [])
+
+   useEffect(() => {
+      providerEvent({
+         action: 'showActionsButton',
+         payload: Boolean(holidays.length),
+      })
+   }, [holidays])
 
    const openAndCloseHolidayModalHandler = (defaultValues, holidayId) => {
       setAddNewHolidayModalState((prevState) => ({

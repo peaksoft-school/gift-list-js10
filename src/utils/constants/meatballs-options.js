@@ -30,13 +30,8 @@ export const meetballsFeedOptionsForCharity = {
    isCharityFree: [
       { title: 'Забронировать', icon: <LockIcon /> },
       { title: 'Забронировать анонимно', icon: <IncognitoIcon /> },
-      { title: 'Пожаловаться', icon: <ComplaintIcon /> },
    ],
-   iBookThisCharity: [
-      { title: 'Снять бронь', icon: <UnLockIcon /> },
-      { title: 'Пожаловаться', icon: <ComplaintIcon /> },
-   ],
-   strangersBook: [{ title: 'Пожаловаться', icon: <ComplaintIcon /> }],
+   iBookThisCharity: [{ title: 'Снять бронь', icon: <UnLockIcon /> }],
 }
 
 export const meetballsFriendOptions = {

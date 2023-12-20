@@ -30,7 +30,7 @@ export const EmptyComponent = ({
 const EmptyContent = styled(Box)({
    width: '600px',
    margin: '0 auto',
-   height: '100vh',
+   height: '100%',
    display: 'flex',
    flexDirection: 'column',
    gap: '33px',
