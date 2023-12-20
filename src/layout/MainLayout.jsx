@@ -101,6 +101,15 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                           ? 'true'
                                           : ''
                                     }
+                                    onClick={(e) => {
+                                       if (
+                                          breadcrumbsForRequests.length - 1 ===
+                                             index ||
+                                          findNumberLength(match.pathname)
+                                       ) {
+                                          e.preventDefault()
+                                       }
+                                    }}
                                  >
                                     {isNumber(
                                        getLastElementOfPath(match.pathname)

@@ -70,7 +70,7 @@ export const routes = {
          breadcrumb: 'Добавление желания',
       },
       putWish: {
-         path: 'wish/putWish/:wishId',
+         path: 'wish/putWish',
          breadcrumb: 'Редактировать Желание',
       },
       getWishById: {

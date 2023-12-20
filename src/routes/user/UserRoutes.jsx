@@ -14,8 +14,8 @@ import { CharitiesPage } from '../../pages/friends/CharitiesPage'
 import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
-import { WishListCollection } from '../../pages/WishListCollection'
-import { EditOrAddWishPage } from '../../pages/EditOrAddWIshPage'
+import { WishListCollection } from '../../pages/wishes/WishListCollection'
+import { EditOrAddWishPage } from '../../pages/wishes/EditOrAddWIshPage'
 import { WishInnerPage } from '../../pages/wishes/WishInnerPage'
 
 export const UserRoutes = () => {

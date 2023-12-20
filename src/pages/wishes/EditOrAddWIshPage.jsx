@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import { addWish, getWishById, putWish } from '../store/wish/wishThunk'
-import { uploadFile } from '../utils/helpers/constants'
-import { WishListForm } from './LandingPage/WishListForm'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { addWish, getWishById, putWish } from '../../store/wish/wishThunk'
+import { uploadFile } from '../../utils/helpers/constants'
+import { WishListForm } from '../LandingPage/WishListForm'
 
 export const EditOrAddWishPage = () => {
    const navigate = useNavigate()
    const { id: userId } = useSelector((state) => state.authLogin)
    const { wish } = useSelector((state) => state.wish)
    const dispatch = useDispatch()
-   const params = useParams()
+   const { state } = useLocation()
    useEffect(() => {
-      if (params?.wishId) dispatch(getWishById(params?.wishId))
+      if (state?.wishId) dispatch(getWishById(state?.wishId))
    }, [])
 
    const onSubmit = async (values, file, holidayId) => {
@@ -28,10 +28,10 @@ export const EditOrAddWishPage = () => {
          description: values.description,
       }
 
-      if (params.wishId) {
+      if (state?.wishId) {
          return dispatch(
             putWish({
-               wishId: params?.wishId,
+               wishId: state?.wishId,
                wishData,
                userId,
                navigate,
@@ -51,19 +51,20 @@ export const EditOrAddWishPage = () => {
    const onClose = () => {
       navigate(-1)
    }
+   console.log(wish, state)
 
    return (
       <div>
          <WishListForm
             defaultValues={
-               params?.wishId && {
+               state?.wishId && {
                   holidayName: wish?.wishName,
                   link: wish?.linkToWish,
                   holiday: wish?.holidayName,
                   description: wish?.description,
                }
             }
-            img={params?.wishId && wish?.wishImage}
+            img={state?.wishId && wish?.wishImage}
             onClose={onClose}
             onSubmit={onSubmit}
          />
