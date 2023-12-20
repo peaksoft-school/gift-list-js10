@@ -3,9 +3,6 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
-import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
-import { Profile } from '../LandingPage/Profile'
-import { shoeSizeObject } from '../../utils/constants/constants'
 import { providerEvent } from '../../events/customEvents'
 import {
    bookingCharityThunk,
@@ -13,9 +10,11 @@ import {
    unBookingWishThunk,
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
-import { getWishListByUserId } from '../../store/wish/wishThunk'
+import { shoeSizeObject } from '../../utils/constants/constants'
+import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
+import { Profile } from '../LandingPage/Profile'
+
 import { getAllCharityByUserId } from '../../store/charity/charityThunk'
-import { getProfileByUserId } from '../../store/profile/profileThunk'
 import { getHolidaysByUserId } from '../../store/holiday/holidayThunk'
 import {
    acceptRequest,
@@ -23,6 +22,8 @@ import {
    rejectRequests,
    sendRequestToUser,
 } from '../../store/my-friends/friendsThunk'
+import { getProfileByUserId } from '../../store/profile/profileThunk'
+import { getWishListByUserId } from '../../store/wish/wishThunk'
 
 export const isWishBooked = (bookerId, myId) => {
    let meatballsOptions = []

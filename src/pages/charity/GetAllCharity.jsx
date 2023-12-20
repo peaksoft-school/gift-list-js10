@@ -11,6 +11,7 @@ import {
 import {
    getAllCharity,
    getAllCharityByUserId,
+   getCharityById,
 } from '../../store/charity/charityThunk'
 import {
    bookingOptions,
@@ -90,6 +91,7 @@ export const GetAllCharity = () => {
 
    const onGetById = (charityId, charityName) => {
       providerEvent({ action: 'name', payload: charityName })
+      dispatch(getCharityById(charityId))
       navigate(`${charityId}`)
    }
 
@@ -111,7 +113,7 @@ export const GetAllCharity = () => {
                newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
                bookerImage={charity.bookedUserImage}
                showBottomBooker="true"
-               isBlock={charity.isBlock}
+               isBlock={charity.isBlock ? 'true' : ''}
                handleChange={(e) =>
                   handleMeatballsChange(
                      e,

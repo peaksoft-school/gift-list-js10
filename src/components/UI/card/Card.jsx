@@ -20,7 +20,7 @@ import { convertDateFormat } from '../../../utils/constants/formatedDate'
 
 export const Card = ({
    variant = 'primary',
-   list = false,
+   list,
    meatballsOptions = [],
    handleChange,
    onGetThingById,
@@ -35,16 +35,24 @@ export const Card = ({
    status,
    showBottomBooker,
    showTopOwner,
-   isBlock,
+   isBlock = '',
    onGetOwnerById,
    onGetBookerById,
    onClick,
    showHoliday = true,
+   showBookerImage,
 }) => {
    const listClassName = list && 'list'
-   const bookedStatus = status?.includes('RESERVED')
-      ? 'Забронирован'
-      : 'В ожидании'
+   let bookedStatus
+   if (bookerImage || status?.includes('RESERVED')) {
+      bookedStatus = 'Забронирован'
+   } else if (status === 'PENDING') {
+      bookedStatus = 'В ожидании'
+   }
+   if (showBookerImage) {
+      bookedStatus = status
+   }
+
    const showOwnerOnTheTop = variant === 'tertiary' && showTopOwner
 
    const inputDate = date
@@ -54,7 +62,7 @@ export const Card = ({
       <StyledCard
          className={listClassName}
          onClick={onGetThingById}
-         isblock={String(isBlock)}
+         isblock={isBlock}
       >
          {listClassName && (
             <CardMedia component="img" image={cardImage} alt={cardName} />
@@ -132,7 +140,7 @@ export const Card = ({
                />
             )}
 
-            <StyledCardContent isblock={String(isBlock)} onClick={onClick}>
+            <StyledCardContent isblock={isBlock} onClick={onClick}>
                {variant === 'primary' && (
                   <StyledTypography variant="h6">{cardName}</StyledTypography>
                )}
@@ -162,14 +170,14 @@ export const Card = ({
                   <Date>{formattedDate}</Date>
                   {showBottomBooker && (
                      <StyledCardActionsPar1>
-                        {status === 'Забронирован' && (
+                        {(status === 'RESERVED' || showBookerImage) && (
                            <StyledAvatarIcon
                               alt="Фотография человека который забронировал это"
                               src={bookerImage}
                               onClick={onGetBookerById}
                            />
                         )}
-                        <span>{bookedStatus}</span>
+                        <StyledStatus>{bookedStatus}</StyledStatus>
                      </StyledCardActionsPar1>
                   )}
                </ActionsWrapper>
@@ -187,6 +195,16 @@ export const Card = ({
       </StyledCard>
    )
 }
+
+const StyledStatus = styled('span')({
+   fontSize: '1rem',
+   fontWeight: '400',
+   height: '1.5rem',
+   width: '8vw',
+   overflow: 'hidden',
+   whiteSpace: 'nowrap',
+   textOverflow: 'ellipsis',
+})
 
 const StyledBlockedCard = styled('div')({
    color: '#ffff',
@@ -245,7 +263,7 @@ const StyledCardContent = styled(CardContent)(({ isblock }) => ({
    img: {
       maxHeight: '9.5625rem',
       borderRadius: '7px',
-      filter: isblock && 'blur(1px)',
+      filter: isblock ? 'blur(1px)' : 'blur(0px)',
    },
    width: '19.8125rem',
 }))
@@ -253,15 +271,15 @@ const StyledCard = styled(MUICard)(({ isblock }) => {
    return {
       width: '21.8125rem',
       padding: '15px',
-      maxHeight: '18.8125rem',
       position: 'relative',
+      maxHeight: '20rem',
       '&.list': {
          width: '33.3125rem',
          display: 'flex',
          gap: '7px',
          height: '10rem',
          img: {
-            filter: isblock && 'blur(1px)',
+            filter: isblock ? 'blur(1px)' : 'blur(0px)',
             minWidth: '30%',
             borderRadius: '7px',
          },

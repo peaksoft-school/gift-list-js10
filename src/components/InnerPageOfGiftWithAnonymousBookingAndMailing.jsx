@@ -8,6 +8,7 @@ import {
 } from '../store/booking/bookingThunk'
 import { Button } from './UI/Button'
 import { Checkbox } from './UI/Checkbox'
+import { makeEventForUpdateTheAfterMeatballs } from '../pages/charity/GetAllCharity'
 
 // variants: mailing, ''
 
@@ -43,6 +44,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                   wishId: thingId,
                   isBookingAnonymous,
                   userId: id,
+                  getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
                })
             )
             break
@@ -52,6 +54,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                   charityId: thingId,
                   isBookingAnonymous,
                   userId: id,
+                  getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
                })
             )
             break
@@ -96,7 +99,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                ) : (
                   <StyledCardName>{cardName}</StyledCardName>
                )}
-               <p>{description}</p>
+               <StyledDescription>{description}</StyledDescription>
                {type === 'CHARITY' && (
                   <StyledCharityInfoContainer>
                      {[
@@ -149,6 +152,11 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
       </ContentWrapper>
    )
 }
+
+const StyledDescription = styled('p')({
+   overflowWrap: 'anywhere',
+   whiteSpace: 'pre-wrap',
+})
 
 const StyledLinnkToWish = styled('a')({ color: '#3774D0' })
 

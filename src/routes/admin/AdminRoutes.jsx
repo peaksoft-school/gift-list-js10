@@ -6,6 +6,8 @@ import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
 import { GetAllCharity } from '../../pages/charity/GetAllCharity'
 import { GetCharityById } from '../../pages/charity/GetCharityById'
+import { Complaints } from '../../pages/complaints/Complaints'
+import { WishesInnerPage } from '../../pages/complaints/WishesInnerPage'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -13,7 +15,8 @@ export const AdminRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { users, charity, charityById } = routes[role]
+   const { users, complaints, innerComplaint, charity, charityById } =
+      routes[role]
    return (
       <Routes>
          <Route
@@ -39,9 +42,13 @@ export const AdminRoutes = () => {
             />
             <Route
                path={charity.path}
+               element={<PrivateRoutes Component={<GetAllCharity />} />}
+            />
+            <Route
+               path={complaints.path}
                element={
                   <PrivateRoutes
-                     Component={<GetAllCharity />}
+                     Component={<Complaints />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -49,9 +56,13 @@ export const AdminRoutes = () => {
             />
             <Route
                path={charityById.path}
+               element={<PrivateRoutes Component={<GetCharityById />} />}
+            />
+            <Route
+               path={innerComplaint.path}
                element={
                   <PrivateRoutes
-                     Component={<GetCharityById />}
+                     Component={<WishesInnerPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />

@@ -1,5 +1,6 @@
 import {
    ComplaintIcon,
+   DeleteIcon,
    GiftIcon,
    IncognitoIcon,
    LockIcon,
@@ -51,3 +52,14 @@ export const bookingOptions = [
 ]
 
 export const unBookingOption = [{ title: 'Снять бронь', icon: <UnLockIcon /> }]
+
+export const meatballsComplaintsOptions = {
+   isBlock: [
+      { title: 'Заблокировать', icon: <LockIcon /> },
+      { title: 'Удалить', icon: <DeleteIcon /> },
+   ],
+   isUnBlock: [
+      { title: 'Разблокировать', icon: <UnLockIcon /> },
+      { title: 'Удалить', icon: <DeleteIcon /> },
+   ],
+}

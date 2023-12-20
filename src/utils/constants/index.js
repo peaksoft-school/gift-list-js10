@@ -21,6 +21,13 @@ export const routes = {
          path: 'charity/:charityId',
          headerSelectType: 'select',
       },
+      complaints: {
+         path: 'complaints',
+         breadcrumb: 'Жалобы',
+      },
+      innerComplaint: {
+         path: 'complaints/:wishId',
+      },
    },
    USER: {
       path: '/user',

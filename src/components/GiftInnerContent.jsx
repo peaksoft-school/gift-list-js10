@@ -1,86 +1,73 @@
 import { Button, styled } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Field } from './GiftInnerContentFooter'
-import { Checkbox } from './UI/Checkbox'
 
 export function AdminState({
-   role = 'user',
-   complaint,
-   onDelete,
-   onEditOrOnBlock,
-   showEditOrBlockOptions,
-   isBookingAnonymous,
-   isShowBookingOptions,
-   handleCheckboxChange,
-   onBooking,
+   image,
+   ownerImage,
+   ownerName,
+   bookerImage,
+   status,
+   wishName,
+   description,
+   ownerPhoneNumber,
+   onDeleteWishById,
+   complaints,
+   onBlockedOrUnblockWishById,
+   isBlock,
 }) {
+   const { role } = useSelector((state) => state.authLogin)
    return (
       <Container>
-         <Icon src={complaint.image} alt={complaint.title} />
+         <Icon src={image} alt={wishName} />
          <SecondContainer>
             <FrowContent>
                <BlockContent>
-                  <Image src={complaint.owner.image} alt="user-data" />
+                  <Image src={ownerImage} alt="user-data" />
                   <OwnerContent>
-                     <span>{complaint.owner.userName}</span>
-                     <Span>{complaint.owner.phoneNumber}</Span>
+                     <span>{ownerName}</span>
+                     <Span>{ownerPhoneNumber}</Span>
                   </OwnerContent>
                </BlockContent>
                <UserContainer>
-                  {complaint.status && (
+                  {status && (
                      <div>
-                        <Img src={complaint.buker.image} alt="user-wait" />
+                        <Img src={bookerImage} alt="user-wait" />
                      </div>
                   )}
-                  <Title>
-                     {complaint.status ? 'Забронирован' : 'В ожидании'}
-                  </Title>
+                  <Title>{status ? 'Забронирован' : 'В ожидании'}</Title>
                </UserContainer>
             </FrowContent>
             <Main>
-               <MainContext>{complaint.name}</MainContext>
-               <FieldText>{complaint.text}</FieldText>
+               <MainContext>{wishName}</MainContext>
+               <FieldText>{description}</FieldText>
             </Main>
             <StyledFooter>
-               <Field role={role} {...complaint} />
-               {!complaint.status && showEditOrBlockOptions && (
-                  <ButtonContainer>
-                     {isShowBookingOptions ? (
-                        <>
-                           <p>
-                              <Checkbox
-                                 value={isBookingAnonymous}
-                                 onChange={handleCheckboxChange}
-                              />
-                              Забронировать анонимно
-                           </p>
-                           <Button onClick={onBooking} variant="primary">
-                              Забронировать
-                           </Button>
-                        </>
-                     ) : (
-                        <>
-                           <StyledButton
-                              onClick={onDelete}
-                              className="delete"
-                              variant="text"
-                              type="button"
-                           >
-                              Удалить
-                           </StyledButton>
-                           <StyledButton
-                              onClick={onEditOrOnBlock}
-                              variant="contained"
-                              type="button"
-                           >
-                              {role === 'user'
-                                 ? 'Редактировать'
-                                 : 'Заблокировать'}
-                           </StyledButton>
-                        </>
-                     )}
-                  </ButtonContainer>
-               )}
+               <Field role={role} complaints={complaints} />
+               <ButtonContainer>
+                  <StyledButton
+                     className="delete"
+                     variant="text"
+                     type="button"
+                     onClick={onDeleteWishById}
+                  >
+                     Удалить
+                  </StyledButton>
+                  {role === 'user' ? (
+                     <StyledButton variant="contained" type="button">
+                        Редактировать
+                     </StyledButton>
+                  ) : (
+                     <StyledButton
+                        variant="contained"
+                        type="button"
+                        onClick={onBlockedOrUnblockWishById}
+                     >
+                        {isBlock ? 'Разблокировать' : 'Заблокировать'}
+                     </StyledButton>
+                  )}
+               </ButtonContainer>
             </StyledFooter>
          </SecondContainer>
       </Container>
@@ -107,7 +94,7 @@ const Image = styled('img')({
    width: '3rem',
    height: '3rem',
    flexShrink: '0',
-   borderRadius: '50px',
+   borderRadius: '50%',
 })
 
 const MainContext = styled('p')({
@@ -143,8 +130,7 @@ const Title = styled('span')({
 const Img = styled('img')({
    width: '1.25rem',
    height: '1.25rem',
-   borderRadius: '9px',
-   objectFit: 'contain',
+   borderRadius: '50%',
 })
 
 const ButtonContainer = styled('div')({

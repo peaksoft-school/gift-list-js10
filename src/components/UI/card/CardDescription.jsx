@@ -28,6 +28,9 @@ const Description = styled('div')({
 const Title = styled('p')({
    fontSize: '0.875rem',
    fontWeight: '600',
+   overflow: 'hidden',
+   whiteSpace: 'nowrap',
+   textOverflow: 'ellipsis',
 })
 
 const Subheader = styled('span')({
@@ -36,4 +39,7 @@ const Subheader = styled('span')({
    '&.orange': {
       color: globalTheme.palette.secondary.orange,
    },
+   overflow: 'hidden',
+   whiteSpace: 'nowrap',
+   textOverflow: 'ellipsis',
 })
