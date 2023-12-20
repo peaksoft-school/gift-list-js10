@@ -19,9 +19,14 @@ const UsersPage = () => {
    const dispatch = useDispatch()
 
    const getUsers = async () => {
-      const response = await axiosInstance.get('/user/getAllUsers')
-      setUsers(response.data)
+      try {
+         const response = await axiosInstance.get('/user/getAllUsers')
+         setUsers(response.data)
+      } catch (error) {
+         console.log(error)
+      }
    }
+
    useEffect(() => {
       getUsers()
    }, [])

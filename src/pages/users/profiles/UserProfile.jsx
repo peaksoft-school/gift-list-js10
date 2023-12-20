@@ -59,10 +59,14 @@ export const UserProfile = () => {
    }
 
    const getCharities = async () => {
-      const charityResponse = await axiosInstance.get(
-         `/charity/myCharities?userId=${userId}`
-      )
-      setUserCharities(charityResponse.data)
+      try {
+         const charityResponse = await axiosInstance.get(
+            `/charity/myCharities?userId=${userId}`
+         )
+         setUserCharities(charityResponse.data)
+      } catch (error) {
+         console.log(error)
+      }
    }
 
    const handleWishChange = async (e, wish) => {
@@ -79,6 +83,7 @@ export const UserProfile = () => {
          getWishes()
       }
    }
+
    const handleCharityChange = async (e, charity) => {
       if (
          e.target.innerText === 'Заблокировать' ||
@@ -124,16 +129,16 @@ export const UserProfile = () => {
                      <Typography>{user?.fullName}</Typography>
                   </div>
                   <div className="messangers">
-                     <a href="@">
+                     <a href={user?.linkFacebook}>
                         <ProfileFacebook />
                      </a>
-                     <a href="@">
+                     <a href={user?.instagram}>
                         <ProfileInstagram />
                      </a>
-                     <a href="@">
+                     <a href={user?.telegram}>
                         <ProfileTelegram />
                      </a>
-                     <a href="@">
+                     <a href={user?.vkontakte}>
                         <ProfileVk />
                      </a>
                   </div>

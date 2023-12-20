@@ -4,6 +4,7 @@ import { styled } from '@mui/material'
 import { axiosInstance } from '../../../config/axiosInstance'
 import { Button } from '../../../components/UI/Button'
 import { DeleteModal } from '../../../components/UI/DeleteModal'
+import { stateOptions } from '../../../utils/constants/stateAndCategory'
 
 export const Charity = () => {
    const [charity, setCharity] = useState({})
@@ -19,6 +20,7 @@ export const Charity = () => {
          console.log(error)
       }
    }
+
    const deleteCharity = async () => {
       await axiosInstance.delete(`/charity?charityId=${charityId}`)
       navigate(-1)
@@ -89,7 +91,7 @@ export const Charity = () => {
                      <div>
                         <p className="greyText">Состояние:</p>
                         <p className="holidayName">
-                           {charity.condition === 'NEW' ? 'Новое' : 'Б/У'}
+                           {stateOptions[charity.condition]}
                         </p>
                         <p className="greyText">Дата добавления:</p>
                         <p className="holidayName">
