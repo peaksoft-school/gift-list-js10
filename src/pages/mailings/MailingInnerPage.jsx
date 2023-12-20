@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getMailingById } from '../../store/mailing-slice/mailingsThunk'
+import { getMailingById } from '../../store/mailing/mailingsThunk'
 import { InnerPageOfGiftWithAnonymousBookingAndMailing } from '../../components/InnerPageOfGiftWithAnonymousBookingAndMailing'
 import { convertDateFormat } from '../../utils/constants/formatedDate'
 

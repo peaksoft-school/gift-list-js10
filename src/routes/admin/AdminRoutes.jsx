@@ -6,8 +6,8 @@ import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
 import { Complaints } from '../../pages/complaints/Complaints'
 import { WishesInnerPage } from '../../pages/complaints/WishesInnerPage'
-import { MailingPage } from '../../pages/mailing/MailingPage'
-import { MailingInnerPage } from '../../pages/mailing/MailingInnerPage'
+import { MailingPage } from '../../pages/mailings/MailingPage'
+import { MailingInnerPage } from '../../pages/mailings/MailingInnerPage'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)

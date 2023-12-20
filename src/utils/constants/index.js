@@ -63,9 +63,11 @@ export const routes = {
       },
       wishes: {
          path: 'wishes',
+         showListActions: true,
       },
       holidays: {
          path: 'holidays',
+         showListActions: true,
       },
       charities: {
          path: 'charities',

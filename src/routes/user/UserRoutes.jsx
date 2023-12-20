@@ -131,7 +131,7 @@ export const UserRoutes = () => {
                path={wishes.path}
                element={
                   <PrivateRoutes
-                     Component={<WishesPage />}
+                     Component={<WishesPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -141,7 +141,7 @@ export const UserRoutes = () => {
                path={charities.path}
                element={
                   <PrivateRoutes
-                     Component={<CharitiesPage />}
+                     Component={<CharitiesPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -151,7 +151,7 @@ export const UserRoutes = () => {
                path={holidays.path}
                element={
                   <PrivateRoutes
-                     Component={<HolidaysPage />}
+                     Component={<HolidaysPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />

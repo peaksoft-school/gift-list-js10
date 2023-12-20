@@ -6,7 +6,7 @@ import { providerEvent } from '../../events/customEvents'
 import { Card } from '../../components/UI/card/Card'
 import { handleOptionsChange, isWishBooked } from './ProfileDetail'
 
-export const WishesPage = () => {
+export const WishesPage = ({ isList }) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
@@ -19,7 +19,7 @@ export const WishesPage = () => {
    }
 
    const openInnerWishPage = (wishId) => {
-      navigate(`feed/${wishId}/WISH`)
+      navigate(`/user/feed/${wishId}/WISH`)
    }
 
    return (
@@ -37,6 +37,7 @@ export const WishesPage = () => {
                   ownerImage={wish.userImage}
                   ownerName={wish.fullName}
                   isBlock={wish.isBlock}
+                  list={isList}
                   bookerImage={wish.reservoirImage}
                   showBottomBooker="true"
                   handleChange={(e) =>
