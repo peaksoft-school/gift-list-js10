@@ -92,14 +92,16 @@ export const addCharity = createAsyncThunk(
       try {
          const newCharity = {
             nameCharity: charity.holidayName,
-            category: categoriesWithRussianPropertiesName[charity.category],
             subcategory:
-               subCategoriesWithRussianPropertiesName[charity.subCategory],
+               subCategoriesWithRussianPropertiesName[charity.subCategory] ===
+               'SMARTPHONES_AND_PHONES'
+                  ? 'SMARTPHONE'
+                  : subCategoriesWithRussianPropertiesName[charity.subCategory],
+            category: categoriesWithRussianPropertiesName[charity.category],
             description: charity.description,
             image: charity.image,
             condition: conditionWithRussianPropertiesName[charity.state],
          }
-
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
