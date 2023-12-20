@@ -99,9 +99,6 @@ export const routes = {
          path: 'edit',
          breadcrumb: 'Рассказать о себе',
       },
-      'wish-list': {
-         path: 'wish-list',
-      },
       'my-holidays': {
          path: 'my-holidays',
          breadcrumb: 'Mои праздники',

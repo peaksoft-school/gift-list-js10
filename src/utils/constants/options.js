@@ -7,7 +7,7 @@ const holidayOptions = [
    },
 ]
 
-const stateOptions = ['Все', 'Б/У', 'Новое']
+const stateOptions = ['Б/У', 'Новое']
 
 const category = [
    'Электроника',

@@ -90,6 +90,11 @@ export const WishListForm = ({
    })
 
    useEffect(() => {
+      reset(defaultValues)
+      setPreview((prev) => ({ ...prev, url: image }))
+   }, [defaultValues])
+
+   useEffect(() => {
       if (isSubmitSuccessful) {
          reset()
          setPreview({})
@@ -156,6 +161,7 @@ export const WishListForm = ({
          </BlockOne>
          <BlockTwo
             onSubmit={handleSubmit((data) => {
+               console.log(data)
                onSubmit(data, preview, reset)
                setPreview(image ? { file: '', url: image } : {})
                setValues(variant ? initialValues[0] : {})

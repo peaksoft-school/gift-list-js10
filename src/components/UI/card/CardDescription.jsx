@@ -13,7 +13,7 @@ export const CardDescription = ({ variant, text1, text2, newOrOld }) => {
                      : ''
                }
             >
-               {text1.length > 10 ? text1.splice(0, 9, '...') : text2}
+               {text2}
             </Subheader>
          )}
       </Description>

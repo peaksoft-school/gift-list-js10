@@ -9,12 +9,14 @@ import {
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
 import {
+   deleteCharityById,
    getAllCharity,
    getAllCharityByUserId,
    getCharityById,
 } from '../../store/charity/charityThunk'
 import {
    bookingOptions,
+   meatballsDeleteAndEditOptions,
    unBookingOption,
 } from '../../utils/constants/meatballs-options'
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
@@ -28,6 +30,9 @@ const isWishBooked = (bookerId, myId, role, ownerId) => {
       if (bookerId === myId) {
          return unBookingOption
       }
+      if (ownerId === myId) {
+         return meatballsDeleteAndEditOptions
+      }
    }
    return []
 }
@@ -35,9 +40,16 @@ const isWishBooked = (bookerId, myId, role, ownerId) => {
 export const makeEventForUpdateTheAfterMeatballs = () =>
    providerEvent({ action: 'search', payload: Math.random() })
 
-const handleMeatballsChange = (e, charityId, dispatch, userId) => {
+const handleMeatballsChange = (e, charityId, dispatch, userId, navigate) => {
    const selectedOption = e.target.innerText
    switch (selectedOption) {
+      case 'Редактировать':
+         navigate(`/user/charity/editCharity/${charityId}`)
+         dispatch(getCharityById(charityId))
+         break
+      case 'Удалить':
+         dispatch(deleteCharityById({ charityId }))
+         break
       case 'Забронировать':
          dispatch(
             bookingCharityThunk({
@@ -119,7 +131,8 @@ export const GetAllCharity = () => {
                      e,
                      charity.charityId,
                      dispatch,
-                     charity.userId
+                     charity.userId,
+                     navigate
                   )
                }
                meatballsOptions={isWishBooked(

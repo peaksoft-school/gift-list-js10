@@ -1,17 +1,25 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { addCharity, updateCharity } from '../../store/charity/charityThunk'
-import { WishListForm } from '../LandingPage/WishListForm'
+import {
+   categoriesWithEnglishPropertiesName,
+   conditionWithEnglishPropertiesName,
+   subCategoriesWithEnglishPropertiesName,
+} from '../../utils/constants/constants'
 import { uploadFile } from '../../utils/helpers/constants'
+import { WishListForm } from '../LandingPage/WishListForm'
 
 export const EditOrAddCharityFormPage = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const { id } = useSelector((state) => state.authLogin)
+   const params = useParams()
    const onCloseForm = () => navigate(-1)
-   const { state } = useLocation()
-
+   const { charity } = useSelector((state) => state.charity)
+   // useEffect(() => {
+   //    if (params?.charityId)
+   // }, [])
    const onSubmitForm = async (values, data, reset) => {
       let image
       if (data?.file) {
@@ -20,13 +28,14 @@ export const EditOrAddCharityFormPage = () => {
       } else {
          image = data?.url
       }
+      console.log(values)
 
-      if (state?.charityId) {
+      if (charity?.charityId) {
          navigate(-1)
          return dispatch(
             updateCharity({
                userId: id,
-               charityId: state.charityId,
+               charityId: charity.charityId,
                charity: { ...values, image },
                reset,
             })
@@ -45,9 +54,23 @@ export const EditOrAddCharityFormPage = () => {
    return (
       <div>
          <WishListForm
-            defaultValues={state?.defaultValues}
+            defaultValues={
+               params?.charityId && {
+                  category:
+                     categoriesWithEnglishPropertiesName[charity.category],
+                  state: conditionWithEnglishPropertiesName[charity.condition],
+                  holidayName: charity.nameCharity,
+                  subCategory:
+                     subCategoriesWithEnglishPropertiesName[
+                        Object.keys(
+                           subCategoriesWithEnglishPropertiesName
+                        ).find((key) => key.includes(charity.subCategory))
+                     ],
+                  description: charity.description,
+               }
+            }
             variant
-            image={state?.charityImage}
+            image={params?.charityId && charity?.charityImage}
             onClose={onCloseForm}
             onSubmit={onSubmitForm}
             imageIsReqired

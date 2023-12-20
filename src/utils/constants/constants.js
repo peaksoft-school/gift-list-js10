@@ -118,12 +118,10 @@ const subCategoriesWithRussianPropertiesName = {
 }
 
 const conditionWithRussianPropertiesName = {
-   Все: 'ALL',
    'Б/У': 'USED',
    Новое: 'NEW',
 }
 const conditionWithEnglishPropertiesName = {
-   ALL: 'Все',
    USED: 'Б/У',
    NEW: 'Новое',
 }

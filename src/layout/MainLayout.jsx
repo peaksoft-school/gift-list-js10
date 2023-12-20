@@ -15,7 +15,6 @@ import { Button } from '../components/UI/Button'
 import { Sidebar } from '../components/UI/Sidebar'
 import { providerEvent } from '../events/customEvents'
 import { routes } from '../utils/constants'
-import { findNumberLength } from '../utils/helpers/constants'
 
 const isNumber = (textForTest) => /^\d+$/.test(textForTest)
 const transformObjectRoutesToArray = (role) =>
@@ -28,9 +27,13 @@ const transformObjectRoutesToArray = (role) =>
 const getLastElementOfPath = (path) => path.slice(-1)
 export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
+   console.log(routesArray)
+
    const breadcrumbs = useBreadcrumbs(routesArray, {
       excludePaths: ['/', 'user', 'admin'],
    })
+   console.log(breadcrumbs)
+
    const [inner, setInner] = useState(false)
    const path = useParams()
    const [byIdName, setByIdName] = useState('')
@@ -95,19 +98,16 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                     getLastElementOfPath(match.pathname)
                                  )) || (
                                  <StyledNavLink
-                                    to={
-                                       (findNumberLength(match.pathname) &&
-                                          path['*']) ||
-                                       match.pathname
-                                    }
+                                    to={match.pathname}
                                     active={
                                        breadcrumbsForRequests.length - 1 ===
-                                          index ||
-                                       findNumberLength(match.pathname)
-                                          ? 'true'
-                                          : ''
+                                       index
                                     }
                                  >
+                                    {console.log(
+                                       breadcrumbs,
+                                       breadcrumbsForRequests
+                                    )}
                                     {isNumber(
                                        getLastElementOfPath(match.pathname)
                                     )

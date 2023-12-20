@@ -187,7 +187,7 @@ const StyledHolidayDate = styled('span')({ color: 'black' })
 
 const StyledHolidayName = styled('span')({ color: '#0BA360' })
 
-const StyledLabel = styled('p')({
+const StyledLabel = styled('label')({
    color: '#5C5C5C',
    display: 'flex',
    flexDirection: 'column',
