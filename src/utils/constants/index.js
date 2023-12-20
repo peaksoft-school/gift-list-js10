@@ -64,6 +64,7 @@ export const routes = {
          path: 'my-holidays',
          breadcrumb: 'Mои праздники',
          buttonContent: 'Добавить праздник',
+         showActionsButton: true,
          onClick: () => {
             providerEvent({ action: 'my-holidaysModalOpen', payload: true })
          },
