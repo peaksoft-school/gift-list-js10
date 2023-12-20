@@ -163,7 +163,6 @@ export const MainLayout = ({ role, isList, toggleList }) => {
       </>
    )
 }
-
 const ImagesAndBreadcrumbsWrapper = styled('div')({
    display: 'flex',
    gap: '35px',

@@ -11,14 +11,15 @@ import {
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
 import { getCharitiesByUserId } from '../../store/charity/charityThunk'
+
 import { getHolidaysByUserId } from '../../store/holiday/holidayThunk'
-import { getProfileByUserId } from '../../store/profile/profileThunk'
 import {
    acceptRequest,
    deleteFriendById,
    rejectRequests,
    sendRequestToUser,
 } from '../../store/my-friends/friendsThunk'
+import { getProfileByUserId } from '../../store/profile/profileThunk'
 import { getWishListByUserId } from '../../store/wish/wishThunk'
 import { shoeSizeObject } from '../../utils/constants/constants'
 import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'

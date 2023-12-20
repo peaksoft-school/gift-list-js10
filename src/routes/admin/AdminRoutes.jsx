@@ -4,6 +4,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { Complaints } from '../../pages/complaints/Complaints'
+import { WishesInnerPage } from '../../pages/complaints/WishesInnerPage'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -11,7 +13,7 @@ export const AdminRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { users } = routes[role]
+   const { users, complaints, innerComplaint } = routes[role]
    return (
       <Routes>
          <Route
@@ -31,6 +33,26 @@ export const AdminRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<h1>Here should be your component</h1>}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={complaints.path}
+               element={
+                  <PrivateRoutes
+                     Component={<Complaints />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={innerComplaint.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishesInnerPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />
