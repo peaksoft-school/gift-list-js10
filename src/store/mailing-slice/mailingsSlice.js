@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getAllMailings, getMailingById } from './MailingThunk'
+import { getAllMailings, getMailingById } from './mailingsThunk'
 
 const initialState = {
    mailings: [],
@@ -8,7 +8,7 @@ const initialState = {
    isLoading: false,
 }
 
-export const MailingSlice = createSlice({
+export const mailingsSlice = createSlice({
    name: 'mailings',
    initialState,
    reducers: {},

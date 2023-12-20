@@ -15,7 +15,7 @@ import { formatDate, uploadFile } from '../../utils/helpers/constants'
 import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
 import { Card } from '../../components/UI/card/Card'
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
-import { sendMailing } from '../../store/mailing/MailingThunk'
+import { sendMailing } from '../../store/mailing-slice/mailingsThunk'
 
 export const MyHolidays = () => {
    const [preview, setPreview] = useState({ file: '', url: '' })

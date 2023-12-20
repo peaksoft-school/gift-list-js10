@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { getAllMailings, sendMailing } from '../../store/mailing/MailingThunk'
+import {
+   getAllMailings,
+   sendMailing,
+} from '../../store/mailing-slice/mailingsThunk'
 import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
 import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
