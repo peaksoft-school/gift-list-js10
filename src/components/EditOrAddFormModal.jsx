@@ -9,12 +9,13 @@ import { Button } from './UI/Button'
 import { Input } from './UI/input/Input'
 import { UploadImage } from './UploadImage'
 
-export const EditOrAddHolidayModal = ({
+export const EditOrAddFormModal = ({
    preview,
    onSubmit,
    setPreview,
    addNewHolidayModalState,
    closeHandler,
+   variant = '',
 }) => {
    const { register, handleSubmit, control, getValues } = useForm({
       defaultValues: {
@@ -80,7 +81,12 @@ export const EditOrAddHolidayModal = ({
          }))
       }
    }
-
+   let type
+   if (variant) {
+      type = 'mailing'
+   } else {
+      type = addNewHolidayModalState.holidayId ? 'edit' : 'save'
+   }
    return (
       <Modal
          handleClose={handleClose}
@@ -91,37 +97,46 @@ export const EditOrAddHolidayModal = ({
             <StyledForm
                component="form"
                onSubmit={handleSubmit((values) =>
-                  onSubmit(
-                     values,
-                     addNewHolidayModalState.holidayId ? 'edit' : 'save',
-                     addNewHolidayModalState.holidayId
-                  )
+                  onSubmit(values, type, addNewHolidayModalState.holidayId)
                )}
             >
                <StyledAddHolidayTitle variant="h1">
-                  Добавление праздника
+                  {variant ? 'Создание рассылки' : 'Добавление праздника'}
                </StyledAddHolidayTitle>
                <StyledUploadImageWrapper>
                   <UploadImage setPreview={setPreview} preview={preview} />
                </StyledUploadImageWrapper>
                <Input
                   type="text"
-                  {...register('nameHoliday')}
-                  labelText="Название праздника"
-                  placeholder="Введите название праздника"
-               />
-               <DatePicker
-                  name="dateOfHoliday"
-                  label="Дата праздника"
-                  placeholder="Укажите дату праздника"
-                  control={control}
-                  onError={onError}
-                  errorMessage={
-                     datePickerError.invalidErrorMessage ||
-                     datePickerError.emptyErrorMessage
+                  {...register(variant ? 'nameMailing' : 'nameHoliday')}
+                  labelText={variant ? 'Тема' : 'Название праздника'}
+                  placeholder={
+                     variant
+                        ? 'Введите тему рассылки'
+                        : 'Введите название праздника'
                   }
-                  datePickerHandleChange={datePickerHandleChange}
                />
+               {variant ? (
+                  <Input
+                     type="text"
+                     {...register('text')}
+                     labelText="Текст рассылки"
+                     placeholder="Введите текст рассылки"
+                  />
+               ) : (
+                  <DatePicker
+                     name="dateOfHoliday"
+                     label="Дата праздника"
+                     placeholder="Укажите дату праздника"
+                     control={control}
+                     onError={onError}
+                     errorMessage={
+                        datePickerError.invalidErrorMessage ||
+                        datePickerError.emptyErrorMessage
+                     }
+                     datePickerHandleChange={datePickerHandleChange}
+                  />
+               )}
                <AddAndCancelButtonsContainer>
                   <StyledHolidayButton variant="outlined" onClick={handleClose}>
                      Отмена
@@ -141,7 +156,7 @@ export const EditOrAddHolidayModal = ({
                      variant="primary"
                      type="submit"
                   >
-                     Добавить
+                     {variant ? 'Отправить' : 'Добавить'}
                   </StyledHolidayButton>
                </AddAndCancelButtonsContainer>
             </StyledForm>

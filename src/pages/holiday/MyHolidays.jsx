@@ -12,7 +12,7 @@ import {
 import { convertDateFormat } from '../../utils/constants/formatedDate'
 import { meatballsDeleteAndEditOptions } from '../../utils/constants/meatballs-options'
 import { formatDate, uploadFile } from '../../utils/helpers/constants'
-import { EditOrAddHolidayModal } from '../../components/EditOrAddHolidayModal'
+import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
 import { Card } from '../../components/UI/card/Card'
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
 
@@ -59,6 +59,8 @@ export const MyHolidays = () => {
       }))
    }
    const onSubmit = async (values, type, holidayId) => {
+      console.log(values, type)
+
       let image = preview.url
       if (preview.file) {
          const response = await uploadFile(preview.file)
@@ -87,6 +89,14 @@ export const MyHolidays = () => {
                userId: id,
             })
          )
+      } else if (type === 'mailing') {
+         const mailing = {
+            text: values.text,
+            nameMailing: values.nameMailing,
+            image,
+         }
+         // TODO: Kanykey eje mailing ti alyp backke jonotup koiot
+         console.log(mailing)
       }
 
       openAndCloseHolidayModalHandler()
@@ -145,7 +155,7 @@ export const MyHolidays = () => {
                />
             )}
             {addNewHolidayModalState.isOpen && (
-               <EditOrAddHolidayModal
+               <EditOrAddFormModal
                   preview={preview}
                   setPreview={setPreview}
                   onSubmit={onSubmit}
