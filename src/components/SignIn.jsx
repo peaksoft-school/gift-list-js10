@@ -68,7 +68,7 @@ export const SignIn = () => {
    ] = useState(false)
 
    const onSignInWithGoogleHandler = () => {
-      dispatch(authWithGoogle(navigate))
+      dispatch(authWithGoogle({ navigate, isRememberMeChecked }))
    }
 
    const changePasswordVisibleInvisibleStateHandler = () => {

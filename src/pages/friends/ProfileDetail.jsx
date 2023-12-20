@@ -3,9 +3,6 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
-import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
-import { Profile } from '../LandingPage/Profile'
-import { shoeSizeObject } from '../../utils/constants/constants'
 import { providerEvent } from '../../events/customEvents'
 import {
    bookingCharityThunk,
@@ -13,9 +10,8 @@ import {
    unBookingWishThunk,
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
+import { getCharitiesByUserId } from '../../store/charity/charityThunk'
 
-import { getWishListByUserId } from '../../store/wish/wishThunk'
-import { getProfileByUserId } from '../../store/profile/profileThunk'
 import { getHolidaysByUserId } from '../../store/holiday/holidayThunk'
 import {
    acceptRequest,
@@ -23,7 +19,11 @@ import {
    rejectRequests,
    sendRequestToUser,
 } from '../../store/my-friends/friendsThunk'
-import { getCharitiesByUserId } from '../../store/charity/charityThunk'
+import { getProfileByUserId } from '../../store/profile/profileThunk'
+import { getWishListByUserId } from '../../store/wish/wishThunk'
+import { shoeSizeObject } from '../../utils/constants/constants'
+import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
+import { Profile } from '../LandingPage/Profile'
 
 export const isWishBooked = (bookerId, myId) => {
    let meatballsOptions = []
@@ -246,101 +246,109 @@ export const ProfileDetail = ({ variant }) => {
             />
          )}
 
-         <div>
-            <TitleContent>
-               <h3>Желаемые подарки</h3>
-               <NavLink to="/user/wishes">Смотреть все</NavLink>
-            </TitleContent>
-            <HolidaysContainer>
-               {newFriendWishes?.map((card) => (
-                  <Card
-                     key={card.wishId}
-                     status={card.wishStatus}
-                     holiday={card.holidayName}
-                     cardName={card.wishName}
-                     date={card.dateOfHoliday}
-                     cardImage={card.wishImage}
-                     variant="secondary"
-                     showBottomBooker="true"
-                     isBlock={card.isBlock}
-                     bookerImage={card.reservoirImage}
-                     onGetBookerById={() =>
-                        handleOpenProfile(card.reservoirId, card.bookerName)
-                     }
-                     handleChange={(e) =>
-                        handleOptionsChange.WISH(
-                           e,
-                           card.wishId,
-                           dispatch,
-                           card.ownerId
-                        )
-                     }
-                     meatballsOptions={isWishBooked(card.reservoirId, id)}
-                     onGetThingById={() => openInnerWishPage(card.wishId)}
-                  />
-               ))}
-            </HolidaysContainer>
-         </div>
-         <div>
-            <TitleContent>
-               <h3>Праздники</h3>
-               <NavLink to="/user/holidays">Смотреть все</NavLink>
-            </TitleContent>
-            <HolidaysContainer>
-               {newFriendHolidays?.map((holiday) => (
-                  <Card
-                     key={holiday.holidayId}
-                     date={holiday.dateOfHoliday}
-                     cardImage={holiday.image}
-                     holiday={holiday.nameHoliday}
-                     variant="tertiary"
-                  />
-               ))}
-            </HolidaysContainer>
-         </div>
-         <div>
-            <TitleContent>
-               <h3>Благотворительность</h3>
-               <NavLink to="/user/charities">Смотреть все</NavLink>
-            </TitleContent>
-            <HolidaysContainer>
-               {newFriendsCharities?.map((charity) => (
-                  <Card
-                     key={charity.charityId}
-                     date={charity.createdAt}
-                     cardImage={charity.charityImage}
-                     holiday={charity.nameCharity}
-                     status={charity.status}
-                     newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
-                     variant="withStatusBottom"
-                     showBottomBooker="true"
-                     isBlock={charity.isBlock}
-                     bookerImage={charity.bookedUserImage}
-                     onGetBookerById={() =>
-                        handleOpenProfile(
+         {Boolean(newFriendWishes.length) && (
+            <div>
+               <TitleContent>
+                  <h3>Желаемые подарки</h3>
+                  <NavLink to="/user/wishes">Смотреть все</NavLink>
+               </TitleContent>
+               <HolidaysContainer>
+                  {newFriendWishes?.map((card) => (
+                     <Card
+                        key={card.wishId}
+                        status={card.wishStatus}
+                        holiday={card.holidayName}
+                        cardName={card.wishName}
+                        date={card.dateOfHoliday}
+                        cardImage={card.wishImage}
+                        variant="secondary"
+                        showBottomBooker="true"
+                        isBlock={card.isBlock}
+                        bookerImage={card.reservoirImage}
+                        onGetBookerById={() =>
+                           handleOpenProfile(card.reservoirId, card.bookerName)
+                        }
+                        handleChange={(e) =>
+                           handleOptionsChange.WISH(
+                              e,
+                              card.wishId,
+                              dispatch,
+                              card.ownerId
+                           )
+                        }
+                        meatballsOptions={isWishBooked(card.reservoirId, id)}
+                        onGetThingById={() => openInnerWishPage(card.wishId)}
+                     />
+                  ))}
+               </HolidaysContainer>
+            </div>
+         )}
+         {Boolean(newFriendHolidays.length) && (
+            <div>
+               <TitleContent>
+                  <h3>Праздники</h3>
+                  <NavLink to="/user/holidays">Смотреть все</NavLink>
+               </TitleContent>
+               <HolidaysContainer>
+                  {newFriendHolidays?.map((holiday) => (
+                     <Card
+                        key={holiday.holidayId}
+                        date={holiday.dateOfHoliday}
+                        cardImage={holiday.image}
+                        holiday={holiday.nameHoliday}
+                        variant="tertiary"
+                     />
+                  ))}
+               </HolidaysContainer>
+            </div>
+         )}
+         {Boolean(newFriendsCharities.length) && (
+            <div>
+               <TitleContent>
+                  <h3>Благотворительность</h3>
+                  <NavLink to="/user/charities">Смотреть все</NavLink>
+               </TitleContent>
+               <HolidaysContainer>
+                  {newFriendsCharities?.map((charity) => (
+                     <Card
+                        key={charity.charityId}
+                        date={charity.createdAt}
+                        cardImage={charity.charityImage}
+                        holiday={charity.nameCharity}
+                        status={charity.status}
+                        newOrOld={
+                           charity.condition === 'USED' ? 'Б/У' : 'Новый'
+                        }
+                        variant="withStatusBottom"
+                        showBottomBooker="true"
+                        isBlock={charity.isBlock}
+                        bookerImage={charity.bookedUserImage}
+                        onGetBookerById={() =>
+                           handleOpenProfile(
+                              charity.charityReservoirId,
+                              charity.bookerName
+                           )
+                        }
+                        handleChange={(e) =>
+                           handleOptionsChange.CHARITY(
+                              e,
+                              charity.charityId,
+                              dispatch,
+                              charity.userId
+                           )
+                        }
+                        meatballsOptions={isWishBooked(
                            charity.charityReservoirId,
-                           charity.bookerName
-                        )
-                     }
-                     handleChange={(e) =>
-                        handleOptionsChange.CHARITY(
-                           e,
-                           charity.charityId,
-                           dispatch,
-                           charity.userId
-                        )
-                     }
-                     meatballsOptions={isWishBooked(
-                        charity.charityReservoirId,
-                        id
-                     )}
-                     onGetThingById={() =>
-                        openInnerCharityHandler(charity.charityId)
-                     }
-                  />
-               ))}
-            </HolidaysContainer>
-         </div>
+                           id
+                        )}
+                        onGetThingById={() =>
+                           openInnerCharityHandler(charity.charityId)
+                        }
+                     />
+                  ))}
+               </HolidaysContainer>
+            </div>
+         )}
       </Container>
    )
 }

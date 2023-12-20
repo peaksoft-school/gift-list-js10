@@ -78,5 +78,17 @@ export const routes = {
          path: 'edit',
          breadcrumb: 'Рассказать о себе',
       },
+      'my-holidays': {
+         path: 'my-holidays',
+         breadcrumb: 'Mои праздники',
+         buttonContent: 'Добавить праздник',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'my-holidaysModalOpen', payload: true })
+         },
+      },
+      holidayInnerPage: {
+         path: 'my-holidays/:holidayId',
+      },
    },
 }
