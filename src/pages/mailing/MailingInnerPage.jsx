@@ -9,7 +9,6 @@ export const MailingInnerPage = () => {
    const dispatch = useDispatch()
    const { mailingId } = useParams()
    const mailing = useSelector((state) => state.mailings.mailing)
-   console.log(mailing)
 
    useEffect(() => {
       dispatch(getMailingById(mailingId))

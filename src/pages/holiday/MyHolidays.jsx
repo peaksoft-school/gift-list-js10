@@ -60,8 +60,6 @@ export const MyHolidays = () => {
       }))
    }
    const onSubmit = async (values, type, holidayId) => {
-      console.log(values, type)
-
       let image = preview.url
       if (preview.file) {
          const response = await uploadFile(preview.file)
@@ -96,7 +94,6 @@ export const MyHolidays = () => {
             nameMailing: values.nameMailing,
             image,
          }
-         // TODO: Kanykey eje mailing ti alyp backke jonotup koiot
          dispatch(sendMailing(mailing))
       }
 
