@@ -97,7 +97,7 @@ export const Card = ({
                            }}
                            aria-label="recipe"
                         >
-                           {ownerName.charAt(0)}
+                           {ownerName?.charAt(0)}
                         </StyledAvatarIcon>
                      )
                   }

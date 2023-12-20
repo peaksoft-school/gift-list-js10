@@ -1,6 +1,7 @@
 import {
-   ComplaintIcon,
    DeleteIcon,
+   EditIcon,
+   ComplaintIcon,
    GiftIcon,
    IncognitoIcon,
    LockIcon,
@@ -29,13 +30,8 @@ export const meetballsFeedOptionsForCharity = {
    isCharityFree: [
       { title: 'Забронировать', icon: <LockIcon /> },
       { title: 'Забронировать анонимно', icon: <IncognitoIcon /> },
-      { title: 'Пожаловаться', icon: <ComplaintIcon /> },
    ],
-   iBookThisCharity: [
-      { title: 'Снять бронь', icon: <UnLockIcon /> },
-      { title: 'Пожаловаться', icon: <ComplaintIcon /> },
-   ],
-   strangersBook: [{ title: 'Пожаловаться', icon: <ComplaintIcon /> }],
+   iBookThisCharity: [{ title: 'Снять бронь', icon: <UnLockIcon /> }],
 }
 
 export const meetballsFriendOptions = {
@@ -53,6 +49,16 @@ export const bookingOptions = [
 
 export const unBookingOption = [{ title: 'Снять бронь', icon: <UnLockIcon /> }]
 
+export const meatballsDeleteAndEditOptions = [
+   {
+      title: 'Редактировать',
+      icon: <EditIcon />,
+   },
+   {
+      title: 'Удалить',
+      icon: <DeleteIcon />,
+   },
+]
 export const meatballsComplaintsOptions = {
    isBlock: [
       { title: 'Заблокировать', icon: <LockIcon /> },

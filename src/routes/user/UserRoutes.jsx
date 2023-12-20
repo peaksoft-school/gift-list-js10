@@ -17,6 +17,8 @@ import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage
 import { GetAllCharity } from '../../pages/charity/GetAllCharity'
 import { GetCharityById } from '../../pages/charity/GetCharityById'
 import { EditOrAddCharityFormPage } from '../../pages/charity/EditOrAddCharityFormPage'
+import { MyHolidays } from '../../pages/holiday/MyHolidays'
+import { HolidayInnerPage } from '../../pages/holiday/HolidayInnerPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -43,11 +45,12 @@ export const UserRoutes = () => {
       profile,
       edit,
       userProfileById,
+      holidayInnerPage,
+      thingFromFeedById,
       charity,
       charityById,
       addCharity,
       editCharity,
-      thingFromFeedById,
    } = routes[role]
 
    return (
@@ -223,6 +226,14 @@ export const UserRoutes = () => {
                      fallback="/"
                   />
                }
+            />
+            <Route
+               path={routes[role]['my-holidays'].path}
+               element={<MyHolidays />}
+            />
+            <Route
+               path={holidayInnerPage.path}
+               element={<HolidayInnerPage />}
             />
          </Route>
       </Routes>

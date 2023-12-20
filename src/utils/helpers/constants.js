@@ -122,6 +122,5 @@ export function findNumberLength(inputString) {
       )
       return totalLength
    }
-
    return 0
 }

@@ -1,3 +1,5 @@
+import { providerEvent } from '../../events/customEvents'
+
 export const USER_KEY = 'GIFT-LIST_USER_KEY'
 export const USER_TOKEN_KEY = 'GIFT_LIST_USER_TOKEN_KEY'
 
@@ -99,6 +101,18 @@ export const routes = {
       },
       'wish-list': {
          path: 'wish-list',
+      },
+      'my-holidays': {
+         path: 'my-holidays',
+         breadcrumb: 'Mои праздники',
+         buttonContent: 'Добавить праздник',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'my-holidaysModalOpen', payload: true })
+         },
+      },
+      holidayInnerPage: {
+         path: 'my-holidays/:holidayId',
       },
    },
 }

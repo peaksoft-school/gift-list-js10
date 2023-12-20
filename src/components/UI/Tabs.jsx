@@ -1,17 +1,16 @@
 import { styled } from '@mui/material'
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useLocation } from 'react-router-dom'
 import { getFriends } from '../../store/my-friends/friendsThunk'
 import { getRequestsFromUsers } from '../../store/requests/requestThunk'
 
 export const Tabs = ({ countFriends, countRequests }) => {
    const { pathname } = useLocation()
+   const { id } = useSelector((state) => state.authLogin)
    const dispatch = useDispatch()
    useEffect(() => {
-      console.log('gfdfgdfgdsrevf')
-
-      dispatch(getFriends())
+      dispatch(getFriends(id))
       dispatch(getRequestsFromUsers())
    }, [dispatch])
 

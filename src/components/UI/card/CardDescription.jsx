@@ -13,7 +13,7 @@ export const CardDescription = ({ variant, text1, text2, newOrOld }) => {
                      : ''
                }
             >
-               {text2}
+               {text1.length > 10 ? text1.splice(0, 9, '...') : text2}
             </Subheader>
          )}
       </Description>
@@ -28,9 +28,6 @@ const Description = styled('div')({
 const Title = styled('p')({
    fontSize: '0.875rem',
    fontWeight: '600',
-   overflow: 'hidden',
-   whiteSpace: 'nowrap',
-   textOverflow: 'ellipsis',
 })
 
 const Subheader = styled('span')({
