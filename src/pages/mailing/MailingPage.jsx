@@ -15,6 +15,13 @@ export const MailingPage = () => {
       dispatch(getAllMailings())
    }, [])
 
+   useEffect(() => {
+      providerEvent({
+         action: 'showActionsButton',
+         payload: Boolean(mailings.length),
+      })
+   }, [mailings])
+
    const handleOpenInnerMailingPage = (mailingId, nameMailing) => {
       providerEvent({ action: 'name', payload: nameMailing })
       navigate(`${mailingId}`)

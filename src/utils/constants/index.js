@@ -25,6 +25,7 @@ export const routes = {
          path: 'mailing',
          breadcrumb: 'Рассылка',
          buttonContent: 'Отправить рассылку',
+         showActionsButton: true,
          onClick: () => {
             providerEvent({ action: 'mailingsModalOpen', payload: true })
          },
