@@ -18,6 +18,10 @@ export const WishesPage = () => {
       navigate(`/user/addToMyFriends/${userId}`)
    }
 
+   const openInnerWishPage = (wishId) => {
+      navigate(`feed/${wishId}/WISH`)
+   }
+
    return (
       <Container>
          <h2>Желаемые подарки</h2>
@@ -41,8 +45,11 @@ export const WishesPage = () => {
                   onGetOwnerById={() =>
                      handleOpenProfile(wish.ownerId, wish.fullName)
                   }
-                  onGetBookerById={() => handleOpenProfile(wish.reservoirId)}
+                  onGetBookerById={() =>
+                     handleOpenProfile(wish.reservoirId, wish.reservoirFullName)
+                  }
                   meatballsOptions={isWishBooked(wish.wishId, id)}
+                  onGetThingById={() => openInnerWishPage(wish.wishId)}
                />
             ))}
          </CardContainer>

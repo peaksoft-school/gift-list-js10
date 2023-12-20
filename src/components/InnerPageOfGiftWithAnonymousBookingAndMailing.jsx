@@ -115,7 +115,9 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                {type !== 'CHARITY' && (
                   <HolidayInfoContainer>
                      <StyledLabel>
-                        Дата праздника:
+                        {variant === 'mailing'
+                           ? 'Дата добавления:'
+                           : 'Дата праздника:'}
                         <StyledHolidayDate>{date}</StyledHolidayDate>
                      </StyledLabel>
                      {variant !== 'mailing' && type !== 'HOLIDAY' && (

@@ -1,3 +1,5 @@
+import { providerEvent } from '../../events/customEvents'
+
 export const USER_KEY = 'GIFT-LIST_USER_KEY'
 export const USER_TOKEN_KEY = 'GIFT_LIST_USER_TOKEN_KEY'
 
@@ -18,6 +20,17 @@ export const routes = {
       },
       innerComplaint: {
          path: 'complaints/:wishId',
+      },
+      mailing: {
+         path: 'mailing',
+         breadcrumb: 'Рассылка',
+         buttonContent: 'Отправить рассылку',
+         onClick: () => {
+            providerEvent({ action: 'mailingsModalOpen', payload: true })
+         },
+      },
+      innerMailing: {
+         path: 'mailing/:mailingId',
       },
    },
    USER: {

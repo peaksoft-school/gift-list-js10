@@ -159,6 +159,14 @@ export const ProfileDetail = ({ variant }) => {
       navigate(`/user/addToMyFriends/${userId}`)
    }
 
+   const openInnerWishPage = (wishId) => {
+      navigate(`feed/${wishId}/WISH`)
+   }
+
+   const openInnerCharityHandler = (charityId) => {
+      navigate(`feed/${charityId}/CHARITY`)
+   }
+
    return (
       <Container>
          {variant === 'myFriendProfile' && (
@@ -268,6 +276,7 @@ export const ProfileDetail = ({ variant }) => {
                         )
                      }
                      meatballsOptions={isWishBooked(card.reservoirId, id)}
+                     onGetThingById={() => openInnerWishPage(card.wishId)}
                   />
                ))}
             </HolidaysContainer>
@@ -325,6 +334,9 @@ export const ProfileDetail = ({ variant }) => {
                         charity.charityReservoirId,
                         id
                      )}
+                     onGetThingById={() =>
+                        openInnerCharityHandler(charity.charityId)
+                     }
                   />
                ))}
             </HolidaysContainer>

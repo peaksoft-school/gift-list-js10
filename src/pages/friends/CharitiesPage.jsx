@@ -16,6 +16,10 @@ export const CharitiesPage = () => {
       providerEvent({ action: 'name', payload: nameFriend })
       navigate(`/user/addToMyFriends/${friendId}`)
    }
+
+   const openInnerCharityHandler = (charityId) => {
+      navigate(`feed/${charityId}/CHARITY`)
+   }
    return (
       <div>
          <h2>Благотворительность</h2>
@@ -42,7 +46,10 @@ export const CharitiesPage = () => {
                      )
                   }
                   onGetBookerById={() =>
-                     handleOpenDetailProfile(charity.charityReservoirId)
+                     handleOpenDetailProfile(
+                        charity.charityReservoirId,
+                        charity.reservoirFullName
+                     )
                   }
                   onGetOwnerById={() =>
                      handleOpenDetailProfile(charity.userId, charity.fullName)
@@ -51,6 +58,9 @@ export const CharitiesPage = () => {
                      charity.charityReservoirId,
                      id
                   )}
+                  onGetThingById={() =>
+                     openInnerCharityHandler(charity.charityId)
+                  }
                />
             ))}
          </div>
