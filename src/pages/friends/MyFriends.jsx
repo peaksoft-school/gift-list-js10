@@ -25,7 +25,6 @@ export const MyFriends = () => {
       providerEvent({ action: 'name', payload: nameFriend })
       navigate(`/user/friends/${friendId}`)
    }
-   console.log('in my friends compnedn')
 
    return (
       <>

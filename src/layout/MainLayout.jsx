@@ -158,7 +158,10 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                  routes[role][path['*']]?.onClick(navigate)
                               }
                            >
-                              + {buttonContent}
+                              {buttonContent?.includes('рассылку')
+                                 ? 'icon'
+                                 : '+'}
+                              {buttonContent}
                            </StyledSomethingAddButton>
                         )}
                      </StyledActions>

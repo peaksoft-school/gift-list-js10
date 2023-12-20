@@ -19,6 +19,7 @@ import {
    wishListSchema,
 } from '../../utils/helpers/wishListValidates'
 import { getAllHolidaysByUserId } from '../../store/holiday/holidayThunk'
+import { providerEvent } from '../../events/customEvents'
 
 const arrayState = [
    {
@@ -152,6 +153,12 @@ export const WishListForm = ({
                            error={Boolean(errors.holiday)}
                            helperText={errors.holiday?.message}
                            handleChange={handleChange}
+                           onClick={() =>
+                              providerEvent({
+                                 action: 'my-holidaysModalOpen',
+                                 payload: true,
+                              })
+                           }
                            value={values[labelName] || ''}
                         />
                      ))}

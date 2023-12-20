@@ -24,6 +24,7 @@ export const WishInnerPage = () => {
    useEffect(() => {
       dispatch(getWishById(wishId))
    }, [])
+
    if (pending) {
       return 'Loading...'
    }

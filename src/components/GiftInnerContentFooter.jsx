@@ -1,4 +1,6 @@
 import { styled } from '@mui/material'
+import { useSelector } from 'react-redux'
+import { convertDateFormat } from '../utils/constants/formatedDate'
 
 export function Field({
    complaints,
@@ -8,65 +10,69 @@ export function Field({
    createdDate,
    role,
    variant = 'wish',
-   dateOfHoliday,
-   holidayName,
 }) {
+   const date = useSelector((state) => state.wishById.wish)
    return (
       <div>
          <div>
-            <DefContent>
-               {variant === 'charity' ? (
-                  <>
-                     <Display>
-                        <Paragraph>
-                           Категория: <TextFeature>{categoryName}</TextFeature>
-                        </Paragraph>
-                        <Paragraph>
-                           Состояние: <TextFeature>{state}</TextFeature>
-                        </Paragraph>
-                     </Display>
-                     <Around>
-                        <Paragraph>
-                           Подкатегория:
-                           <TextFeature>{subCategoryName}</TextFeature>
-                        </Paragraph>
-                        <Paragraph>
-                           Дата добавления:
-                           <TextFeature>{createdDate}</TextFeature>
-                        </Paragraph>
-                     </Around>
-                  </>
-               ) : (
-                  <ParagraphStyle>
+            {variant ? (
+               <DefContent>
+                  <Display>
                      <Paragraph>
-                        Дата праздника:
-                        <TextFeature>{dateOfHoliday}</TextFeature>
+                        Категория: <TextFeature>{categoryName}</TextFeature>
                      </Paragraph>
                      <Paragraph>
-                        Название праздника:
-                        <TextHolidayName>{holidayName}</TextHolidayName>
+                        Состояние: <TextFeature>{state}</TextFeature>
                      </Paragraph>
-                  </ParagraphStyle>
-               )}
-            </DefContent>
+                  </Display>
+                  <Around>
+                     <Paragraph>
+                        Подкатегория:
+                        <TextFeature>{subCategoryName}</TextFeature>
+                     </Paragraph>
+                     <Paragraph>
+                        Дата добавления:
+                        <TextFeature>{createdDate}</TextFeature>
+                     </Paragraph>
+                  </Around>
+               </DefContent>
+            ) : (
+               <Paragraph>
+                  Дата добавления:
+                  <TextFeature>
+                     {convertDateFormat(date.dateOfHoliday)}
+                  </TextFeature>
+               </Paragraph>
+            )}
          </div>
-         {role !== 'user' &&
-            complaints.map((complaint) => (
-               <IconContainer key={complaint.id}>
-                  <ImgSoft src={complaint.userImg} alt="human" />
-                  <SpanContent>
-                     <span>{complaint.userName}</span>
-                     <Span>{complaint.reasonForComplaint}</Span>
-                  </SpanContent>
-               </IconContainer>
-            ))}
+         <ScrollContainer>
+            <ScrollContent>
+               {role !== 'user' &&
+                  complaints?.map((complaint) => (
+                     <IconContainer key={complaint.statusComplaint}>
+                        <ImgSoft
+                           src={complaint.complainUserInfoImage}
+                           alt="human"
+                        />
+                        <SpanContent>
+                           <span>{complaint.complainUserFullName}</span>
+                           <Span>{complaint.textComplain}</Span>
+                        </SpanContent>
+                     </IconContainer>
+                  ))}
+            </ScrollContent>
+         </ScrollContainer>
       </div>
    )
 }
 
-const ParagraphStyle = styled('div')({
-   display: 'flex',
-   gap: '6rem',
+const ScrollContainer = styled('div')({
+   overflow: 'auto',
+   height: '30vh',
+})
+
+const ScrollContent = styled('div')({
+   overscrollBehavior: 'contain',
 })
 
 const Display = styled('div')({
@@ -94,10 +100,11 @@ const Paragraph = styled('p')({
 
 const TextFeature = styled('span')({
    color: '#000',
+   paddingBottom: '10px',
 })
-const TextHolidayName = styled('p')({
-   color: '#0BA360',
-})
+// const TextHolidayName = styled('p')({
+//    color: '#0BA360',
+// })
 
 const IconContainer = styled('div')({
    display: 'flex',
@@ -118,4 +125,5 @@ const Span = styled('span')({
 const ImgSoft = styled('img')({
    width: '2.5rem',
    height: '2.5rem',
+   borderRadius: '50px',
 })

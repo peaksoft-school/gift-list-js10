@@ -1,60 +1,78 @@
 import { Button, styled } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Field } from './GiftInnerContentFooter'
 
 export function GiftInnerContent({
-   role = 'user',
-   complaint,
-   onDelete,
+   image,
+   ownerImage,
+   ownerName,
+   bookerImage,
+   status,
+   wishName,
+   description,
+   ownerPhoneNumber,
+   onDeleteWishById,
+   linkToWish,
+   complaints,
+   onBlockedOrUnblockWishById,
+   isBlock,
    onPutChange,
 }) {
+   const { role } = useSelector((state) => state.authLogin)
    return (
       <Container>
-         <Icon src={complaint.image} alt={complaint.title} />
+         <Icon src={image} alt={wishName} />
          <SecondContainer>
             <FrowContent>
                <BlockContent>
-                  <Image src={complaint.owner.image} alt="user-data" />
+                  <Image src={ownerImage} alt="user-data" />
                   <OwnerContent>
-                     <span>{complaint.owner.userName}</span>
-                     <Span>{complaint.owner.phoneNumber}</Span>
+                     <span>{ownerName}</span>
+                     <Span>{ownerPhoneNumber}</Span>
                   </OwnerContent>
                </BlockContent>
                <UserContainer>
-                  {complaint.status && (
+                  {status && (
                      <div>
-                        <Img src={complaint.buker.image} alt="user-wait" />
+                        <Img src={bookerImage} alt="user-wait" />
                      </div>
                   )}
-                  <Title>
-                     {complaint.status ? 'Забронирован' : 'В ожидании'}
-                  </Title>
+                  <Title>{status ? 'Забронирован' : 'В ожидании'}</Title>
                </UserContainer>
             </FrowContent>
             <Main>
-               <MainContext href={complaint.linkToWish}>
-                  {complaint.name}
-               </MainContext>
-               <FieldText>{complaint.text}</FieldText>
+               <MainContext href={linkToWish}>{wishName}</MainContext>
+               <FieldText>{description}</FieldText>
             </Main>
             <StyledFooter>
-               <Field role={role} {...complaint} />
+               <Field role={role} complaints={complaints} />
                <ButtonContainer>
                   <StyledButton
                      className="delete"
                      variant="text"
                      type="button"
-                     onClick={onDelete}
+                     onClick={onDeleteWishById}
                   >
                      Удалить
                   </StyledButton>
-                  <StyledButton
-                     variant="contained"
-                     type="button"
-                     onClick={onPutChange}
-                  >
-                     {role === 'user' ? 'Заблокировать' : 'Редактировать'}
-                  </StyledButton>
+                  {role === 'user' ? (
+                     <StyledButton
+                        variant="contained"
+                        type="button"
+                        onClick={onPutChange}
+                     >
+                        Редактировать
+                     </StyledButton>
+                  ) : (
+                     <StyledButton
+                        variant="contained"
+                        type="button"
+                        onClick={onBlockedOrUnblockWishById}
+                     >
+                        {isBlock ? 'Разблокировать' : 'Заблокировать'}
+                     </StyledButton>
+                  )}
                </ButtonContainer>
             </StyledFooter>
          </SecondContainer>
@@ -82,6 +100,7 @@ const Image = styled('img')({
    width: '3rem',
    height: '3rem',
    flexShrink: '0',
+   borderRadius: '50%',
 })
 
 const MainContext = styled('a')({
@@ -117,6 +136,7 @@ const Title = styled('span')({
 const Img = styled('img')({
    width: '1.25rem',
    height: '1.25rem',
+   borderRadius: '50%',
 })
 
 const ButtonContainer = styled('div')({

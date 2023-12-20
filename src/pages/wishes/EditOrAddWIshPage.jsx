@@ -1,9 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { addWish, getWishById, putWish } from '../../store/wish/wishThunk'
-import { uploadFile } from '../../utils/helpers/constants'
+import { formatDate, uploadFile } from '../../utils/helpers/constants'
 import { WishListForm } from '../LandingPage/WishListForm'
+import {
+   addHolidayQuery,
+   getAllHolidaysByUserId,
+} from '../../store/holiday/holidayThunk'
+import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
 
 export const EditOrAddWishPage = () => {
    const navigate = useNavigate()
@@ -11,9 +16,38 @@ export const EditOrAddWishPage = () => {
    const { wish } = useSelector((state) => state.wish)
    const dispatch = useDispatch()
    const { state } = useLocation()
+   const [preview, setPreview] = useState({ file: '', url: '' })
+   const [addNewHolidayModalState, setAddNewHolidayModalState] = useState({
+      isOpen: false,
+      defaultValues: {},
+      holidayId: 0,
+   })
    useEffect(() => {
       if (state?.wishId) dispatch(getWishById(state?.wishId))
    }, [])
+
+   useEffect(() => {
+      const handleModalChange = (event) => {
+         if (event.detail?.action === 'my-holidaysModalOpen') {
+            setAddNewHolidayModalState((prev) => ({
+               ...prev,
+               isOpen: event.detail?.payload,
+            }))
+         }
+      }
+      window.addEventListener('providerEvent', handleModalChange)
+      dispatch(getAllHolidaysByUserId(userId))
+      return () =>
+         window.removeEventListener('providerEvent', handleModalChange)
+   }, [])
+
+   const openAndCloseHolidayModalHandler = (defaultValues, holidayId) => {
+      setAddNewHolidayModalState((prevState) => ({
+         isOpen: !prevState.isOpen,
+         defaultValues,
+         holidayId,
+      }))
+   }
 
    const onSubmit = async (values, file, holidayId) => {
       let image = wish?.wishImage
@@ -48,10 +82,29 @@ export const EditOrAddWishPage = () => {
       )
    }
 
+   const onSaveHoliday = async (values) => {
+      let image = preview.url
+      if (preview.file) {
+         const response = await uploadFile(preview.file)
+         image = response.link
+      }
+      dispatch(
+         addHolidayQuery({
+            userData: {
+               nameHoliday: values.nameHoliday,
+               dateOfHoliday: formatDate(values.dateOfHoliday),
+            },
+            image,
+            userId,
+         })
+      )
+      openAndCloseHolidayModalHandler()
+      setPreview('')
+   }
+
    const onClose = () => {
       navigate(-1)
    }
-   console.log(wish, state)
 
    return (
       <div>
@@ -68,6 +121,15 @@ export const EditOrAddWishPage = () => {
             onClose={onClose}
             onSubmit={onSubmit}
          />
+         {addNewHolidayModalState.isOpen && (
+            <EditOrAddFormModal
+               preview={preview}
+               setPreview={setPreview}
+               onSubmit={onSaveHoliday}
+               addNewHolidayModalState={addNewHolidayModalState}
+               closeHandler={openAndCloseHolidayModalHandler}
+            />
+         )}
       </div>
    )
 }
