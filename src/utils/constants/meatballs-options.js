@@ -62,3 +62,14 @@ export const meatballsComplaintsOptions = {
       { title: 'Удалить', icon: <DeleteIcon /> },
    ],
 }
+export const meatballsForBookingWish = {
+   iBookThisWish: [
+      { title: 'Добавить в мои подарки', icon: <GiftIcon /> },
+      { title: 'Снять бронь', icon: <UnLockIcon /> },
+   ],
+   strangersBook: [{ title: 'Добавить в мои подарки', icon: <GiftIcon /> }],
+}
+
+export const meatballsForBookingCharity = [
+   { title: 'Снять бронь', icon: <UnLockIcon /> },
+]

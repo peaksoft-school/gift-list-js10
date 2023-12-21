@@ -18,7 +18,8 @@ export const WishesPage = ({ isList }) => {
       navigate(`/user/addToMyFriends/${userId}`)
    }
 
-   const openInnerWishPage = (wishId) => {
+   const openInnerWishPage = (wishId, wishName) => {
+      providerEvent({ action: 'name', payload: wishName })
       navigate(`/user/feed/${wishId}/WISH`)
    }
 
@@ -50,7 +51,9 @@ export const WishesPage = ({ isList }) => {
                      handleOpenProfile(wish.reservoirId, wish.reservoirFullName)
                   }
                   meatballsOptions={isWishBooked(wish.wishId, id)}
-                  onGetThingById={() => openInnerWishPage(wish.wishId)}
+                  onGetThingById={() =>
+                     openInnerWishPage(wish.wishId, wish.wishName)
+                  }
                />
             ))}
          </CardContainer>

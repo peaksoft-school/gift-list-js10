@@ -16,6 +16,7 @@ import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
 import { MyHolidays } from '../../pages/holiday/MyHolidays'
 import { HolidayInnerPage } from '../../pages/holiday/HolidayInnerPage'
+import { BookedWishAndCharityPage } from '../../pages/booked/BookedWishAndCharityPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -45,7 +46,7 @@ export const UserRoutes = () => {
       userProfileById,
       holidayInnerPage,
       thingFromFeedById,
-      booked,
+      bookings,
    } = routes[role]
 
    return (
@@ -74,10 +75,10 @@ export const UserRoutes = () => {
                }
             />
             <Route
-               path={booked.path}
+               path={bookings.path}
                element={
                   <PrivateRoutes
-                     Component={<h1>Hello</h1>}
+                     Component={<BookedWishAndCharityPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />
