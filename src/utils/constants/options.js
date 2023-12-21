@@ -84,6 +84,17 @@ const subCategoriesWithEnglishPropertiesName = {
    CROSS: 'Кроссовки',
 }
 
+const complaintsWithEnglishPropertiesName = {
+   CRUELTY_AND_SHOKING_CONTENT: 'Жестокость и шокирующий контент',
+   MANIFESTATION_OF_HARTED: 'Проявление ненависти',
+   ILLEGAL_ACTIVITIES_OR_REGULATED_PRODUCTS:
+      'Нелегальные действия или регламентированные товары',
+   SPAM: 'Спам',
+   CALLS_TO_VIOLENCE_DANGEROUS_ACTIONS: 'Призывы к насилию, опасные действия',
+   SCENES_OF_A_PORNOGRAPHIC_NATURE: 'Сцены порнографического характера',
+   OTHER: 'Прочее',
+}
+
 export {
    holidayOptions,
    stateOptions,
@@ -91,4 +102,5 @@ export {
    subcategories,
    categoriesWithEnglishPropertiesName,
    subCategoriesWithEnglishPropertiesName,
+   complaintsWithEnglishPropertiesName,
 }

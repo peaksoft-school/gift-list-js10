@@ -13,6 +13,7 @@ import {
    isUnBlockWishById,
 } from '../../store/wishesById/wishByIdThunk'
 import { meatballsComplaintsOptions } from '../../utils/constants/meatballs-options'
+import { complaintsWithEnglishPropertiesName } from '../../utils/constants/options'
 
 export const isBlockOptions = (isBlock) => {
    if (isBlock) {
@@ -78,7 +79,11 @@ export const Complaints = () => {
                   handleForSortedWithDate(item.wishId)?.complainUserInfoImage
                }
                meatballsOptions={isBlockOptions(item.block)}
-               status={handleForSortedWithDate(item.wishId)?.textComplain}
+               status={
+                  complaintsWithEnglishPropertiesName[
+                     handleForSortedWithDate(item.wishId)?.statusComplaint
+                  ]
+               }
                handleChange={(e) =>
                   optionsChangeHandle(e, item.wishId, dispatch)
                }

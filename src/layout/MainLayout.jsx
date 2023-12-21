@@ -8,7 +8,7 @@ import {
    useParams,
 } from 'react-router-dom'
 import useBreadcrumbs from 'use-react-router-breadcrumbs'
-import { CardIcon, ListIcon } from '../assets'
+import { CardIcon, ListIcon, MailingIcon } from '../assets'
 import { Header } from '../components/Header'
 import { Button } from '../components/UI/Button'
 import { Sidebar } from '../components/UI/Sidebar'
@@ -148,9 +148,11 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                  routes[role][path['*']]?.onClick(navigate)
                               }
                            >
-                              {buttonContent?.includes('рассылку')
-                                 ? 'icon'
-                                 : '+'}
+                              {buttonContent?.includes('рассылку') ? (
+                                 <MailingIcon />
+                              ) : (
+                                 '+'
+                              )}
                               {buttonContent}
                            </StyledSomethingAddButton>
                         )}
