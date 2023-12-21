@@ -11,7 +11,7 @@ import {
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
 import { getCharitiesByUserId } from '../../store/charity/charityThunk'
-import { getHolidaysByUserId } from '../../store/holiday/holidayThunk'
+import { getAllHolidaysByUserId } from '../../store/holiday/holidayThunk'
 import {
    acceptRequest,
    deleteFriendById,
@@ -119,7 +119,7 @@ export const ProfileDetail = ({ variant }) => {
    useEffect(() => {
       dispatch(getProfileByUserId(friendId))
       dispatch(getAllWishesByUserId(friendId))
-      dispatch(getHolidaysByUserId(friendId))
+      dispatch(getAllHolidaysByUserId(friendId))
       dispatch(getCharitiesByUserId(friendId))
    }, [dispatch])
 

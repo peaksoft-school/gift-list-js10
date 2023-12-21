@@ -18,6 +18,7 @@ export function GiftInnerContent({
    onBlockedOrUnblockWishById,
    isBlock,
    onPutChange,
+   variant,
 }) {
    const { role } = useSelector((state) => state.authLogin)
    return (
@@ -42,11 +43,17 @@ export function GiftInnerContent({
                </UserContainer>
             </FrowContent>
             <Main>
-               <MainContext href={linkToWish}>{wishName}</MainContext>
+               <StyledLinnkToWish
+                  href={linkToWish}
+                  target="_blank"
+                  rel="noopener noreferrer"
+               >
+                  <StyledCardName>{wishName}</StyledCardName>
+               </StyledLinnkToWish>
                <FieldText>{description}</FieldText>
             </Main>
             <StyledFooter>
-               <Field role={role} complaints={complaints} />
+               <Field variant={variant} role={role} complaints={complaints} />
                <ButtonContainer>
                   <StyledButton
                      className="delete"
@@ -56,7 +63,7 @@ export function GiftInnerContent({
                   >
                      Удалить
                   </StyledButton>
-                  {role === 'user' ? (
+                  {role === 'USER' ? (
                      <StyledButton
                         variant="contained"
                         type="button"
@@ -80,6 +87,13 @@ export function GiftInnerContent({
    )
 }
 
+const StyledLinnkToWish = styled('a')({ color: '#3774D0' })
+
+const StyledCardName = styled('p')({
+   fontSize: '1.5rem',
+   fontWeight: '500',
+})
+
 const Container = styled('div')({
    display: 'flex',
    alignItems: 'flex-start',
@@ -101,10 +115,6 @@ const Image = styled('img')({
    height: '3rem',
    flexShrink: '0',
    borderRadius: '50%',
-})
-
-const MainContext = styled('a')({
-   fontSize: '1.25rem',
 })
 
 const Main = styled('div')({

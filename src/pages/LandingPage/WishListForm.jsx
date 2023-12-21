@@ -73,13 +73,23 @@ export const WishListForm = ({
          ? yupResolver(wishListSchema)
          : yupResolver(variantSchema),
    })
+   console.log(defaultValues)
 
    useEffect(() => {
-      if (img) {
+      console.log('in use effect')
+
+      if (img || defaultValues.holidayName) {
          setPreview((prev) => ({ ...prev, url: img }))
          reset(defaultValues)
+         console.log('in first if')
       }
-   }, [defaultValues])
+      if (defaultValues.holidayName) {
+         console.log('in second if')
+
+         setValue('holidayName', defaultValues.holidayName)
+      }
+      console.log(defaultValues.holidayName)
+   }, [defaultValues, defaultValues.holidayName])
 
    useEffect(() => {
       if (isSubmitSuccessful) {

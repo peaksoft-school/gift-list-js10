@@ -11,11 +11,11 @@ export function Field({
    role,
    variant = 'wish',
 }) {
-   const date = useSelector((state) => state.wishById.wish)
+   const date = useSelector((state) => state.wish.wish)
    return (
       <div>
          <div>
-            {variant ? (
+            {!variant ? (
                <DefContent>
                   <Display>
                      <Paragraph>

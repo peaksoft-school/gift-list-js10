@@ -17,6 +17,7 @@ export const EditOrAddWishPage = () => {
    const dispatch = useDispatch()
    const { state } = useLocation()
    const [preview, setPreview] = useState({ file: '', url: '' })
+   const [defaultHoliday, setDefaultHoliday] = useState('')
    const [addNewHolidayModalState, setAddNewHolidayModalState] = useState({
       isOpen: false,
       defaultValues: {},
@@ -98,6 +99,7 @@ export const EditOrAddWishPage = () => {
             userId,
          })
       )
+      setDefaultHoliday(values.nameHoliday)
       openAndCloseHolidayModalHandler()
       setPreview('')
    }
@@ -110,12 +112,13 @@ export const EditOrAddWishPage = () => {
       <div>
          <WishListForm
             defaultValues={
-               state?.wishId && {
+               (state?.wishId && {
                   holidayName: wish?.wishName,
                   link: wish?.linkToWish,
                   holiday: wish?.holidayName,
                   description: wish?.description,
-               }
+               }) ||
+               (defaultHoliday && { holidayName: defaultHoliday })
             }
             img={state?.wishId && wish?.wishImage}
             onClose={onClose}

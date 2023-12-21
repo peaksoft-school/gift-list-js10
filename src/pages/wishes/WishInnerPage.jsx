@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { GiftInnerContent } from '../../components/GiftInnerContent'
 import { getWishById, deleteWish } from '../../store/wish/wishThunk'
 import { convertDateFormat } from '../../utils/helpers/constants'
+import { providerEvent } from '../../events/customEvents'
 
 export const WishInnerPage = () => {
    const { wishId } = useParams()
@@ -17,13 +18,15 @@ export const WishInnerPage = () => {
       dispatch(deleteWish({ wishId, userId: id }))
       navigate(-1)
    }
+
    const onPutChange = () => {
-      navigate(`/user/wish/putWish/${wishId}`)
+      navigate(`/user/wish/putWish`, { state: { wishId } })
    }
 
    useEffect(() => {
       dispatch(getWishById(wishId))
    }, [])
+   providerEvent({ action: 'name', payload: wish.wishName })
 
    if (pending) {
       return 'Loading...'
@@ -31,32 +34,27 @@ export const WishInnerPage = () => {
 
    return (
       <GiftInnerContent
-         onDelete={onDelete}
          onPutChange={onPutChange}
          role={role}
-         variant="7"
+         image={wish.wishImage}
+         ownerImage={wish.userImage}
+         ownerName={wish.fullName}
+         bookerImage={wish.bookedUserImage}
+         status={
+            wish.status === 'RESERVED' || wish.status === 'RESERVED_ANONYMOUSLY'
+         }
+         wishName={wish.wishName}
+         description={wish.description}
+         ownerPhoneNumber={wish.ownerPhoneNumber}
+         onDeleteWishById={onDelete}
+         linkToWish={wish.linkToWish}
+         newOrOld={wish.condition === 'USED' ? 'Б/У' : 'Новый'}
+         // onBlockedOrUnblockWishById={}
+         date={wish.createdAt && convertDateFormat(wish.createdAt)}
+         isBlock={wish.block}
          complaint={{
-            id: wishId,
-            name: wish.wishName,
-            image: wish.wishImage,
-            createdDate: wish.createdAt && convertDateFormat(wish.createdAt),
-            linkToWish: wish.linkToWish,
-            state: wish.condition === 'USED' ? 'Б/У' : 'Новый',
             dateOfHoliday: wish.dateOfHoliday,
             holidayName: wish.holidayName,
-            buker: {
-               image: wish.bookedUserImage,
-            },
-            owner: {
-               userName: wish.fullName,
-               image: wish.userImage,
-               phoneNumber: wish.ownerPhoneNumber,
-            },
-            text: wish.description,
-            complaints: [],
-            status:
-               wish.status === 'RESERVED' ||
-               wish.status === 'RESERVED_ANONYMOUSLY',
          }}
       />
    )

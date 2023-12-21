@@ -6,12 +6,12 @@ import {
    getWishlistByWishId,
    isBlockWishById,
    isUnBlockWishById,
-} from '../../store/wishesById/wishByIdThunk'
+} from '../../store/wish/wishThunk'
 import { deleteWishById } from '../../store/complaints-slice/complaintsThunk'
 
 export const WishesInnerPage = () => {
    const { wishId } = useParams()
-   const wish = useSelector((state) => state.wishById.wish)
+   const wish = useSelector((state) => state.wish)
 
    const dispatch = useDispatch()
    useEffect(() => {
