@@ -1,3 +1,5 @@
+import { providerEvent } from '../../events/customEvents'
+
 export const USER_KEY = 'GIFT-LIST_USER_KEY'
 export const USER_TOKEN_KEY = 'GIFT_LIST_USER_TOKEN_KEY'
 
@@ -12,6 +14,13 @@ export const routes = {
          path: 'users',
          breadcrumb: 'Пользователи',
       },
+      complaints: {
+         path: 'complaints',
+         breadcrumb: 'Жалобы',
+      },
+      innerComplaint: {
+         path: 'complaints/:wishId',
+      },
    },
    USER: {
       path: '/user',
@@ -19,6 +28,10 @@ export const routes = {
          path: 'feed',
          breadcrumb: 'Лента',
          showListActions: true,
+      },
+      thingFromFeedById: {
+         path: 'feed/:thingId/:thingType',
+         breadcrumb: '',
       },
       friends: {
          path: 'friends',
@@ -53,6 +66,18 @@ export const routes = {
       edit: {
          path: 'edit',
          breadcrumb: 'Рассказать о себе',
+      },
+      'my-holidays': {
+         path: 'my-holidays',
+         breadcrumb: 'Mои праздники',
+         buttonContent: 'Добавить праздник',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'my-holidaysModalOpen', payload: true })
+         },
+      },
+      holidayInnerPage: {
+         path: 'my-holidays/:holidayId',
       },
    },
 }

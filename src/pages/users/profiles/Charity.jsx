@@ -4,7 +4,11 @@ import { styled } from '@mui/material'
 import { axiosInstance } from '../../../config/axiosInstance'
 import { Button } from '../../../components/UI/Button'
 import { DeleteModal } from '../../../components/UI/DeleteModal'
-import { stateOptions } from '../../../utils/constants/stateAndCategory'
+import {
+   categoriesWithEnglishPropertiesName,
+   stateOptions,
+   subCategoriesWithEnglishPropertiesName,
+} from '../../../utils/constants/stateAndCategory'
 
 export const Charity = () => {
    const [charity, setCharity] = useState({})
@@ -84,9 +88,21 @@ export const Charity = () => {
                   <div className="dateAndNameHolidayContainer">
                      <div>
                         <p className="greyText">Категория:</p>
-                        <p>{charity.category}</p>
+                        <p>
+                           {
+                              categoriesWithEnglishPropertiesName[
+                                 charity.category
+                              ]
+                           }
+                        </p>
                         <p className="greyText">Подкатегория:</p>
-                        <p>{charity.subCategory}</p>
+                        <p>
+                           {
+                              subCategoriesWithEnglishPropertiesName[
+                                 charity.subCategory
+                              ]
+                           }
+                        </p>
                      </div>
                      <div>
                         <p className="greyText">Состояние:</p>

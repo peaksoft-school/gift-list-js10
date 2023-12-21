@@ -1,37 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getHolidaysByUserId } from './holidayThunk'
+import { getWishlistByWishId } from './wishByIdThunk'
 
 const initialState = {
-   holidays: [],
+   wish: [],
+   isLoading: false,
    error: null,
-   isloading: false,
 }
 
-export const holidaySlice = createSlice({
-   name: 'holidays',
+export const wishByIdSlice = createSlice({
+   name: 'wishById',
    initialState,
    reducers: {},
    extraReducers: (builder) => {
       builder
-         .addCase(getHolidaysByUserId.pending, (state) => {
+         .addCase(getWishlistByWishId.pending, (state) => {
             return {
                ...state,
-               isloading: true,
+               isLoading: true,
                error: null,
             }
          })
-         .addCase(getHolidaysByUserId.fulfilled, (state, action) => {
+         .addCase(getWishlistByWishId.fulfilled, (state, action) => {
             return {
                ...state,
-               holidays: action.payload,
+               isLoading: false,
+               wish: action.payload,
                error: null,
-               isloading: false,
             }
          })
-         .addCase(getHolidaysByUserId.rejected, (state, action) => {
+         .addCase(getWishlistByWishId.rejected, (state, action) => {
             return {
                ...state,
                error: action.payload,
+               isLoading: false,
             }
          })
    },

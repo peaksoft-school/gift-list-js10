@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react'
-import { Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { axiosInstance } from '../../config/axiosInstance'
@@ -55,7 +53,7 @@ const UsersPage = () => {
 
    const goToUserProfile = (userId, name) => {
       providerEvent({ action: 'name', payload: name })
-      navigate(`user-profile/${userId}`)
+      navigate(`${userId}`)
       dispatch(usersSlice.actions.addUserId(userId))
    }
 
@@ -65,7 +63,7 @@ const UsersPage = () => {
             {users.map((user) => {
                return (
                   <UserCard key={user.userId}>
-                     <div
+                     <Box
                         className="userData"
                         onClick={() =>
                            goToUserProfile(user.userId, user.fullName)
@@ -88,7 +86,7 @@ const UsersPage = () => {
                         <div className="wish">{user.wishSum}</div>
                         <Typography>желаемых</Typography>
                         <Typography>подарков</Typography>
-                     </div>
+                     </Box>
                      <div className="meatBallsContainer">
                         <MeatBalls
                            options={[

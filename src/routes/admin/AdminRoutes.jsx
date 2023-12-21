@@ -11,8 +11,8 @@ import { UserHolidays } from '../../pages/users/UserHolidays'
 import { UserCharities } from '../../pages/users/UserCharities'
 import { Charity } from '../../pages/users/profiles/Charity'
 import { Wish } from '../../pages/users/profiles/Wish'
-// import { Charity } from '../../pages/users/profiles/Charity'
-// import { Wish } from '../../pages/users/profiles/Wish'
+import { Complaints } from '../../pages/complaints/Complaints'
+import { WishesInnerPage } from '../../pages/complaints/WishesInnerPage'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -20,7 +20,7 @@ export const AdminRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { users } = routes[role]
+   const { users, complaints, innerComplaint } = routes[role]
    return (
       <Routes>
          <Route
@@ -46,7 +46,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/user-profile/:userId"
+               path="users/:userId"
                element={
                   <PrivateRoutes
                      Component={<UserProfile />}
@@ -56,7 +56,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/user-profile/:userId/wishes"
+               path="users/:userId/wishes"
                element={
                   <PrivateRoutes
                      Component={<UserWishes />}
@@ -66,7 +66,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/user-profile/:userId/wishes/wish/:wishId"
+               path="users/:userId/wishes/wish/:wishId"
                element={
                   <PrivateRoutes
                      Component={<Wish />}
@@ -76,7 +76,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/user-profile/:userId/holidays"
+               path="users/:userId/holidays"
                element={
                   <PrivateRoutes
                      Component={<UserHolidays />}
@@ -86,7 +86,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/user-profile/:userId/charities"
+               path="users/:userId/charities"
                element={
                   <PrivateRoutes
                      Component={<UserCharities />}
@@ -96,10 +96,30 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/user-profile/:userId/charities/charity/:charityId"
+               path="users/:userId/charities/charity/:charityId"
                element={
                   <PrivateRoutes
                      Component={<Charity />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={complaints.path}
+               element={
+                  <PrivateRoutes
+                     Component={<Complaints />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={innerComplaint.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishesInnerPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />

@@ -9,7 +9,7 @@ export const CharitiesPage = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
-   const friendCharities = useSelector((state) => state.charities.charities)
+   const friendCharities = useSelector((state) => state.charity.charities)
    const { id } = useSelector((state) => state.authLogin)
 
    const handleOpenDetailProfile = (friendId, nameFriend) => {

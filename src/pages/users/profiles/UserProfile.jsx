@@ -18,6 +18,8 @@ import {
 import { Card } from '../../../components/UI/card/Card'
 import { DeleteModal } from '../../../components/UI/DeleteModal'
 import { providerEvent } from '../../../events/customEvents'
+import { shoeSize } from '../../../utils/constants/stateAndCategory'
+import { englishCountries } from '../../../utils/constants/constants'
 
 export const UserProfile = () => {
    const [user, setUser] = useState({})
@@ -147,7 +149,9 @@ export const UserProfile = () => {
                   <div>
                      <p className="violetText">Основная информация</p>
                      <p className="greyText">Город:</p>
-                     <p className="normalText">{user?.country}</p>
+                     <p className="normalText">
+                        {englishCountries[user?.country]}
+                     </p>
                      <p className="greyText email">Email:</p>
                      <p className="normalText">{user?.email}</p>
                      <p className="violetText">Интересы, хобби</p>
@@ -159,13 +163,15 @@ export const UserProfile = () => {
                   </div>
                   <div>
                      <p className="greyText margin">Дата рождения:</p>
-                     <p className="normalText">{user?.dateOfBirth}</p>
+                     <p className="normalText">
+                        {user?.dateOfBirth?.replaceAll('-', '.')}
+                     </p>
                      <p className="greyText numberPhone">Номер телефона:</p>
                      <p className="normalText">{user?.phoneNumber}</p>
                      <p className="greyText margin">Важно знать:</p>
                      <p className="normalText">{user?.important}</p>
                      <p className="greyText margin">Размер обуви:</p>
-                     <p className="normalText">{user?.shoeSize}</p>
+                     <p className="normalText">{shoeSize[user?.shoeSize]}</p>
                   </div>
                </div>
             </div>

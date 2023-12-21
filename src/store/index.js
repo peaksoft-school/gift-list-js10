@@ -1,26 +1,32 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './auth/authSlice'
-import { myFriendsSlice } from './slices/my-friends/friendsSlice'
-import { myFriendWishesSlice } from './slices/wishes/wishSlices'
-import { profileByIdSlice } from './slices/profile-slice/profileByIdSlice'
-import { holidaySlice } from './slices/holidays/holidaySlice'
-import { requestSlice } from './slices/requests/requestSlice'
-import { bookingSlice } from './slices/booking/bookingSlice'
-import { charitiesSlice } from './slices/charities/charitiesSlice'
+import { bookingSlice } from './booking/bookingSlice'
+import { charitySlice } from './charity/charitySlice'
+import { complaintSlice } from './complaint/complaintSlice'
+import { feedSlice } from './feed/feedSlice'
+import { holidaySlice } from './holiday/holidaySlice'
+import { myFriendsSlice } from './my-friends/friendsSlice'
 import { profileSlice } from './profile/profileSlice'
 import { usersSlice } from './slices/users/users-slice'
+import { requestSlice } from './requests/requestSlice'
+import { wishSlice } from './wish/wishSlice'
+import { complaintsSlice } from './complaints-slice/complaintsSlice'
+import { wishByIdSlice } from './wishesById/wishByIdSlice'
 
 export const store = configureStore({
    reducer: {
       [authSlice.name]: authSlice.reducer,
-      [myFriendsSlice.name]: myFriendsSlice.reducer,
-      [profileByIdSlice.name]: profileByIdSlice.reducer,
-      [myFriendWishesSlice.name]: myFriendWishesSlice.reducer,
-      [holidaySlice.name]: holidaySlice.reducer,
       [requestSlice.name]: requestSlice.reducer,
       [bookingSlice.name]: bookingSlice.reducer,
-      [charitiesSlice.name]: charitiesSlice.reducer,
+      [charitySlice.name]: charitySlice.reducer,
+      [complaintSlice.name]: complaintSlice.reducer,
+      [feedSlice.name]: feedSlice.reducer,
+      [holidaySlice.name]: holidaySlice.reducer,
+      [myFriendsSlice.name]: myFriendsSlice.reducer,
       [profileSlice.name]: profileSlice.reducer,
       [usersSlice.name]: usersSlice.reducer,
+      [complaintsSlice.name]: complaintsSlice.reducer,
+      [wishByIdSlice.name]: wishByIdSlice.reducer,
+      [wishSlice.name]: wishSlice.reducer,
    },
 })
