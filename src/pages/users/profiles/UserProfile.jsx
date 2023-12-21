@@ -131,16 +131,16 @@ export const UserProfile = () => {
                      <Typography>{user?.fullName}</Typography>
                   </div>
                   <div className="messangers">
-                     <a href={user?.linkFacebook}>
+                     <a href={user?.linkFacebook} aria-label="link">
                         <ProfileFacebook />
                      </a>
-                     <a href={user?.instagram}>
+                     <a href={user?.instagram} aria-label="link">
                         <ProfileInstagram />
                      </a>
-                     <a href={user?.telegram}>
+                     <a href={user?.telegram} aria-label="link">
                         <ProfileTelegram />
                      </a>
-                     <a href={user?.vkontakte}>
+                     <a href={user?.vkontakte} aria-label="link">
                         <ProfileVk />
                      </a>
                   </div>
