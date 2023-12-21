@@ -45,6 +45,7 @@ export const UserRoutes = () => {
       userProfileById,
       holidayInnerPage,
       thingFromFeedById,
+      booked,
    } = routes[role]
 
    return (
@@ -67,6 +68,16 @@ export const UserRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<GetAllFeedPage isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={booked.path}
+               element={
+                  <PrivateRoutes
+                     Component={<h1>Hello</h1>}
                      isAuth={isAuth}
                      fallback="/"
                   />

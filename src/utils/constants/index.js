@@ -45,6 +45,16 @@ export const routes = {
          path: 'feed/:thingId/:thingType',
          breadcrumb: '',
       },
+      booked: {
+         path: 'booked',
+         breadcrumb: 'Забронированные',
+      },
+      bookedWish: {
+         path: 'bookedWish',
+      },
+      bookedCharity: {
+         path: 'bookedCharity',
+      },
       friends: {
          path: 'friends',
          breadcrumb: 'Друзья',
