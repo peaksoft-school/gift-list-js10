@@ -56,6 +56,7 @@ export const WishListForm = ({
    onSubmit,
    defaultValues = initialValues,
    img = '',
+   defaultHolidayId,
 }) => {
    const [preview, setPreview] = useState({ file: '', url: img })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
@@ -73,24 +74,6 @@ export const WishListForm = ({
          ? yupResolver(wishListSchema)
          : yupResolver(variantSchema),
    })
-   console.log(defaultValues)
-
-   useEffect(() => {
-      console.log('in use effect')
-
-      if (img || defaultValues.holidayName) {
-         setPreview((prev) => ({ ...prev, url: img }))
-         reset(defaultValues)
-         console.log('in first if')
-      }
-      if (defaultValues.holidayName) {
-         console.log('in second if')
-
-         setValue('holidayName', defaultValues.holidayName)
-      }
-      console.log(defaultValues.holidayName)
-   }, [defaultValues, defaultValues.holidayName])
-
    useEffect(() => {
       if (isSubmitSuccessful) {
          reset()
@@ -110,6 +93,32 @@ export const WishListForm = ({
    useEffect(() => {
       dispatch(getAllHolidaysByUserId(id))
    }, [])
+   useEffect(() => {
+      if (img) {
+         setPreview((prev) => ({ ...prev, url: img }))
+         reset(defaultValues)
+      }
+      if (defaultHolidayId) {
+         const result = async () => {
+            await dispatch(getAllHolidaysByUserId(id))
+            console.log(holidays)
+            console.log(
+               holidays.find((holiday) => {
+                  if (holiday.holidayId === defaultHolidayId) {
+                     console.log(holiday, defaultHolidayId)
+                     return holiday.nameHoliday
+                  }
+                  return null
+               })
+            )
+            setValue(
+               'holidayName',
+               holidays.find((holiday) => holiday.id === defaultHolidayId)
+            )
+         }
+         console.log(result())
+      }
+   }, [defaultValues, defaultHolidayId])
 
    const holidayNames = holidays.map((holiday) => {
       return holiday.nameHoliday

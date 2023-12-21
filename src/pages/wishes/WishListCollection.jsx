@@ -8,18 +8,24 @@ import { wishOptions } from '../../utils/helpers/constants'
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
 import { providerEvent } from '../../events/customEvents'
 
+export const handleEditOrDeleteWishMeatballsChange = async (
+   e,
+   wishId,
+   dispatch,
+   userId,
+   navigate
+) => {
+   if (e.target.innerText === 'Удалить') {
+      dispatch(deleteWish({ wishId, userId }))
+   } else if (e.target.innerText === 'Редактировать') {
+      navigate(`putWish`, { state: { wishId } })
+   }
+}
 export const WishListCollection = ({ isList }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { wishes } = useSelector((state) => state.wish)
    const { id } = useSelector((state) => state.authLogin)
-   const handleChange = async (e, wishId) => {
-      if (e.target.innerText === 'Удалить') {
-         dispatch(deleteWish({ wishId, userId: id }))
-      } else if (e.target.innerText === 'Редактировать') {
-         navigate(`putWish`, { state: { wishId } })
-      }
-   }
    const cardPage = (wishId, wishName) => {
       providerEvent({ action: 'name', payload: wishName })
       navigate(`${wishId}`)
@@ -47,7 +53,15 @@ export const WishListCollection = ({ isList }) => {
                   variant="secondary"
                   list={isList}
                   meatballsOptions={wishOptions}
-                  handleChange={(e) => handleChange(e, wish.wishId)}
+                  handleChange={(e) =>
+                     handleEditOrDeleteWishMeatballsChange(
+                        e,
+                        wish.wishId,
+                        dispatch,
+                        id,
+                        navigate
+                     )
+                  }
                   showBottomBooker="true"
                   onGetThingById={() => cardPage(wish.wishId, wish.wishName)}
                />

@@ -142,3 +142,8 @@ export function findNumberLength(inputString) {
    }
    return 0
 }
+
+export const extractNumberFromMessage = (message) => {
+   const match = message.match(/\d+/)
+   return match ? parseInt(match[0], 10) : null
+}

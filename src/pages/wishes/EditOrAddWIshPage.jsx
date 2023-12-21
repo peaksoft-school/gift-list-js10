@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
+import { addHolidayQuery } from '../../store/holiday/holidayThunk'
 import { addWish, getWishById, putWish } from '../../store/wish/wishThunk'
 import { formatDate, uploadFile } from '../../utils/helpers/constants'
 import { WishListForm } from '../LandingPage/WishListForm'
-import {
-   addHolidayQuery,
-   getAllHolidaysByUserId,
-} from '../../store/holiday/holidayThunk'
-import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
 
 export const EditOrAddWishPage = () => {
    const navigate = useNavigate()
@@ -17,7 +14,7 @@ export const EditOrAddWishPage = () => {
    const dispatch = useDispatch()
    const { state } = useLocation()
    const [preview, setPreview] = useState({ file: '', url: '' })
-   const [defaultHoliday, setDefaultHoliday] = useState('')
+   const [defaultHolidayId, setDefaultHolidayId] = useState('')
    const [addNewHolidayModalState, setAddNewHolidayModalState] = useState({
       isOpen: false,
       defaultValues: {},
@@ -37,7 +34,6 @@ export const EditOrAddWishPage = () => {
          }
       }
       window.addEventListener('providerEvent', handleModalChange)
-      dispatch(getAllHolidaysByUserId(userId))
       return () =>
          window.removeEventListener('providerEvent', handleModalChange)
    }, [])
@@ -97,9 +93,9 @@ export const EditOrAddWishPage = () => {
             },
             image,
             userId,
+            setDefaultHolidayId,
          })
       )
-      setDefaultHoliday(values.nameHoliday)
       openAndCloseHolidayModalHandler()
       setPreview('')
    }
@@ -112,14 +108,14 @@ export const EditOrAddWishPage = () => {
       <div>
          <WishListForm
             defaultValues={
-               (state?.wishId && {
+               state?.wishId && {
                   holidayName: wish?.wishName,
                   link: wish?.linkToWish,
                   holiday: wish?.holidayName,
                   description: wish?.description,
-               }) ||
-               (defaultHoliday && { holidayName: defaultHoliday })
+               }
             }
+            defaultHolidayId={defaultHolidayId}
             img={state?.wishId && wish?.wishImage}
             onClose={onClose}
             onSubmit={onSubmit}
