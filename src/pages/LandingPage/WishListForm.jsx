@@ -168,7 +168,6 @@ export const WishListForm = ({
                            placeholder={placeholder}
                            name={labelName}
                            control={control}
-                           disabled={Boolean(img)}
                            error={Boolean(errors.holiday)}
                            helperText={errors.holiday?.message}
                            handleChange={handleChange}

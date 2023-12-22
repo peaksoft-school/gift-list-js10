@@ -66,6 +66,7 @@ export const EditOrAddWishPage = () => {
                wishData,
                userId,
                navigate,
+               holidayId,
             })
          )
       }

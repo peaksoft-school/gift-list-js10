@@ -67,7 +67,7 @@ export const deleteWish = createAsyncThunk(
 export const putWish = createAsyncThunk(
    'wish/putWish',
    async (
-      { wishId, wishData, userId, navigate },
+      { wishId, wishData, userId, navigate, holidayId },
       { dispatch, rejectWithValue }
    ) => {
       try {
@@ -77,7 +77,7 @@ export const putWish = createAsyncThunk(
             'Success',
             'Успешно обнавлено!',
             'Ошибка',
-            axiosInstance.put(`/wishlists/${wishId}`, wishData)
+            axiosInstance.put(`/wishlists/${wishId}/${holidayId}`, wishData)
          )
          navigate(-1)
          dispatch(getAllWishesByUserId(userId))
