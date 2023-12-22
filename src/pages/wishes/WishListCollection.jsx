@@ -67,7 +67,7 @@ export const WishListCollection = ({ isList }) => {
                />
             ))}
          </Cards>
-         {!wishes.length && <EmptyComponent onAddSomething={onAddWish} />}
+         {!wishes.length && <EmptyComponent buttonOnClick={onAddWish} />}
       </>
    )
 }
