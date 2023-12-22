@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { styled } from '@mui/material'
 import { axiosInstance } from '../../config/axiosInstance'
 import { Card } from '../../components/UI/card/Card'
-import { DeleteIcon, EditIcon } from '../../assets'
+import { DeleteIcon, Razblock, Zablock } from '../../assets'
 import { DeleteModal } from '../../components/UI/DeleteModal'
 
 export const UserWishes = () => {
@@ -21,12 +21,18 @@ export const UserWishes = () => {
       setUserWishes(wishesResponse.data)
    }
 
-   const handleChange = (e, id) => {
-      if (e.target.innerText === 'Редактировать') {
-         console.log('edit')
+   const handleChange = async (e, wish) => {
+      if (
+         e.target.innerText === 'Заблокировать' ||
+         e.target.innerText === 'Разблокировать'
+      ) {
+         await axiosInstance.put(
+            `/wishlists/blockOrUnblock/${wish.wishId}?block=${!wish.block}`
+         )
+         getUserWishes()
       } else if (e.target.innerText === 'Удалить') {
          setOpenModal(true)
-         setUserWishId(id)
+         setUserWishId(wish.wishId)
       }
    }
 
@@ -62,10 +68,13 @@ export const UserWishes = () => {
                   onGetThingById={() => goToWishProfile(wish.wishId)}
                   showBottomBooker="true"
                   meatballsOptions={[
-                     { title: 'Редактировать', icon: <EditIcon /> },
+                     {
+                        title: wish.block ? 'Разблокировать' : 'Заблокировать',
+                        icon: wish.block ? <Razblock /> : <Zablock />,
+                     },
                      { title: 'Удалить', icon: <DeleteIcon /> },
                   ]}
-                  handleChange={(e) => handleChange(e, wish.wishId)}
+                  handleChange={(e) => handleChange(e, wish)}
                />
             )
          })}

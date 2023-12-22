@@ -228,7 +228,7 @@ export const UserProfile = () => {
                               action: 'innerName',
                               payload: wish.wishName,
                            })
-                           navigate(`wishes/wish/${wish.wishId}`)
+                           navigate(`wishes/${wish.wishId}`)
                         }}
                         meatballsOptions={[
                            {
@@ -291,7 +291,7 @@ export const UserProfile = () => {
                         showBottomBooker="true"
                         isBlock={charity?.isBlock}
                         onGetThingById={() => {
-                           navigate(`charities/charity/${charity.charityId}`)
+                           navigate(`charities/${charity.charityId}`)
                         }}
                         bookerImage={charity?.bookedUserImage}
                         meatballsOptions={[

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import { axiosInstance } from '../../config/axiosInstance'
 import { Card } from '../../components/UI/card/Card'
-import { DeleteIcon, EditIcon } from '../../assets'
+import { DeleteIcon } from '../../assets'
 import { DeleteModal } from '../../components/UI/DeleteModal'
 
 export const UserHolidays = () => {
@@ -19,13 +19,9 @@ export const UserHolidays = () => {
       setUserHolidays(holidaysResponse.data)
    }
 
-   const handleChange = (e, id) => {
-      if (e.target.innerText === 'Редактировать') {
-         console.log('edit')
-      } else if (e.target.innerText === 'Удалить') {
-         setOpenModal(true)
-         setholidayId(id)
-      }
+   const handleChange = (id) => {
+      setOpenModal(true)
+      setholidayId(id)
    }
 
    const deleteHoliday = async () => {
@@ -49,10 +45,9 @@ export const UserHolidays = () => {
                   holiday={holiday.nameHoliday}
                   variant="tertiary"
                   meatballsOptions={[
-                     { title: 'Редактировать', icon: <EditIcon /> },
                      { title: 'Удалить', icon: <DeleteIcon /> },
                   ]}
-                  handleChange={(e) => handleChange(e, holiday.holidayId)}
+                  handleChange={() => handleChange(holiday.holidayId)}
                />
             )
          })}

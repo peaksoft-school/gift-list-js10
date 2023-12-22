@@ -20,7 +20,17 @@ export const AdminRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { users, complaints, innerComplaint } = routes[role]
+   const {
+      users,
+      getUserById,
+      getUserWishes,
+      getUserWishById,
+      complaints,
+      innerComplaint,
+      getUserHolidays,
+      getUserCharities,
+      getCharityById,
+   } = routes[role]
    return (
       <Routes>
          <Route
@@ -46,7 +56,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/:userId"
+               path={getUserById.path}
                element={
                   <PrivateRoutes
                      Component={<UserProfile />}
@@ -56,7 +66,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/:userId/wishes"
+               path={getUserWishes.path}
                element={
                   <PrivateRoutes
                      Component={<UserWishes />}
@@ -66,7 +76,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/:userId/wishes/wish/:wishId"
+               path={getUserWishById.path}
                element={
                   <PrivateRoutes
                      Component={<Wish />}
@@ -76,7 +86,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/:userId/holidays"
+               path={getUserHolidays.path}
                element={
                   <PrivateRoutes
                      Component={<UserHolidays />}
@@ -86,7 +96,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/:userId/charities"
+               path={getUserCharities.path}
                element={
                   <PrivateRoutes
                      Component={<UserCharities />}
@@ -96,7 +106,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path="users/:userId/charities/charity/:charityId"
+               path={getCharityById.path}
                element={
                   <PrivateRoutes
                      Component={<Charity />}

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import { axiosInstance } from '../../config/axiosInstance'
 import { Card } from '../../components/UI/card/Card'
-import { DeleteIcon, EditIcon } from '../../assets'
+import { DeleteIcon, Razblock, Zablock } from '../../assets'
 import { DeleteModal } from '../../components/UI/DeleteModal'
 
 export const UserCharities = () => {
@@ -21,12 +21,18 @@ export const UserCharities = () => {
       setUserCharities(charityResponse.data)
    }
 
-   const handleChange = (e, id) => {
-      if (e.target.innerText === 'Редактировать') {
-         console.log('edit')
+   const handleChange = async (e, charity) => {
+      if (
+         e.target.innerText === 'Заблокировать' ||
+         e.target.innerText === 'Разблокировать'
+      ) {
+         await axiosInstance.put(
+            `/charity/${charity.charityId}?blockCharity=${!charity.isBlock}`
+         )
+         getUserCharities()
       } else if (e.target.innerText === 'Удалить') {
          setOpenModal(true)
-         setCharityId(id)
+         setCharityId(charity.charityId)
       }
    }
 
@@ -61,10 +67,15 @@ export const UserCharities = () => {
                   bookerImage={charity?.bookedUserImage}
                   onGetThingById={() => goToCharityProfile(charity.charityId)}
                   meatballsOptions={[
-                     { title: 'Редактировать', icon: <EditIcon /> },
+                     {
+                        title: charity.isBlock
+                           ? 'Разблокировать'
+                           : 'Заблокировать',
+                        icon: charity.isBlock ? <Razblock /> : <Zablock />,
+                     },
                      { title: 'Удалить', icon: <DeleteIcon /> },
                   ]}
-                  handleChange={(e) => handleChange(e, charity.charityId)}
+                  handleChange={(e) => handleChange(e, charity)}
                />
             )
          })}

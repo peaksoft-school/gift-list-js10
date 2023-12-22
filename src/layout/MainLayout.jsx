@@ -26,6 +26,7 @@ const transformObjectRoutesToArray = (role) =>
 const getLastElementOfPath = (path) => path.slice(-1)
 export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
+   // const [routes, setRoutes] = useState(routesArray)
    const breadcrumbs = useBreadcrumbs(routesArray, {
       excludePaths: ['/', 'user', 'admin'],
    })
@@ -36,6 +37,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    const [showActionsButtons, setShowActionsButtons] = useState(
       routes[role][path['*']]?.showListActions
    )
+   // const location = useLocation()
    const navigate = useNavigate()
    const [breadcrumbsForRequests, setBreadcrumbsForRequests] =
       useState(breadcrumbs)
@@ -72,6 +74,8 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    if (path['*'].includes('charity')) {
       charityHeaderSelectType = 'select'
    }
+   console.log(breadcrumbsForRequests, routesArray)
+   // const currentPathes = location.pathname.split('/')
    return (
       <>
          <Sidebar roleName={role} />
@@ -81,6 +85,28 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                <StyledMainContentHeader>
                   <ImagesAndBreadcrumbsWrapper>
                      <StyledLegend isinner={inner}>
+                        {/* {routes.map((route, index) => {
+                           // console.log(location.pathname, route.path)
+
+                           if (
+                              currentPathes[currentPathes.length - 1] ===
+                              route.path
+                           ) {
+                              setRoutes(routesArray.splice(0, index))
+                           }
+                           return (
+                              <StyledNavLink
+                                 to={route.path}
+                                 key={route.path}
+                                 active={
+                                    currentPathes[currentPathes.length - 1] ===
+                                    route.path
+                                 }
+                              >
+                                 {route.breadcrumb || byIdName}
+                              </StyledNavLink>
+                           )
+                        })} */}
                         {breadcrumbsForRequests.map(({ match }, index) => (
                            <Fragment key={match.pathname}>
                               {(index !== 1 &&
