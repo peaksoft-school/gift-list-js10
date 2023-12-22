@@ -20,7 +20,7 @@ export const WishesPage = ({ isList }) => {
 
    const openInnerWishPage = (wishId, wishName) => {
       providerEvent({ action: 'name', payload: wishName })
-      navigate(`/user/feed/${wishId}/WISH`)
+      navigate(`/user/wishes/${wishId}`)
    }
 
    return (

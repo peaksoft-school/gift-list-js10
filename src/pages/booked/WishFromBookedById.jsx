@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getWishById } from '../../store/wish/wishThunk'
 import { InnerPageOfGiftWithAnonymousBookingAndMailing } from '../../components/InnerPageOfGiftWithAnonymousBookingAndMailing'
-import { convertDateFormat } from '../../utils/helpers/constants'
+import { convertDateFormat } from '../../utils/constants/formatedDate'
 
 export const WishFromBookedById = () => {
    const dispatch = useDispatch()

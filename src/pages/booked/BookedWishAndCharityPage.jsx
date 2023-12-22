@@ -15,6 +15,13 @@ import { addToMyGifts } from '../../store/feed/feedThunk'
 import { unBookingWishThunk } from '../../store/booking/bookingThunk'
 import { providerEvent } from '../../events/customEvents'
 
+export const isWishBooked = (allReadyInWishList) => {
+   if (allReadyInWishList) {
+      return meatballsForBookingWish.unBooking
+   }
+   return meatballsForBookingWish.addToMyWish
+}
+
 export const handleOptionsChange = {
    WISH: (e, wishId, dispatch, userId) => {
       const selectedOption = e.target.innerText
@@ -97,7 +104,7 @@ export const BookedWishAndCharityPage = () => {
                               wish.reservoirId
                            )
                         }
-                        meatballsOptions={meatballsForBookingWish}
+                        meatballsOptions={isWishBooked(wish.allReadyInWishList)}
                      />
                   ))}
                </StyledInfo>

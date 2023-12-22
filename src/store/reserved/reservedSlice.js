@@ -21,6 +21,7 @@ export const reservedSlice = createSlice({
             }
          })
          .addCase(getAllReservedWish.fulfilled, (state, action) => {
+            console.log(action.payload)
             return {
                ...state,
                isLoading: false,

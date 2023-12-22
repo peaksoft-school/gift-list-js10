@@ -81,6 +81,9 @@ export const routes = {
          path: 'wishes',
          showListActions: true,
       },
+      wishesById: {
+         path: 'wishes/:wishId',
+      },
       holidays: {
          path: 'holidays',
          showListActions: true,
@@ -88,6 +91,9 @@ export const routes = {
       charities: {
          path: 'charities',
          showListActions: true,
+      },
+      charitiesById: {
+         path: 'charities/:charityId',
       },
       profile: {
          path: 'profile',

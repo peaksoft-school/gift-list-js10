@@ -55,6 +55,8 @@ export const UserRoutes = () => {
       bookedCharity,
       bookedCharityById,
       bookedWishById,
+      wishesById,
+      charitiesById,
    } = routes[role]
 
    return (
@@ -199,10 +201,30 @@ export const UserRoutes = () => {
                }
             />
             <Route
+               path={wishesById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishFromBookedById />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
                path={charities.path}
                element={
                   <PrivateRoutes
                      Component={<CharitiesPage isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charitiesById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<CharityFromBookedById />}
                      isAuth={isAuth}
                      fallback="/"
                   />

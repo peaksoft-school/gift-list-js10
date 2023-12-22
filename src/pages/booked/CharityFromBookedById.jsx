@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { InnerPageOfGiftWithAnonymousBookingAndMailing } from '../../components/InnerPageOfGiftWithAnonymousBookingAndMailing'
 import { getCharityById } from '../../store/charity/charityThunk'
-import { convertDateFormat } from '../../utils/helpers/constants'
+
 import {
    categoriesWithEnglishPropertiesName,
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/options'
+import { convertDateFormat } from '../../utils/constants/formatedDate'
 
 export const CharityFromBookedById = () => {
    const dispatch = useDispatch()
