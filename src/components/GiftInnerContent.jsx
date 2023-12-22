@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Field } from './GiftInnerContentFooter'
 
-export function AdminState({
+export function GiftInnerContent({
    image,
    ownerImage,
    ownerName,
@@ -13,9 +13,12 @@ export function AdminState({
    description,
    ownerPhoneNumber,
    onDeleteWishById,
+   linkToWish,
    complaints,
    onBlockedOrUnblockWishById,
    isBlock,
+   onPutChange,
+   variant,
 }) {
    const { role } = useSelector((state) => state.authLogin)
    return (
@@ -40,11 +43,17 @@ export function AdminState({
                </UserContainer>
             </FrowContent>
             <Main>
-               <MainContext>{wishName}</MainContext>
+               <StyledLinnkToWish
+                  href={linkToWish}
+                  target="_blank"
+                  rel="noopener noreferrer"
+               >
+                  <StyledCardName>{wishName}</StyledCardName>
+               </StyledLinnkToWish>
                <FieldText>{description}</FieldText>
             </Main>
             <StyledFooter>
-               <Field role={role} complaints={complaints} />
+               <Field variant={variant} role={role} complaints={complaints} />
                <ButtonContainer>
                   <StyledButton
                      className="delete"
@@ -54,8 +63,12 @@ export function AdminState({
                   >
                      Удалить
                   </StyledButton>
-                  {role === 'user' ? (
-                     <StyledButton variant="contained" type="button">
+                  {role === 'USER' ? (
+                     <StyledButton
+                        variant="contained"
+                        type="button"
+                        onClick={onPutChange}
+                     >
                         Редактировать
                      </StyledButton>
                   ) : (
@@ -73,6 +86,13 @@ export function AdminState({
       </Container>
    )
 }
+
+const StyledLinnkToWish = styled('a')({ color: '#3774D0' })
+
+const StyledCardName = styled('p')({
+   fontSize: '1.5rem',
+   fontWeight: '500',
+})
 
 const Container = styled('div')({
    display: 'flex',
@@ -95,10 +115,6 @@ const Image = styled('img')({
    height: '3rem',
    flexShrink: '0',
    borderRadius: '50%',
-})
-
-const MainContext = styled('p')({
-   fontSize: '1.25rem',
 })
 
 const Main = styled('div')({
@@ -160,7 +176,6 @@ const SecondContainer = styled('div')({
 const UserContainer = styled('div')({
    display: 'flex',
    gap: '0.625rem',
-   paddingRight: '3.438rem',
 })
 
 const StyledFooter = styled('div')({
@@ -172,6 +187,12 @@ const StyledButton = styled(Button)({
    height: 'fit-content',
    padding: '0.625rem 0.938rem',
    '&.delete': {
-      color: '#8D949E',
+      color: '#5c5c5c',
+      border: 'solid gray 1px',
+      '&:hover': {
+         backgroundColor: '#948a8a',
+         color: 'white',
+      },
    },
+   borderRadius: '0.5rem',
 })

@@ -1,5 +1,12 @@
 import dayjs from 'dayjs'
-import { Aida, Askar, Ellipse, SamatOkenov } from '../../assets'
+import {
+   Aida,
+   Askar,
+   DeleteOptionsIcon,
+   EditOptionsIcon,
+   Ellipse,
+   SamatOkenov,
+} from '../../assets'
 import { axiosInstanceMultiPartFormData } from '../../config/axiosInstanceWithMultipartFormDataType'
 import { notifyTypes, toastWithoutPromise } from './toast'
 
@@ -45,6 +52,17 @@ export const notifications = [
       image: Askar,
       description: 'отправил запрос в друзья',
       date: '25.05.2022',
+   },
+]
+
+export const wishOptions = [
+   {
+      title: 'Редактировать',
+      icon: <EditOptionsIcon />,
+   },
+   {
+      title: 'Удалить',
+      icon: <DeleteOptionsIcon />,
    },
 ]
 
@@ -123,4 +141,9 @@ export function findNumberLength(inputString) {
       return totalLength
    }
    return 0
+}
+
+export const extractNumberFromMessage = (message) => {
+   const match = message.match(/\d+/)
+   return match ? parseInt(match[0], 10) : null
 }

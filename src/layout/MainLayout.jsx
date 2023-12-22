@@ -31,6 +31,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    })
    const [inner, setInner] = useState(false)
    const path = useParams()
+
    const [byIdName, setByIdName] = useState('')
    const buttonContent = routes[role][path['*']]?.buttonContent
    const [showActionsButtons, setShowActionsButtons] = useState(
@@ -100,6 +101,15 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                           ? 'true'
                                           : ''
                                     }
+                                    onClick={(e) => {
+                                       if (
+                                          breadcrumbsForRequests.length - 1 ===
+                                             index ||
+                                          findNumberLength(match.pathname)
+                                       ) {
+                                          e.preventDefault()
+                                       }
+                                    }}
                                  >
                                     {isNumber(
                                        getLastElementOfPath(match.pathname)
@@ -184,7 +194,7 @@ const StyledNavLink = styled(NavLink)(({ active }) => ({
 }))
 const StyledButton = styled(Button)({
    borderRadius: '3px',
-   padding: '2px',
+   padding: '6px',
    span: {
       display: 'none',
    },

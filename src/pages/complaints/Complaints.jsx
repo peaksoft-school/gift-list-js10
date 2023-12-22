@@ -8,12 +8,9 @@ import {
    deleteWishById,
    getWishesWithComplaints,
 } from '../../store/complaints-slice/complaintsThunk'
-import {
-   isBlockWishById,
-   isUnBlockWishById,
-} from '../../store/wishesById/wishByIdThunk'
 import { meatballsComplaintsOptions } from '../../utils/constants/meatballs-options'
 import { complaintsWithEnglishPropertiesName } from '../../utils/constants/options'
+import { isBlockWishById, isUnBlockWishById } from '../../store/wish/wishThunk'
 
 export const isBlockOptions = (isBlock) => {
    if (isBlock) {

@@ -54,7 +54,9 @@ export const SignIn = () => {
    }
 
    useEffect(() => {
-      const user = JSON.parse(localStorage.getItem(USER_KEY))
+      const user =
+         JSON.parse(localStorage.getItem(USER_KEY)) ||
+         JSON.parse(sessionStorage.getItem(USER_KEY))
       if (user !== null) {
          navigate(routes.USER.feed)
       }

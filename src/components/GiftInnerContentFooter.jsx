@@ -10,14 +10,13 @@ export function Field({
    state,
    createdDate,
    role,
-   variant,
+   variant = 'wish',
 }) {
-   const date = useSelector((state) => state.wishById.wish)
-
+   const date = useSelector((state) => state.wish.wish)
    return (
       <div>
          <div>
-            {variant ? (
+            {!variant ? (
                <DefContent>
                   <Display>
                      <Paragraph>
@@ -110,6 +109,9 @@ const TextFeature = styled('span')({
    color: '#000',
    paddingBottom: '10px',
 })
+// const TextHolidayName = styled('p')({
+//    color: '#0BA360',
+// })
 
 const IconContainer = styled('div')({
    display: 'flex',

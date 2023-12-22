@@ -14,6 +14,9 @@ import { CharitiesPage } from '../../pages/friends/CharitiesPage'
 import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
+import { WishListCollection } from '../../pages/wishes/WishListCollection'
+import { EditOrAddWishPage } from '../../pages/wishes/EditOrAddWIshPage'
+import { WishInnerPage } from '../../pages/wishes/WishInnerPage'
 import { MyHolidays } from '../../pages/holiday/MyHolidays'
 import { HolidayInnerPage } from '../../pages/holiday/HolidayInnerPage'
 
@@ -45,6 +48,10 @@ export const UserRoutes = () => {
       userProfileById,
       holidayInnerPage,
       thingFromFeedById,
+      addWish,
+      wish,
+      putWish,
+      getWishById,
    } = routes[role]
 
    return (
@@ -176,6 +183,47 @@ export const UserRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<UpdateUserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+
+            <Route
+               path={wish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishListCollection isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={addWish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<EditOrAddWishPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={putWish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<EditOrAddWishPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getWishById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishInnerPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />

@@ -1,9 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getWishById, getWishListByUserId } from './wishThunk'
+import { providerEvent } from '../../events/customEvents'
+import {
+   getAllWishesByUserId,
+   getWishById,
+   getWishlistByWishId,
+} from './wishThunk'
 
 const initialState = {
    wish: {},
-   pending: false,
+   isLoading: false,
    error: null,
    wishes: [],
 }
@@ -14,40 +19,64 @@ export const wishSlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder
+         .addCase(getAllWishesByUserId.fulfilled, (state, action) => {
+            providerEvent({
+               action: 'showActionsButton',
+               payload: action.payload.length,
+            })
+            return {
+               ...state,
+               wishes: action.payload,
+               isLoading: false,
+               error: null,
+            }
+         })
+         .addCase(getAllWishesByUserId.pending, (state) => {
+            return { ...state, isLoading: true, error: null }
+         })
+         .addCase(getAllWishesByUserId.rejected, (state, action) => {
+            return { ...state, error: action.payload, isLoading: false }
+         })
          .addCase(getWishById.fulfilled, (state, { payload }) => ({
             ...state,
             wish: payload,
-            pending: false,
+            isLoading: false,
             error: null,
          }))
          .addCase(getWishById.pending, (state) => ({
             ...state,
-            pending: true,
+            isLoading: true,
             error: null,
          }))
          .addCase(getWishById.rejected, (state, { payload }) => ({
             ...state,
-            pending: false,
+            isLoading: false,
             error: payload,
          }))
-         .addCase(getWishListByUserId.pending, (state) => {
+         .addCase(getWishlistByWishId.pending, (state) => {
             return {
                ...state,
-            }
-         })
-         .addCase(getWishListByUserId.fulfilled, (state, action) => {
-            return {
-               ...state,
-               wishes: action.payload,
+               isLoading: true,
                error: null,
-               isLoading: false,
             }
          })
-         .addCase(getWishListByUserId.rejected, (state, action) => {
+         .addCase(getWishlistByWishId.fulfilled, (state, action) => {
             return {
                ...state,
-               error: action.error.message,
+               isLoading: false,
+               wish: action.payload,
+               error: null,
+            }
+         })
+         .addCase(getWishlistByWishId.rejected, (state, action) => {
+            return {
+               ...state,
+               error: action.payload,
+               isLoading: false,
             }
          })
    },
 })
+
+export const { removeWish } = wishSlice.actions
+export const selectWishes = (state) => state.wish.wishes

@@ -5,6 +5,7 @@ import {
    toastWithPromise,
    toastWithoutPromise,
 } from '../../utils/helpers/toast'
+import { extractNumberFromMessage } from '../../utils/helpers/constants'
 
 export const getHolidayByIdThunk = createAsyncThunk(
    '/holiday/getHolidayById',
@@ -45,15 +46,13 @@ export const getHolidaysByUserId = createAsyncThunk(
 )
 
 export const getAllHolidaysByUserId = createAsyncThunk(
-   '/user/getAllHolidaysByUserId',
-   async (friendId, { rejectWithValue }) => {
+   '/holiday/getAllHolidaysByUserId',
+   async (userId, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(
-            `/holidays/getHolidaysByUserId/${friendId}`
+            `/holidays/getHolidaysByUserId/${userId}`
          )
-         const result = response.data
-
-         return result
+         return response.data
       } catch (error) {
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
@@ -67,9 +66,12 @@ export const getAllHolidaysByUserId = createAsyncThunk(
 
 export const addHolidayQuery = createAsyncThunk(
    'holiday/add holiday',
-   async ({ userData, image, userId }, { rejectWithValue, dispatch }) => {
+   async (
+      { userData, image, userId, setDefaultHolidayId },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
-         await toastWithPromise(
+         const response = await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
             notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
             'Информация',
@@ -77,6 +79,7 @@ export const addHolidayQuery = createAsyncThunk(
             'Ошибка при добавлений подарка',
             axiosInstance.post('/holidays', { ...userData, image })
          )
+         setDefaultHolidayId(extractNumberFromMessage(response.data.message))
          dispatch(getAllHolidaysByUserId(userId))
       } catch (error) {
          rejectWithValue(error)
