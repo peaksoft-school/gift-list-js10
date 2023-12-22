@@ -33,6 +33,7 @@ export const wishSlice = createSlice({
          .addCase(getWishListByUserId.pending, (state) => {
             return {
                ...state,
+               wishes: [],
             }
          })
          .addCase(getWishListByUserId.fulfilled, (state, action) => {

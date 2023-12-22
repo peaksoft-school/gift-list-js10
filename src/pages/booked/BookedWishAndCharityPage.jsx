@@ -15,13 +15,6 @@ import { addToMyGifts } from '../../store/feed/feedThunk'
 import { unBookingWishThunk } from '../../store/booking/bookingThunk'
 import { providerEvent } from '../../events/customEvents'
 
-export const isWishBooked = (bookerId, myId) => {
-   if (bookerId === myId) {
-      return meatballsForBookingWish.iBookThisWish
-   }
-   return meatballsForBookingWish.strangersBook
-}
-
 export const handleOptionsChange = {
    WISH: (e, wishId, dispatch, userId) => {
       const selectedOption = e.target.innerText
@@ -53,11 +46,11 @@ export const BookedWishAndCharityPage = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const bookedWishes = useSelector((state) => state.booked.bookedWish)
-   const newBokedWishes = bookedWishes.slice(0, 3)
-   const bookedCharity = useSelector((state) => console.log(state))
-   console.log(bookedCharity)
-
-   const { id } = useSelector((state) => state.authLogin)
+   const newBookedWishes = bookedWishes.slice(0, 3)
+   const bookedCharity = useSelector(
+      (state) => state.bookedCharity.bookedCharity
+   )
+   const newBookedCharity = bookedCharity.slice(0, 3)
 
    useEffect(() => {
       dispatch(getAllReservedWish())
@@ -66,72 +59,90 @@ export const BookedWishAndCharityPage = () => {
 
    const openInnerWishPage = (wishId, wishName) => {
       providerEvent({ action: 'name', payload: wishName })
-      navigate(`/user/feed/${wishId}/WISH`)
+      navigate(`/user/bookedWish/${wishId}`)
    }
 
    const openInnerCharityHandler = (charityId, charityName) => {
       providerEvent({ action: 'name', payload: charityName })
-      navigate(`/user/feed/${charityId}/CHARITY`)
+      navigate(`/user/bookedCharity/${charityId}`)
    }
    return (
       <Container>
-         <StyledCard>
-            <CardContainer>
-               <h3>Желания</h3>
-               <NavLink>Смотреть все</NavLink>
-            </CardContainer>
+         {Boolean(newBookedWishes.length) && (
+            <StyledCard>
+               <CardContainer>
+                  <h3>Желания</h3>
+                  <NavLink to="/user/bookedWish">Смотреть все</NavLink>
+               </CardContainer>
 
-            {newBokedWishes?.map((wish) => (
-               <Card
-                  key={wish.id}
-                  cardImage={wish.image}
-                  cardName={wish.nameWish}
-                  holiday={wish.nameHoliday}
-                  ownerName={wish.ownerFullName}
-                  ownerImage={wish.ownerImage}
-                  status={wish.wishStatus}
-                  date={wish.dateOfHoliday}
-                  showBottomBooker="true"
-                  onGetThingById={() =>
-                     openInnerWishPage(wish.id, wish.nameWish)
-                  }
-                  handleChange={(e) =>
-                     handleOptionsChange.WISH(
-                        e,
-                        wish.id,
-                        dispatch,
-                        wish.ownerId
-                     )
-                  }
-                  meatballsOptions={isWishBooked(wish.bookerId, id)}
-               />
-            ))}
-         </StyledCard>
-         <StyledCard>
-            <CardContainer>
-               <h3>Благотворительность</h3>
-               <NavLink>Смотреть все</NavLink>
-            </CardContainer>
-            {bookedCharity?.map((charity) => (
-               <Card
-                  key={charity.id}
-                  holiday={charity.charityName}
-                  date={charity.dateOfHoliday}
-                  cardImage={charity.image}
-                  handleChange={() =>
-                     handleOptionsChange.CHARITY(
-                        charity.id,
-                        dispatch,
-                        charity.userId
-                     )
-                  }
-                  meatballsOptions={meatballsForBookingCharity}
-                  onGetThingById={() =>
-                     openInnerCharityHandler(charity.id, charity.charityName)
-                  }
-               />
-            ))}
-         </StyledCard>
+               <StyledInfo>
+                  {newBookedWishes?.map((wish) => (
+                     <Card
+                        key={wish.id}
+                        cardImage={wish.image}
+                        cardName={wish.nameWish}
+                        holiday={wish.nameHoliday}
+                        ownerName={wish.ownerFullName}
+                        ownerImage={wish.ownerImage}
+                        status={wish.wishStatus}
+                        date={wish.dateOfHoliday}
+                        onGetThingById={() =>
+                           openInnerWishPage(wish.id, wish.nameWish)
+                        }
+                        handleChange={(e) =>
+                           handleOptionsChange.WISH(
+                              e,
+                              wish.id,
+                              dispatch,
+                              wish.reservoirId
+                           )
+                        }
+                        meatballsOptions={meatballsForBookingWish}
+                     />
+                  ))}
+               </StyledInfo>
+            </StyledCard>
+         )}
+         {Boolean(newBookedCharity.length) && (
+            <StyledCard>
+               <CardContainer>
+                  <h3>Благотворительность</h3>
+                  <NavLink to="/user/bookedCharity">Смотреть все</NavLink>
+               </CardContainer>
+
+               <StyledInfo>
+                  {newBookedCharity?.map((charity) => (
+                     <Card
+                        key={charity.id}
+                        newOrOld={
+                           charity.condition === 'USED' ? 'Б/У' : 'Новый'
+                        }
+                        date={charity.dateOfHoliday}
+                        cardImage={charity.image}
+                        cardName={charity.charityName}
+                        ownerName={charity.ownerFullName}
+                        ownerImage={charity.ownerImage}
+                        status={charity.wishStatus}
+                        variant="withStatusTop"
+                        handleChange={() =>
+                           handleOptionsChange.CHARITY(
+                              charity.id,
+                              dispatch,
+                              charity.reservoirId
+                           )
+                        }
+                        meatballsOptions={meatballsForBookingCharity}
+                        onGetThingById={() =>
+                           openInnerCharityHandler(
+                              charity.id,
+                              charity.charityName
+                           )
+                        }
+                     />
+                  ))}
+               </StyledInfo>
+            </StyledCard>
+         )}
       </Container>
    )
 }
@@ -147,6 +158,12 @@ const StyledCard = styled('div')({
    width: '100%',
    display: 'flex',
    flexDirection: 'column',
+   gap: '20px',
+})
+
+const StyledInfo = styled('div')({
+   width: '100%',
+   display: 'flex',
    gap: '20px',
 })
 const CardContainer = styled('div')({

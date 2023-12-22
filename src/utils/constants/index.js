@@ -52,8 +52,14 @@ export const routes = {
       bookedWish: {
          path: 'bookedWish',
       },
+      bookedWishById: {
+         path: 'bookedWish/:wishId',
+      },
       bookedCharity: {
          path: 'bookedCharity',
+      },
+      bookedCharityById: {
+         path: 'bookedCharity/:charityId',
       },
       friends: {
          path: 'friends',
