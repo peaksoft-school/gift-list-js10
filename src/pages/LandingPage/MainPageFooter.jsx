@@ -1,5 +1,10 @@
 import { styled } from '@mui/material'
-import { FacebookImg, VkImg, InstagramImg, IconButton } from '../../assets'
+import {
+   FacebookImg,
+   InstagramImg,
+   MainPageFooterMailingIcon,
+   VkImg,
+} from '../../assets'
 import { Input } from '../../components/UI/input/Input'
 import {
    scrollToAboutProjectComponentHandler,
@@ -49,28 +54,40 @@ export const MainPageFooter = () => {
             <div>
                <Paragraph>Подписатся на рассылку </Paragraph>
                <InputContainer>
-                  <InputStyle
+                  {/* <InputStyle
                      placeholder="Введите ваш Email"
                      icon={
                         <ButtonContainer>
                            <IconButtonComponent type="button">
-                              <img src={IconButton} alt="icon" />
                            </IconButtonComponent>
-                        </ButtonContainer>
-                     }
-                  />
+                           </ButtonContainer>
+                        }
+                     /> */}
+                  <InputStyle placeholder="Введите ваш Email" />
+                  <ButtonContainer>
+                     <StyledMainPageFooterMailingIcon />
+                  </ButtonContainer>
                </InputContainer>
             </div>
          </FooterIcon>
          <FooterEnding>
-            <p>Peaksoft © 2022 Все права защищены</p>
+            <p>Peaksoft © 2023 Все права защищены</p>
          </FooterEnding>
       </FooterContainer>
    )
 }
 
+const StyledMainPageFooterMailingIcon = styled(MainPageFooterMailingIcon)({
+   height: '47px',
+   width: '47px',
+})
+
 const ButtonContainer = styled('div')({
    paddingTop: '5.5px',
+   position: 'absolute',
+   top: '-11px',
+   right: '-5px',
+   cursor: 'pointer',
 })
 
 const FooterContainer = styled('div')({
@@ -126,15 +143,9 @@ const ParagraphSt = styled('p')({
    },
 })
 
-const IconButtonComponent = styled('button')({
-   borderRadius: '1.563rem',
-   border: 'none',
-   cursor: 'pointer',
-   width: '30px',
-})
-
 const InputContainer = styled('div')({
    display: 'flex',
+   position: 'relative',
 })
 const ImgContainer = styled('div')({
    gap: '0.938rem',

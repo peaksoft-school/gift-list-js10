@@ -30,6 +30,18 @@ export const routes = {
       innerComplaint: {
          path: 'complaints/:wishId',
       },
+      mailing: {
+         path: 'mailing',
+         breadcrumb: 'Рассылка',
+         buttonContent: 'Отправить рассылку',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'mailingsModalOpen', payload: true })
+         },
+      },
+      innerMailing: {
+         path: 'mailing/:mailingId',
+      },
    },
    USER: {
       path: '/user',
@@ -83,9 +95,11 @@ export const routes = {
       },
       wishes: {
          path: 'wishes',
+         showListActions: true,
       },
       holidays: {
          path: 'holidays',
+         showListActions: true,
       },
       charities: {
          path: 'charities',

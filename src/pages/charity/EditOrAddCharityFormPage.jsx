@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import { addCharity, updateCharity } from '../../store/charity/charityThunk'
+import { useLocation, useNavigate } from 'react-router-dom'
+import {
+   addCharity,
+   getCharityById,
+   updateCharity,
+} from '../../store/charity/charityThunk'
 import {
    categoriesWithEnglishPropertiesName,
    conditionWithEnglishPropertiesName,
@@ -14,12 +18,12 @@ export const EditOrAddCharityFormPage = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const { id } = useSelector((state) => state.authLogin)
-   const params = useParams()
    const onCloseForm = () => navigate(-1)
+   const { state } = useLocation()
    const { charity } = useSelector((state) => state.charity)
-   // useEffect(() => {
-   //    if (params?.charityId)
-   // }, [])
+   useEffect(() => {
+      if (state?.charityId) dispatch(getCharityById(state.charityId))
+   }, [])
    const onSubmitForm = async (values, data, reset) => {
       let image
       if (data?.file) {
@@ -28,7 +32,6 @@ export const EditOrAddCharityFormPage = () => {
       } else {
          image = data?.url
       }
-      console.log(values)
 
       if (charity?.charityId) {
          navigate(-1)
@@ -55,7 +58,7 @@ export const EditOrAddCharityFormPage = () => {
       <div>
          <WishListForm
             defaultValues={
-               params?.charityId && {
+               state?.charityId && {
                   category:
                      categoriesWithEnglishPropertiesName[charity.category],
                   state: conditionWithEnglishPropertiesName[charity.condition],
@@ -70,7 +73,7 @@ export const EditOrAddCharityFormPage = () => {
                }
             }
             variant
-            image={params?.charityId && charity?.charityImage}
+            image={state?.charityId && charity?.charityImage}
             onClose={onCloseForm}
             onSubmit={onSubmitForm}
             imageIsReqired

@@ -11,6 +11,7 @@ import { profileSlice } from './profile/profileSlice'
 import { requestSlice } from './requests/requestSlice'
 import { wishSlice } from './wish/wishSlice'
 import { wishByIdSlice } from './wishesById/wishByIdSlice'
+import { mailingsSlice } from './mailing/mailingsSlice'
 
 export const store = configureStore({
    reducer: {
@@ -26,5 +27,6 @@ export const store = configureStore({
       [wishByIdSlice.name]: wishByIdSlice.reducer,
       [wishSlice.name]: wishSlice.reducer,
       [charitySlice.name]: charitySlice.reducer,
+      [mailingsSlice.name]: mailingsSlice.reducer,
    },
 })

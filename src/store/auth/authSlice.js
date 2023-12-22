@@ -33,7 +33,26 @@ export const authSlice = createSlice({
          sessionStorage.removeItem(USER_KEY)
          return newState
       },
+      changeUserData: (state, { payload }) => {
+         const newUserData = {
+            email: state.email,
+            fullName: payload.fullName,
+            id: state.id,
+            image: payload.image,
+            role: state.role,
+            token: state.token,
+         }
+         console.log(state, payload)
+         if (localStorage.getItem(USER_KEY)) localStorage.setItem(newUserData)
+         if (sessionStorage.getItem(USER_KEY))
+            sessionStorage.setItem(newUserData)
+         return {
+            ...state,
+            image: payload.image,
+            fullName: payload.fullName,
+         }
+      },
    },
 })
 
-export const { login, logout } = authSlice.actions
+export const { login, logout, changeUserData } = authSlice.actions

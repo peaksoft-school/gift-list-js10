@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import {
    bookingCharityThunk,
    bookingWishThunk,
+   unbookingCharityThunk,
 } from '../store/booking/bookingThunk'
 import { Button } from './UI/Button'
 import { Checkbox } from './UI/Checkbox'
@@ -30,13 +31,15 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    subcategory,
    newOrOld,
    linkToWish,
+   bookerId,
+   isBlock,
 }) => {
    const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
    const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const id = useSelector((state) => state.authLogin.id)
-   const onBooking = () => {
+   const onBookingOrUnbooking = () => {
       switch (type) {
          case 'WISH':
             dispatch(
@@ -49,14 +52,24 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
             )
             break
          default:
-            dispatch(
-               bookingCharityThunk({
-                  charityId: thingId,
-                  isBookingAnonymous,
-                  userId: id,
-                  getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
-               })
-            )
+            if (bookerId) {
+               dispatch(
+                  unbookingCharityThunk({
+                     charityId: thingId,
+                     userId: id,
+                     getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+                  })
+               )
+            } else {
+               dispatch(
+                  bookingCharityThunk({
+                     charityId: thingId,
+                     isBookingAnonymous,
+                     userId: id,
+                     getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+                  })
+               )
+            }
             break
       }
       navigate(-1)
@@ -118,7 +131,9 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                {type !== 'CHARITY' && (
                   <HolidayInfoContainer>
                      <StyledLabel>
-                        Дата праздника:
+                        {variant === 'mailing'
+                           ? 'Дата добавления:'
+                           : 'Дата праздника:'}
                         <StyledHolidayDate>{date}</StyledHolidayDate>
                      </StyledLabel>
                      {variant !== 'mailing' && type !== 'HOLIDAY' && (
@@ -133,25 +148,39 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
          </MainContentWrapper>
          {type !== 'HOLIDAY' &&
             id !== ownerId &&
-            !isBooked &&
             variant !== 'mailing' &&
-            !bookerImage && (
+            !isBlock && (
                <Actions>
-                  <p>
-                     <Checkbox
-                        value={isBookingAnonymous}
-                        onChange={handleCheckboxChange}
-                     />
-                     Забронировать анонимно
-                  </p>
-                  <Button onClick={onBooking} variant="primary">
-                     Забронировать
-                  </Button>
+                  {!bookerId && (
+                     <p>
+                        <Checkbox
+                           value={isBookingAnonymous}
+                           onChange={handleCheckboxChange}
+                        />
+                        Забронировать анонимно
+                     </p>
+                  )}
+                  {bookerId === id ||
+                     (!bookerId && (
+                        <Button
+                           onClick={onBookingOrUnbooking}
+                           variant="primary"
+                        >
+                           {bookerId === id
+                              ? 'Разбронировать'
+                              : 'Забронировать'}
+                        </Button>
+                     ))}
                </Actions>
             )}
+         {isBlock && (
+            <BlockedContent>Этот контент заблокирован!</BlockedContent>
+         )}
       </ContentWrapper>
    )
 }
+
+const BlockedContent = styled('p')({ color: 'red' })
 
 const StyledDescription = styled('p')({
    overflowWrap: 'anywhere',

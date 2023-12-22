@@ -56,16 +56,18 @@ export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
    })
    const navigate = useNavigate()
 
-   const onSubmit = (values, previewImg) => {
-      if (previewImg.url && previewImg.url !== defaultValues.image) {
-         uploadFile(previewImg.file).then(({ link }) => {
-            functionForGetValues({ ...values, image: link })
-         })
+   const onSubmit = async (values) => {
+      let image
+      if (preview?.file) {
+         const response = await uploadFile(preview.file)
+         image = response.link
+      } else {
+         image = preview?.url
       }
-      functionForGetValues(values, reset)
+      functionForGetValues({ ...values, image })
       setPreview({
          file: '',
-         url: defaultValues.image,
+         url: image,
       })
    }
    const [error, setError] = useState(null)
@@ -80,9 +82,7 @@ export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
    }
 
    return (
-      <StyledForm
-         onSubmit={handleSubmit((values) => onSubmit(values, preview))}
-      >
+      <StyledForm onSubmit={handleSubmit((values) => onSubmit(values))}>
          <StyledUploadImageContainer>
             <UploadImage preview={preview} setPreview={setPreview} />
          </StyledUploadImageContainer>

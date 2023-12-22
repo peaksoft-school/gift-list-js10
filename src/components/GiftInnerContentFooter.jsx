@@ -1,6 +1,7 @@
 import { styled } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { convertDateFormat } from '../utils/constants/formatedDate'
+import { complaintsWithEnglishPropertiesName } from '../utils/constants/options'
 
 export function Field({
    complaints,
@@ -57,7 +58,13 @@ export function Field({
                         />
                         <SpanContent>
                            <span>{complaint.complainUserFullName}</span>
-                           <Span>{complaint.textComplain}</Span>
+                           <Span>
+                              {
+                                 complaintsWithEnglishPropertiesName[
+                                    complaint.statusComplaint
+                                 ]
+                              }
+                           </Span>
                         </SpanContent>
                      </IconContainer>
                   ))}

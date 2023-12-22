@@ -8,6 +8,8 @@ import { GetAllCharity } from '../../pages/charity/GetAllCharity'
 import { GetCharityById } from '../../pages/charity/GetCharityById'
 import { Complaints } from '../../pages/complaints/Complaints'
 import { WishesInnerPage } from '../../pages/complaints/WishesInnerPage'
+import { MailingPage } from '../../pages/mailings/MailingPage'
+import { MailingInnerPage } from '../../pages/mailings/MailingInnerPage'
 
 export const AdminRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -15,8 +17,15 @@ export const AdminRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { users, complaints, innerComplaint, charity, charityById } =
-      routes[role]
+   const {
+      users,
+      complaints,
+      innerComplaint,
+      mailing,
+      innerMailing,
+      charityById,
+      charity,
+   } = routes[role]
    return (
       <Routes>
          <Route
@@ -63,6 +72,26 @@ export const AdminRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<WishesInnerPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={mailing.path}
+               element={
+                  <PrivateRoutes
+                     Component={<MailingPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={innerMailing.path}
+               element={
+                  <PrivateRoutes
+                     Component={<MailingInnerPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />

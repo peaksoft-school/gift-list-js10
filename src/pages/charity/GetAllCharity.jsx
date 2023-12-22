@@ -44,7 +44,7 @@ const handleMeatballsChange = (e, charityId, dispatch, userId, navigate) => {
    const selectedOption = e.target.innerText
    switch (selectedOption) {
       case 'Редактировать':
-         navigate(`/user/charity/editCharity/${charityId}`)
+         navigate(`/user/charity/editCharity`, { state: { charityId } })
          dispatch(getCharityById(charityId))
          break
       case 'Удалить':

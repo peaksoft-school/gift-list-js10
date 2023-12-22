@@ -7,6 +7,7 @@ import {
    toastWithPromise,
    toastWithoutPromise,
 } from '../../utils/helpers/toast'
+import { changeUserData } from '../auth/authSlice'
 
 export const getProfileThunk = createAsyncThunk(
    'profile/getProfileThunk',
@@ -73,6 +74,7 @@ export const updateProfileThunk = createAsyncThunk(
             axiosInstance.put('/user', updatedProfile)
          )
          dispatch(getProfileThunk())
+         dispatch(changeUserData({ fullName: `${name} ${surname}`, image }))
          reset()
          return response.data
       } catch (error) {
