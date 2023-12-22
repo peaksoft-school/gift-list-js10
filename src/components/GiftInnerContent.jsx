@@ -21,6 +21,7 @@ export function GiftInnerContent({
    variant,
 }) {
    const { role } = useSelector((state) => state.authLogin)
+   const isBooked = status?.includes('RESERVED')
    return (
       <Container>
          <Icon src={image} alt={wishName} />
@@ -34,12 +35,12 @@ export function GiftInnerContent({
                   </OwnerContent>
                </BlockContent>
                <UserContainer>
-                  {status && (
+                  {status === 'RESERVED' && (
                      <div>
                         <Img src={bookerImage} alt="user-wait" />
                      </div>
                   )}
-                  <Title>{status ? 'Забронирован' : 'В ожидании'}</Title>
+                  <Title>{isBooked ? 'Забронирован' : 'В ожидании'}</Title>
                </UserContainer>
             </FrowContent>
             <Main>
@@ -54,33 +55,35 @@ export function GiftInnerContent({
             </Main>
             <StyledFooter>
                <Field variant={variant} role={role} complaints={complaints} />
-               <ButtonContainer>
-                  <StyledButton
-                     className="delete"
-                     variant="text"
-                     type="button"
-                     onClick={onDeleteWishById}
-                  >
-                     Удалить
-                  </StyledButton>
-                  {role === 'USER' ? (
+               {status === 'PENDING' && (
+                  <ButtonContainer>
                      <StyledButton
-                        variant="contained"
+                        className="delete"
+                        variant="text"
                         type="button"
-                        onClick={onPutChange}
+                        onClick={onDeleteWishById}
                      >
-                        Редактировать
+                        Удалить
                      </StyledButton>
-                  ) : (
-                     <StyledButton
-                        variant="contained"
-                        type="button"
-                        onClick={onBlockedOrUnblockWishById}
-                     >
-                        {isBlock ? 'Разблокировать' : 'Заблокировать'}
-                     </StyledButton>
-                  )}
-               </ButtonContainer>
+                     {role === 'USER' ? (
+                        <StyledButton
+                           variant="contained"
+                           type="button"
+                           onClick={onPutChange}
+                        >
+                           Редактировать
+                        </StyledButton>
+                     ) : (
+                        <StyledButton
+                           variant="contained"
+                           type="button"
+                           onClick={onBlockedOrUnblockWishById}
+                        >
+                           {isBlock ? 'Разблокировать' : 'Заблокировать'}
+                        </StyledButton>
+                     )}
+                  </ButtonContainer>
+               )}
             </StyledFooter>
          </SecondContainer>
       </Container>
@@ -171,6 +174,7 @@ const SecondContainer = styled('div')({
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
+   width: '100%',
 })
 
 const UserContainer = styled('div')({

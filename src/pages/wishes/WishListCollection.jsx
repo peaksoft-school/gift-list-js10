@@ -52,7 +52,9 @@ export const WishListCollection = ({ isList }) => {
                   date={wish.dateOfHoliday}
                   variant="secondary"
                   list={isList}
-                  meatballsOptions={wishOptions}
+                  meatballsOptions={
+                     wish.wishStatus === 'PENDING' ? wishOptions : []
+                  }
                   handleChange={(e) =>
                      handleEditOrDeleteWishMeatballsChange(
                         e,

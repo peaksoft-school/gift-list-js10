@@ -40,9 +40,7 @@ export const WishInnerPage = () => {
          ownerImage={wish.userImage}
          ownerName={wish.fullName}
          bookerImage={wish.bookedUserImage}
-         status={
-            wish.status === 'RESERVED' || wish.status === 'RESERVED_ANONYMOUSLY'
-         }
+         status={wish.wishStatus}
          wishName={wish.wishName}
          description={wish.description}
          ownerPhoneNumber={wish.ownerPhoneNumber}
