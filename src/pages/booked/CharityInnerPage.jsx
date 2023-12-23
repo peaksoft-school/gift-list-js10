@@ -10,7 +10,7 @@ import { meatballsForBookingCharity } from '../../utils/constants/meatballs-opti
 export const CharityInnerPage = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   console.log(navigate)
+
    const reservedCharity = useSelector(
       (state) => state.bookedCharity.bookedCharity
    )

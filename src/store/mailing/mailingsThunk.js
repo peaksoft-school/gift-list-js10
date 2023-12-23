@@ -48,7 +48,7 @@ export const sendMailing = createAsyncThunk(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
             notifyTypes.NOTIFY_TYPE_SUCCESS_INFO,
             'Успешно',
-            'Рассылка успешно отправлен',
+            'Рассылка успешна отправлена',
             'Ошибка',
             axiosInstance.post('/mailings/send', mailing)
          )

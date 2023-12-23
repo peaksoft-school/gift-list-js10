@@ -11,7 +11,7 @@ export const getAllReservedWish = createAsyncThunk(
       } catch (error) {
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка!',
+            'Ошибка при получении всех забронированных подарков!',
             error.message
          )
          return rejectWithValue(error)
@@ -30,7 +30,7 @@ export const getAllReservedCharity = createAsyncThunk(
       } catch (error) {
          toastWithoutPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка!',
+            'Ошибка при получении всех забронированных благотворительностей!',
             error.message
          )
          return rejectWithValue(error)
