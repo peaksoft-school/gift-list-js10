@@ -31,7 +31,7 @@ const isWishBooked = (
    allReadyInWishList,
    bookedStatus
 ) => {
-   let meatballsOptionsForReturn = meetballsFeedOptionsForCharity.strangersBook
+   let meatballsOptionsForReturn = []
    switch (type) {
       case 'WISH':
          if (!bookerId && !bookedStatus?.includes('RESERVED')) {
@@ -67,7 +67,7 @@ const isWishBooked = (
 }
 
 const functionsRealtiveTypeOfThing = {
-   WISH: (e, wishId, dispatch, toggleCompolaintModal, userId, type) => {
+   WISH: (e, wishId, dispatch, userId, toggleCompolaintModal, type) => {
       const selectedOption = e.target.innerText
       switch (selectedOption) {
          case 'Пожаловаться':
@@ -107,12 +107,9 @@ const functionsRealtiveTypeOfThing = {
             break
       }
    },
-   CHARITY: (e, charityId, dispatch, toggleCompolaintModal, userId, type) => {
+   CHARITY: (e, charityId, dispatch, userId) => {
       const selectedOption = e.target.innerText
       switch (selectedOption) {
-         case 'Пожаловаться':
-            toggleCompolaintModal(charityId, type)
-            break
          case 'Забронировать':
             dispatch(
                bookingCharityThunk({
@@ -254,8 +251,8 @@ export const GetAllFeedPage = ({ isList }) => {
                            e,
                            thingId,
                            dispatch,
-                           toggleCompolaintModal,
                            id,
+                           toggleCompolaintModal,
                            feed.type
                         )
                      }}

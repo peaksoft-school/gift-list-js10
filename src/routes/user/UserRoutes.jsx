@@ -14,6 +14,8 @@ import { CharitiesPage } from '../../pages/friends/CharitiesPage'
 import { HolidaysPage } from '../../pages/friends/HolidaysPage'
 import { UserProfilePage } from '../../pages/profile/UserProfilePage'
 import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
+import { MyHolidays } from '../../pages/holiday/MyHolidays'
+import { HolidayInnerPage } from '../../pages/holiday/HolidayInnerPage'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -41,6 +43,7 @@ export const UserRoutes = () => {
       profile,
       edit,
       userProfileById,
+      holidayInnerPage,
       thingFromFeedById,
    } = routes[role]
 
@@ -128,7 +131,7 @@ export const UserRoutes = () => {
                path={wishes.path}
                element={
                   <PrivateRoutes
-                     Component={<WishesPage />}
+                     Component={<WishesPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -138,7 +141,7 @@ export const UserRoutes = () => {
                path={charities.path}
                element={
                   <PrivateRoutes
-                     Component={<CharitiesPage />}
+                     Component={<CharitiesPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -148,7 +151,7 @@ export const UserRoutes = () => {
                path={holidays.path}
                element={
                   <PrivateRoutes
-                     Component={<HolidaysPage />}
+                     Component={<HolidaysPage isList={isList} />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -177,6 +180,14 @@ export const UserRoutes = () => {
                      fallback="/"
                   />
                }
+            />
+            <Route
+               path={routes[role]['my-holidays'].path}
+               element={<MyHolidays />}
+            />
+            <Route
+               path={holidayInnerPage.path}
+               element={<HolidayInnerPage />}
             />
          </Route>
       </Routes>

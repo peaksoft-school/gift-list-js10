@@ -60,7 +60,7 @@ export const SignUp = () => {
    }
 
    const onSingUpWithGoogleHandler = () => {
-      dispatch(authWithGoogle(navigate))
+      dispatch(authWithGoogle({ navigate }))
    }
 
    // passwords state

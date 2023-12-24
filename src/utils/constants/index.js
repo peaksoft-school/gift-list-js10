@@ -1,3 +1,5 @@
+import { providerEvent } from '../../events/customEvents'
+
 export const USER_KEY = 'GIFT-LIST_USER_KEY'
 export const USER_TOKEN_KEY = 'GIFT_LIST_USER_TOKEN_KEY'
 
@@ -12,8 +14,24 @@ export const routes = {
          path: 'users',
          breadcrumb: 'Пользователи',
       },
-      notifications: {
-         path: 'notifications',
+      complaints: {
+         path: 'complaints',
+         breadcrumb: 'Жалобы',
+      },
+      innerComplaint: {
+         path: 'complaints/:wishId',
+      },
+      mailing: {
+         path: 'mailing',
+         breadcrumb: 'Рассылка',
+         buttonContent: 'Отправить рассылку',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'mailingsModalOpen', payload: true })
+         },
+      },
+      innerMailing: {
+         path: 'mailing/:mailingId',
       },
    },
    USER: {
@@ -45,9 +63,11 @@ export const routes = {
       },
       wishes: {
          path: 'wishes',
+         showListActions: true,
       },
       holidays: {
          path: 'holidays',
+         showListActions: true,
       },
       charities: {
          path: 'charities',
@@ -60,6 +80,18 @@ export const routes = {
       edit: {
          path: 'edit',
          breadcrumb: 'Рассказать о себе',
+      },
+      'my-holidays': {
+         path: 'my-holidays',
+         breadcrumb: 'Mои праздники',
+         buttonContent: 'Добавить праздник',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'my-holidaysModalOpen', payload: true })
+         },
+      },
+      holidayInnerPage: {
+         path: 'my-holidays/:holidayId',
       },
    },
 }

@@ -20,7 +20,7 @@ import { convertDateFormat } from '../../../utils/constants/formatedDate'
 
 export const Card = ({
    variant = 'primary',
-   list = false,
+   list,
    meatballsOptions = [],
    handleChange,
    onGetThingById,
@@ -39,11 +39,19 @@ export const Card = ({
    onGetOwnerById,
    onGetBookerById,
    showHoliday = true,
+   showBookerImage,
 }) => {
    const listClassName = list && 'list'
-   const bookedStatus = status?.includes('RESERVED')
-      ? 'Забронирован'
-      : 'В ожидании'
+   let bookedStatus
+   if (bookerImage || status?.includes('RESERVED')) {
+      bookedStatus = 'Забронирован'
+   } else if (status === 'PENDING') {
+      bookedStatus = 'В ожидании'
+   }
+   if (showBookerImage) {
+      bookedStatus = status
+   }
+
    const showOwnerOnTheTop = variant === 'tertiary' && showTopOwner
 
    const inputDate = date
@@ -87,7 +95,7 @@ export const Card = ({
                            }}
                            aria-label="recipe"
                         >
-                           {ownerName.charAt(0)}
+                           {ownerName?.charAt(0)}
                         </StyledAvatarIcon>
                      )
                   }
@@ -157,14 +165,14 @@ export const Card = ({
                   <Date>{formattedDate}</Date>
                   {showBottomBooker && (
                      <StyledCardActionsPar1>
-                        {status === 'RESERVED' && (
+                        {(status === 'RESERVED' || showBookerImage) && (
                            <StyledAvatarIcon
                               alt="Фотография человека который забронировал это"
                               src={bookerImage}
                               onClick={onGetBookerById}
                            />
                         )}
-                        <span>{bookedStatus}</span>
+                        <StyledStatus>{bookedStatus}</StyledStatus>
                      </StyledCardActionsPar1>
                   )}
                </ActionsWrapper>
@@ -179,6 +187,16 @@ export const Card = ({
       </StyledCard>
    )
 }
+
+const StyledStatus = styled('span')({
+   fontSize: '1rem',
+   fontWeight: '400',
+   height: '1.5rem',
+   width: '8vw',
+   overflow: 'hidden',
+   whiteSpace: 'nowrap',
+   textOverflow: 'ellipsis',
+})
 
 const StyledBlockedCard = styled('div')({
    color: '#ca3636',
@@ -237,7 +255,7 @@ const StyledCard = styled(MUICard)(() => {
    return {
       width: '21.8125rem',
       padding: '15px',
-      maxHeight: '18.8125rem',
+      maxHeight: '20rem',
       '&.list': {
          width: '33.3125rem',
          display: 'flex',

@@ -21,7 +21,7 @@ const StyledVariants = {
       fontSize: '1rem',
       fontWeight: 500,
       border: 'none',
-      textTransform: 'capitalize',
+      textTransform: 'none',
       padding: ' 0.625rem 1.5rem',
       ':hover': { backgroundColor: '#612386' },
       ':active': { backgroundColor: '#793686' },
