@@ -9,6 +9,7 @@ import { wishSlice } from './wish/wishSlice'
 import { myFriendsSlice } from './my-friends/friendsSlice'
 import { holidaySlice } from './holiday/holidaySlice'
 import { bookingSlice } from './booking/bookingSlice'
+import { notificationSlice } from './notification/notificatiionSlice'
 
 export const store = configureStore({
    reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
       [profileSlice.name]: profileSlice.reducer,
       [requestSlice.name]: requestSlice.reducer,
       [wishSlice.name]: wishSlice.reducer,
+      [notificationSlice.name]: notificationSlice.reducer,
    },
 })

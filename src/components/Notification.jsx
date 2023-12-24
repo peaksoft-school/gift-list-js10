@@ -1,64 +1,43 @@
 import { MoreVert } from '@mui/icons-material'
 import { Badge, Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
-import React, { useState, useEffect } from 'react'
-import { notifications } from '../utils/helpers/constants'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { NotificationIcon } from '../assets'
-// import { getNotification } from '../store/notification/notificationThunk'
+import {
+   getNotification,
+   putAllNotification,
+   putNotification,
+} from '../store/notification/notificationThunk'
+import { descriptionOfNotificationByStatus } from '../utils/constants/constants'
 
 export const Notification = () => {
-   // const dispatch = useDispatch()
+   const { notifications } = useSelector((state) => state.notification)
+   const dispatch = useDispatch()
    const [anchorEl, setAnchorEl] = useState(null)
    const [isOpenNotifications, setIsOpenNotifications] = useState(false)
-   const [isRead, setIsRead] = useState([])
    const [isNotReadenNotificationExist, setIsNotReadenNotificationExist] =
       useState(0)
 
    useEffect(() => {
-      setIsRead((prevState) => {
-         const newArray = prevState
-         notifications.forEach((notification, index) => {
-            if (prevState[index]?.id !== notification.id)
-               newArray.push({ id: notification.id, isRead: false })
-         })
-         return newArray
-      })
+      dispatch(getNotification())
+   }, [dispatch])
 
+   useEffect(() => {
       setIsNotReadenNotificationExist(
-         isRead.filter((notification) => {
-            return !notification.isRead
+         notifications.filter((notification) => {
+            return !notification.seen
          }).length
       )
-   }, [notifications, isRead])
+   }, [notifications])
 
    const openReadAll = (event) => {
       setAnchorEl(event.currentTarget)
    }
 
-   const markAsReadHandle = () => {
-      setIsRead((prevState) => {
-         const newArray = prevState
-         return newArray.map((notification) => {
-            return {
-               ...notification,
-               isRead: true,
-            }
-         })
-      })
-   }
+   const markAsReadHandle = () => dispatch(putAllNotification())
 
    const isReadHandle = (id) => {
-      setIsRead((prevState) => {
-         const newArray = prevState
-         return newArray.map((notification) => {
-            if (notification.id === id) {
-               return {
-                  ...notification,
-                  isRead: true,
-               }
-            }
-            return notification
-         })
-      })
+      dispatch(putNotification(id))
    }
    const open = Boolean(anchorEl)
 
@@ -120,19 +99,24 @@ export const Notification = () => {
                   </FirstBlock>
                   <ScrollContainer>
                      {notifications.length > 0 ? (
-                        notifications.map((item, i) => (
+                        notifications.map((item) => (
                            <List
-                              key={item.id}
-                              onClick={() => isReadHandle(item.id)}
+                              key={item.basketId}
+                              onClick={() => isReadHandle(item.basketId)}
                            >
-                              <img src={item.image} alt={item.name} />
-
+                              <img src={item.image} alt={item.fullName} />
                               <div>
-                                 <Name>{item.name}</Name>
-                                 <Para>{item.description}</Para>
-                                 <Date>{item.date}</Date>
+                                 <Name>{item.fullName}</Name>
+                                 <Para>
+                                    {
+                                       descriptionOfNotificationByStatus[
+                                          item.status
+                                       ]
+                                    }
+                                 </Para>
+                                 <Date>{item.createdAt}</Date>
                               </div>
-                              <div> {!isRead[i].isRead && <Circle />}</div>
+                              <div> {!item.seen && <Circle />}</div>
                            </List>
                         ))
                      ) : (

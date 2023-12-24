@@ -1,23 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../config/axiosInstance'
-import {
-   notifyTypes,
-   //    toastWithPromise,
-   toastWithoutPromise,
-} from '../../utils/helpers/toast'
+import { notifyTypes, toastWithoutPromise } from '../../utils/helpers/toast'
 
 export const getNotification = createAsyncThunk(
    'notifications/getNotification',
-   async (adminId, { rejectWithValue }) => {
+   async (_, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get(
-            `/notification/admin/${adminId}`
-         )
+         const response = await axiosInstance.get('/notification')
          return response.data
       } catch (error) {
          toastWithoutPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
+            notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
+            'Message',
             error.message
          )
          return rejectWithValue(error)
@@ -25,66 +19,37 @@ export const getNotification = createAsyncThunk(
    }
 )
 
-// export const putAllNotification = createAsyncThunk(
-//    '',
-//    async (notificationId, { rejectWithValue }) => {
-//       try {
-//          const response = await axiosInstance.put(
-//             `/notification/${notificationId}`
-//          )
-//          toastWithPromise(
-//             notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
-//             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-//             'Успешно',
-//             'Ошибка',
-//             'Уведомления отмечены как прочитанные'
-//          )
-//          return response.data
-//       } catch (error) {
-//          return rejectWithValue(error)
-//       }
-//    }
-// )
+export const putAllNotification = createAsyncThunk(
+   'notification/putAllNotification',
+   async (_, { rejectWithValue, dispatch }) => {
+      try {
+         const response = await axiosInstance.put('/notification')
+         dispatch(getNotification())
+         return response.data
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
+            'Message',
+            error.message
+         )
+         return rejectWithValue(error)
+      }
+   }
+)
 
-// export const putAllNotification = createAsyncThunk(
-//    '/notification/putAllNotification',
-//    async (notificationId, { rejectWithValue }) => {
-//       try {
-//          const response = await axiosInstance.put(
-//             `/notification/${notificationId}`
-//          )
-//          await toastWithPromise(
-//             notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
-//             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-//             'Успешно',
-//             'Ошибка',
-//             response.data
-//          )
-
-//          return response.data
-//       } catch (error) {
-//          return rejectWithValue(error.message)
-//       }
-//    }
-// )
-
-// export const putAllNotification = createAsyncThunk(
-//    '/notification/putAllNotification',
-//    async (notificationId, { rejectWithValue }) => {
-//       try {
-//          const response = await toastWithPromise(
-//             notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
-//             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-//             'Успешно',
-//             'Ошибка',
-//             axiosInstance.put(`/notification/${notificationId}`)
-//             error.message
-//          )
-//          return response.data
-//       } catch (error) {
-//          return rejectWithValue(error)
-//       }
-//    }
-// )
-
-// notificationThunk.js
+export const putNotification = createAsyncThunk(
+   'notification/putNotification',
+   async (notificationId, { dispatch, rejectWithValue }) => {
+      try {
+         await axiosInstance.put(`/notification/${notificationId}`)
+         dispatch(getNotification())
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_SUCCESS_SUCCESS,
+            'Message',
+            error.message
+         )
+         rejectWithValue(error)
+      }
+   }
+)

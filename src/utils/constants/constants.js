@@ -53,6 +53,24 @@ const shoeSizeEnum = {
    44: 'FORTY_FOUR',
 }
 
+const descriptionOfNotificationByStatus = {
+   RESERVED: 'было забронировано',
+   RESERVED_ANONYMOUSLY: 'было забронировано анонимно',
+   REQUEST: 'отправил(-а) запрос к вам в друзья',
+   BOOKED_CHARITY_ANONYMOUSLY: 'забронированная благотворительность анонимно',
+   BOOKED_CHARITY: 'забронированная благотворительность',
+   UNBOOKED_CHARITY: 'незабронированная благотворительность',
+   BOOKED_WISH_ANONYMOUSLY: 'забронированное желание анонимно',
+   BOOKED_WISH: 'забронированное желание',
+   UNBOOKED_WISH: 'незабронированное желание',
+   UNBOOKED: 'незабронировано',
+   PENDING: 'ожидание',
+   ADDED_CHARITY: 'добавленная благотворительность',
+   ADDED_WISH: 'добавленное желание',
+   COMPLAINT_CHARITY: 'жалоба благотворительности',
+   COMPLAINT_WISH: 'жалоба желания',
+}
+
 export {
    countries,
    shoeSizes,
@@ -62,4 +80,5 @@ export {
    russianCountries,
    shoeSizeEnum,
    clothingSizeEnum,
+   descriptionOfNotificationByStatus,
 }
