@@ -38,7 +38,8 @@ export const EditOrAddWishPage = () => {
          window.removeEventListener('providerEvent', handleModalChange)
    }, [])
 
-   const openAndCloseHolidayModalHandler = (defaultValues, holidayId) => {
+   // eslint-disable-next-line default-param-last
+   const openAndCloseHolidayModalHandler = (defaultValues = {}, holidayId) => {
       setAddNewHolidayModalState((prevState) => ({
          isOpen: !prevState.isOpen,
          defaultValues,
@@ -98,7 +99,6 @@ export const EditOrAddWishPage = () => {
          })
       )
       openAndCloseHolidayModalHandler()
-      setPreview('')
    }
 
    const onClose = () => {
@@ -117,7 +117,7 @@ export const EditOrAddWishPage = () => {
                }
             }
             defaultHolidayId={defaultHolidayId}
-            img={state?.wishId && wish?.wishImage}
+            image={state?.wishId && wish?.wishImage}
             onClose={onClose}
             onSubmit={onSubmit}
          />

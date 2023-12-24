@@ -55,10 +55,10 @@ export const WishListForm = ({
    variant,
    onSubmit,
    defaultValues = initialValues,
-   img = '',
+   image = '',
    defaultHolidayId,
 }) => {
-   const [preview, setPreview] = useState({ file: '', url: img })
+   const [preview, setPreview] = useState({ file: '', url: image })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
    const {
       register,
@@ -67,6 +67,7 @@ export const WishListForm = ({
       reset,
       control,
       setValue,
+      getValues,
    } = useForm({
       defaultValues: useMemo(() => ({ ...defaultValues })),
       mode: 'onBlur',
@@ -94,8 +95,8 @@ export const WishListForm = ({
       dispatch(getAllHolidaysByUserId(id))
    }, [])
    useEffect(() => {
-      if (img) {
-         setPreview((prev) => ({ ...prev, url: img }))
+      if (image) {
+         setPreview((prev) => ({ ...prev, url: image }))
          reset(defaultValues)
       }
       if (defaultHolidayId) {
@@ -216,8 +217,17 @@ export const WishListForm = ({
             />
             <ButtonContainer>
                <Button onClick={onClose}>Отмена</Button>
-               <Button type="submit" variant="primary">
-                  {img ? 'Сохранить' : 'Добавить'}
+               <Button
+                  onClick={() => {
+                     onSubmit(getValues(), preview.file, holiday.holidayId)
+                     reset()
+                     setPreview(null)
+                     setValues(variant ? initialValues[0] : {})
+                  }}
+                  type="submit"
+                  variant="primary"
+               >
+                  {image ? 'Сохранить' : 'Добавить'}
                </Button>
             </ButtonContainer>
          </BlockTwo>
