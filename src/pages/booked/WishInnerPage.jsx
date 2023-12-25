@@ -9,7 +9,7 @@ import { isWishBooked } from './BookedWishAndCharityPage'
 export const WishInnerPage = ({ handleOptionsChange }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const reservedWish = useSelector((state) => state.booked.bookedWish)
+   const reservedWish = useSelector((state) => state.wish.wishes)
 
    const openInnerWishPage = (wishId, wishName) => {
       providerEvent({ action: 'name', payload: wishName })

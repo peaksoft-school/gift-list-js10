@@ -11,9 +11,7 @@ export const CharityInnerPage = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
-   const reservedCharity = useSelector(
-      (state) => state.bookedCharity.bookedCharity
-   )
+   const reservedCharity = useSelector((state) => state.charity.charities)
 
    const openInnerCharityHandler = (charityId, charityName) => {
       providerEvent({ action: 'name', payload: charityName })

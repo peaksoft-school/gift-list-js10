@@ -11,8 +11,8 @@ import {
 import { addToMyGifts } from '../../store/feed/feedThunk'
 import { unBookingWishThunk } from '../../store/booking/bookingThunk'
 import { providerEvent } from '../../events/customEvents'
-import { getAllReservedWish } from '../../store/wish/reservedThunk'
-import { getAllReservedCharity } from '../../store/charity/reservedCharityThunk'
+import { getAllReservedWish } from '../../store/wish/wishThunk'
+import { getAllReservedCharity } from '../../store/charity/charityThunk'
 
 export const isWishBooked = (alreadyInWishList) => {
    if (alreadyInWishList) {
@@ -51,11 +51,9 @@ export const handleOptionsChange = {
 export const BookedWishAndCharityPage = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const bookedWishes = useSelector((state) => state.booked.bookedWish)
+   const bookedWishes = useSelector((state) => state.wish.wishes)
    const newBookedWishes = bookedWishes.slice(0, 3)
-   const bookedCharity = useSelector(
-      (state) => state.bookedCharity.bookedCharity
-   )
+   const bookedCharity = useSelector((state) => state.charity.charities)
    const newBookedCharity = bookedCharity.slice(0, 3)
 
    useEffect(() => {
