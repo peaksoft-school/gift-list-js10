@@ -1,39 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getAllReservedCharity } from './reservedThunk'
+import { getAllReservedWish } from './reservedThunk'
 
 const initialState = {
-   bookedCharity: [],
+   bookedWish: [],
    isLoading: false,
    error: null,
 }
 
-export const reservedCharitySlice = createSlice({
-   name: 'bookedCharity',
+export const reservedSlice = createSlice({
+   name: 'booked',
    initialState,
    reducers: {},
    extraReducers: (builder) => {
       builder
-         .addCase(getAllReservedCharity.pending, (state) => {
+         .addCase(getAllReservedWish.pending, (state) => {
             return {
                ...state,
+               erro: null,
                isLoading: true,
-               error: null,
             }
          })
-         .addCase(getAllReservedCharity.fulfilled, (state, action) => {
-            console.log(action.payload)
+         .addCase(getAllReservedWish.fulfilled, (state, action) => {
             return {
                ...state,
                isLoading: false,
-               bookedCharity: action.payload,
                error: null,
+               bookedWish: action.payload,
             }
          })
-         .addCase(getAllReservedCharity.rejected, (state, action) => {
+         .addCase(getAllReservedWish.rejected, (state, action) => {
             return {
                ...state,
-               isLoading: false,
                error: action.payload,
+               isLoading: false,
             }
          })
    },

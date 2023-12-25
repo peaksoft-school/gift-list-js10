@@ -12,8 +12,8 @@ import { wishSlice } from './wish/wishSlice'
 import { complaintsSlice } from './complaints-slice/complaintsSlice'
 import { wishByIdSlice } from './wishesById/wishByIdSlice'
 import { mailingsSlice } from './mailing/mailingsSlice'
-import { reservedSlice } from './reserved/reservedSlice'
-import { reservedCharitySlice } from './reserved/reservedCharitySlice'
+import { reservedSlice } from './wish/reservedSlice'
+import { reservedCharitySlice } from './charity/reservedCharitySlice'
 
 export const store = configureStore({
    reducer: {

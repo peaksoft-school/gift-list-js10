@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { Card } from '../../components/UI/card/Card'
-import { meatballsForBookingWish } from '../../utils/constants/meatballs-options'
 import { providerEvent } from '../../events/customEvents'
+import { isWishBooked } from './BookedWishAndCharityPage'
 
 export const WishInnerPage = ({ handleOptionsChange }) => {
    const dispatch = useDispatch()
@@ -41,7 +41,7 @@ export const WishInnerPage = ({ handleOptionsChange }) => {
                         wish.reservoirId
                      )
                   }
-                  meatballsOptions={meatballsForBookingWish}
+                  meatballsOptions={isWishBooked(wish.alreadyInWishList)}
                />
             ))}
          </StyledCard>

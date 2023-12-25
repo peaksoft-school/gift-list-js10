@@ -2,10 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { styled } from '@mui/material'
-import {
-   getAllReservedCharity,
-   getAllReservedWish,
-} from '../../store/reserved/reservedThunk'
+
 import { Card } from '../../components/UI/card/Card'
 import {
    meatballsForBookingCharity,
@@ -14,9 +11,11 @@ import {
 import { addToMyGifts } from '../../store/feed/feedThunk'
 import { unBookingWishThunk } from '../../store/booking/bookingThunk'
 import { providerEvent } from '../../events/customEvents'
+import { getAllReservedWish } from '../../store/wish/reservedThunk'
+import { getAllReservedCharity } from '../../store/charity/reservedCharityThunk'
 
-export const isWishBooked = (allReadyInWishList) => {
-   if (allReadyInWishList) {
+export const isWishBooked = (alreadyInWishList) => {
+   if (alreadyInWishList) {
       return meatballsForBookingWish.unBooking
    }
    return meatballsForBookingWish.addToMyWish
@@ -104,7 +103,7 @@ export const BookedWishAndCharityPage = () => {
                               wish.reservoirId
                            )
                         }
-                        meatballsOptions={isWishBooked(wish.allReadyInWishList)}
+                        meatballsOptions={isWishBooked(wish.alreadyInWishList)}
                      />
                   ))}
                </StyledInfo>
