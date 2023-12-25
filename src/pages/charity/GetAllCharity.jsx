@@ -30,7 +30,7 @@ const isWishBooked = (bookerId, myId, role, ownerId) => {
       if (bookerId === myId) {
          return unBookingOption
       }
-      if (ownerId === myId) {
+      if (ownerId === myId && !bookerId) {
          return meatballsDeleteAndEditOptions
       }
    }
@@ -56,7 +56,8 @@ const handleMeatballsChange = (e, charityId, dispatch, userId, navigate) => {
                charityId,
                isBookingAnonymous: false,
                userId,
-               getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+               getSomethingFunction: () =>
+                  makeEventForUpdateTheAfterMeatballs(),
             })
          )
          break
@@ -66,7 +67,8 @@ const handleMeatballsChange = (e, charityId, dispatch, userId, navigate) => {
                charityId,
                isBookingAnonymous: true,
                userId,
-               getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+               getSomethingFunction: () =>
+                  makeEventForUpdateTheAfterMeatballs(),
             })
          )
          break
@@ -75,7 +77,8 @@ const handleMeatballsChange = (e, charityId, dispatch, userId, navigate) => {
             unbookingCharityThunk({
                charityId,
                userId,
-               getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+               getSomethingFunction: () =>
+                  makeEventForUpdateTheAfterMeatballs(),
             })
          )
          break

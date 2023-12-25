@@ -85,10 +85,7 @@ export const deleteCharityById = createAsyncThunk(
 
 export const addCharity = createAsyncThunk(
    '/charity/addCharity',
-   async (
-      { userId, charity, navigate, reset },
-      { rejectWithValue, dispatch }
-   ) => {
+   async ({ userId, charity, reset }, { rejectWithValue, dispatch }) => {
       try {
          const newCharity = {
             nameCharity: charity.holidayName,
@@ -110,7 +107,6 @@ export const addCharity = createAsyncThunk(
             'Ошибка при добавлении благотворительности',
             axiosInstance.post(`/charity`, newCharity)
          )
-         navigate(-1)
          reset()
          dispatch(getAllCharityByUserId(userId))
       } catch (error) {

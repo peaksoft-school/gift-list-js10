@@ -51,7 +51,13 @@ export const AdminRoutes = () => {
             />
             <Route
                path={charity.path}
-               element={<PrivateRoutes Component={<GetAllCharity />} />}
+               element={
+                  <PrivateRoutes
+                     Component={<GetAllCharity />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
             />
             <Route
                path={complaints.path}

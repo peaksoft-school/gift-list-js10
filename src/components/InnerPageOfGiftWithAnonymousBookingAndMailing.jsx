@@ -33,6 +33,8 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    linkToWish,
    bookerId,
    isBlock,
+   onDelete,
+   onEdit,
 }) => {
    const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
    const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
@@ -146,39 +148,55 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                )}
             </TextContainer>
          </MainContentWrapper>
-         {type !== 'HOLIDAY' &&
-            id !== ownerId &&
-            variant !== 'mailing' &&
-            !isBlock && (
-               <Actions>
-                  {!bookerId && (
-                     <p>
-                        <Checkbox
-                           value={isBookingAnonymous}
-                           onChange={handleCheckboxChange}
-                        />
-                        Забронировать анонимно
-                     </p>
-                  )}
-                  {bookerId === id ||
-                     (!bookerId && (
-                        <Button
-                           onClick={onBookingOrUnbooking}
-                           variant="primary"
-                        >
-                           {bookerId === id
-                              ? 'Разбронировать'
-                              : 'Забронировать'}
-                        </Button>
-                     ))}
-               </Actions>
-            )}
+         {type !== 'HOLIDAY' && variant !== 'mailing' && !isBlock && (
+            <Actions>
+               {ownerId !== id && (
+                  <>
+                     {!bookerId && (
+                        <p>
+                           <Checkbox
+                              value={isBookingAnonymous}
+                              onChange={handleCheckboxChange}
+                           />
+                           Забронировать анонимно
+                        </p>
+                     )}
+                     {bookerId === id ||
+                        (!bookerId && (
+                           <Button
+                              onClick={onBookingOrUnbooking}
+                              variant="primary"
+                           >
+                              {bookerId === id
+                                 ? 'Разбронировать'
+                                 : 'Забронировать'}
+                           </Button>
+                        ))}
+                  </>
+               )}
+               {ownerId === id && !bookerId && (
+                  <>
+                     <StyledButton onClick={onDelete} variant="outlined">
+                        Удалить
+                     </StyledButton>
+                     <Button onClick={onEdit} variant="primary">
+                        Редактировать
+                     </Button>
+                  </>
+               )}
+            </Actions>
+         )}
          {isBlock && (
             <BlockedContent>Этот контент заблокирован!</BlockedContent>
          )}
       </ContentWrapper>
    )
 }
+
+const StyledButton = styled(Button)({
+   border: 'none',
+   backgroundColor: 'transparent',
+})
 
 const BlockedContent = styled('p')({ color: 'red' })
 
