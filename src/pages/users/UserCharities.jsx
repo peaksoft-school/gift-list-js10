@@ -43,7 +43,7 @@ export const UserCharities = () => {
    }
 
    const goToCharityProfile = async (id) => {
-      navigate(`charity/${id}`)
+      navigate(`${id}`)
    }
 
    useEffect(() => {

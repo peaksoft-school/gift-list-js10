@@ -17,6 +17,7 @@ export const routes = {
          breadcrumb: 'Список желаний',
       },
       getUserWishById: { path: 'users/:userId/wishes/:wishId' },
+      getUserWish: { path: 'wish:wishId' },
       getUserHolidays: { path: 'users/:userId/holidays' },
       getUserCharities: { path: 'users/:userId/charities' },
       getCharityById: { path: 'users/:userId/charities/:charityId' },

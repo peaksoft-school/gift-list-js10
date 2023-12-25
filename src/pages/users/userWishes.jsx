@@ -43,7 +43,7 @@ export const UserWishes = () => {
    }
 
    const goToWishProfile = async (id) => {
-      navigate(`wish/${id}`)
+      navigate(`${id}`)
    }
 
    useEffect(() => {

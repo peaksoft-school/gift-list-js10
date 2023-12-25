@@ -17,7 +17,7 @@ import {
 } from '../../../assets'
 import { Card } from '../../../components/UI/card/Card'
 import { DeleteModal } from '../../../components/UI/DeleteModal'
-import { providerEvent } from '../../../events/customEvents'
+// import { providerEvent } from '../../../events/customEvents'
 import { shoeSize } from '../../../utils/constants/stateAndCategory'
 import { englishCountries } from '../../../utils/constants/constants'
 
@@ -224,10 +224,6 @@ export const UserProfile = () => {
                         bookerImage={wish.reservoirImage}
                         showBottomBooker="true"
                         onGetThingById={() => {
-                           providerEvent({
-                              action: 'innerName',
-                              payload: wish.wishName,
-                           })
                            navigate(`wishes/${wish.wishId}`)
                         }}
                         meatballsOptions={[

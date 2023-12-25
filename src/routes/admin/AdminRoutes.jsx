@@ -25,6 +25,7 @@ export const AdminRoutes = () => {
       getUserById,
       getUserWishes,
       getUserWishById,
+      // getUserWish,
       complaints,
       innerComplaint,
       getUserHolidays,
