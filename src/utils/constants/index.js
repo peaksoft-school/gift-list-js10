@@ -24,20 +24,66 @@ export const routes = {
       complaints: { path: 'complaints', breadcrumb: 'Жалобы' },
       innerComplaint: { path: 'complaints/:wishId' },
    },
+
    USER: {
       path: '/user',
-      feed: { path: 'feed', breadcrumb: 'Лента', showListActions: true },
-      thingFromFeedById: { path: 'feed/:thingId/:thingType', breadcrumb: '' },
-      friends: { path: 'friends', breadcrumb: 'Друзья' },
-      request: { path: 'requests' },
-      getFriendById: { path: 'friends/:friendId' },
-      getRequestsById: { path: 'friends/requests/:friendId' },
-      userProfileById: { path: 'addToMyFriends/:friendId' },
-      wishes: { path: 'wishes' },
-      holidays: { path: 'holidays' },
-      charities: { path: 'charities', showListActions: true },
-      profile: { path: 'profile', breadcrumb: 'Профиль' },
-      edit: { path: 'edit', breadcrumb: 'Рассказать о себе' },
+      feed: {
+         path: 'feed',
+         breadcrumb: 'Лента',
+         showListActions: true,
+      },
+      thingFromFeedById: {
+         path: 'feed/:thingId/:thingType',
+         breadcrumb: '',
+      },
+      friends: {
+         path: 'friends',
+         breadcrumb: 'Друзья',
+      },
+      request: {
+         path: 'requests',
+      },
+      getFriendById: {
+         path: 'friends/:friendId',
+      },
+      getRequestsById: {
+         path: 'friends/requests/:friendId',
+      },
+      userProfileById: {
+         path: 'addToMyFriends/:friendId',
+      },
+      wishes: {
+         path: 'wishes',
+         showListActions: true,
+      },
+      holidays: {
+         path: 'holidays',
+         showListActions: true,
+      },
+      charities: {
+         path: 'charities',
+         showListActions: true,
+      },
+      profile: {
+         path: 'profile',
+         breadcrumb: 'Профиль',
+      },
+      edit: {
+         path: 'edit',
+         breadcrumb: 'Рассказать о себе',
+      },
+      mailing: {
+         path: 'mailing',
+         breadcrumb: 'Рассылка',
+         buttonContent: 'Отправить рассылку',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'mailingsModalOpen', payload: true })
+         },
+      },
+      innerMailing: {
+         path: 'mailing/:mailingId',
+      },
       'my-holidays': {
          path: 'my-holidays',
          breadcrumb: 'Mои праздники',

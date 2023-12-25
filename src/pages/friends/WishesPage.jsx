@@ -6,7 +6,7 @@ import { providerEvent } from '../../events/customEvents'
 import { Card } from '../../components/UI/card/Card'
 import { handleOptionsChange, isWishBooked } from './ProfileDetail'
 
-export const WishesPage = () => {
+export const WishesPage = ({ isList }) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
@@ -16,6 +16,10 @@ export const WishesPage = () => {
    const handleOpenProfile = (userId, nameFriend) => {
       providerEvent({ action: 'name', payload: nameFriend })
       navigate(`/user/addToMyFriends/${userId}`)
+   }
+
+   const openInnerWishPage = (wishId) => {
+      navigate(`/user/feed/${wishId}/WISH`)
    }
 
    return (
@@ -33,6 +37,7 @@ export const WishesPage = () => {
                   ownerImage={wish.userImage}
                   ownerName={wish.fullName}
                   isBlock={wish.isBlock}
+                  list={isList}
                   bookerImage={wish.reservoirImage}
                   showBottomBooker="true"
                   handleChange={(e) =>
@@ -41,8 +46,11 @@ export const WishesPage = () => {
                   onGetOwnerById={() =>
                      handleOpenProfile(wish.ownerId, wish.fullName)
                   }
-                  onGetBookerById={() => handleOpenProfile(wish.reservoirId)}
+                  onGetBookerById={() =>
+                     handleOpenProfile(wish.reservoirId, wish.reservoirFullName)
+                  }
                   meatballsOptions={isWishBooked(wish.wishId, id)}
+                  onGetThingById={() => openInnerWishPage(wish.wishId)}
                />
             ))}
          </CardContainer>

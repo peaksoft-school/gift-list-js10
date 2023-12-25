@@ -15,6 +15,7 @@ import { formatDate, uploadFile } from '../../utils/helpers/constants'
 import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
 import { Card } from '../../components/UI/card/Card'
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
+import { sendMailing } from '../../store/mailing/mailingsThunk'
 
 export const MyHolidays = () => {
    const [preview, setPreview] = useState({ file: '', url: '' })
@@ -59,8 +60,6 @@ export const MyHolidays = () => {
       }))
    }
    const onSubmit = async (values, type, holidayId) => {
-      console.log(values, type)
-
       let image = preview.url
       if (preview.file) {
          const response = await uploadFile(preview.file)
@@ -95,8 +94,7 @@ export const MyHolidays = () => {
             nameMailing: values.nameMailing,
             image,
          }
-         // TODO: Kanykey eje mailing ti alyp backke jonotup koiot
-         console.log(mailing)
+         dispatch(sendMailing(mailing))
       }
 
       openAndCloseHolidayModalHandler()
