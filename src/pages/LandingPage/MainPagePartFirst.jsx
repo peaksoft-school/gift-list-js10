@@ -64,7 +64,7 @@ export const MainPagePartFirst = () => {
                            target="_blank"
                            rel="noreferrer"
                            href="https://www.facebook.com/"
-                           aria-label="Facebook"
+                           aria-label="facebook"
                         >
                            <FacebookIcon />
                         </a>

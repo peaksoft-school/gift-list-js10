@@ -140,7 +140,14 @@ export const Card = ({
                />
             )}
 
-            <StyledCardContent isblock={isBlock} onClick={onClick}>
+            <StyledCardContent
+               isblock={isBlock}
+               // onClick={() => {
+               //    console.log('iofewjoefweio')
+               //    if (onClick) onClick()
+               //    if (onGetThingById) onGetThingById()
+               // }}
+            >
                {variant === 'primary' && (
                   <StyledTypography variant="h6">{cardName}</StyledTypography>
                )}
@@ -157,11 +164,7 @@ export const Card = ({
                   variant={variant}
                />
             )}
-            <CardActions
-               className={`${
-                  list && variant === 'secondary' && 'listWithoutHeader'
-               }`}
-            >
+            <StyledCardActions>
                <ActionsWrapper
                   className={`${
                      list && variant === 'secondary' && 'listWithoutHeader'
@@ -189,7 +192,7 @@ export const Card = ({
                      />
                   </StyledMeatBallsContainer>
                )}
-            </CardActions>
+            </StyledCardActions>
          </ContentContainer>
          {isBlock && (
             <StyledBlockedCard>Это заблокированный контент!</StyledBlockedCard>
@@ -197,6 +200,8 @@ export const Card = ({
       </StyledCard>
    )
 }
+
+const StyledCardActions = styled(CardActions)({ padding: '0' })
 
 const StyledMeatBallsContainer = styled('div')({
    position: 'relative',
@@ -212,6 +217,7 @@ const StyledStatus = styled('span')({
    whiteSpace: 'nowrap',
    textOverflow: 'ellipsis',
    textAlign: 'end',
+   color: '#636C84',
 })
 
 const StyledBlockedCard = styled('div')({
@@ -280,6 +286,12 @@ const StyledCard = styled(MUICard)(({ isblock }) => {
       width: '21.8125rem',
       padding: '15px',
       position: 'relative',
+      borderRadius: '9px',
+      ':hover': {
+         boxShadow: '0px 0px 43px -10px rgba(209, 209, 209, 1)',
+         transitionDuration: '0.6s',
+         cursor: 'pointer',
+      },
       maxHeight: '20rem',
       '&.list': {
          width: '33.3125rem',

@@ -63,6 +63,12 @@ const categoriesWithEnglishPropertiesName = {
 }
 
 const subCategoriesWithEnglishPropertiesName = {
+   SMARTPHONE: 'Смартфоны и телефоны',
+   PHOTO_AND_VIDEO_CAMERA: 'Фото и видеокамеры',
+   AUTO_ELECTRONICS: 'Автоэлектроника',
+   COMPUTERS_AND_LAPTOP_TABLETS: 'Компьютеры, ноутбуки и планшеты',
+   LAPTOP: 'Ноутбук',
+   CAR: 'Машина',
    SMARTPHONES_AND_PHONES: 'Смартфоны и телефоны',
    AUDIO_EQUIPMENT: 'Аудиотехника',
    CAMERAS_AND_CAMCORDERS: 'Фото и видеокамеры',

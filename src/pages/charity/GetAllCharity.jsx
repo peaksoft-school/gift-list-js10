@@ -15,23 +15,27 @@ import {
    getCharityById,
 } from '../../store/charity/charityThunk'
 import {
-   bookingOptions,
    meatballsDeleteAndEditOptions,
-   unBookingOption,
+   meatballsForBookingCharity,
+   meatballsForDeleteCharity,
+   meetballsFeedOptionsForCharity,
 } from '../../utils/constants/meatballs-options'
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
-const isCharityBooked = (bookerId, myId, role, ownerId) => {
+const isCharityBooked = (bookerId, myId, role, ownerId, isBlock) => {
    if (role === 'USER') {
       if (!bookerId && ownerId !== myId) {
-         return bookingOptions
+         return meetballsFeedOptionsForCharity.iBookThisCharity
       }
       if (bookerId === myId) {
-         return unBookingOption
+         return meatballsForBookingCharity
       }
-      if (ownerId === myId && !bookerId) {
+      if (ownerId === myId && !bookerId && !isBlock) {
          return meatballsDeleteAndEditOptions
+      }
+      if (isBlock) {
+         return meatballsForDeleteCharity
       }
    }
    return []
@@ -100,8 +104,6 @@ export const GetAllCharity = () => {
       }
    }, [])
 
-   useEffect(() => {}, [charities])
-
    if (pending) {
       return 'Loading...'
    }
@@ -143,8 +145,10 @@ export const GetAllCharity = () => {
                   charity.charityReservoirId,
                   id,
                   role,
-                  charity.userId
+                  charity.userId,
+                  charity.isBlock
                )}
+               isBlock={charity.isBlock}
             />
          ))}
          {charities.length === 0 &&
@@ -152,7 +156,7 @@ export const GetAllCharity = () => {
                <EmptyComponent
                   title="Вы пока еще не добавляли благотворительностей"
                   buttonText="Добавить благотворительность"
-                  onClick={() => navigate('addCharity')}
+                  buttonOnClick={() => navigate('addCharity')}
                />
             ) : (
                <SecondEmptyComponent text="Пользователи еще не добавляли благотворительностей" />

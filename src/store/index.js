@@ -8,6 +8,7 @@ import { feedSlice } from './feed/feedSlice'
 import { holidaySlice } from './holiday/holidaySlice'
 import { myFriendsSlice } from './my-friends/friendsSlice'
 import { profileSlice } from './profile/profileSlice'
+import { usersSlice } from './slices/users/users-slice'
 import { requestSlice } from './requests/requestSlice'
 import { wishSlice } from './wish/wishSlice'
 import { wishByIdSlice } from './wishesById/wishByIdSlice'
@@ -23,6 +24,7 @@ export const store = configureStore({
       [holidaySlice.name]: holidaySlice.reducer,
       [myFriendsSlice.name]: myFriendsSlice.reducer,
       [profileSlice.name]: profileSlice.reducer,
+      [usersSlice.name]: usersSlice.reducer,
       [complaintsSlice.name]: complaintsSlice.reducer,
       [wishByIdSlice.name]: wishByIdSlice.reducer,
       [wishSlice.name]: wishSlice.reducer,

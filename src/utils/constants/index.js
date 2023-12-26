@@ -42,6 +42,16 @@ export const routes = {
       innerMailing: {
          path: 'mailing/:mailingId',
       },
+      getUserById: { path: 'users/:userId' },
+      getUserWishes: {
+         path: 'users/:userId/wishes',
+         breadcrumb: 'Список желаний',
+      },
+      getUserWishById: { path: 'users/:userId/wishes/:wishId' },
+      getUserWish: { path: 'wish:wishId' },
+      getUserHolidays: { path: 'users/:userId/holidays' },
+      getUserCharities: { path: 'users/:userId/charities' },
+      getCharityById: { path: 'users/:userId/charities/:charityId' },
    },
    USER: {
       path: '/user',
@@ -77,6 +87,22 @@ export const routes = {
          path: 'feed/:thingId/:thingType',
          breadcrumb: '',
       },
+      bookings: {
+         path: 'bookings',
+         breadcrumb: 'Забронированные',
+      },
+      bookedWish: {
+         path: 'bookedWish',
+      },
+      bookedWishById: {
+         path: 'bookedWish/:wishId',
+      },
+      bookedCharity: {
+         path: 'bookedCharity',
+      },
+      bookedCharityById: {
+         path: 'bookedCharity/:charityId',
+      },
       friends: {
          path: 'friends',
          breadcrumb: 'Друзья',
@@ -97,6 +123,9 @@ export const routes = {
          path: 'wishes',
          showListActions: true,
       },
+      wishesById: {
+         path: 'friends/:ownerId/wishes/:wishId',
+      },
       holidays: {
          path: 'holidays',
          showListActions: true,
@@ -105,6 +134,9 @@ export const routes = {
          path: 'charities',
          showListActions: true,
       },
+      charitiesById: {
+         path: 'charities/:charityId',
+      },
       profile: {
          path: 'profile',
          breadcrumb: 'Профиль',
@@ -112,6 +144,18 @@ export const routes = {
       edit: {
          path: 'edit',
          breadcrumb: 'Рассказать о себе',
+      },
+      mailing: {
+         path: 'mailing',
+         breadcrumb: 'Рассылка',
+         buttonContent: 'Отправить рассылку',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'mailingsModalOpen', payload: true })
+         },
+      },
+      innerMailing: {
+         path: 'mailing/:mailingId',
       },
       'my-holidays': {
          path: 'my-holidays',
@@ -122,8 +166,6 @@ export const routes = {
             providerEvent({ action: 'my-holidaysModalOpen', payload: true })
          },
       },
-      holidayInnerPage: {
-         path: 'my-holidays/:holidayId',
-      },
+      holidayInnerPage: { path: 'my-holidays/:holidayId' },
    },
 }

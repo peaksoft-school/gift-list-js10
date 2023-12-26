@@ -47,11 +47,18 @@ export const Header = ({ variantOfSelect = '' }) => {
    const [isOpenModal, setIsOpenModal] = useState(false)
    const [debouncedValue] = useDebounce(searchTerm, 1000)
    const [doGet, setDoGet] = useState()
-   const result = useLocation()
+   const location = useLocation()
+   const handleReset = () => {
+      setSearchParams({})
+      reset()
+      dispatch(getAllCharityByUserId(id))
+      setValues(defaultSelectProperites)
+   }
    const handleDataUpdated = (event) => {
       if (event.detail.action === 'search') {
          setDoGet(event.detail.payload)
       }
+      if (event.detail.action === 'resetSearch') handleReset()
    }
    useEffect(() => {
       window.addEventListener('providerEvent', handleDataUpdated)
@@ -86,7 +93,7 @@ export const Header = ({ variantOfSelect = '' }) => {
                country: russianCountries[values.country],
             })
          )
-      } else if (result.pathname.includes('charity')) {
+      } else if (location.pathname.includes('charity')) {
          dispatch(getAllCharityByUserId(id))
       }
    }, [
@@ -103,12 +110,6 @@ export const Header = ({ variantOfSelect = '' }) => {
       setSearchParams(searchParams)
       setValue(e.target.name, e.target.value)
       setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-   }
-   const handleReset = () => {
-      setSearchParams({})
-      reset()
-      dispatch(getAllCharityByUserId(id))
-      setValues(defaultSelectProperites)
    }
    const toggleModal = () => setIsOpenModal((prev) => !prev)
    const meetballsChange = (e) => {

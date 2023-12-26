@@ -42,15 +42,24 @@ function findNumberLength(inputString) {
 
 const getLastElementOfPath = (path) => path.slice(-1)
 
+// const containsStringBetweenNumbers = (stringForChecking) => {
+//    const wordsBetweenTwoAndEight = stringForChecking.split('/')[1]
+
+//    const hasLetters = /[a-zA-Z]/.test(wordsBetweenTwoAndEight)
+
+//    // Проверка на слово (без цифр и спецсимволов)
+//    const isWord = /^[a-zA-Z]+$/.test(wordsBetweenTwoAndEight)
+//    return hasLetters && isWord
+// }
+
 export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
-
    const breadcrumbs = useBreadcrumbs(routesArray, {
-      excludePaths: ['/', 'user', 'admin'],
+      excludePaths: ['/', 'user', 'admin', 'wishes'],
    })
    const [inner, setInner] = useState(false)
    const path = useParams()
-   const [byIdName, setByIdName] = useState('')
+   const [byIdName, setByIdName] = useState([])
    const buttonContent = routes[role][path['*']]?.buttonContent
    const navigate = useNavigate()
    const { charities } = useSelector((state) => state.charity)
@@ -96,6 +105,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    if (path['*'].includes('charity')) {
       charityHeaderSelectType = 'select'
    }
+
    return (
       <>
          <Sidebar roleName={role} />
@@ -112,7 +122,11 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                     getLastElementOfPath(match.pathname)
                                  )) || (
                                  <StyledNavLink
-                                    to={match.pathname}
+                                    to={
+                                       (findNumberLength(match.pathname) &&
+                                          path['*']) ||
+                                       match.pathname
+                                    }
                                     active={
                                        breadcrumbsForRequests.length - 1 ===
                                           index ||
@@ -208,6 +222,7 @@ export const MainLayout = ({ role, isList, toggleList }) => {
       </>
    )
 }
+
 const ImagesAndBreadcrumbsWrapper = styled('div')({
    display: 'flex',
    gap: '35px',
@@ -237,10 +252,12 @@ const StyledActions = styled('div')({
    gap: '15px',
    alignItems: 'center',
 })
+
 const StyledNavLink = styled(NavLink)(({ active }) => ({
    color: active ? '#000000' : '#B4B4B4',
    textDecoration: 'none',
 }))
+
 const StyledButton = styled(Button)({
    borderRadius: '3px',
    padding: '2px',
@@ -259,16 +276,19 @@ const StyledButton = styled(Button)({
       backgroundColor: '#BDBDBD',
    },
 })
+
 const StyledMainContentHeader = styled('div')({
    display: 'flex',
    justifyContent: 'space-between',
    paddingBottom: '30px',
    paddingRight: '21px',
 })
+
 const MainContentWrapper = styled('fieldset')({
    border: 'none',
    padding: '20px',
 })
+
 const MainContainer = styled('div')({
    backgroundColor: '#F7F8FA',
    marginLeft: '18.4rem',
@@ -277,6 +297,7 @@ const MainContainer = styled('div')({
    gap: '50px',
    minHeight: '100vh',
 })
+
 const StyledLegend = styled('legend')(({ isinner }) => ({
    fontSize: isinner ? '0.875rem' : '1.5rem',
    fontWeight: '500',

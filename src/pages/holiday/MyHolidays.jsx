@@ -145,23 +145,23 @@ export const MyHolidays = () => {
                   }}
                />
             ))}
-            {!holidays.length && (
-               <EmptyComponent
-                  buttonText="Добавить праздник"
-                  text="Вы еще не добавили праздника"
-                  buttonOnClick={openAndCloseHolidayModalHandler}
-               />
-            )}
-            {addNewHolidayModalState.isOpen && (
-               <EditOrAddFormModal
-                  preview={preview}
-                  setPreview={setPreview}
-                  onSubmit={onSubmit}
-                  addNewHolidayModalState={addNewHolidayModalState}
-                  closeHandler={openAndCloseHolidayModalHandler}
-               />
-            )}
          </MyHolidaysContainer>
+         {!holidays.length && (
+            <EmptyComponent
+               buttonText="Добавить праздник"
+               text="Вы еще не добавили праздника"
+               buttonOnClick={openAndCloseHolidayModalHandler}
+            />
+         )}
+         {addNewHolidayModalState.isOpen && (
+            <EditOrAddFormModal
+               preview={preview}
+               setPreview={setPreview}
+               onSubmit={onSubmit}
+               addNewHolidayModalState={addNewHolidayModalState}
+               closeHandler={openAndCloseHolidayModalHandler}
+            />
+         )}
       </StyledMyHolidays>
    )
 }
@@ -173,12 +173,5 @@ const StyledMyHolidays = styled(Box)({
 const MyHolidaysContainer = styled(Box)({
    display: 'flex',
    flexWrap: 'wrap',
-   gap: '10px',
-   '& > .MuiPaper-root': {
-      width: '20.5rem',
-      marginBottom: '10px',
-   },
-   '& .MuiCardMedia-img': {
-      width: '18.75rem',
-   },
+   gap: '20px',
 })

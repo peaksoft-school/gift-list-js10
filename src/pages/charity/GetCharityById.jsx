@@ -1,21 +1,28 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import { InnerPageOfGiftWithAnonymousBookingAndMailing } from '../../components/InnerPageOfGiftWithAnonymousBookingAndMailing'
 import {
    categoriesWithEnglishPropertiesName,
+   conditionWithEnglishPropertiesName,
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/constants'
 import { convertDateFormat } from '../../utils/helpers/constants'
 import { makeEventForUpdateTheAfterMeatballs } from './GetAllCharity'
+import {
+   blockOrUnblockCharityById,
+   deleteCharityById,
+   getCharityById,
+} from '../../store/charity/charityThunk'
 
 export const GetCharityById = () => {
    const { charityId } = useParams()
    // const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
    // const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
    const { charity, pending } = useSelector((state) => state.charity)
-   const { role } = useSelector((state) => state.authLogin)
-   // const navigate = useNavigate()
+   const { role, id } = useSelector((state) => state.authLogin)
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
    // const onBooking = () => {
    //    dispatch(
    //       bookingCharityThunk({
@@ -29,6 +36,7 @@ export const GetCharityById = () => {
    // const isBooked = charity.status?.includes('RESERVED')
 
    useEffect(() => {
+      dispatch(getCharityById(charityId))
       return () => {
          makeEventForUpdateTheAfterMeatballs()
       }
@@ -38,53 +46,45 @@ export const GetCharityById = () => {
       return 'Loading...'
    }
 
-   // const onEditOrOnBlock = (role, navigate, charity, dispatch, charityId) => {
-   //    if (role === 'USER') {
-   //       navigate('/user/charity/editCharity', {
-   //          state: {
-   //             defaultValues: {
-   //                category:
-   //                   categoriesWithEnglishPropertiesName[charity.category],
-   //                state: conditionWithEnglishPropertiesName[charity.condition],
-   //                holidayName: charity.nameCharity,
-   //                subCategory:
-   //                   subCategoriesWithEnglishPropertiesName[
-   //                      Object.keys(
-   //                         subCategoriesWithEnglishPropertiesName
-   //                      ).find((key) => key.includes(charity.subCategory))
-   //                   ],
-   //                description: charity.description,
-   //             },
-   //             charityId,
-   //             charityImage: charity.charityImage,
-   //          },
-   //       })
-   //    } else if (role === 'ADMIN') {
-   //       dispatch(blockOrUnblockCharityById({ charityId, blockCharity: true }))
-   //    }
-   // }
+   const onEditOrOnBlock = (role, navigate, charity, dispatch, charityId) => {
+      if (role === 'USER') {
+         navigate('/user/charity/editCharity', {
+            state: {
+               defaultValues: {
+                  category:
+                     categoriesWithEnglishPropertiesName[charity.category],
+                  state: conditionWithEnglishPropertiesName[charity.condition],
+                  holidayName: charity.nameCharity,
+                  subCategory:
+                     subCategoriesWithEnglishPropertiesName[
+                        Object.keys(
+                           subCategoriesWithEnglishPropertiesName
+                        ).find((key) => key.includes(charity.subCategory))
+                     ],
+                  description: charity.description,
+               },
+               charityId,
+               charityImage: charity.charityImage,
+            },
+         })
+      } else if (role === 'ADMIN') {
+         dispatch(
+            blockOrUnblockCharityById({
+               charityId,
+               blockCharity: !charity.isBlock,
+            })
+         )
+         navigate(-1)
+      }
+   }
 
-   // const onDeleteCharity = () => {
-   //    dispatch(deleteCharityById({ charityId, navigate }))
-   // }
+   const onDeleteCharity = () => {
+      dispatch(deleteCharityById({ charityId, userId: id }))
+      navigate(-1)
+   }
 
    return (
       <div>
-         {/* <AdminState     
-               myId: id,
-               bookerId: charity.charityReservoirId,
-            showEditOrBlockOptions={
-               role === 'USER' ? charity.userId === id : true
-            }
-            onDelete={onDeleteCharity}
-            onEditOrOnBlock={() =>
-               onEditOrOnBlock(role, navigate, charity, dispatch, charityId)
-            }
-            isBookingAnonymous={isBookingAnonymous}
-            isShowBookingOptions={isBooked && charity.userId !== id}
-            handleCheckboxChange={handleCheckboxChange}
-            onBooking={onBooking}
-         /> */}
          <InnerPageOfGiftWithAnonymousBookingAndMailing
             ownerName={charity.fullName}
             ownerImage={charity.userImage}
@@ -107,7 +107,11 @@ export const GetCharityById = () => {
                   )
                ]
             }
-            onDelete={() => {}}
+            onEditOrOnBlockOrUnBlock={() =>
+               onEditOrOnBlock(role, navigate, charity, dispatch, charityId)
+            }
+            isBlock={charity.isBlock}
+            onDelete={onDeleteCharity}
             bookerId={charity.charityReservoirId}
             newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
          />

@@ -152,7 +152,7 @@ export const updateCharity = createAsyncThunk(
 
 export const blockOrUnblockCharityById = createAsyncThunk(
    '/charity/blockOrUnblockCharityById',
-   async ({ charityId, blockCharity }, { rejectWithValue }) => {
+   async ({ charityId, blockCharity }, { rejectWithValue, dispatch }) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -166,6 +166,7 @@ export const blockOrUnblockCharityById = createAsyncThunk(
                `/charity/${charityId}?blockCharity=${blockCharity}`
             )
          )
+         dispatch(getAllCharity())
       } catch (error) {
          rejectWithValue(error)
       }
@@ -195,6 +196,25 @@ export const searchCharity = createAsyncThunk(
             notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
             'Ошибка при поиске благотворительностей',
             error
+         )
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const getAllReservedCharity = createAsyncThunk(
+   'reservedCharity',
+   async (_, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(
+            '/booking/getAllReservedCharity'
+         )
+         return response.data
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка при получении всех забронированных благотворительностей!',
+            error.message
          )
          return rejectWithValue(error)
       }

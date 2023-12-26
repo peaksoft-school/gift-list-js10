@@ -42,13 +42,6 @@ export const meetballsFriendOptions = {
    unBooking: [{ title: 'Снять бронь', icon: <UnLockIcon /> }],
 }
 
-export const bookingOptions = [
-   { title: 'Забронировать', icon: <LockIcon /> },
-   { title: 'Забронировать анонимно', icon: <IncognitoIcon /> },
-]
-
-export const unBookingOption = [{ title: 'Снять бронь', icon: <UnLockIcon /> }]
-
 export const meatballsDeleteAndEditOptions = [
    {
       title: 'Редактировать',
@@ -69,3 +62,17 @@ export const meatballsComplaintsOptions = {
       { title: 'Удалить', icon: <DeleteIcon /> },
    ],
 }
+export const meatballsForBookingWish = {
+   addToMyWish: [
+      { title: 'Добавить в мои подарки', icon: <GiftIcon /> },
+      { title: 'Снять бронь', icon: <UnLockIcon /> },
+   ],
+   unBooking: [{ title: 'Снять бронь', icon: <UnLockIcon /> }],
+}
+
+export const meatballsForBookingCharity = [
+   { title: 'Снять бронь', icon: <UnLockIcon /> },
+]
+export const meatballsForDeleteCharity = [
+   { title: 'Удалить', icon: <DeleteIcon /> },
+]

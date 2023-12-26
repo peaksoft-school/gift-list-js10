@@ -19,6 +19,11 @@ import { GetCharityById } from '../../pages/charity/GetCharityById'
 import { EditOrAddCharityFormPage } from '../../pages/charity/EditOrAddCharityFormPage'
 import { MyHolidays } from '../../pages/holiday/MyHolidays'
 import { HolidayInnerPage } from '../../pages/holiday/HolidayInnerPage'
+import { BookedWishAndCharityPage } from '../../pages/booked/BookedWishAndCharityPage'
+import { WishInnerPage } from '../../pages/booked/WishInnerPage'
+import { CharityInnerPage } from '../../pages/booked/CharityInnerPage'
+import { CharityFromBookedById } from '../../pages/booked/CharityFromBookedById'
+import { WishFromBookedById } from '../../pages/booked/WishFromBookedById'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -51,6 +56,13 @@ export const UserRoutes = () => {
       charityById,
       addCharity,
       editCharity,
+      bookings,
+      bookedWish,
+      bookedCharity,
+      bookedCharityById,
+      bookedWishById,
+      wishesById,
+      charitiesById,
    } = routes[role]
 
    return (
@@ -73,6 +85,57 @@ export const UserRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<GetAllFeedPage isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={bookings.path}
+               element={
+                  <PrivateRoutes
+                     Component={<BookedWishAndCharityPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+
+            <Route
+               path={bookedWish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishInnerPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={bookedWishById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishFromBookedById />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={bookedCharity.path}
+               element={
+                  <PrivateRoutes
+                     Component={<CharityInnerPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={bookedCharityById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<CharityFromBookedById />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -144,10 +207,30 @@ export const UserRoutes = () => {
                }
             />
             <Route
+               path={wishesById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishFromBookedById />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
                path={charities.path}
                element={
                   <PrivateRoutes
                      Component={<CharitiesPage isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charitiesById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<CharityFromBookedById />}
                      isAuth={isAuth}
                      fallback="/"
                   />

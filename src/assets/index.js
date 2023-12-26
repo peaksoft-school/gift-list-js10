@@ -63,3 +63,6 @@ export { default as GirlsImage } from './images/one-girl-with-glasses-and-two-gi
 export { default as ProfilePicture } from './images/profile-picture.png'
 export { default as UserDataIcon } from './images/user-data.png'
 export { default as UserWait } from './images/user-wait.png'
+export { ReactComponent as Zablock } from './icons/zablockIcon.svg'
+export { ReactComponent as RedDeleteIcon } from './icons/red-delete-icon.svg'
+export { ReactComponent as Razblock } from './icons/razblock.svg'

@@ -48,7 +48,6 @@ export function AdminState({
                <ButtonContainer>
                   <StyledButton
                      className="delete"
-                     variant="text"
                      type="button"
                      onClick={onDeleteWishById}
                   >

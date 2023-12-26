@@ -34,13 +34,13 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    bookerId,
    isBlock,
    onDelete,
-   onEdit,
+   onEditOrOnBlockOrUnBlock,
 }) => {
    const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
    const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const id = useSelector((state) => state.authLogin.id)
+   const { id, role } = useSelector((state) => state.authLogin)
    const onBookingOrUnbooking = () => {
       switch (type) {
          case 'WISH':
@@ -76,6 +76,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
       }
       navigate(-1)
    }
+   console.log(bookerId, id)
    const isBooked = status?.includes('RESERVED') || bookerImage
    return (
       <ContentWrapper>
@@ -148,11 +149,11 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                )}
             </TextContainer>
          </MainContentWrapper>
-         {type !== 'HOLIDAY' && variant !== 'mailing' && !isBlock && (
+         {type !== 'HOLIDAY' && variant !== 'mailing' && (
             <Actions>
-               {ownerId !== id && (
+               {ownerId !== id && role !== 'ADMIN' && (
                   <>
-                     {!bookerId && (
+                     {!bookerId && status === 'PENDING' && (
                         <p>
                            <Checkbox
                               value={isBookingAnonymous}
@@ -161,32 +162,39 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                            Забронировать анонимно
                         </p>
                      )}
-                     {bookerId === id ||
-                        (!bookerId && (
-                           <Button
-                              onClick={onBookingOrUnbooking}
-                              variant="primary"
-                           >
-                              {bookerId === id
-                                 ? 'Разбронировать'
-                                 : 'Забронировать'}
-                           </Button>
-                        ))}
+                     {(bookerId === id || !bookerId) && (
+                        <StyledCapitalizeButton
+                           onClick={onBookingOrUnbooking}
+                           variant="primary"
+                        >
+                           {bookerId === id
+                              ? 'Разбронировать'
+                              : 'Забронировать'}
+                        </StyledCapitalizeButton>
+                     )}
                   </>
                )}
-               {ownerId === id && !bookerId && (
-                  <>
+
+               {(ownerId === id || role === 'ADMIN') && (
+                  <StyledButtonActions>
                      <StyledButton onClick={onDelete} variant="outlined">
                         Удалить
                      </StyledButton>
-                     <Button onClick={onEdit} variant="primary">
-                        Редактировать
-                     </Button>
-                  </>
+                     {role === 'USER' && !isBlock && (
+                        <StyledCapitalizeButton
+                           onClick={onEditOrOnBlockOrUnBlock}
+                           variant="primary"
+                        >
+                           {role === 'ADMIN' && isBlock && 'Разблокировать'}
+                           {role === 'ADMIN' && !isBlock && 'Заблокировать'}
+                           {role === 'USER' && 'Редактировать'}
+                        </StyledCapitalizeButton>
+                     )}
+                  </StyledButtonActions>
                )}
             </Actions>
          )}
-         {isBlock && (
+         {isBlock && role === 'USER' && (
             <StyledBlockedContentWrapper>
                Этот контент заблокирован!
             </StyledBlockedContentWrapper>
@@ -194,6 +202,15 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
       </ContentWrapper>
    )
 }
+
+const StyledButtonActions = styled('div')({
+   position: 'relative',
+   zIndex: '5',
+})
+
+const StyledCapitalizeButton = styled(Button)({
+   textTransform: 'uppercase',
+})
 
 const StyledButton = styled(Button)({
    border: 'none',

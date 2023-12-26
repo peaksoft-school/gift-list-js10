@@ -107,6 +107,7 @@ export const ProfileDetail = ({ variant }) => {
    const { id } = useSelector((state) => state.authLogin)
 
    const friendWishes = useSelector((state) => state.wish.wishes)
+
    const newFriendWishes = friendWishes.slice(0, 3)
 
    const friendHolidays = useSelector((state) => state.holiday.holidays)
@@ -159,12 +160,12 @@ export const ProfileDetail = ({ variant }) => {
 
    const openInnerWishPage = (wishId, wishName) => {
       providerEvent({ action: 'name', payload: wishName })
-      navigate(`/user/feed/${wishId}/WISH`)
+      navigate(`wishes/${wishId}`)
    }
 
    const openInnerCharityHandler = (charityId, charityName) => {
       providerEvent({ action: 'name', payload: charityName })
-      navigate(`/user/feed/${charityId}/CHARITY`)
+      navigate(`/user/charities/${charityId}`)
    }
 
    return (
@@ -253,7 +254,7 @@ export const ProfileDetail = ({ variant }) => {
                   <NavLink to="/user/wishes">Смотреть все</NavLink>
                </TitleContent>
                <HolidaysContainer>
-                  {newFriendWishes?.map((card) => (
+                  {newFriendWishes.map((card) => (
                      <Card
                         key={card.wishId}
                         status={card.wishStatus}
@@ -366,6 +367,7 @@ export default ProfileDetail
 
 const Container = styled('div')({
    width: '100%',
+   overflow: 'hidden',
    display: 'flex',
    flexDirection: 'column',
    gap: '55px',
@@ -375,6 +377,7 @@ const HolidaysContainer = styled('div')({
    display: 'flex',
    gap: '20px',
    width: '100%',
+   overflow: 'hidden',
 })
 
 const TitleContent = styled('div')({
