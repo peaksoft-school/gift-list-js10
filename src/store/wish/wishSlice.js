@@ -10,6 +10,7 @@ const initialState = {
    pending: false,
    error: null,
    wishes: [],
+   searchWish: [],
 }
 
 export const wishSlice = createSlice({
