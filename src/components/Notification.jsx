@@ -116,7 +116,9 @@ export const Notification = () => {
                                  </Para>
                                  <Date>{item.createdAt}</Date>
                               </div>
-                              <div> {!item.seen && <Circle />}</div>
+                              <div>
+                                 {item.seen === true ? null : <Circle />}
+                              </div>
                            </List>
                         ))
                      ) : (
