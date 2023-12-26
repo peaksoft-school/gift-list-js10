@@ -1,6 +1,15 @@
 import { styled } from '@mui/material'
-import { FacebookImg, VkImg, InstagramImg, IconButton } from '../../assets'
+import {
+   FacebookImg,
+   InstagramImg,
+   MainPageFooterMailingIcon,
+   VkImg,
+} from '../../assets'
 import { Input } from '../../components/UI/input/Input'
+import {
+   scrollToAboutProjectComponentHandler,
+   scrollToMainPagePartOneComponentHandler,
+} from './MainPagePartFirst'
 
 export const MainPageFooter = () => {
    return (
@@ -10,40 +19,75 @@ export const MainPageFooter = () => {
                <Paragraph>GIFT LIST</Paragraph>
                <ParagraphCol>Социальная сеть нового поколения</ParagraphCol>
                <ImgContainer>
-                  <FacebookImg />
-                  <VkImg />
-                  <InstagramImg />
+                  <a
+                     href="https://www.facebook.com/groups/amigoscode"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                  >
+                     <FacebookImg />
+                  </a>
+                  <a
+                     href="https://id.vk.com/auth?v=1.46.0&app_id=7934655&uuid=f15f37cfaa&redirect_uri=https%3A%2F%2Fm.vk.com%2F%3Fact%3Dclient_url_proxy%26_to%3DaHR0cHM6Ly9tLnZrLmNvbS9sb2dpbj90bz1abVZsWkEtLQ%26_proxy%3Did_auth%26_openBrowser%3D1&app_settings=W10%3D&action=eyJuYW1lIjoibm9fcGFzc3dvcmRfZmxvdyIsInBhcmFtcyI6eyJ0eXBlIjoic2lnbl9pbiIsIndpdGhfdmthcHAiOnRydWV9fQ%3D%3D&scheme=space_gray"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                  >
+                     <VkImg />
+                  </a>
+                  <a
+                     href="https://www.instagram.com/"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                  >
+                     <InstagramImg />
+                  </a>
                </ImgContainer>
             </FooterText>
             <FooterText>
                <Paragraph>Навигация</Paragraph>
-               <ParagraphSt>О проекте</ParagraphSt>
-               <p>Благотворительность</p>
+               <ParagraphSt onClick={scrollToAboutProjectComponentHandler}>
+                  О проекте
+               </ParagraphSt>
+               <ParagraphSt onClick={scrollToMainPagePartOneComponentHandler}>
+                  Благотворительность
+               </ParagraphSt>
             </FooterText>
             <div>
                <Paragraph>Подписатся на рассылку </Paragraph>
                <InputContainer>
-                  <InputStyle
+                  {/* <InputStyle
                      placeholder="Введите ваш Email"
                      icon={
                         <ButtonContainer>
                            <IconButtonComponent type="button">
-                              <img src={IconButton} alt="icon" />
                            </IconButtonComponent>
-                        </ButtonContainer>
-                     }
-                  />
+                           </ButtonContainer>
+                        }
+                     /> */}
+                  <InputStyle placeholder="Введите ваш Email" />
+                  <ButtonContainer>
+                     <StyledMainPageFooterMailingIcon />
+                  </ButtonContainer>
                </InputContainer>
             </div>
          </FooterIcon>
          <FooterEnding>
-            <p>Peaksoft © 2022 Все права защищены</p>
+            <p>Peaksoft © 2023 Все права защищены</p>
          </FooterEnding>
       </FooterContainer>
    )
 }
+
+const StyledMainPageFooterMailingIcon = styled(MainPageFooterMailingIcon)({
+   height: '47px',
+   width: '47px',
+})
+
 const ButtonContainer = styled('div')({
    paddingTop: '5.5px',
+   position: 'absolute',
+   top: '-11px',
+   right: '-5px',
+   cursor: 'pointer',
 })
 
 const FooterContainer = styled('div')({
@@ -93,20 +137,24 @@ const FooterEnding = styled('div')({
 })
 const ParagraphSt = styled('p')({
    paddingBottom: '0.625rem',
-})
-
-const IconButtonComponent = styled('button')({
-   borderRadius: '1.563rem',
-   border: 'none',
    cursor: 'pointer',
-   width: '30px',
+   ':hover': {
+      color: '#999999',
+   },
 })
 
 const InputContainer = styled('div')({
    display: 'flex',
+   position: 'relative',
 })
 const ImgContainer = styled('div')({
    gap: '0.938rem',
    display: 'flex',
    paddingTop: '0.938rem',
+   svg: {
+      fill: '#808080',
+   },
+   'svg:hover': {
+      fill: '#999999',
+   },
 })

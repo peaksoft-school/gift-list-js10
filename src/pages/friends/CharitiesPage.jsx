@@ -21,7 +21,7 @@ export const CharitiesPage = ({ isList }) => {
 
    const openInnerCharityHandler = (charityId, charityName) => {
       providerEvent({ action: 'name', payload: charityName })
-      navigate(`/user/feed/${charityId}/CHARITY`)
+      navigate(`/user/charities/${charityId}`)
    }
    return (
       <Container>
@@ -38,7 +38,6 @@ export const CharitiesPage = ({ isList }) => {
                   ownerName={charity.fullName}
                   ownerImage={charity.userImage}
                   bookerImage={charity.bookedUserImage}
-                  isBlock={charity.isBlock}
                   showBottomBooker="true"
                   list={isList}
                   handleChange={(e) =>
@@ -46,7 +45,7 @@ export const CharitiesPage = ({ isList }) => {
                         e,
                         charity.charityId,
                         dispatch,
-                        id
+                        charity.userId
                      )
                   }
                   onGetBookerById={() =>

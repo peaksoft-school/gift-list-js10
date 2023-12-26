@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getCharitiesByUserId, getCharityById } from './charityThunk'
+import {
+   getAllCharity,
+   getAllCharityByUserId,
+   getAllReservedCharity,
+   getCharityById,
+   searchCharity,
+} from './charityThunk'
+import { providerEvent } from '../../events/customEvents'
 
 const initialState = {
    isLoading: false,
@@ -14,6 +21,23 @@ export const charitySlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder
+         .addCase(getAllCharityByUserId.fulfilled, (state, { payload }) => {
+            providerEvent({
+               action: 'showActionsButton',
+               payload: payload.length,
+            })
+            return {
+               ...state,
+               isLoading: false,
+               error: null,
+               charities: payload,
+            }
+         })
+         .addCase(getAllCharityByUserId.pending, (state) => ({
+            ...state,
+            isLoading: true,
+            error: false,
+         }))
          .addCase(getCharityById.fulfilled, (state, { payload }) => ({
             ...state,
             isLoading: false,
@@ -25,19 +49,64 @@ export const charitySlice = createSlice({
             isLoading: true,
             error: null,
          }))
-         .addCase(getCharitiesByUserId.pending, (state) => {
-            return { ...state, isLoading: true, error: null }
-         })
-         .addCase(getCharitiesByUserId.fulfilled, (state, action) => {
+         .addCase(getCharityById.rejected, (state, { payload }) => ({
+            ...state,
+            isLoading: false,
+            error: payload.message,
+         }))
+         .addCase(getAllCharity.fulfilled, (state, { payload }) => ({
+            ...state,
+            isLoading: false,
+            error: null,
+            charities: payload,
+         }))
+         .addCase(searchCharity.fulfilled, (state, { payload }) => {
+            providerEvent({
+               action: 'showActionsButton',
+               payload: payload.length,
+            })
+            console.log(payload)
             return {
                ...state,
-               charities: action.payload,
                isLoading: false,
+               error: null,
+               charities: payload?.filter((charity) => !charity.isBlock),
+            }
+         })
+         .addCase(searchCharity.pending, (state) => ({
+            ...state,
+            isLoading: true,
+            error: null,
+         }))
+         .addCase(searchCharity.rejected, (state, { payload }) => ({
+            ...state,
+            isLoading: false,
+            error: payload,
+         }))
+         .addCase(getAllCharityByUserId.rejected, (state, action) => {
+            return { ...state, isLoading: false, error: action.payload }
+         })
+         .addCase(getAllReservedCharity.pending, (state) => {
+            return {
+               ...state,
+               isLoading: true,
                error: null,
             }
          })
-         .addCase(getCharitiesByUserId.rejected, (state, action) => {
-            return { ...state, isLoading: false, error: action.payload }
+         .addCase(getAllReservedCharity.fulfilled, (state, action) => {
+            return {
+               ...state,
+               isLoading: false,
+               charities: action.payload,
+               error: null,
+            }
+         })
+         .addCase(getAllReservedCharity.rejected, (state, action) => {
+            return {
+               ...state,
+               isLoading: false,
+               error: action.payload,
+            }
          })
    },
 })

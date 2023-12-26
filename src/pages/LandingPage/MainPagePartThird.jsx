@@ -128,7 +128,7 @@ const AboutProjectPart = styled(Box)`
    width: 100%;
    font-family: 'Inter';
    font-weight: 500;
-   padding-top: 150px;
+   padding-top: 130px;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -138,6 +138,7 @@ const AboutProjectInfo = styled(Box)`
    width: 80%;
    display: flex;
    gap: 11rem;
+   justify-content: center;
 `
 
 const AboutProjectMainTitle = styled(Typography)`
@@ -167,4 +168,5 @@ const Teachers = styled(Box)`
    display: flex;
    gap: 1.88rem;
    margin-top: 7.5rem;
+   justify-content: center;
 `

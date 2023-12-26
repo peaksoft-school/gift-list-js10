@@ -63,9 +63,3 @@ const StyledMenuItem = styled(MenuItem)({
    display: 'flex',
    gap: '10px',
 })
-
-// const StyledImage = styled('img')({
-//    objectFit: 'contain',
-//    height: '1rem',
-//    width: '1rem',
-// })

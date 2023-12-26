@@ -1,16 +1,27 @@
 import { AppBar, Avatar, styled } from '@mui/material'
-import React, { useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useDebounce } from 'use-debounce'
 import { LogoutIcon, ProfileIcon } from '../assets'
 import { logout } from '../store/auth/authSlice'
+import {
+   getAllCharityByUserId,
+   searchCharity,
+} from '../store/charity/charityThunk'
 import { routes } from '../utils/constants'
+import {
+   categoriesWithRussianPropertiesName,
+   conditionWithRussianPropertiesName,
+   russianCountries,
+   subCategoriesWithRussianPropertiesName,
+} from '../utils/constants/constants'
+import { Modal } from './Modal'
 import { Notification } from './Notification'
+import { Button } from './UI/Button'
 import { MeatBalls } from './UI/MeatBalls'
 import { SearchSelect } from './UI/SearchSelect'
-import { Modal } from './Modal'
-import { Button } from './UI/Button'
 
 const selectProperties = {
    state: '',
@@ -21,22 +32,84 @@ const selectProperties = {
 }
 
 export const Header = ({ variantOfSelect = '' }) => {
+   const [searchParams, setSearchParams] = useSearchParams()
+   const [defaultSelectProperites, setDefaultSelectProperites] =
+      useState(selectProperties)
    const { reset, setValue } = useForm({
-      defaultValues: selectProperties,
+      defaultValues: defaultSelectProperites,
    })
    const { fullName } = useSelector((state) => state.authLogin)
-   const [values, setValues] = useState(selectProperties)
-   const { role, image } = useSelector((state) => state.authLogin)
+   const [values, setValues] = useState(defaultSelectProperites)
+   const { role, id, image } = useSelector((state) => state.authLogin)
+   const [searchTerm, setSearchTerm] = useState('')
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const [isOpenModal, setIsOpenModal] = useState(false)
+   const [debouncedValue] = useDebounce(searchTerm, 1000)
+   const [doGet, setDoGet] = useState()
+   const location = useLocation()
+   const handleReset = () => {
+      setSearchParams({})
+      reset()
+      dispatch(getAllCharityByUserId(id))
+      setValues(defaultSelectProperites)
+   }
+   const handleDataUpdated = (event) => {
+      if (event.detail.action === 'search') {
+         setDoGet(event.detail.payload)
+      }
+      if (event.detail.action === 'resetSearch') handleReset()
+   }
+   useEffect(() => {
+      window.addEventListener('providerEvent', handleDataUpdated)
+      if (variantOfSelect === 'select') {
+         setDefaultSelectProperites({
+            state: searchParams.get('state') || '',
+            category: searchParams.get('category') || '',
+            subCategory: searchParams.get('subCategory') || '',
+            country: searchParams.get('country') || '',
+            search: searchParams.get('search') || '',
+         })
+      }
+      return () => {
+         window.removeEventListener('providerEvent', handleDataUpdated)
+      }
+   }, [])
+   useEffect(() => {
+      if (
+         debouncedValue ||
+         values.category ||
+         values.country ||
+         values.state ||
+         values.subCategory
+      ) {
+         dispatch(
+            searchCharity({
+               value: debouncedValue,
+               condition: conditionWithRussianPropertiesName[values.state],
+               category: categoriesWithRussianPropertiesName[values.category],
+               subCategory:
+                  subCategoriesWithRussianPropertiesName[values.subCategory],
+               country: russianCountries[values.country],
+            })
+         )
+      } else if (location.pathname.includes('charity')) {
+         dispatch(getAllCharityByUserId(id))
+      }
+   }, [
+      debouncedValue,
+      values.category,
+      values.country,
+      values.state,
+      values.subCategory,
+      doGet,
+   ])
    const handleChange = (e) => {
+      if (e.target.name === 'search') setSearchTerm(e.target.value)
+      searchParams.set(e.target.name, e.target.value)
+      setSearchParams(searchParams)
       setValue(e.target.name, e.target.value)
       setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-   }
-   const handleReset = () => {
-      reset()
-      setValues(selectProperties)
    }
    const toggleModal = () => setIsOpenModal((prev) => !prev)
    const meetballsChange = (e) => {

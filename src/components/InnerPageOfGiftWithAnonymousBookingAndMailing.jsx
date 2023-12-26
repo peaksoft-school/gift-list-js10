@@ -5,9 +5,12 @@ import { useNavigate } from 'react-router-dom'
 import {
    bookingCharityThunk,
    bookingWishThunk,
+   unBookingWishThunk,
+   unbookingCharityThunk,
 } from '../store/booking/bookingThunk'
 import { Button } from './UI/Button'
 import { Checkbox } from './UI/Checkbox'
+import { makeEventForUpdateTheAfterMeatballs } from '../pages/charity/GetAllCharity'
 
 // variants: mailing, ''
 
@@ -29,31 +32,57 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    subcategory,
    newOrOld,
    linkToWish,
+   bookerId,
+   isBlock,
+   onDelete,
+   onEditOrOnBlockOrUnBlock,
 }) => {
    const [isBookingAnonymous, setIsBookingAnonymous] = useState(false)
    const handleCheckboxChange = (e) => setIsBookingAnonymous(e.target.checked)
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const id = useSelector((state) => state.authLogin.id)
-   const onBooking = () => {
+   const { id, role } = useSelector((state) => state.authLogin)
+   const onBookingOrUnbooking = () => {
       switch (type) {
          case 'WISH':
-            dispatch(
-               bookingWishThunk({
-                  wishId: thingId,
-                  isBookingAnonymous,
-                  userId: id,
-               })
-            )
+            if (bookerId) {
+               dispatch(
+                  unBookingWishThunk({
+                     wishId: thingId,
+                     userId: id,
+                     getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+                  })
+               )
+            } else {
+               dispatch(
+                  bookingWishThunk({
+                     wishId: thingId,
+                     isBookingAnonymous,
+                     userId: id,
+                     getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+                  })
+               )
+            }
             break
          default:
-            dispatch(
-               bookingCharityThunk({
-                  charityId: thingId,
-                  isBookingAnonymous,
-                  userId: id,
-               })
-            )
+            if (bookerId) {
+               dispatch(
+                  unbookingCharityThunk({
+                     charityId: thingId,
+                     userId: id,
+                     getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+                  })
+               )
+            } else {
+               dispatch(
+                  bookingCharityThunk({
+                     charityId: thingId,
+                     isBookingAnonymous,
+                     userId: id,
+                     getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+                  })
+               )
+            }
             break
       }
       navigate(-1)
@@ -96,7 +125,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                ) : (
                   <StyledCardName>{cardName}</StyledCardName>
                )}
-               <p>{description}</p>
+               <StyledDescription>{description}</StyledDescription>
                {type === 'CHARITY' && (
                   <StyledCharityInfoContainer>
                      {[
@@ -130,27 +159,93 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
                )}
             </TextContainer>
          </MainContentWrapper>
-         {type !== 'HOLIDAY' &&
-            id !== ownerId &&
-            !isBooked &&
-            variant !== 'mailing' &&
-            !bookerImage && (
-               <Actions>
-                  <p>
-                     <Checkbox
-                        value={isBookingAnonymous}
-                        onChange={handleCheckboxChange}
-                     />
-                     Забронировать анонимно
-                  </p>
-                  <Button onClick={onBooking} variant="primary">
-                     Забронировать
-                  </Button>
-               </Actions>
-            )}
+         {type !== 'HOLIDAY' && variant !== 'mailing' && (
+            <Actions>
+               {ownerId !== id && role !== 'ADMIN' && !isBlock && (
+                  <>
+                     {!bookerId && status === 'PENDING' && (
+                        <p>
+                           <Checkbox
+                              value={isBookingAnonymous}
+                              onChange={handleCheckboxChange}
+                           />
+                           Забронировать анонимно
+                        </p>
+                     )}
+                     {(bookerId === id || !bookerId) && (
+                        <StyledCapitalizeButton
+                           onClick={onBookingOrUnbooking}
+                           variant="primary"
+                        >
+                           {bookerId === id
+                              ? 'Разбронировать'
+                              : 'Забронировать'}
+                        </StyledCapitalizeButton>
+                     )}
+                  </>
+               )}
+
+               {(ownerId === id || role === 'ADMIN') && (
+                  <StyledButtonActions>
+                     <StyledButton onClick={onDelete} variant="outlined">
+                        Удалить
+                     </StyledButton>
+                     {role === 'USER' && !isBlock && (
+                        <StyledCapitalizeButton
+                           onClick={onEditOrOnBlockOrUnBlock}
+                           variant="primary"
+                        >
+                           {role === 'ADMIN' && isBlock && 'Разблокировать'}
+                           {role === 'ADMIN' && !isBlock && 'Заблокировать'}
+                           {role === 'USER' && 'Редактировать'}
+                        </StyledCapitalizeButton>
+                     )}
+                  </StyledButtonActions>
+               )}
+            </Actions>
+         )}
+         {isBlock && role === 'USER' && (
+            <StyledBlockedContentWrapper>
+               Этот контент заблокирован!
+            </StyledBlockedContentWrapper>
+         )}
       </ContentWrapper>
    )
 }
+
+const StyledButtonActions = styled('div')({
+   position: 'relative',
+   zIndex: '5',
+})
+
+const StyledCapitalizeButton = styled(Button)({
+   textTransform: 'uppercase',
+})
+
+const StyledButton = styled(Button)({
+   border: 'none',
+   backgroundColor: 'transparent',
+})
+
+const StyledBlockedContentWrapper = styled('div')({
+   color: '#ffff',
+   position: 'absolute',
+   background: 'rgba(10, 10, 10, 0.2)',
+   height: '100%',
+   width: '100%',
+   display: 'flex',
+   padding: '20px',
+   justifyContent: 'center',
+   alignItems: 'end',
+   fontSize: '2rem',
+   top: '0',
+   left: '0',
+})
+
+const StyledDescription = styled('p')({
+   overflowWrap: 'anywhere',
+   whiteSpace: 'pre-wrap',
+})
 
 const StyledLinnkToWish = styled('a')({ color: '#3774D0' })
 
@@ -181,7 +276,7 @@ const StyledHolidayDate = styled('span')({ color: 'black' })
 
 const StyledHolidayName = styled('span')({ color: '#0BA360' })
 
-const StyledLabel = styled('p')({
+const StyledLabel = styled('label')({
    color: '#5C5C5C',
    display: 'flex',
    flexDirection: 'column',
@@ -232,6 +327,7 @@ const MainContentWrapper = styled('div')({
 
 const ContentWrapper = styled(Paper)({
    padding: '20px',
+   position: 'relative',
 })
 
 const Actions = styled('div')({

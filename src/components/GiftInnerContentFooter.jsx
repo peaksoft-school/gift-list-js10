@@ -94,12 +94,13 @@ const Around = styled('div')({
 })
 
 const DefContent = styled('div')({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '0.990rem',
+   display: 'grid',
+   gridTemplateColumns: '1fr 1fr',
+   rowGap: '20px',
+   columnGap: '2%',
 })
 
-const Paragraph = styled('p')({
+const Paragraph = styled('div')({
    color: '#5c5c5c',
    display: 'flex',
    flexDirection: 'column',

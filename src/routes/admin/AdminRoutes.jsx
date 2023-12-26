@@ -4,6 +4,15 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { GetAllCharity } from '../../pages/charity/GetAllCharity'
+import { GetCharityById } from '../../pages/charity/GetCharityById'
+import UsersPage from '../../pages/users/UsersPage'
+import { UserProfile } from '../../pages/users/profiles/UserProfile'
+import { UserWishes } from '../../pages/users/userWishes'
+import { UserHolidays } from '../../pages/users/UserHolidays'
+import { UserCharities } from '../../pages/users/UserCharities'
+import { Charity } from '../../pages/users/profiles/Charity'
+import { Wish } from '../../pages/users/profiles/Wish'
 import { Complaints } from '../../pages/complaints/Complaints'
 import { WishesInnerPage } from '../../pages/complaints/WishesInnerPage'
 import { MailingPage } from '../../pages/mailings/MailingPage'
@@ -15,8 +24,21 @@ export const AdminRoutes = () => {
    const toggleList = () => {
       setIsList((prev) => !prev)
    }
-   const { users, complaints, innerComplaint, mailing, innerMailing } =
-      routes[role]
+   const {
+      users,
+      complaints,
+      innerComplaint,
+      mailing,
+      innerMailing,
+      getUserById,
+      getUserWishes,
+      getUserWishById,
+      getUserHolidays,
+      getUserCharities,
+      getCharityById,
+      charityById,
+      charity,
+   } = routes[role]
    return (
       <Routes>
          <Route
@@ -26,7 +48,6 @@ export const AdminRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
-                  headerSelectType={users.headerSelectType}
                />
             }
          >
@@ -35,7 +56,77 @@ export const AdminRoutes = () => {
                path={users.path}
                element={
                   <PrivateRoutes
-                     Component={<h1>Here should be your component</h1>}
+                     Component={<UsersPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getUserById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<UserProfile />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getUserWishes.path}
+               element={
+                  <PrivateRoutes
+                     Component={<UserWishes />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getUserWishById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<Wish />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getUserHolidays.path}
+               element={
+                  <PrivateRoutes
+                     Component={<UserHolidays />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getUserCharities.path}
+               element={
+                  <PrivateRoutes
+                     Component={<UserCharities />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getCharityById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<Charity />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charity.path}
+               element={
+                  <PrivateRoutes
+                     Component={<GetAllCharity />}
                      isAuth={isAuth}
                      fallback="/"
                   />
@@ -46,6 +137,16 @@ export const AdminRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<Complaints />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={charityById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<GetCharityById />}
                      isAuth={isAuth}
                      fallback="/"
                   />
