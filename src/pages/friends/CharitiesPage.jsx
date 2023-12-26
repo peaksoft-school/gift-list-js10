@@ -21,7 +21,7 @@ export const CharitiesPage = ({ isList }) => {
 
    const openInnerCharityHandler = (charityId, charityName) => {
       providerEvent({ action: 'name', payload: charityName })
-      navigate(`/user/feed/${charityId}/CHARITY`)
+      navigate(`/user/charities/${charityId}`)
    }
    return (
       <Container>
