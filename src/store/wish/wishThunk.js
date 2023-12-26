@@ -37,3 +37,20 @@ export const getWishListByUserId = createAsyncThunk(
       }
    }
 )
+
+export const getAllReservedWish = createAsyncThunk(
+   'reservedWish',
+   async (_, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get('/booking/getAllReservedWish')
+         return response.data
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка при получении всех забронированных подарков!',
+            error.message
+         )
+         return rejectWithValue(error)
+      }
+   }
+)

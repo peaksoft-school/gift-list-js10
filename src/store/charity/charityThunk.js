@@ -38,3 +38,22 @@ export const getCharitiesByUserId = createAsyncThunk(
       }
    }
 )
+
+export const getAllReservedCharity = createAsyncThunk(
+   'reservedCharity',
+   async (_, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(
+            '/booking/getAllReservedCharity'
+         )
+         return response.data
+      } catch (error) {
+         toastWithoutPromise(
+            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
+            'Ошибка при получении всех забронированных благотворительностей!',
+            error.message
+         )
+         return rejectWithValue(error)
+      }
+   }
+)

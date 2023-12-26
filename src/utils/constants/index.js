@@ -36,6 +36,22 @@ export const routes = {
          path: 'feed/:thingId/:thingType',
          breadcrumb: '',
       },
+      bookings: {
+         path: 'bookings',
+         breadcrumb: 'Забронированные',
+      },
+      bookedWish: {
+         path: 'bookedWish',
+      },
+      bookedWishById: {
+         path: 'bookedWish/:wishId',
+      },
+      bookedCharity: {
+         path: 'bookedCharity',
+      },
+      bookedCharityById: {
+         path: 'bookedCharity/:charityId',
+      },
       friends: {
          path: 'friends',
          breadcrumb: 'Друзья',
@@ -56,6 +72,9 @@ export const routes = {
          path: 'wishes',
          showListActions: true,
       },
+      wishesById: {
+         path: 'wishes/:wishId',
+      },
       holidays: {
          path: 'holidays',
          showListActions: true,
@@ -63,6 +82,9 @@ export const routes = {
       charities: {
          path: 'charities',
          showListActions: true,
+      },
+      charitiesById: {
+         path: 'charities/:charityId',
       },
       profile: {
          path: 'profile',

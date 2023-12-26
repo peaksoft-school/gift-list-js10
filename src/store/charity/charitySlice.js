@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getCharitiesByUserId, getCharityById } from './charityThunk'
+import {
+   getAllReservedCharity,
+   getCharitiesByUserId,
+   getCharityById,
+} from './charityThunk'
 
 const initialState = {
    isLoading: false,
@@ -38,6 +42,28 @@ export const charitySlice = createSlice({
          })
          .addCase(getCharitiesByUserId.rejected, (state, action) => {
             return { ...state, isLoading: false, error: action.payload }
+         })
+         .addCase(getAllReservedCharity.pending, (state) => {
+            return {
+               ...state,
+               isLoading: true,
+               error: null,
+            }
+         })
+         .addCase(getAllReservedCharity.fulfilled, (state, action) => {
+            return {
+               ...state,
+               isLoading: false,
+               charities: action.payload,
+               error: null,
+            }
+         })
+         .addCase(getAllReservedCharity.rejected, (state, action) => {
+            return {
+               ...state,
+               isLoading: false,
+               error: action.payload,
+            }
          })
    },
 })

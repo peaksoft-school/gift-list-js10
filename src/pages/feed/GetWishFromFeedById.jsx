@@ -9,7 +9,8 @@ import {
    categoriesWithEnglishPropertiesName,
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/options'
-import { formatDate } from '../../utils/helpers/constants'
+
+import { convertDateFormat } from '../../utils/constants/formatedDate'
 
 export const GetWishFromFeedById = () => {
    const params = useParams()
@@ -88,7 +89,7 @@ export const GetWishFromFeedById = () => {
                )
             ]
          }
-         date={formatDate(date)}
+         date={convertDateFormat(date)}
          category={categoriesWithEnglishPropertiesName[charity.category]}
          newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
          cardImage={thingImage}
