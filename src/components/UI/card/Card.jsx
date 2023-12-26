@@ -58,7 +58,7 @@ export const Card = ({
    const formattedDate = convertDateFormat(inputDate)
 
    return (
-      <StyledCard className={listClassName} onClick={onGetThingById}>
+      <StyledCard className={listClassName}>
          {listClassName && (
             <CardMedia component="img" image={cardImage} alt={cardName} />
          )}
@@ -136,7 +136,7 @@ export const Card = ({
                   variant={variant}
                />
             )}
-            <StyledCardContent>
+            <StyledCardContent onClick={onGetThingById}>
                {variant === 'primary' && (
                   <StyledTypography variant="h6">{cardName}</StyledTypography>
                )}
