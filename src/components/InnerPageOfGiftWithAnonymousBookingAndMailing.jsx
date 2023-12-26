@@ -187,7 +187,9 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
             </Actions>
          )}
          {isBlock && (
-            <BlockedContent>Этот контент заблокирован!</BlockedContent>
+            <StyledBlockedContentWrapper>
+               Этот контент заблокирован!
+            </StyledBlockedContentWrapper>
          )}
       </ContentWrapper>
    )
@@ -198,7 +200,20 @@ const StyledButton = styled(Button)({
    backgroundColor: 'transparent',
 })
 
-const BlockedContent = styled('p')({ color: 'red' })
+const StyledBlockedContentWrapper = styled('div')({
+   color: '#ffff',
+   position: 'absolute',
+   background: 'rgba(10, 10, 10, 0.2)',
+   height: '100%',
+   width: '100%',
+   display: 'flex',
+   padding: '20px',
+   justifyContent: 'center',
+   alignItems: 'end',
+   fontSize: '2rem',
+   top: '0',
+   left: '0',
+})
 
 const StyledDescription = styled('p')({
    overflowWrap: 'anywhere',
@@ -285,6 +300,7 @@ const MainContentWrapper = styled('div')({
 
 const ContentWrapper = styled(Paper)({
    padding: '20px',
+   position: 'relative',
 })
 
 const Actions = styled('div')({

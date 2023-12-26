@@ -21,6 +21,7 @@ export const EditOrAddCharityFormPage = () => {
    const onCloseForm = () => navigate(-1)
    const { state } = useLocation()
    const { charity } = useSelector((state) => state.charity)
+
    useEffect(() => {
       if (state?.charityId) dispatch(getCharityById(state.charityId))
    }, [])
@@ -33,7 +34,7 @@ export const EditOrAddCharityFormPage = () => {
          image = data?.url
       }
 
-      if (charity?.charityId) {
+      if (state?.charityId) {
          navigate(-1)
          return dispatch(
             updateCharity({
@@ -55,29 +56,26 @@ export const EditOrAddCharityFormPage = () => {
    }
 
    return (
-      <div>
-         <WishListForm
-            defaultValues={
-               state?.charityId && {
-                  category:
-                     categoriesWithEnglishPropertiesName[charity.category],
-                  state: conditionWithEnglishPropertiesName[charity.condition],
-                  holidayName: charity.nameCharity,
-                  subCategory:
-                     subCategoriesWithEnglishPropertiesName[
-                        Object.keys(
-                           subCategoriesWithEnglishPropertiesName
-                        ).find((key) => key.includes(charity.subCategory))
-                     ],
-                  description: charity.description,
-               }
+      <WishListForm
+         defaultValues={
+            state?.charityId && {
+               category: categoriesWithEnglishPropertiesName[charity.category],
+               state: conditionWithEnglishPropertiesName[charity.condition],
+               holidayName: charity.nameCharity,
+               subCategory:
+                  subCategoriesWithEnglishPropertiesName[
+                     Object.keys(subCategoriesWithEnglishPropertiesName).find(
+                        (key) => key.includes(charity.subCategory)
+                     )
+                  ],
+               description: charity.description,
             }
-            variant
-            image={state?.charityId && charity?.charityImage}
-            onClose={onCloseForm}
-            onSubmit={onSubmitForm}
-            imageIsReqired
-         />
-      </div>
+         }
+         variant
+         image={state?.charityId && charity?.charityImage}
+         onClose={onCloseForm}
+         onSubmit={onSubmitForm}
+         imageIsReqired
+      />
    )
 }

@@ -24,11 +24,11 @@ import {
 import { getProfileByUserId } from '../../store/profile/profileThunk'
 import { getWishListByUserId } from '../../store/wish/wishThunk'
 
-export const isWishBooked = (bookerId, myId) => {
+export const isWishBooked = (bookerId, myId, wishStatus) => {
    let meatballsOptions = []
    if (bookerId === myId) {
       meatballsOptions = meetballsFriendOptions.unBooking
-   } else if (!bookerId) {
+   } else if (!bookerId && wishStatus === 'PENDING') {
       meatballsOptions = meetballsFriendOptions.booking
    }
    return meatballsOptions
@@ -37,7 +37,6 @@ export const isWishBooked = (bookerId, myId) => {
 export const handleOptionsChange = {
    WISH: (e, wishId, dispatch, userId) => {
       const selectedOption = e.target.innerText
-
       if (selectedOption === 'Забронировать') {
          dispatch(
             bookingWishThunk({
@@ -277,7 +276,11 @@ export const ProfileDetail = ({ variant }) => {
                               card.ownerId
                            )
                         }
-                        meatballsOptions={isWishBooked(card.reservoirId, id)}
+                        meatballsOptions={isWishBooked(
+                           card.reservoirId,
+                           id,
+                           card.wishStatus
+                        )}
                         onGetThingById={() =>
                            openInnerWishPage(card.wishId, card.wishName)
                         }

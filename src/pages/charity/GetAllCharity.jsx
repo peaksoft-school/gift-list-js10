@@ -22,7 +22,7 @@ import {
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
-const isWishBooked = (bookerId, myId, role, ownerId) => {
+const isCharityBooked = (bookerId, myId, role, ownerId) => {
    if (role === 'USER') {
       if (!bookerId && ownerId !== myId) {
          return bookingOptions
@@ -48,7 +48,7 @@ const handleMeatballsChange = (e, charityId, dispatch, userId, navigate) => {
          dispatch(getCharityById(charityId))
          break
       case 'Удалить':
-         dispatch(deleteCharityById({ charityId }))
+         dispatch(deleteCharityById({ charityId, userId }))
          break
       case 'Забронировать':
          dispatch(
@@ -100,6 +100,8 @@ export const GetAllCharity = () => {
       }
    }, [])
 
+   useEffect(() => {}, [charities])
+
    if (pending) {
       return 'Loading...'
    }
@@ -128,7 +130,6 @@ export const GetAllCharity = () => {
                newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
                bookerImage={charity.bookedUserImage}
                showBottomBooker="true"
-               isBlock={charity.isBlock ? 'true' : ''}
                handleChange={(e) =>
                   handleMeatballsChange(
                      e,
@@ -138,7 +139,7 @@ export const GetAllCharity = () => {
                      navigate
                   )
                }
-               meatballsOptions={isWishBooked(
+               meatballsOptions={isCharityBooked(
                   charity.charityReservoirId,
                   id,
                   role,

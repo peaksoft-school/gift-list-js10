@@ -17,6 +17,7 @@ import { providerEvent } from '../events/customEvents'
 import { routes } from '../utils/constants'
 
 const isNumber = (textForTest) => /^\d+$/.test(textForTest)
+
 const transformObjectRoutesToArray = (role) =>
    Object.entries(routes[role])
       .map(([pathname, breadcrumb]) => ({
@@ -24,16 +25,29 @@ const transformObjectRoutesToArray = (role) =>
          breadcrumb: breadcrumb.breadcrumb,
       }))
       .slice(1)
+
+function findNumberLength(inputString) {
+   const numbersArray = inputString.match(/\d+/g)
+
+   if (numbersArray) {
+      const totalLength = numbersArray.reduce(
+         (acc, number) => acc + number.length,
+         0
+      )
+      return totalLength
+   }
+
+   return 0
+}
+
 const getLastElementOfPath = (path) => path.slice(-1)
+
 export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
-   console.log(routesArray)
 
    const breadcrumbs = useBreadcrumbs(routesArray, {
       excludePaths: ['/', 'user', 'admin'],
    })
-   console.log(breadcrumbs)
-
    const [inner, setInner] = useState(false)
    const path = useParams()
    const [byIdName, setByIdName] = useState('')
@@ -101,13 +115,12 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                     to={match.pathname}
                                     active={
                                        breadcrumbsForRequests.length - 1 ===
-                                       index
+                                          index ||
+                                       findNumberLength(match.pathname)
+                                          ? 'true'
+                                          : ''
                                     }
                                  >
-                                    {console.log(
-                                       breadcrumbs,
-                                       breadcrumbsForRequests
-                                    )}
                                     {isNumber(
                                        getLastElementOfPath(match.pathname)
                                     )

@@ -98,8 +98,8 @@ const subCategoriesWithEnglishPropertiesName = {
 }
 
 const complaintsWithEnglishPropertiesName = {
-   CRUELTY_AND_SHOKING_CONTENT: 'Жестокость и шокирующий контент',
-   MANIFESTATION_OF_HARTED: 'Проявление ненависти',
+   CRUELTY_AND_SHOCKING_CONTENT: 'Жестокость и шокирующий контент',
+   MANIFESTATION_OF_HATRED: 'Проявление ненависти',
    ILLEGAL_ACTIVITIES_OR_REGULATED_PRODUCTS:
       'Нелегальные действия или регламентированные товары',
    SPAM: 'Спам',

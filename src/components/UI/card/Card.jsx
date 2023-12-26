@@ -182,10 +182,12 @@ export const Card = ({
                   )}
                </ActionsWrapper>
                {variant !== 'quaternary' && meatballsOptions.length !== 0 && (
-                  <MeatBalls
-                     handleChange={handleChange}
-                     options={meatballsOptions}
-                  />
+                  <StyledMeatBallsContainer>
+                     <MeatBalls
+                        handleChange={handleChange}
+                        options={meatballsOptions}
+                     />
+                  </StyledMeatBallsContainer>
                )}
             </CardActions>
          </ContentContainer>
@@ -196,6 +198,11 @@ export const Card = ({
    )
 }
 
+const StyledMeatBallsContainer = styled('div')({
+   position: 'relative',
+   zIndex: '2',
+})
+
 const StyledStatus = styled('span')({
    fontSize: '1rem',
    fontWeight: '400',
@@ -204,6 +211,7 @@ const StyledStatus = styled('span')({
    overflow: 'hidden',
    whiteSpace: 'nowrap',
    textOverflow: 'ellipsis',
+   textAlign: 'end',
 })
 
 const StyledBlockedCard = styled('div')({

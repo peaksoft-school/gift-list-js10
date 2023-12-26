@@ -108,7 +108,6 @@ export const GetCharityById = () => {
                ]
             }
             onDelete={() => {}}
-            isBlock={charity.block}
             bookerId={charity.charityReservoirId}
             newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
          />

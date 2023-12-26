@@ -66,7 +66,7 @@ export const getCharityById = createAsyncThunk(
 
 export const deleteCharityById = createAsyncThunk(
    '/charity/deleteCharityById',
-   async ({ charityId, navigate }, { rejectWithValue }) => {
+   async ({ charityId, userId }, { rejectWithValue, dispatch }) => {
       try {
          await toastWithPromise(
             notifyTypes.NOTIFY_TYPE_ERROR_WARNING,
@@ -76,7 +76,7 @@ export const deleteCharityById = createAsyncThunk(
             'Ошибка при удалении благотворительности',
             axiosInstance.delete(`/charity?charityId=${charityId}`)
          )
-         navigate(-1)
+         dispatch(getAllCharityByUserId(userId))
       } catch (error) {
          rejectWithValue(error)
       }
