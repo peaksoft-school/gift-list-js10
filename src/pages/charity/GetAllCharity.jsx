@@ -26,7 +26,7 @@ import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 const isCharityBooked = (bookerId, myId, role, ownerId, isBlock) => {
    if (role === 'USER') {
       if (!bookerId && ownerId !== myId) {
-         return meetballsFeedOptionsForCharity.iBookThisCharity
+         return meetballsFeedOptionsForCharity.isCharityFree
       }
       if (bookerId === myId) {
          return meatballsForBookingCharity

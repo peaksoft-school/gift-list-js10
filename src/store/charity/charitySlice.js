@@ -65,11 +65,12 @@ export const charitySlice = createSlice({
                action: 'showActionsButton',
                payload: payload.length,
             })
+            console.log(payload)
             return {
                ...state,
                isLoading: false,
                error: null,
-               charities: payload,
+               charities: payload?.filter((charity) => !charity.isBlock),
             }
          })
          .addCase(searchCharity.pending, (state) => ({

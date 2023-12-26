@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import {
    bookingCharityThunk,
    bookingWishThunk,
+   unBookingWishThunk,
    unbookingCharityThunk,
 } from '../store/booking/bookingThunk'
 import { Button } from './UI/Button'
@@ -44,14 +45,24 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
    const onBookingOrUnbooking = () => {
       switch (type) {
          case 'WISH':
-            dispatch(
-               bookingWishThunk({
-                  wishId: thingId,
-                  isBookingAnonymous,
-                  userId: id,
-                  getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
-               })
-            )
+            if (bookerId) {
+               dispatch(
+                  unBookingWishThunk({
+                     wishId: thingId,
+                     userId: id,
+                     getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+                  })
+               )
+            } else {
+               dispatch(
+                  bookingWishThunk({
+                     wishId: thingId,
+                     isBookingAnonymous,
+                     userId: id,
+                     getSomethingFunction: makeEventForUpdateTheAfterMeatballs,
+                  })
+               )
+            }
             break
          default:
             if (bookerId) {
@@ -76,7 +87,6 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
       }
       navigate(-1)
    }
-   console.log(bookerId, id)
    const isBooked = status?.includes('RESERVED') || bookerImage
    return (
       <ContentWrapper>
@@ -151,7 +161,7 @@ export const InnerPageOfGiftWithAnonymousBookingAndMailing = ({
          </MainContentWrapper>
          {type !== 'HOLIDAY' && variant !== 'mailing' && (
             <Actions>
-               {ownerId !== id && role !== 'ADMIN' && (
+               {ownerId !== id && role !== 'ADMIN' && !isBlock && (
                   <>
                      {!bookerId && status === 'PENDING' && (
                         <p>
