@@ -23,6 +23,7 @@ export function App() {
    return (
       <div>
          <AppRoutes />
+         {/* <LoadingPage /> */}
       </div>
    )
 }

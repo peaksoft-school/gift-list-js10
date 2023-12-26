@@ -2,6 +2,8 @@ import { Box, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
+import { Card } from '../../components/UI/card/Card'
 import { providerEvent } from '../../events/customEvents'
 import {
    addHolidayQuery,
@@ -9,13 +11,11 @@ import {
    getAllHolidaysByUserId,
    updateHolidayQuery,
 } from '../../store/holiday/holidayThunk'
+import { sendMailing } from '../../store/mailing/mailingsThunk'
 import { convertDateFormat } from '../../utils/constants/formatedDate'
 import { meatballsDeleteAndEditOptions } from '../../utils/constants/meatballs-options'
 import { formatDate, uploadFile } from '../../utils/helpers/constants'
-import { EditOrAddFormModal } from '../../components/EditOrAddFormModal'
-import { Card } from '../../components/UI/card/Card'
 import { EmptyComponent } from '../LandingPage/EmptyComponent'
-import { sendMailing } from '../../store/mailing/mailingsThunk'
 
 export const MyHolidays = () => {
    const [preview, setPreview] = useState({ file: '', url: '' })
@@ -145,23 +145,23 @@ export const MyHolidays = () => {
                   }}
                />
             ))}
-            {!holidays.length && (
-               <EmptyComponent
-                  buttonText="Добавить праздник"
-                  text="Вы еще не добавили праздника"
-                  buttonOnClick={openAndCloseHolidayModalHandler}
-               />
-            )}
-            {addNewHolidayModalState.isOpen && (
-               <EditOrAddFormModal
-                  preview={preview}
-                  setPreview={setPreview}
-                  onSubmit={onSubmit}
-                  addNewHolidayModalState={addNewHolidayModalState}
-                  closeHandler={openAndCloseHolidayModalHandler}
-               />
-            )}
          </MyHolidaysContainer>
+         {!holidays.length && (
+            <EmptyComponent
+               buttonText="Добавить праздник"
+               text="Вы еще не добавили праздника"
+               buttonOnClick={openAndCloseHolidayModalHandler}
+            />
+         )}
+         {addNewHolidayModalState.isOpen && (
+            <EditOrAddFormModal
+               preview={preview}
+               setPreview={setPreview}
+               onSubmit={onSubmit}
+               addNewHolidayModalState={addNewHolidayModalState}
+               closeHandler={openAndCloseHolidayModalHandler}
+            />
+         )}
       </StyledMyHolidays>
    )
 }
@@ -173,12 +173,5 @@ const StyledMyHolidays = styled(Box)({
 const MyHolidaysContainer = styled(Box)({
    display: 'flex',
    flexWrap: 'wrap',
-   gap: '10px',
-   '& > .MuiPaper-root': {
-      width: '20.5rem',
-      marginBottom: '10px',
-   },
-   '& .MuiCardMedia-img': {
-      width: '18.75rem',
-   },
+   gap: '20px',
 })

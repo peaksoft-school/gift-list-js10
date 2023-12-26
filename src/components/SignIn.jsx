@@ -3,7 +3,7 @@ import { Box, Typography, styled } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
    CloseModalIcon,
    ContinueWithGoogle,
@@ -35,6 +35,7 @@ export const SignIn = () => {
       resolver: yupResolver(signInValidationSchema),
    })
    const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
+   const params = useParams()
 
    const rememberMeCheckedHandler = () => {
       setIsRememberMeChecked((prevState) => !prevState)
@@ -56,7 +57,7 @@ export const SignIn = () => {
    useEffect(() => {
       const user = JSON.parse(localStorage.getItem(USER_KEY))
       if (user !== null) {
-         navigate(routes.USER.feed)
+         navigate(routes.USER[params['*']])
       }
    }, [dispatch])
 

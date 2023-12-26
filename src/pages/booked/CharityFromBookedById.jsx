@@ -42,6 +42,7 @@ export const CharityFromBookedById = () => {
                   )
                ]
             }
+            bookerId={bookedCharity.charityReservoirId}
             newOrOld={bookedCharity.condition === 'USED' ? 'Б/У' : 'Новый'}
          />
       </div>

@@ -73,3 +73,6 @@ export const meatballsForBookingWish = {
 export const meatballsForBookingCharity = [
    { title: 'Снять бронь', icon: <UnLockIcon /> },
 ]
+export const meatballsForDeleteCharity = [
+   { title: 'Удалить', icon: <DeleteIcon /> },
+]

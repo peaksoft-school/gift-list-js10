@@ -89,6 +89,7 @@ export const BookedWishAndCharityPage = () => {
                         ownerName={wish.ownerFullName}
                         ownerImage={wish.ownerImage}
                         status={wish.wishStatus}
+                        showBottomBooker="true"
                         date={wish.dateOfHoliday}
                         onGetThingById={() =>
                            openInnerWishPage(wish.id, wish.nameWish)
@@ -142,6 +143,7 @@ export const BookedWishAndCharityPage = () => {
                               charity.charityName
                            )
                         }
+                        showBottomBooker="true"
                      />
                   ))}
                </StyledInfo>
