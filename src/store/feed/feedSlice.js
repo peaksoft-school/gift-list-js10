@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getFeedsThunk } from './feedThunk'
+import { getFeedsThunk, getUsersSearch } from './feedThunk'
 import { providerEvent } from '../../events/customEvents'
 
 const initialState = {
    feeds: [],
+   searchUsers: [],
    pending: false,
    error: null,
 }
@@ -44,6 +45,28 @@ export const feedSlice = createSlice({
          })
          .addCase(getFeedsThunk.pending, (state) => {
             return { ...state, pending: true, error: false }
+         })
+         .addCase(getUsersSearch.pending, (state) => {
+            return {
+               ...state,
+               pending: true,
+               error: null,
+               searchUsers: null,
+            }
+         })
+         .addCase(getUsersSearch.fulfilled, (state, { payload }) => {
+            return {
+               ...state,
+               searchUsers: payload,
+               error: null,
+               pending: false,
+            }
+         })
+         .addCase(getUsersSearch.rejected, (state, action) => {
+            return {
+               ...state,
+               error: action.payload,
+            }
          })
    },
 })

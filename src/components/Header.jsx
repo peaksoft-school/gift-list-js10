@@ -1,8 +1,8 @@
 import { AppBar, Avatar, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { LogoutIcon, ProfileIcon } from '../assets'
 import { logout } from '../store/auth/authSlice'
 import { routes } from '../utils/constants'
@@ -11,6 +11,7 @@ import { MeatBalls } from './UI/MeatBalls'
 import { SearchSelect } from './UI/SearchSelect'
 import { Modal } from './Modal'
 import { Button } from './UI/Button'
+import { getUsersSearch } from '../store/feed/feedThunk'
 
 const selectProperties = {
    state: '',
@@ -24,16 +25,33 @@ export const Header = ({ variantOfSelect = '' }) => {
    const { reset, setValue } = useForm({
       defaultValues: selectProperties,
    })
+   const { role, image } = useSelector((state) => state.authLogin)
+   const { searchUsers } = useSelector((state) => state.feedSlice)
+   const { pathname } = useLocation()
+
    const { fullName } = useSelector((state) => state.authLogin)
    const [values, setValues] = useState(selectProperties)
-   const { role, image } = useSelector((state) => state.authLogin)
+   const [search, setSearch] = useState(null)
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const [isOpenModal, setIsOpenModal] = useState(false)
+
    const handleChange = (e) => {
       setValue(e.target.name, e.target.value)
       setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
    }
+
+   const handleSearch = (e) => {
+      setSearch(e.target.value)
+   }
+   useEffect(() => {
+      if (pathname === '/user/feed') {
+         console.log(search)
+         console.log(searchUsers)
+         dispatch(getUsersSearch(search))
+      }
+   }, [search])
+
    const handleReset = () => {
       reset()
       setValues(selectProperties)
@@ -54,8 +72,10 @@ export const Header = ({ variantOfSelect = '' }) => {
             <SearchSelect
                values={values}
                handleChange={handleChange}
+               handleSearch={handleSearch}
                handleReset={handleReset}
                variant={variantOfSelect}
+               search={search}
             />
             <ProfileContainer>
                <NotificationWrapper>
@@ -80,6 +100,20 @@ export const Header = ({ variantOfSelect = '' }) => {
                </DropdDownIconWrapper>
             </ProfileContainer>
          </StyledHeader>
+         {searchUsers?.length > 0 && search && (
+            <Styledsearch>
+               <Container>
+                  <h3>Результаты поиска</h3>
+                  {searchUsers?.map((user) => (
+                     <SearchContainer key={user.userId}>
+                        <p>{user.fullName}</p>
+                        <img src={user.image} alt={user.fullName} />
+                     </SearchContainer>
+                  ))}
+               </Container>
+            </Styledsearch>
+         )}
+
          <Modal handleClose={toggleModal} isOpen={isOpenModal} padding="20px">
             <ModalContent>
                <LogoutIconContainer>
@@ -97,6 +131,24 @@ export const Header = ({ variantOfSelect = '' }) => {
       </>
    )
 }
+
+const Styledsearch = styled('div')({
+   width: '100%',
+   position: 'relative',
+   top: '0',
+   left: '0',
+   background: 'white',
+})
+
+const SearchContainer = styled('div')({})
+const Container = styled('div')({
+   width: '100%',
+   position: 'absolute',
+   top: '-30px',
+   left: '30px',
+   background: 'white',
+   zIndex: '3',
+})
 
 const StyledAvatarIcon = styled(Avatar)((props) => {
    return {
