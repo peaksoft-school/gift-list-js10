@@ -9,7 +9,8 @@ import {
    categoriesWithEnglishPropertiesName,
    subCategoriesWithEnglishPropertiesName,
 } from '../../utils/constants/options'
-import { formatDate } from '../../utils/helpers/constants'
+
+import { convertDateFormat } from '../../utils/constants/formatedDate'
 
 export const GetWishFromFeedById = () => {
    const params = useParams()
@@ -42,6 +43,7 @@ export const GetWishFromFeedById = () => {
       ownerImage,
       bookedStatus,
       ownerId,
+      bookerId,
    } = {}
    switch (type) {
       case 'WISH':
@@ -55,6 +57,7 @@ export const GetWishFromFeedById = () => {
          ownerId = wish.ownerId
          fullName = wish.fullName
          description = wish.description
+         bookerId = wish.reservoirId
          break
       case 'CHARITY':
          bookedUserImage = charity.bookedUserImage
@@ -66,6 +69,7 @@ export const GetWishFromFeedById = () => {
          ownerImage = charity.userImage
          bookedStatus = charity.status
          ownerId = charity.userId
+         bookerId = charity.charityReservoirId
          break
       default:
          date = holidayById.dateOfHoliday
@@ -88,7 +92,7 @@ export const GetWishFromFeedById = () => {
                )
             ]
          }
-         date={formatDate(date)}
+         date={convertDateFormat(date)}
          category={categoriesWithEnglishPropertiesName[charity.category]}
          newOrOld={charity.condition === 'USED' ? 'Б/У' : 'Новый'}
          cardImage={thingImage}
@@ -97,6 +101,7 @@ export const GetWishFromFeedById = () => {
          holiday={holiday}
          ownerName={fullName}
          ownerImage={ownerImage}
+         bookerId={bookerId}
          bookerImage={bookedUserImage}
          status={bookedStatus}
          ownerId={ownerId}

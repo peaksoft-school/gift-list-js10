@@ -57,6 +57,7 @@ export const EditOrAddWishPage = () => {
          image,
          linkToGift: values.link,
          description: values.description,
+         status: wish.wishStatus,
       }
 
       if (state?.wishId) {
@@ -117,7 +118,7 @@ export const EditOrAddWishPage = () => {
                }
             }
             defaultHolidayId={defaultHolidayId}
-            img={state?.wishId && wish?.wishImage}
+            image={state?.wishId && wish?.wishImage}
             onClose={onClose}
             onSubmit={onSubmit}
          />

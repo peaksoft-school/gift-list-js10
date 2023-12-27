@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/UI/Button'
@@ -8,6 +8,8 @@ import { SelectComponent } from '../../components/UI/SelectComponent'
 import { TextArea } from '../../components/UI/TextArea'
 import { Input } from '../../components/UI/input/Input'
 import { UploadImage } from '../../components/UploadImage'
+import { providerEvent } from '../../events/customEvents'
+import { getAllHolidaysByUserId } from '../../store/holiday/holidayThunk'
 import {
    category,
    holidayOptions,
@@ -18,8 +20,6 @@ import {
    variantSchema,
    wishListSchema,
 } from '../../utils/helpers/wishListValidates'
-import { getAllHolidaysByUserId } from '../../store/holiday/holidayThunk'
-import { providerEvent } from '../../events/customEvents'
 
 const arrayState = [
    {
@@ -55,11 +55,13 @@ export const WishListForm = ({
    variant,
    onSubmit,
    defaultValues = initialValues,
-   img = '',
+   image,
+   imageIsReqired,
    defaultHolidayId,
 }) => {
-   const [preview, setPreview] = useState({ file: '', url: img })
+   const [preview, setPreview] = useState({ file: '', url: image })
    const [values, setValues] = useState(variant ? initialValues[0] : {})
+   const [imageError, setImageError] = useState(false)
    const {
       register,
       handleSubmit,
@@ -68,7 +70,7 @@ export const WishListForm = ({
       control,
       setValue,
    } = useForm({
-      defaultValues: useMemo(() => ({ ...defaultValues })),
+      defaultValues: { ...defaultValues },
       mode: 'onBlur',
       resolver: !variant
          ? yupResolver(wishListSchema)
@@ -77,7 +79,7 @@ export const WishListForm = ({
    useEffect(() => {
       if (isSubmitSuccessful) {
          reset()
-         setPreview(null)
+         setPreview({})
       }
    }, [isSubmitSuccessful, reset])
 
@@ -94,8 +96,8 @@ export const WishListForm = ({
       dispatch(getAllHolidaysByUserId(id))
    }, [])
    useEffect(() => {
-      if (img) {
-         setPreview((prev) => ({ ...prev, url: img }))
+      if (image) {
+         setPreview((prev) => ({ ...prev, url: image }))
          reset(defaultValues)
       }
       if (defaultHolidayId) {
@@ -127,13 +129,21 @@ export const WishListForm = ({
    return (
       <Container>
          <BlockOne>
-            <UploadImage preview={preview} setPreview={setPreview} />
+            <UploadImage
+               preview={preview}
+               setPreview={setPreview}
+               error={imageError}
+               setImageError={setImageError}
+            />
          </BlockOne>
          <BlockTwo
             onSubmit={handleSubmit((data) => {
-               onSubmit(data, preview.file, holiday.holidayId)
-               reset()
-               setPreview(null)
+               onSubmit(
+                  data,
+                  variant ? preview : preview.file,
+                  variant ? reset : holiday.holidayId
+               )
+               setPreview(image ? { file: '', url: image } : {})
                setValues(variant ? initialValues[0] : {})
             })}
          >
@@ -216,8 +226,16 @@ export const WishListForm = ({
             />
             <ButtonContainer>
                <Button onClick={onClose}>Отмена</Button>
-               <Button type="submit" variant="primary">
-                  {img ? 'Сохранить' : 'Добавить'}
+               <Button
+                  onClick={() => {
+                     if (imageIsReqired && !preview?.file && !preview?.url) {
+                        setImageError(true)
+                     }
+                  }}
+                  type="submit"
+                  variant="primary"
+               >
+                  {image ? 'Сохранить' : 'Добавить'}
                </Button>
             </ButtonContainer>
          </BlockTwo>

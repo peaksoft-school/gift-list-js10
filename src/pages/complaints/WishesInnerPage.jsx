@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { GiftInnerContent } from '../../components/GiftInnerContent'
 import {
@@ -11,7 +11,8 @@ import { deleteWishById } from '../../store/complaints-slice/complaintsThunk'
 
 export const WishesInnerPage = () => {
    const { wishId } = useParams()
-   const wish = useSelector((state) => state.wish)
+   const navigate = useNavigate()
+   const wish = useSelector((state) => state.wishById.wish)
 
    const dispatch = useDispatch()
    useEffect(() => {
@@ -20,6 +21,7 @@ export const WishesInnerPage = () => {
 
    const handleDeleteWishById = (wishId) => {
       dispatch(deleteWishById(wishId))
+      navigate(-1)
    }
 
    const handleBlocOrUnblockWish = (wishId, block) => {

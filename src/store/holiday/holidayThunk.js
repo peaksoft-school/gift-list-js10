@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../config/axiosInstance'
+import { extractNumberFromMessage } from '../../utils/helpers/constants'
 import {
    notifyTypes,
    toastWithPromise,
    toastWithoutPromise,
 } from '../../utils/helpers/toast'
-import { extractNumberFromMessage } from '../../utils/helpers/constants'
 
 export const getHolidayByIdThunk = createAsyncThunk(
    '/holiday/getHolidayById',

@@ -59,7 +59,6 @@ export function GiftInnerContent({
                   <ButtonContainer>
                      <StyledButton
                         className="delete"
-                        variant="text"
                         type="button"
                         onClick={onDeleteWishById}
                      >
@@ -68,8 +67,8 @@ export function GiftInnerContent({
                      {role === 'USER' ? (
                         <StyledButton
                            variant="contained"
-                           type="button"
                            onClick={onPutChange}
+                           type="button"
                         >
                            Редактировать
                         </StyledButton>
@@ -86,6 +85,11 @@ export function GiftInnerContent({
                )}
             </StyledFooter>
          </SecondContainer>
+         {isBlock && (
+            <StyledBlockedContentWrapper>
+               Этот контент заблокирован!
+            </StyledBlockedContentWrapper>
+         )}
       </Container>
    )
 }
@@ -96,13 +100,27 @@ const StyledCardName = styled('p')({
    fontSize: '1.5rem',
    fontWeight: '500',
 })
+const StyledBlockedContentWrapper = styled('div')({
+   color: '#ffff',
+   position: 'absolute',
+   background: 'rgba(10, 10, 10, 0.2)',
+   height: '100%',
+   width: '100%',
+   display: 'flex',
+   padding: '20px',
+   justifyContent: 'center',
+   alignItems: 'end',
+   fontSize: '2rem',
+   top: '0',
+   left: '0',
+})
 
 const Container = styled('div')({
    display: 'flex',
    alignItems: 'flex-start',
    backgroundColor: '#fff',
-   height: '72vh',
    paddingRight: '25px',
+   position: 'relative',
 })
 
 const Icon = styled('img')({
@@ -174,7 +192,7 @@ const SecondContainer = styled('div')({
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
-   width: '100%',
+   width: '-webkit-fill-available',
 })
 
 const UserContainer = styled('div')({

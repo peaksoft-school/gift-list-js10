@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Card } from '../../components/UI/card/Card'
 
-export const HolidaysPage = () => {
+export const HolidaysPage = ({ isList }) => {
    const holidays = useSelector((state) => state.holiday.holidays)
    return (
       <Container>
@@ -18,6 +18,7 @@ export const HolidaysPage = () => {
                   holiday={holiday.nameHoliday}
                   ownerName={holiday.fullName}
                   ownerImage={holiday.friendImage}
+                  list={isList}
                />
             ))}
          </CardContainer>

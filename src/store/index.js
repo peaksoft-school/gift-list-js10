@@ -6,9 +6,11 @@ import { complaintSlice } from './complaint/complaintSlice'
 import { complaintsSlice } from './complaints-slice/complaintsSlice'
 import { feedSlice } from './feed/feedSlice'
 import { holidaySlice } from './holiday/holidaySlice'
+import { mailingsSlice } from './mailing/mailingsSlice'
 import { myFriendsSlice } from './my-friends/friendsSlice'
 import { profileSlice } from './profile/profileSlice'
 import { requestSlice } from './requests/requestSlice'
+import { usersSlice } from './slices/users/users-slice'
 import { wishSlice } from './wish/wishSlice'
 
 export const store = configureStore({
@@ -16,13 +18,15 @@ export const store = configureStore({
       [authSlice.name]: authSlice.reducer,
       [requestSlice.name]: requestSlice.reducer,
       [bookingSlice.name]: bookingSlice.reducer,
-      [charitySlice.name]: charitySlice.reducer,
       [complaintSlice.name]: complaintSlice.reducer,
       [feedSlice.name]: feedSlice.reducer,
       [holidaySlice.name]: holidaySlice.reducer,
       [myFriendsSlice.name]: myFriendsSlice.reducer,
       [profileSlice.name]: profileSlice.reducer,
+      [usersSlice.name]: usersSlice.reducer,
       [complaintsSlice.name]: complaintsSlice.reducer,
       [wishSlice.name]: wishSlice.reducer,
+      [charitySlice.name]: charitySlice.reducer,
+      [mailingsSlice.name]: mailingsSlice.reducer,
    },
 })

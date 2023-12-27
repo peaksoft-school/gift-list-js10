@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { providerEvent } from '../../events/customEvents'
 import {
+   getAllReservedWish,
    getAllWishesByUserId,
    getWishById,
    getWishlistByWishId,
@@ -57,9 +58,16 @@ export const wishSlice = createSlice({
             return {
                ...state,
                isLoading: true,
-               error: null,
+               wishes: [],
             }
          })
+         // .addCase(getWishListByUserId.fulfilled, (state, action) => {
+         //    return {
+         //       ...state,
+         //       wishes: action.payload,
+         //       error: null,
+         //    }
+         // })
          .addCase(getWishlistByWishId.fulfilled, (state, action) => {
             return {
                ...state,
@@ -69,6 +77,28 @@ export const wishSlice = createSlice({
             }
          })
          .addCase(getWishlistByWishId.rejected, (state, action) => {
+            return {
+               ...state,
+               error: action.payload,
+               isLoading: false,
+            }
+         })
+         .addCase(getAllReservedWish.pending, (state) => {
+            return {
+               ...state,
+               erro: null,
+               isLoading: true,
+            }
+         })
+         .addCase(getAllReservedWish.fulfilled, (state, action) => {
+            return {
+               ...state,
+               isLoading: false,
+               error: null,
+               wishes: action.payload,
+            }
+         })
+         .addCase(getAllReservedWish.rejected, (state, action) => {
             return {
                ...state,
                error: action.payload,

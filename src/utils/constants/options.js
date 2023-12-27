@@ -7,7 +7,7 @@ const holidayOptions = [
    },
 ]
 
-const stateOptions = ['Все', 'Б/У', 'Новое']
+const stateOptions = ['Б/У', 'Новое']
 
 const category = [
    'Электроника',
@@ -27,17 +27,30 @@ const subcategories = {
       'ТВ и видео',
       `Компьютеры, ноутбуки и
    планшеты`,
+      'Носимая электроника (умные часы, браслеты)',
+      'Аксессуары для смартфонов (чехлы, защитные пленки)',
+      'Игровые консоли и аксессуары',
+      'Умные домашние устройства (умные лампы, термостаты)',
    ],
    Одежда: ['Мужская', 'Женская', 'Детская'],
    Школа: [
-      'Точилка и ластик',
-      'Обложки для тетрадей и учебников',
-      'Альбом для рисования',
-      'Дневник',
+      'Рюкзаки с разными дизайнами',
+      'Учебные пособия и учебники',
+      'Школьные принадлежности (ручки, карандаши)',
+      'Канцелярские товары для творчества (кисти, краски)',
    ],
-   'Дом и сад': ['Кирпич', 'Брусчатка', 'Камень', 'Мебель', 'Двери'],
-   Обувь: ['Мужская обувь', 'Женская обувь', 'Детская обувь'],
-   Транспорт: ['Грузовой транспорт', 'Пассажирский транспорт'],
+   'Дом и сад': [
+      'Декоративные элементы интерьера',
+      'Садовые инструменты и оборудование',
+      'Постельные принадлежности',
+      'Стройматериалы (кирпич, брусчатка)',
+   ],
+   Обувь: ['Мужская обувь', 'Женская обувь', 'Детская обувь', 'Кроссовки'],
+   Транспорт: [
+      'Велосипеды и аксессуары',
+      'Запчасти и оборудование для автомобилей',
+      'Оборудование для мотоциклов',
+   ],
 }
 
 const categoriesWithEnglishPropertiesName = {
@@ -50,6 +63,12 @@ const categoriesWithEnglishPropertiesName = {
 }
 
 const subCategoriesWithEnglishPropertiesName = {
+   SMARTPHONE: 'Смартфоны и телефоны',
+   PHOTO_AND_VIDEO_CAMERA: 'Фото и видеокамеры',
+   AUTO_ELECTRONICS: 'Автоэлектроника',
+   COMPUTERS_AND_LAPTOP_TABLETS: 'Компьютеры, ноутбуки и планшеты',
+   LAPTOP: 'Ноутбук',
+   CAR: 'Машина',
    SMARTPHONES_AND_PHONES: 'Смартфоны и телефоны',
    AUDIO_EQUIPMENT: 'Аудиотехника',
    CAMERAS_AND_CAMCORDERS: 'Фото и видеокамеры',
@@ -84,6 +103,17 @@ const subCategoriesWithEnglishPropertiesName = {
    CROSS: 'Кроссовки',
 }
 
+const complaintsWithEnglishPropertiesName = {
+   CRUELTY_AND_SHOCKING_CONTENT: 'Жестокость и шокирующий контент',
+   MANIFESTATION_OF_HATRED: 'Проявление ненависти',
+   ILLEGAL_ACTIVITIES_OR_REGULATED_PRODUCTS:
+      'Нелегальные действия или регламентированные товары',
+   SPAM: 'Спам',
+   CALLS_TO_VIOLENCE_DANGEROUS_ACTIONS: 'Призывы к насилию, опасные действия',
+   SCENES_OF_A_PORNOGRAPHIC_NATURE: 'Сцены порнографического характера',
+   OTHER: 'Прочее',
+}
+
 export {
    holidayOptions,
    stateOptions,
@@ -91,4 +121,5 @@ export {
    subcategories,
    categoriesWithEnglishPropertiesName,
    subCategoriesWithEnglishPropertiesName,
+   complaintsWithEnglishPropertiesName,
 }

@@ -1,6 +1,7 @@
 import { styled } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { convertDateFormat } from '../utils/constants/formatedDate'
+import { complaintsWithEnglishPropertiesName } from '../utils/constants/options'
 
 export function Field({
    complaints,
@@ -37,12 +38,20 @@ export function Field({
                   </Around>
                </DefContent>
             ) : (
-               <Paragraph>
-                  Дата добавления:
-                  <TextFeature>
-                     {convertDateFormat(date.dateOfHoliday)}
-                  </TextFeature>
-               </Paragraph>
+               <WishContentWrapper>
+                  <Paragraph>
+                     Дата добавления:
+                     <TextFeature>
+                        {convertDateFormat(date.dateOfHoliday)}
+                     </TextFeature>
+                  </Paragraph>
+                  <Paragraph>
+                     Название праздника:
+                     <TextFeature sx={{ color: '#0BA360' }}>
+                        {date.holidayName}
+                     </TextFeature>
+                  </Paragraph>
+               </WishContentWrapper>
             )}
          </div>
          <ScrollContainer>
@@ -56,7 +65,13 @@ export function Field({
                         />
                         <SpanContent>
                            <span>{complaint.complainUserFullName}</span>
-                           <Span>{complaint.textComplain}</Span>
+                           <Span>
+                              {
+                                 complaintsWithEnglishPropertiesName[
+                                    complaint.statusComplaint
+                                 ]
+                              }
+                           </Span>
                         </SpanContent>
                      </IconContainer>
                   ))}
@@ -65,6 +80,11 @@ export function Field({
       </div>
    )
 }
+
+const WishContentWrapper = styled('div')({
+   display: 'flex',
+   justifyContent: 'space-between',
+})
 
 const ScrollContainer = styled('div')({
    overflow: 'auto',
@@ -86,12 +106,13 @@ const Around = styled('div')({
 })
 
 const DefContent = styled('div')({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '0.990rem',
+   display: 'grid',
+   gridTemplateColumns: '1fr 1fr',
+   rowGap: '20px',
+   columnGap: '2%',
 })
 
-const Paragraph = styled('p')({
+const Paragraph = styled('div')({
    color: '#5c5c5c',
    display: 'flex',
    flexDirection: 'column',

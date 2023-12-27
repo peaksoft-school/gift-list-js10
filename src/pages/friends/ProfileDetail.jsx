@@ -10,8 +10,8 @@ import {
    unBookingWishThunk,
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
-import { getCharitiesByUserId } from '../../store/charity/charityThunk'
-import { getAllHolidaysByUserId } from '../../store/holiday/holidayThunk'
+import { getAllCharityByUserId } from '../../store/charity/charityThunk'
+import { getHolidaysByUserId } from '../../store/holiday/holidayThunk'
 import {
    acceptRequest,
    deleteFriendById,
@@ -24,11 +24,11 @@ import { shoeSizeObject } from '../../utils/constants/constants'
 import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
 import { Profile } from '../LandingPage/Profile'
 
-export const isWishBooked = (bookerId, myId) => {
+export const isWishBooked = (bookerId, myId, wishStatus) => {
    let meatballsOptions = []
    if (bookerId === myId) {
       meatballsOptions = meetballsFriendOptions.unBooking
-   } else if (!bookerId) {
+   } else if (!bookerId && wishStatus === 'PENDING') {
       meatballsOptions = meetballsFriendOptions.booking
    }
    return meatballsOptions
@@ -37,7 +37,6 @@ export const isWishBooked = (bookerId, myId) => {
 export const handleOptionsChange = {
    WISH: (e, wishId, dispatch, userId) => {
       const selectedOption = e.target.innerText
-
       if (selectedOption === 'Забронировать') {
          dispatch(
             bookingWishThunk({
@@ -74,7 +73,7 @@ export const handleOptionsChange = {
                charityId,
                isBookingAnonymous: false,
                userId,
-               getSomethingFunction: getCharitiesByUserId,
+               getSomethingFunction: getAllCharityByUserId,
             })
          )
       } else if (selectedOption === 'Забронировать анонимно') {
@@ -83,7 +82,7 @@ export const handleOptionsChange = {
                charityId,
                isBookingAnonymous: true,
                userId,
-               getSomethingFunction: getCharitiesByUserId,
+               getSomethingFunction: getAllCharityByUserId,
             })
          )
       } else {
@@ -91,7 +90,7 @@ export const handleOptionsChange = {
             unbookingCharityThunk({
                charityId,
                userId,
-               getSomethingFunction: getCharitiesByUserId,
+               getSomethingFunction: getAllCharityByUserId,
             })
          )
       }
@@ -108,6 +107,7 @@ export const ProfileDetail = ({ variant }) => {
    const { id } = useSelector((state) => state.authLogin)
 
    const friendWishes = useSelector((state) => state.wish.wishes)
+
    const newFriendWishes = friendWishes.slice(0, 3)
 
    const friendHolidays = useSelector((state) => state.holiday.holidays)
@@ -119,8 +119,8 @@ export const ProfileDetail = ({ variant }) => {
    useEffect(() => {
       dispatch(getProfileByUserId(friendId))
       dispatch(getAllWishesByUserId(friendId))
-      dispatch(getAllHolidaysByUserId(friendId))
-      dispatch(getCharitiesByUserId(friendId))
+      dispatch(getHolidaysByUserId(friendId))
+      dispatch(getAllCharityByUserId(friendId))
    }, [dispatch])
 
    const handleDeleteFriendById = (userId) => {
@@ -156,6 +156,16 @@ export const ProfileDetail = ({ variant }) => {
    const handleOpenProfile = (userId, nameFriend) => {
       providerEvent({ action: 'name', payload: nameFriend })
       navigate(`/user/addToMyFriends/${userId}`)
+   }
+
+   const openInnerWishPage = (wishId, wishName) => {
+      providerEvent({ action: 'name', payload: wishName })
+      navigate(`wishes/${wishId}`)
+   }
+
+   const openInnerCharityHandler = (charityId, charityName) => {
+      providerEvent({ action: 'name', payload: charityName })
+      navigate(`/user/charities/${charityId}`)
    }
 
    return (
@@ -244,7 +254,7 @@ export const ProfileDetail = ({ variant }) => {
                   <NavLink to="/user/wishes">Смотреть все</NavLink>
                </TitleContent>
                <HolidaysContainer>
-                  {newFriendWishes?.map((card) => (
+                  {newFriendWishes.map((card) => (
                      <Card
                         key={card.wishId}
                         status={card.wishStatus}
@@ -267,7 +277,14 @@ export const ProfileDetail = ({ variant }) => {
                               card.ownerId
                            )
                         }
-                        meatballsOptions={isWishBooked(card.reservoirId, id)}
+                        meatballsOptions={isWishBooked(
+                           card.reservoirId,
+                           id,
+                           card.wishStatus
+                        )}
+                        onGetThingById={() =>
+                           openInnerWishPage(card.wishId, card.wishName)
+                        }
                      />
                   ))}
                </HolidaysContainer>
@@ -331,6 +348,12 @@ export const ProfileDetail = ({ variant }) => {
                            charity.charityReservoirId,
                            id
                         )}
+                        onGetThingById={() =>
+                           openInnerCharityHandler(
+                              charity.charityId,
+                              charity.nameCharity
+                           )
+                        }
                      />
                   ))}
                </HolidaysContainer>
@@ -344,6 +367,7 @@ export default ProfileDetail
 
 const Container = styled('div')({
    width: '100%',
+   overflow: 'hidden',
    display: 'flex',
    flexDirection: 'column',
    gap: '55px',
@@ -353,6 +377,7 @@ const HolidaysContainer = styled('div')({
    display: 'flex',
    gap: '20px',
    width: '100%',
+   overflow: 'hidden',
 })
 
 const TitleContent = styled('div')({

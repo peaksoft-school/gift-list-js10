@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -21,8 +21,8 @@ import {
    countries,
    shoeSizes,
 } from '../utils/constants/constants'
-import { updateProfileSchema } from '../utils/helpers/update-profile-validations'
 import { uploadFile } from '../utils/helpers/constants'
+import { updateProfileSchema } from '../utils/helpers/update-profile-validations'
 
 const sizesSelect = [
    {
@@ -44,9 +44,8 @@ export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
       register,
       handleSubmit,
       reset,
-      formState: { errors, isSubmitSuccessful },
+      formState: { errors },
       control,
-      setValue,
    } = useForm({
       defaultValues,
       resolver: yupResolver(updateProfileSchema),
@@ -57,25 +56,20 @@ export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
    })
    const navigate = useNavigate()
 
-   const onSubmit = (values, previewImg) => {
-      if (previewImg.url && previewImg.url !== defaultValues.image) {
-         uploadFile(previewImg.file).then(({ link }) => {
-            setPreview((prev) => ({ ...prev, url: link }))
-            setValue('image', link)
-         })
+   const onSubmit = async (values) => {
+      let image
+      if (preview?.file) {
+         const response = await uploadFile(preview.file)
+         image = response.link
+      } else {
+         image = preview?.url
       }
-      functionForGetValues(values)
+      functionForGetValues({ ...values, image })
+      setPreview({
+         file: '',
+         url: image,
+      })
    }
-   useEffect(() => {
-      if (isSubmitSuccessful) {
-         navigate(-1)
-         reset()
-         setPreview({
-            file: '',
-            url: defaultValues.image,
-         })
-      }
-   }, [isSubmitSuccessful])
    const [error, setError] = useState(null)
    const onError = (error) => {
       if (error === 'minDate')
@@ -88,9 +82,7 @@ export const UpdateProfile = ({ functionForGetValues, defaultValues }) => {
    }
 
    return (
-      <StyledForm
-         onSubmit={handleSubmit((values) => onSubmit(values, preview))}
-      >
+      <StyledForm onSubmit={handleSubmit((values) => onSubmit(values))}>
          <StyledUploadImageContainer>
             <UploadImage preview={preview} setPreview={setPreview} />
          </StyledUploadImageContainer>

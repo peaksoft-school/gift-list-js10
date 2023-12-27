@@ -30,6 +30,6 @@ axiosInstanceMultiPartFormData.interceptors.response.use(
       if (error.response.status === 401) {
          store.dispatch(logout())
       }
-      return Promise.reject(error)
+      return Promise.reject(error.response.data.message || error.message)
    }
 )
