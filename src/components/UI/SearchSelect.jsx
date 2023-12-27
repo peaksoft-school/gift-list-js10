@@ -62,6 +62,8 @@ export const SearchSelect = ({
       <Form
          placeholder="Поиск"
          name="search"
+         autoComplete="off"
+         autoFocus="off"
          value={variant ? values.search : search}
          onChange={variant ? handleChange : handleSearch}
          InputProps={{

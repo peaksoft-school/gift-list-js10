@@ -13,6 +13,7 @@ import { unBookingWishThunk } from '../../store/booking/bookingThunk'
 import { providerEvent } from '../../events/customEvents'
 import { getAllReservedWish } from '../../store/wish/wishThunk'
 import { getAllReservedCharity } from '../../store/charity/charityThunk'
+import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
 export const isWishBooked = (alreadyInWishList) => {
    if (alreadyInWishList) {
@@ -72,6 +73,9 @@ export const BookedWishAndCharityPage = () => {
    }
    return (
       <Container>
+         {newBookedCharity.length === 0 && newBookedWishes.length === 0 && (
+            <SecondEmptyComponent text=" Вы пока ничего не бронировали!" />
+         )}
          {Boolean(newBookedWishes.length) && (
             <StyledCard>
                <CardContainer>

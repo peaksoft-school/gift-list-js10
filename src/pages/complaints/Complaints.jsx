@@ -14,6 +14,7 @@ import {
 } from '../../store/wishesById/wishByIdThunk'
 import { meatballsComplaintsOptions } from '../../utils/constants/meatballs-options'
 import { complaintsWithEnglishPropertiesName } from '../../utils/constants/options'
+import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
 export const isBlockOptions = (isBlock) => {
    if (isBlock) {
@@ -61,6 +62,9 @@ export const Complaints = () => {
    }
    return (
       <Container>
+         {complaints.length === 0 && (
+            <SecondEmptyComponent text="У вас пока нет жалоб" />
+         )}
          {complaints?.map((item) => (
             <Card
                key={item.wishId}

@@ -45,22 +45,3 @@ export const addToMyGifts = createAsyncThunk(
       }
    }
 )
-
-export const getUsersSearch = createAsyncThunk(
-   'searchUser',
-   async (thingLetter, { rejectWithValue }) => {
-      try {
-         const response = await axiosInstance.get(
-            `/user/searchUser?userName=${thingLetter}`
-         )
-         return response.data
-      } catch (error) {
-         toastWithoutPromise(
-            notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-            'Ошибка',
-            error.message
-         )
-         return rejectWithValue(error)
-      }
-   }
-)

@@ -44,9 +44,6 @@ export const WishesPage = ({ isList }) => {
                   handleChange={(e) =>
                      handleOptionsChange.WISH(e, wish.wishId, dispatch, id)
                   }
-                  onGetOwnerById={() =>
-                     handleOpenProfile(wish.ownerId, wish.fullName)
-                  }
                   onGetBookerById={() =>
                      handleOpenProfile(wish.reservoirId, wish.reservoirFullName)
                   }
