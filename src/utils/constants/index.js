@@ -10,7 +10,38 @@ export const routes = {
    RESETPASSWORD: 'reset-password',
    ADMIN: {
       path: '/admin',
-      users: { path: 'users', breadcrumb: 'Пользователи' },
+      users: {
+         path: 'users',
+         breadcrumb: 'Пользователи',
+      },
+      charity: {
+         path: 'charity',
+         breadcrumb: 'Благотворительность',
+         headerSelectType: 'select',
+      },
+      charityById: {
+         path: 'charity/:charityId',
+         headerSelectType: 'select',
+      },
+      complaints: {
+         path: 'complaints',
+         breadcrumb: 'Жалобы',
+      },
+      innerComplaint: {
+         path: 'complaints/:wishId',
+      },
+      mailing: {
+         path: 'mailing',
+         breadcrumb: 'Рассылка',
+         buttonContent: 'Отправить рассылку',
+         showActionsButton: true,
+         onClick: () => {
+            providerEvent({ action: 'mailingsModalOpen', payload: true })
+         },
+      },
+      innerMailing: {
+         path: 'mailing/:mailingId',
+      },
       getUserById: { path: 'users/:userId' },
       getUserWishes: {
          path: 'users/:userId/wishes',
@@ -21,15 +52,35 @@ export const routes = {
       getUserHolidays: { path: 'users/:userId/holidays' },
       getUserCharities: { path: 'users/:userId/charities' },
       getCharityById: { path: 'users/:userId/charities/:charityId' },
-      complaints: { path: 'complaints', breadcrumb: 'Жалобы' },
-      innerComplaint: { path: 'complaints/:wishId' },
    },
-
    USER: {
       path: '/user',
       feed: {
          path: 'feed',
          breadcrumb: 'Лента',
+         showListActions: true,
+      },
+      charity: {
+         path: 'charity',
+         breadcrumb: 'Благотворительность',
+         headerSelectType: 'select',
+         buttonContent: 'Добавить подарок',
+         onClick: (navigate) => navigate('charity/addCharity'),
+      },
+      charityById: {
+         path: 'charity/:charityId',
+         headerSelectType: 'select',
+      },
+      editCharity: {
+         path: 'charity/editCharity',
+         breadcrumb: 'Обновить подарок',
+         headerSelectType: 'select',
+         showListActions: true,
+      },
+      addCharity: {
+         path: 'charity/addCharity',
+         breadcrumb: 'Добавить подарок',
+         headerSelectType: 'select',
          showListActions: true,
       },
       thingFromFeedById: {
@@ -73,7 +124,7 @@ export const routes = {
          showListActions: true,
       },
       wishesById: {
-         path: 'wishes/:wishId',
+         path: 'friends/:ownerId/wishes/:wishId',
       },
       holidays: {
          path: 'holidays',

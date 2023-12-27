@@ -1,7 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { UpdateProfile } from '../../layout/UpdateProfile'
 import { updateProfileThunk } from '../../store/profile/profileThunk'
+import { routes } from '../../utils/constants'
 import {
    englishCountries,
    shoeSizeObject,
@@ -46,9 +48,11 @@ export const UpdateUserProfilePage = () => {
       instagramLink: instagram,
       telegramLink: telegram,
    }
+   const navigate = useNavigate()
 
-   const onSubmit = (values) => {
-      dispatch(updateProfileThunk({ values }))
+   const onSubmit = (values, reset) => {
+      dispatch(updateProfileThunk({ values, reset }))
+      navigate(`/user/${routes.USER.profile.path}`)
    }
 
    return (

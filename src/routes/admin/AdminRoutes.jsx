@@ -4,6 +4,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
 import { routes } from '../../utils/constants'
 import { PrivateRoutes } from '../PrivateRoutes'
+import { GetAllCharity } from '../../pages/charity/GetAllCharity'
+import { GetCharityById } from '../../pages/charity/GetCharityById'
 import UsersPage from '../../pages/users/UsersPage'
 import { UserProfile } from '../../pages/users/profiles/UserProfile'
 import { UserWishes } from '../../pages/users/userWishes'
@@ -24,17 +26,18 @@ export const AdminRoutes = () => {
    }
    const {
       users,
+      complaints,
+      innerComplaint,
+      mailing,
+      innerMailing,
       getUserById,
       getUserWishes,
       getUserWishById,
-      // getUserWish,
-      complaints,
-      innerComplaint,
       getUserHolidays,
       getUserCharities,
       getCharityById,
-      mailing,
-      innerMailing,
+      charityById,
+      charity,
    } = routes[role]
    return (
       <Routes>
@@ -45,7 +48,6 @@ export const AdminRoutes = () => {
                   role={role}
                   isList={isList}
                   toggleList={toggleList}
-                  headerSelectType={users.headerSelectType}
                />
             }
          >
@@ -121,7 +123,17 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={complaints?.path}
+               path={charity.path}
+               element={
+                  <PrivateRoutes
+                     Component={<GetAllCharity />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={complaints.path}
                element={
                   <PrivateRoutes
                      Component={<Complaints />}
@@ -131,7 +143,17 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={innerComplaint?.path}
+               path={charityById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<GetCharityById />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={innerComplaint.path}
                element={
                   <PrivateRoutes
                      Component={<WishesInnerPage />}

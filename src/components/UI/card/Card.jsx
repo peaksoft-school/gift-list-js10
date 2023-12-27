@@ -16,7 +16,7 @@ import { convertDateFormat } from '../../../utils/constants/formatedDate'
 
 // variants:
 // primary, secondary, tertiary, quaternary,
-// withStatusBottom, withStatusTop
+// withStatusBottom, withStatusTop,
 
 export const Card = ({
    variant = 'primary',
@@ -35,9 +35,10 @@ export const Card = ({
    status,
    showBottomBooker,
    showTopOwner,
-   isBlock,
+   isBlock = '',
    onGetOwnerById,
    onGetBookerById,
+   onClick,
    showHoliday = true,
    showBookerImage,
 }) => {
@@ -58,7 +59,11 @@ export const Card = ({
    const formattedDate = convertDateFormat(inputDate)
 
    return (
-      <StyledCard className={listClassName}>
+      <StyledCard
+         className={listClassName}
+         onClick={onGetThingById}
+         isblock={isBlock}
+      >
          {listClassName && (
             <CardMedia component="img" image={cardImage} alt={cardName} />
          )}
@@ -67,14 +72,11 @@ export const Card = ({
                list && variant === 'secondary' && 'listWithoutHeader'
             }`}
          >
-            <StyledBlockedCard>
-               {isBlock ? <p>Это заблокированный контент!</p> : null}
-            </StyledBlockedCard>
-
             {(variant === 'primary' ||
                variant === 'withStatusTop' ||
                showOwnerOnTheTop) && (
                <CardHeader
+                  onClick={onClick}
                   avatar={
                      ownerImage ? (
                         <StyledAvatarIcon
@@ -126,6 +128,7 @@ export const Card = ({
 
             {variant === 'withStatusTop' && (
                <CardDescription
+                  onClick={onClick}
                   text1={
                      variant === 'secondary' || variant === 'withStatusTop'
                         ? cardName
@@ -136,7 +139,15 @@ export const Card = ({
                   variant={variant}
                />
             )}
-            <StyledCardContent onClick={onGetThingById}>
+
+            <StyledCardContent
+               isblock={isBlock}
+               // onClick={() => {
+               //    console.log('iofewjoefweio')
+               //    if (onClick) onClick()
+               //    if (onGetThingById) onGetThingById()
+               // }}
+            >
                {variant === 'primary' && (
                   <StyledTypography variant="h6">{cardName}</StyledTypography>
                )}
@@ -146,17 +157,14 @@ export const Card = ({
             </StyledCardContent>
             {variant !== 'primary' && variant !== 'withStatusTop' && (
                <CardDescription
+                  onClick={onClick}
                   text1={variant === 'secondary' ? cardName : holiday}
                   text2={variant === 'secondary' ? holiday : newOrOld}
                   newOrOld={newOrOld}
                   variant={variant}
                />
             )}
-            <CardActions
-               className={`${
-                  list && variant === 'secondary' && 'listWithoutHeader'
-               }`}
-            >
+            <StyledCardActions>
                <ActionsWrapper
                   className={`${
                      list && variant === 'secondary' && 'listWithoutHeader'
@@ -177,16 +185,28 @@ export const Card = ({
                   )}
                </ActionsWrapper>
                {variant !== 'quaternary' && meatballsOptions.length !== 0 && (
-                  <MeatBalls
-                     handleChange={handleChange}
-                     options={meatballsOptions}
-                  />
+                  <StyledMeatBallsContainer>
+                     <MeatBalls
+                        handleChange={handleChange}
+                        options={meatballsOptions}
+                     />
+                  </StyledMeatBallsContainer>
                )}
-            </CardActions>
+            </StyledCardActions>
          </ContentContainer>
+         {isBlock && (
+            <StyledBlockedCard>Это заблокированный контент!</StyledBlockedCard>
+         )}
       </StyledCard>
    )
 }
+
+const StyledCardActions = styled(CardActions)({ padding: '0' })
+
+const StyledMeatBallsContainer = styled('div')({
+   position: 'relative',
+   zIndex: '2',
+})
 
 const StyledStatus = styled('span')({
    fontSize: '1rem',
@@ -196,10 +216,21 @@ const StyledStatus = styled('span')({
    overflow: 'hidden',
    whiteSpace: 'nowrap',
    textOverflow: 'ellipsis',
+   textAlign: 'end',
+   color: '#636C84',
 })
 
 const StyledBlockedCard = styled('div')({
-   color: '#ca3636',
+   color: '#ffff',
+   position: 'absolute',
+   background: 'rgba(10, 10, 10, 0.2)',
+   height: '18.8125rem',
+   width: '21.8125rem',
+   display: 'flex',
+   justifyContent: 'center',
+   alignItems: 'center',
+   top: '0',
+   left: '0',
 })
 
 const StyledOwnerWrapper = styled('button')((props) => ({
@@ -241,20 +272,20 @@ const StyledTypography = styled(Typography)({
       color: 'grey',
    },
 })
-
-const StyledCardContent = styled(CardContent)(() => ({
+const StyledCardContent = styled(CardContent)(({ isblock }) => ({
    padding: '0',
    img: {
       maxHeight: '9.5625rem',
       borderRadius: '7px',
+      filter: isblock ? 'blur(1px)' : 'blur(0px)',
    },
    width: '19.8125rem',
 }))
-
-const StyledCard = styled(MUICard)(() => {
+const StyledCard = styled(MUICard)(({ isblock }) => {
    return {
       width: '21.8125rem',
       padding: '15px',
+      position: 'relative',
       borderRadius: '9px',
       ':hover': {
          boxShadow: '0px 0px 43px -10px rgba(209, 209, 209, 1)',
@@ -268,6 +299,7 @@ const StyledCard = styled(MUICard)(() => {
          gap: '7px',
          height: '10rem',
          img: {
+            filter: isblock ? 'blur(1px)' : 'blur(0px)',
             minWidth: '30%',
             borderRadius: '7px',
          },
@@ -323,6 +355,7 @@ const StyledCardActionsPar1 = styled('div')({
    width: '60%',
    justifyContent: 'flex-end',
    gap: '10px',
+   paddingRight: '5px',
 })
 
 const StyledNewOrOld = styled('div')({

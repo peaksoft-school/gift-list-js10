@@ -69,7 +69,7 @@ export const uploadFile = async (file) => {
    } catch (error) {
       toastWithoutPromise(
          notifyTypes.NOTIFY_TYPE_ERROR_ERROR,
-         'Error while upload file',
+         'Ошибка при загрузке файла',
          error
       )
       return error
@@ -110,17 +110,4 @@ export function serializeObjectToQueryParams(obj) {
       }
    })
    return queryParams.join('&')
-}
-
-export function findNumberLength(inputString) {
-   const numbersArray = inputString.match(/\d+/g)
-
-   if (numbersArray) {
-      const totalLength = numbersArray.reduce(
-         (acc, number) => acc + number.length,
-         0
-      )
-      return totalLength
-   }
-   return 0
 }

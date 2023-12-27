@@ -36,6 +36,7 @@ export const WishFromBookedById = () => {
             status={bookedWish.wishStatus}
             ownerId={bookedWish.ownerId}
             type="WISH"
+            bookerId={bookedWish.reservoirId}
             linkToWish={bookedWish.linkToWish}
             onGetBookerById={() =>
                handleOpenDetailProfile(

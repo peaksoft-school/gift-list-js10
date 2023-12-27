@@ -43,6 +43,7 @@ export const GetWishFromFeedById = () => {
       ownerImage,
       bookedStatus,
       ownerId,
+      bookerId,
    } = {}
    switch (type) {
       case 'WISH':
@@ -56,6 +57,7 @@ export const GetWishFromFeedById = () => {
          ownerId = wish.ownerId
          fullName = wish.fullName
          description = wish.description
+         bookerId = wish.reservoirId
          break
       case 'CHARITY':
          bookedUserImage = charity.bookedUserImage
@@ -67,6 +69,7 @@ export const GetWishFromFeedById = () => {
          ownerImage = charity.userImage
          bookedStatus = charity.status
          ownerId = charity.userId
+         bookerId = charity.charityReservoirId
          break
       default:
          date = holidayById.dateOfHoliday
@@ -98,6 +101,7 @@ export const GetWishFromFeedById = () => {
          holiday={holiday}
          ownerName={fullName}
          ownerImage={ownerImage}
+         bookerId={bookerId}
          bookerImage={bookedUserImage}
          status={bookedStatus}
          ownerId={ownerId}

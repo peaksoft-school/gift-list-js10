@@ -69,16 +69,36 @@ export function AdminState({
                </ButtonContainer>
             </StyledFooter>
          </SecondContainer>
+         {isBlock && (
+            <StyledBlockedContentWrapper>
+               Этот контент заблокирован!
+            </StyledBlockedContentWrapper>
+         )}
       </Container>
    )
 }
+
+const StyledBlockedContentWrapper = styled('div')({
+   color: '#ffff',
+   position: 'absolute',
+   background: 'rgba(10, 10, 10, 0.2)',
+   height: '100%',
+   width: '100%',
+   display: 'flex',
+   padding: '20px',
+   justifyContent: 'center',
+   alignItems: 'end',
+   fontSize: '2rem',
+   top: '0',
+   left: '0',
+})
 
 const Container = styled('div')({
    display: 'flex',
    alignItems: 'flex-start',
    backgroundColor: '#fff',
-   height: '72vh',
    paddingRight: '25px',
+   position: 'relative',
 })
 
 const Icon = styled('img')({
@@ -154,6 +174,7 @@ const SecondContainer = styled('div')({
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
+   width: '-webkit-fill-available',
 })
 
 const UserContainer = styled('div')({

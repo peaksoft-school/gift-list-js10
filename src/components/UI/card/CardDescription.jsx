@@ -36,4 +36,7 @@ const Subheader = styled('span')({
    '&.orange': {
       color: globalTheme.palette.secondary.orange,
    },
+   overflow: 'hidden',
+   whiteSpace: 'nowrap',
+   textOverflow: 'ellipsis',
 })

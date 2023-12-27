@@ -1,11 +1,7 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { Box, Typography, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Typography, styled } from '@mui/material'
-import { axiosInstance } from '../../../config/axiosInstance'
-import { Button } from '../../../components/UI/Button'
 import {
    DeleteIcon,
    ProfileFacebook,
@@ -15,11 +11,12 @@ import {
    Razblock,
    Zablock,
 } from '../../../assets'
-import { Card } from '../../../components/UI/card/Card'
+import { Button } from '../../../components/UI/Button'
 import { DeleteModal } from '../../../components/UI/DeleteModal'
-// import { providerEvent } from '../../../events/customEvents'
-import { shoeSize } from '../../../utils/constants/stateAndCategory'
+import { Card } from '../../../components/UI/card/Card'
+import { axiosInstance } from '../../../config/axiosInstance'
 import { englishCountries } from '../../../utils/constants/constants'
+import { shoeSize } from '../../../utils/constants/stateAndCategory'
 
 export const UserProfile = () => {
    const [user, setUser] = useState({})
@@ -205,7 +202,7 @@ export const UserProfile = () => {
          <ReusableContainer>
             <div className="title">
                <p>Желаемые подарки</p>
-               <p onClick={() => navigate(`wishes`)}>Смотреть все</p>
+               <Box onClick={() => navigate(`wishes`)}>Смотреть все</Box>
             </div>
             <div className="cards">
                {userWishes.slice(0, 3).map((wish) => {
@@ -244,7 +241,7 @@ export const UserProfile = () => {
          <ReusableContainer>
             <div className="title">
                <p>Праздники</p>
-               <p onClick={() => navigate('holidays')}>Смотреть все</p>
+               <Box onClick={() => navigate('holidays')}>Смотреть все</Box>
             </div>
             <div className="cards">
                {userHolidays.slice(0, 3).map((holiday) => {
@@ -269,7 +266,7 @@ export const UserProfile = () => {
          <ReusableContainer>
             <div className="title">
                <p>Благотворительность</p>
-               <p onClick={() => navigate('charities')}>Смотреть все</p>
+               <Box onClick={() => navigate('charities')}>Смотреть все</Box>
             </div>
             <div className="cards">
                {userCharities.slice(0, 3).map((charity) => {

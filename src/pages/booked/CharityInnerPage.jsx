@@ -32,6 +32,7 @@ export const CharityInnerPage = () => {
                   ownerImage={charity.ownerImage}
                   status={charity.wishStatus}
                   variant="withStatusTop"
+                  showBottomBooker="true"
                   handleChange={() =>
                      handleOptionsChange.CHARITY(
                         charity.id,
