@@ -47,5 +47,3 @@ export const feedSlice = createSlice({
          })
    },
 })
-
-// export const {} = feedSlice.actions

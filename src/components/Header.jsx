@@ -1,15 +1,22 @@
 import { AppBar, Avatar, styled } from '@mui/material'
-import { React, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
 import { LogoutIcon, ProfileIcon } from '../assets'
+import { providerEvent } from '../events/customEvents'
 import { logout } from '../store/auth/authSlice'
 import {
    getAllCharityByUserId,
    searchCharity,
 } from '../store/charity/charityThunk'
+import { getProfileByUserId } from '../store/profile/profileThunk'
+import {
+   getSearchHolidays,
+   getSearchWish,
+   getUsersSearch,
+} from '../store/search/searchThunk'
 import { routes } from '../utils/constants'
 import {
    categoriesWithRussianPropertiesName,
@@ -38,7 +45,14 @@ export const Header = ({ variantOfSelect = '' }) => {
    const { reset, setValue } = useForm({
       defaultValues: defaultSelectProperites,
    })
+
+   const searchUsers = useSelector((state) => state.search.searchResult)
+   const { pathname } = useLocation()
+
    const { fullName } = useSelector((state) => state.authLogin)
+
+   const [search, setSearch] = useState(null)
+
    const [values, setValues] = useState(defaultSelectProperites)
    const { role, id, image } = useSelector((state) => state.authLogin)
    const [searchTerm, setSearchTerm] = useState('')
@@ -111,6 +125,20 @@ export const Header = ({ variantOfSelect = '' }) => {
       setValue(e.target.name, e.target.value)
       setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
    }
+
+   const handleSearch = (e) => {
+      setSearch(e.target.value)
+   }
+   useEffect(() => {
+      if (pathname.includes('feed')) {
+         dispatch(getUsersSearch(search))
+      } else if (pathname.includes('wish')) {
+         dispatch(getSearchWish(search))
+      } else if (pathname.includes('my-holidays')) {
+         dispatch(getSearchHolidays(search))
+      }
+   }, [search])
+
    const toggleModal = () => setIsOpenModal((prev) => !prev)
    const meetballsChange = (e) => {
       const text = e.target.innerText
@@ -121,14 +149,34 @@ export const Header = ({ variantOfSelect = '' }) => {
       }
    }
    const onLogout = () => dispatch(logout())
+
+   const openUserProfile = (userId, name) => {
+      dispatch(getProfileByUserId(userId))
+      providerEvent({ action: 'name', payload: name })
+      navigate(`addToMyFriends/${userId}`)
+      setSearch('')
+   }
+
+   const openWishPage = (thingId, name) => {
+      providerEvent({ action: 'name', payload: name })
+      navigate(`feed/${thingId}/WISH`)
+   }
+
+   const openHolidayPage = (thingId, name) => {
+      providerEvent({ action: 'name', payload: name })
+      navigate(`feed/${thingId}/HOLIDAY`)
+   }
+
    return (
       <>
          <StyledHeader>
             <SearchSelect
                values={values}
                handleChange={handleChange}
+               handleSearch={handleSearch}
                handleReset={handleReset}
                variant={variantOfSelect}
+               search={search}
             />
             <ProfileContainer>
                <NotificationWrapper>
@@ -153,6 +201,66 @@ export const Header = ({ variantOfSelect = '' }) => {
                </DropdDownIconWrapper>
             </ProfileContainer>
          </StyledHeader>
+         {searchUsers.result?.length > 0 && search && (
+            <Styledsearch>
+               <Container>
+                  <h3>Результаты поиска</h3>
+                  {(() => {
+                     switch (searchUsers.type) {
+                        case 'USER':
+                           return searchUsers?.result.map((user) => (
+                              <SearchContainer
+                                 key={user.userId}
+                                 onClick={() =>
+                                    openUserProfile(user.userId, user.fullName)
+                                 }
+                              >
+                                 <img src={user.image} alt={user.fullName} />
+                                 <p>{user.fullName}</p>
+                              </SearchContainer>
+                           ))
+                        case 'WISH':
+                           return searchUsers?.result.map((wish) => (
+                              <SearchContainer
+                                 key={wish.wishId}
+                                 onClick={() =>
+                                    openWishPage(wish.wishId, wish.wishName)
+                                 }
+                              >
+                                 <img
+                                    src={wish.wishImage}
+                                    alt={wish.wishName}
+                                 />
+                                 <p>{wish.wishName}</p>
+                              </SearchContainer>
+                           ))
+                        case 'HOLIDAY':
+                           return searchUsers?.result.map((holiday) => (
+                              <SearchContainer
+                                 key={holiday.holidayId}
+                                 onClick={() =>
+                                    openHolidayPage(
+                                       holiday.holidayId,
+                                       holiday.nameHoliday
+                                    )
+                                 }
+                              >
+                                 <img
+                                    src={holiday.image}
+                                    alt={holiday.nameHoliday}
+                                 />
+                                 <p>{holiday.nameHoliday}</p>
+                              </SearchContainer>
+                           ))
+
+                        default:
+                           return null
+                     }
+                  })()}
+               </Container>
+            </Styledsearch>
+         )}
+
          <Modal handleClose={toggleModal} isOpen={isOpenModal} padding="20px">
             <ModalContent>
                <LogoutIconContainer>
@@ -170,6 +278,41 @@ export const Header = ({ variantOfSelect = '' }) => {
       </>
    )
 }
+
+const Styledsearch = styled('div')({
+   width: '73%',
+   background: 'white',
+   position: 'relative',
+   top: '-50px',
+   left: '20px',
+})
+
+const SearchContainer = styled('div')({
+   width: '100%',
+   padding: '10px',
+   display: 'flex',
+   gap: '20px',
+   alignItems: 'center',
+   '&>img': {
+      width: '40px',
+      height: '40px',
+      borderRadius: '50px',
+   },
+})
+const Container = styled('div')({
+   width: '100%',
+   position: 'absolute',
+   background: 'white',
+   padding: '30px',
+   borderRadius: '5px',
+   top: '0',
+   left: '0',
+   zIndex: '3',
+   '& > h3': {
+      padding: '5px',
+      borderBottom: '1px solid #918e8e',
+   },
+})
 
 const StyledAvatarIcon = styled(Avatar)((props) => {
    return {

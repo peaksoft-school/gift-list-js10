@@ -51,9 +51,9 @@ export const AdminRoutes = () => {
                />
             }
          >
-            <Route index element={<Navigate to={users.path} />} />
+            <Route index element={<Navigate to={users?.path} />} />
             <Route
-               path={users.path}
+               path={users?.path}
                element={
                   <PrivateRoutes
                      Component={<UsersPage />}
@@ -63,7 +63,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={getUserById.path}
+               path={getUserById?.path}
                element={
                   <PrivateRoutes
                      Component={<UserProfile />}
@@ -73,7 +73,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={getUserWishes.path}
+               path={getUserWishes?.path}
                element={
                   <PrivateRoutes
                      Component={<UserWishes />}
@@ -83,7 +83,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={getUserWishById.path}
+               path={getUserWishById?.path}
                element={
                   <PrivateRoutes
                      Component={<Wish />}
@@ -93,7 +93,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={getUserHolidays.path}
+               path={getUserHolidays?.path}
                element={
                   <PrivateRoutes
                      Component={<UserHolidays />}
@@ -103,7 +103,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={getUserCharities.path}
+               path={getUserCharities?.path}
                element={
                   <PrivateRoutes
                      Component={<UserCharities />}
@@ -113,7 +113,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={getCharityById.path}
+               path={getCharityById?.path}
                element={
                   <PrivateRoutes
                      Component={<Charity />}
@@ -163,7 +163,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={mailing.path}
+               path={mailing?.path}
                element={
                   <PrivateRoutes
                      Component={<MailingPage />}
@@ -173,7 +173,7 @@ export const AdminRoutes = () => {
                }
             />
             <Route
-               path={innerMailing.path}
+               path={innerMailing?.path}
                element={
                   <PrivateRoutes
                      Component={<MailingInnerPage />}

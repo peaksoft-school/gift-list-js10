@@ -35,8 +35,10 @@ const selectOptions = [
 export const SearchSelect = ({
    variant = {},
    values,
+   search,
    handleChange,
    handleReset,
+   handleSearch,
 }) => {
    const [isShowX, setIsShowX] = useState(false)
    useEffect(() => {
@@ -60,8 +62,10 @@ export const SearchSelect = ({
       <Form
          placeholder="Поиск"
          name="search"
-         value={values.search}
-         onChange={handleChange}
+         autoComplete="off"
+         autoFocus="off"
+         value={variant ? values.search : search}
+         onChange={variant ? handleChange : handleSearch}
          InputProps={{
             startAdornment: (
                <InputAdornment position="start">

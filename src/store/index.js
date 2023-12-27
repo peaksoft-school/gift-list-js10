@@ -7,10 +7,11 @@ import { complaintsSlice } from './complaints-slice/complaintsSlice'
 import { feedSlice } from './feed/feedSlice'
 import { holidaySlice } from './holiday/holidaySlice'
 import { mailingsSlice } from './mailing/mailingsSlice'
-import { notificationSlice } from './notification/notificatiionSlice'
 import { myFriendsSlice } from './my-friends/friendsSlice'
+import { notificationSlice } from './notification/notificatiionSlice'
 import { profileSlice } from './profile/profileSlice'
 import { requestSlice } from './requests/requestSlice'
+import { searchSlice } from './search/searchSlice'
 import { usersSlice } from './slices/users/users-slice'
 import { wishSlice } from './wish/wishSlice'
 
@@ -30,5 +31,6 @@ export const store = configureStore({
       [notificationSlice.name]: notificationSlice.reducer,
       [charitySlice.name]: charitySlice.reducer,
       [mailingsSlice.name]: mailingsSlice.reducer,
+      [searchSlice.name]: searchSlice.reducer,
    },
 })

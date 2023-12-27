@@ -54,9 +54,6 @@ export const CharitiesPage = ({ isList }) => {
                         charity.reservoirFullName
                      )
                   }
-                  onGetOwnerById={() =>
-                     handleOpenDetailProfile(charity.userId, charity.fullName)
-                  }
                   meatballsOptions={isWishBooked(
                      charity.charityReservoirId,
                      id

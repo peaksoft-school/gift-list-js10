@@ -23,6 +23,7 @@ export const MainPageFooter = () => {
                      href="https://www.facebook.com/groups/amigoscode"
                      target="_blank"
                      rel="noopener noreferrer"
+                     aria-label="Facebook"
                   >
                      <FacebookImg />
                   </a>
@@ -30,6 +31,7 @@ export const MainPageFooter = () => {
                      href="https://id.vk.com/auth?v=1.46.0&app_id=7934655&uuid=f15f37cfaa&redirect_uri=https%3A%2F%2Fm.vk.com%2F%3Fact%3Dclient_url_proxy%26_to%3DaHR0cHM6Ly9tLnZrLmNvbS9sb2dpbj90bz1abVZsWkEtLQ%26_proxy%3Did_auth%26_openBrowser%3D1&app_settings=W10%3D&action=eyJuYW1lIjoibm9fcGFzc3dvcmRfZmxvdyIsInBhcmFtcyI6eyJ0eXBlIjoic2lnbl9pbiIsIndpdGhfdmthcHAiOnRydWV9fQ%3D%3D&scheme=space_gray"
                      target="_blank"
                      rel="noopener noreferrer"
+                     aria-label="VK"
                   >
                      <VkImg />
                   </a>
@@ -37,6 +39,7 @@ export const MainPageFooter = () => {
                      href="https://www.instagram.com/"
                      target="_blank"
                      rel="noopener noreferrer"
+                     aria-label="INSTAGRAM"
                   >
                      <InstagramImg />
                   </a>
