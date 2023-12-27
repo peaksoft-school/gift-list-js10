@@ -6,6 +6,7 @@ import { complaintSlice } from './complaint/complaintSlice'
 import { complaintsSlice } from './complaints-slice/complaintsSlice'
 import { feedSlice } from './feed/feedSlice'
 import { holidaySlice } from './holiday/holidaySlice'
+import { notificationSlice } from './notification/notificatiionSlice'
 import { myFriendsSlice } from './my-friends/friendsSlice'
 import { profileSlice } from './profile/profileSlice'
 import { usersSlice } from './slices/users/users-slice'
@@ -28,6 +29,7 @@ export const store = configureStore({
       [complaintsSlice.name]: complaintsSlice.reducer,
       [wishByIdSlice.name]: wishByIdSlice.reducer,
       [wishSlice.name]: wishSlice.reducer,
+      [notificationSlice.name]: notificationSlice.reducer,
       [charitySlice.name]: charitySlice.reducer,
       [mailingsSlice.name]: mailingsSlice.reducer,
    },
