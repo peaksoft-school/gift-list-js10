@@ -1,5 +1,5 @@
-import React from 'react'
 import { styled } from '@mui/material'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { Card } from '../../components/UI/card/Card'
 
@@ -11,6 +11,7 @@ export const HolidaysPage = ({ isList }) => {
          <CardContainer>
             {holidays.map((holiday) => (
                <Card
+                  variant="tertiary"
                   key={holiday.holidayId}
                   date={holiday.dateOfHoliday}
                   cardImage={holiday.image}

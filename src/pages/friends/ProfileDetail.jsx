@@ -10,9 +10,6 @@ import {
    unBookingWishThunk,
    unbookingCharityThunk,
 } from '../../store/booking/bookingThunk'
-import { shoeSizeObject } from '../../utils/constants/constants'
-import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
-import { Profile } from '../LandingPage/Profile'
 import { getAllCharityByUserId } from '../../store/charity/charityThunk'
 import { getHolidaysByUserId } from '../../store/holiday/holidayThunk'
 import {
@@ -22,7 +19,10 @@ import {
    sendRequestToUser,
 } from '../../store/my-friends/friendsThunk'
 import { getProfileByUserId } from '../../store/profile/profileThunk'
-import { getWishListByUserId } from '../../store/wish/wishThunk'
+import { getAllWishesByUserId } from '../../store/wish/wishThunk'
+import { shoeSizeObject } from '../../utils/constants/constants'
+import { meetballsFriendOptions } from '../../utils/constants/meatballs-options'
+import { Profile } from '../LandingPage/Profile'
 
 export const isWishBooked = (bookerId, myId, wishStatus) => {
    let meatballsOptions = []
@@ -43,7 +43,7 @@ export const handleOptionsChange = {
                wishId,
                isBookingAnonymous: false,
                userId,
-               getSomethingFunction: getWishListByUserId,
+               getSomethingFunction: getAllWishesByUserId,
             })
          )
       } else if (selectedOption === 'Забронировать анонимно') {
@@ -52,7 +52,7 @@ export const handleOptionsChange = {
                wishId,
                isBookingAnonymous: true,
                userId,
-               getSomethingFunction: getWishListByUserId,
+               getSomethingFunction: getAllWishesByUserId,
             })
          )
       } else {
@@ -60,7 +60,7 @@ export const handleOptionsChange = {
             unBookingWishThunk({
                wishId,
                userId,
-               getSomethingFunction: getWishListByUserId,
+               getSomethingFunction: getAllWishesByUserId,
             })
          )
       }
@@ -118,7 +118,7 @@ export const ProfileDetail = ({ variant }) => {
 
    useEffect(() => {
       dispatch(getProfileByUserId(friendId))
-      dispatch(getWishListByUserId(friendId))
+      dispatch(getAllWishesByUserId(friendId))
       dispatch(getHolidaysByUserId(friendId))
       dispatch(getAllCharityByUserId(friendId))
    }, [dispatch])

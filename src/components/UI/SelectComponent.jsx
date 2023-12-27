@@ -22,6 +22,7 @@ export const SelectComponent = ({
    error,
    helperText,
    handleChange,
+   disabled,
 }) => {
    const {
       field: { onChange, value },
@@ -46,6 +47,7 @@ export const SelectComponent = ({
             label={label}
             displayEmpty
             name={name}
+            disabled={disabled}
             value={value}
             error={Boolean(error)}
             renderValue={(selected) => {

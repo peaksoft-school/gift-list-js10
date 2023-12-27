@@ -100,6 +100,26 @@ export const WishListForm = ({
          setPreview((prev) => ({ ...prev, url: image }))
          reset(defaultValues)
       }
+      if (defaultHolidayId) {
+         const result = async () => {
+            await dispatch(getAllHolidaysByUserId(id))
+            console.log(holidays)
+            console.log(
+               holidays.find((holiday) => {
+                  if (holiday.holidayId === defaultHolidayId) {
+                     console.log(holiday, defaultHolidayId)
+                     return holiday.nameHoliday
+                  }
+                  return null
+               })
+            )
+            setValue(
+               'holidayName',
+               holidays.find((holiday) => holiday.id === defaultHolidayId)
+            )
+         }
+         console.log(result())
+      }
    }, [defaultValues, defaultHolidayId])
 
    const holidayNames = holidays.map((holiday) => {
@@ -158,7 +178,6 @@ export const WishListForm = ({
                            placeholder={placeholder}
                            name={labelName}
                            control={control}
-                           disabled={Boolean(image)}
                            error={Boolean(errors.holiday)}
                            helperText={errors.holiday?.message}
                            handleChange={handleChange}

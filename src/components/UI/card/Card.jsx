@@ -283,6 +283,7 @@ const StyledCardContent = styled(CardContent)(({ isblock }) => ({
 }))
 const StyledCard = styled(MUICard)(({ isblock }) => {
    return {
+      cursor: 'pointer',
       width: '21.8125rem',
       padding: '15px',
       position: 'relative',
@@ -352,7 +353,6 @@ const StyledCardActionsPar1 = styled('div')({
       color: '#595656',
    },
    fontSize: '0.875rem',
-   width: '60%',
    justifyContent: 'flex-end',
    gap: '10px',
    paddingRight: '5px',

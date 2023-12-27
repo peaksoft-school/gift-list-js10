@@ -78,14 +78,16 @@ export const Notification = () => {
                <Container onClick={(e) => e.stopPropagation()}>
                   <FirstBlock>
                      <h3>Уведомления</h3>
-                     <IconButton
-                        aria-label="more"
-                        aria-haspopup="true"
-                        aria-controls="long-menu"
-                        onClick={openReadAll}
-                     >
-                        <MoreVert />
-                     </IconButton>
+                     {notifications.length > 0 && (
+                        <IconButton
+                           aria-label="more"
+                           aria-haspopup="true"
+                           aria-controls="long-menu"
+                           onClick={openReadAll}
+                        >
+                           <MoreVert />
+                        </IconButton>
+                     )}
                      <StyledMenu
                         open={open}
                         keepMounted

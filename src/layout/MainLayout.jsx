@@ -42,16 +42,6 @@ function findNumberLength(inputString) {
 
 const getLastElementOfPath = (path) => path.slice(-1)
 
-// const containsStringBetweenNumbers = (stringForChecking) => {
-//    const wordsBetweenTwoAndEight = stringForChecking.split('/')[1]
-
-//    const hasLetters = /[a-zA-Z]/.test(wordsBetweenTwoAndEight)
-
-//    // Проверка на слово (без цифр и спецсимволов)
-//    const isWord = /^[a-zA-Z]+$/.test(wordsBetweenTwoAndEight)
-//    return hasLetters && isWord
-// }
-
 export const MainLayout = ({ role, isList, toggleList }) => {
    const routesArray = transformObjectRoutesToArray(role)
    const breadcrumbs = useBreadcrumbs(routesArray, {
@@ -59,7 +49,8 @@ export const MainLayout = ({ role, isList, toggleList }) => {
    })
    const [inner, setInner] = useState(false)
    const path = useParams()
-   const [byIdName, setByIdName] = useState([])
+
+   const [byIdName, setByIdName] = useState('')
    const buttonContent = routes[role][path['*']]?.buttonContent
    const navigate = useNavigate()
    const { charities } = useSelector((state) => state.charity)
@@ -134,6 +125,15 @@ export const MainLayout = ({ role, isList, toggleList }) => {
                                           ? 'true'
                                           : ''
                                     }
+                                    onClick={(e) => {
+                                       if (
+                                          breadcrumbsForRequests.length - 1 ===
+                                             index ||
+                                          findNumberLength(match.pathname)
+                                       ) {
+                                          e.preventDefault()
+                                       }
+                                    }}
                                  >
                                     {isNumber(
                                        getLastElementOfPath(match.pathname)
@@ -260,7 +260,7 @@ const StyledNavLink = styled(NavLink)(({ active }) => ({
 
 const StyledButton = styled(Button)({
    borderRadius: '3px',
-   padding: '2px',
+   padding: '6px',
    span: {
       display: 'none',
    },

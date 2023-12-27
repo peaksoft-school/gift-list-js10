@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { AdminState } from '../../components/GiftInnerContent'
+import { GiftInnerContent } from '../../components/GiftInnerContent'
 import {
    getWishlistByWishId,
    isBlockWishById,
    isUnBlockWishById,
-} from '../../store/wishesById/wishByIdThunk'
+} from '../../store/wish/wishThunk'
 import { deleteWishById } from '../../store/complaints-slice/complaintsThunk'
 
 export const WishesInnerPage = () => {
@@ -34,7 +34,7 @@ export const WishesInnerPage = () => {
 
    return (
       <div>
-         <AdminState
+         <GiftInnerContent
             image={wish.wishImage}
             ownerImage={wish.ownerImage}
             ownerName={wish.fullName}

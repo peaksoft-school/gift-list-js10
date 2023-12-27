@@ -2,28 +2,30 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { MainLayout } from '../../layout/MainLayout'
-import { GetAllFeedPage } from '../../pages/feed/GetAllFeedPage'
-import { GetWishFromFeedById } from '../../pages/feed/GetWishFromFeedById'
-import { routes } from '../../utils/constants'
-import { PrivateRoutes } from '../PrivateRoutes'
-import { MyFriends } from '../../pages/friends/MyFriends'
-import { FriendRequests } from '../../pages/friends/FriendRequests'
-import { ProfileDetail } from '../../pages/friends/ProfileDetail'
-import { WishesPage } from '../../pages/friends/WishesPage'
-import { CharitiesPage } from '../../pages/friends/CharitiesPage'
-import { HolidaysPage } from '../../pages/friends/HolidaysPage'
-import { UserProfilePage } from '../../pages/profile/UserProfilePage'
-import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
+import { BookedWishAndCharityPage } from '../../pages/booked/BookedWishAndCharityPage'
+import { CharityFromBookedById } from '../../pages/booked/CharityFromBookedById'
+import { CharityInnerPage } from '../../pages/booked/CharityInnerPage'
+import { WishFromBookedById } from '../../pages/booked/WishFromBookedById'
+import { EditOrAddCharityFormPage } from '../../pages/charity/EditOrAddCharityFormPage'
 import { GetAllCharity } from '../../pages/charity/GetAllCharity'
 import { GetCharityById } from '../../pages/charity/GetCharityById'
-import { EditOrAddCharityFormPage } from '../../pages/charity/EditOrAddCharityFormPage'
-import { MyHolidays } from '../../pages/holiday/MyHolidays'
+import { GetAllFeedPage } from '../../pages/feed/GetAllFeedPage'
+import { GetWishFromFeedById } from '../../pages/feed/GetWishFromFeedById'
+import { CharitiesPage } from '../../pages/friends/CharitiesPage'
+import { FriendRequests } from '../../pages/friends/FriendRequests'
+import { HolidaysPage } from '../../pages/friends/HolidaysPage'
+import { MyFriends } from '../../pages/friends/MyFriends'
+import { ProfileDetail } from '../../pages/friends/ProfileDetail'
+import { WishesPage } from '../../pages/friends/WishesPage'
 import { HolidayInnerPage } from '../../pages/holiday/HolidayInnerPage'
-import { BookedWishAndCharityPage } from '../../pages/booked/BookedWishAndCharityPage'
-import { WishInnerPage } from '../../pages/booked/WishInnerPage'
-import { CharityInnerPage } from '../../pages/booked/CharityInnerPage'
-import { CharityFromBookedById } from '../../pages/booked/CharityFromBookedById'
-import { WishFromBookedById } from '../../pages/booked/WishFromBookedById'
+import { MyHolidays } from '../../pages/holiday/MyHolidays'
+import { UpdateUserProfilePage } from '../../pages/profile/UpdateUserProfilePage'
+import { UserProfilePage } from '../../pages/profile/UserProfilePage'
+import { EditOrAddWishPage } from '../../pages/wishes/EditOrAddWIshPage'
+import { WishInnerPage } from '../../pages/wishes/WishInnerPage'
+import { WishListCollection } from '../../pages/wishes/WishListCollection'
+import { routes } from '../../utils/constants'
+import { PrivateRoutes } from '../PrivateRoutes'
 
 export const UserRoutes = () => {
    const { isAuth, role } = useSelector((state) => state.authLogin)
@@ -52,6 +54,10 @@ export const UserRoutes = () => {
       userProfileById,
       holidayInnerPage,
       thingFromFeedById,
+      addWish,
+      wish,
+      putWish,
+      getWishById,
       charity,
       charityById,
       addCharity,
@@ -265,6 +271,47 @@ export const UserRoutes = () => {
                element={
                   <PrivateRoutes
                      Component={<UpdateUserProfilePage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+
+            <Route
+               path={wish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishListCollection isList={isList} />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={addWish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<EditOrAddWishPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={putWish.path}
+               element={
+                  <PrivateRoutes
+                     Component={<EditOrAddWishPage />}
+                     isAuth={isAuth}
+                     fallback="/"
+                  />
+               }
+            />
+            <Route
+               path={getWishById.path}
+               element={
+                  <PrivateRoutes
+                     Component={<WishInnerPage />}
                      isAuth={isAuth}
                      fallback="/"
                   />

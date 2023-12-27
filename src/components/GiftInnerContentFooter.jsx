@@ -10,14 +10,13 @@ export function Field({
    state,
    createdDate,
    role,
-   variant,
+   variant = 'wish',
 }) {
-   const date = useSelector((state) => state.wishById.wish)
-
+   const date = useSelector((state) => state.wish.wish)
    return (
       <div>
          <div>
-            {variant ? (
+            {!variant ? (
                <DefContent>
                   <Display>
                      <Paragraph>
@@ -39,12 +38,20 @@ export function Field({
                   </Around>
                </DefContent>
             ) : (
-               <Paragraph>
-                  Дата добавления:
-                  <TextFeature>
-                     {convertDateFormat(date.dateOfHoliday)}
-                  </TextFeature>
-               </Paragraph>
+               <WishContentWrapper>
+                  <Paragraph>
+                     Дата добавления:
+                     <TextFeature>
+                        {convertDateFormat(date.dateOfHoliday)}
+                     </TextFeature>
+                  </Paragraph>
+                  <Paragraph>
+                     Название праздника:
+                     <TextFeature sx={{ color: '#0BA360' }}>
+                        {date.holidayName}
+                     </TextFeature>
+                  </Paragraph>
+               </WishContentWrapper>
             )}
          </div>
          <ScrollContainer>
@@ -73,6 +80,11 @@ export function Field({
       </div>
    )
 }
+
+const WishContentWrapper = styled('div')({
+   display: 'flex',
+   justifyContent: 'space-between',
+})
 
 const ScrollContainer = styled('div')({
    overflow: 'auto',
@@ -111,6 +123,9 @@ const TextFeature = styled('span')({
    color: '#000',
    paddingBottom: '10px',
 })
+// const TextHolidayName = styled('p')({
+//    color: '#0BA360',
+// })
 
 const IconContainer = styled('div')({
    display: 'flex',

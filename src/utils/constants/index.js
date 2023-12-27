@@ -145,6 +145,24 @@ export const routes = {
          path: 'edit',
          breadcrumb: 'Рассказать о себе',
       },
+      wish: {
+         path: 'wish',
+         showListActions: 'true',
+         buttonContent: 'Добавить желание',
+         breadcrumb: 'Список желаний',
+         onClick: (navigate) => navigate('wish/addWish'),
+      },
+      addWish: {
+         path: 'wish/addWish',
+         breadcrumb: 'Добавление желания',
+      },
+      putWish: {
+         path: 'wish/putWish',
+         breadcrumb: 'Редактировать Желание',
+      },
+      getWishById: {
+         path: 'wish/:wishId',
+      },
       mailing: {
          path: 'mailing',
          breadcrumb: 'Рассылка',

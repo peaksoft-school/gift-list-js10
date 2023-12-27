@@ -8,11 +8,8 @@ import {
    deleteWishById,
    getWishesWithComplaints,
 } from '../../store/complaints-slice/complaintsThunk'
-import {
-   isBlockWishById,
-   isUnBlockWishById,
-} from '../../store/wishesById/wishByIdThunk'
 import { meatballsComplaintsOptions } from '../../utils/constants/meatballs-options'
+import { isBlockWishById, isUnBlockWishById } from '../../store/wish/wishThunk'
 import { complaintsWithEnglishPropertiesName } from '../../utils/constants/options'
 import { SecondEmptyComponent } from '../LandingPage/SecondEmptyComponent'
 
