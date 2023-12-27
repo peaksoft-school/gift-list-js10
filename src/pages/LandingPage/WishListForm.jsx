@@ -59,7 +59,9 @@ export const WishListForm = ({
    defaultHolidayId,
 }) => {
    const [preview, setPreview] = useState({ file: '', url: image })
-   const [values, setValues] = useState(variant ? initialValues[0] : {})
+   const [values, setValues] = useState(
+      variant ? initialValues[0] : { ...defaultValues }
+   )
    const {
       register,
       handleSubmit,
@@ -101,20 +103,22 @@ export const WishListForm = ({
       }
       if (defaultHolidayId) {
          const result = async () => {
-            await dispatch(getAllHolidaysByUserId(id))
-            console.log(holidays)
-            console.log(
-               holidays.find((holiday) => {
-                  if (holiday.holidayId === defaultHolidayId) {
-                     console.log(holiday, defaultHolidayId)
-                     return holiday.nameHoliday
-                  }
-                  return null
-               })
-            )
+            // await dispatch(getAllHolidaysByUserId(id))
+            // console.log(holidays)
+            // console.log(
+            //    holidays.find((holiday) => {
+            //       if (holiday.holidayId === defaultHolidayId) {
+            //          console.log(holiday, defaultHolidayId)
+            //          return holiday?.nameHoliday
+            //       }
+            //       return null
+            //    })
+            // )
             setValue(
                'holidayName',
-               holidays.find((holiday) => holiday.id === defaultHolidayId)
+               holidays.find(
+                  (holiday) => holiday.holidayId === defaultHolidayId
+               )?.nameHoliday
             )
          }
          console.log(result())
@@ -122,9 +126,10 @@ export const WishListForm = ({
    }, [defaultValues, defaultHolidayId])
 
    const holidayNames = holidays.map((holiday) => {
-      return holiday.nameHoliday
+      return holiday?.nameHoliday
    })
-   const holiday = holidays.find((el) => el.nameHoliday === values.holiday)
+   console.log(values)
+   const holiday = holidays.find((el) => el?.nameHoliday === values.holiday)
    return (
       <Container>
          <BlockOne>
@@ -132,10 +137,10 @@ export const WishListForm = ({
          </BlockOne>
          <BlockTwo
             onSubmit={handleSubmit((data) => {
-               onSubmit(data, preview.file, holiday.holidayId)
-               reset()
+               onSubmit(data, preview?.file, holiday?.holidayId)
                setPreview(null)
                setValues(variant ? initialValues[0] : {})
+               reset()
             })}
          >
             <h3>
@@ -219,7 +224,7 @@ export const WishListForm = ({
                <Button onClick={onClose}>Отмена</Button>
                <Button
                   onClick={() => {
-                     onSubmit(getValues(), preview.file, holiday.holidayId)
+                     onSubmit(getValues(), preview?.file, holiday?.holidayId)
                      reset()
                      setPreview(null)
                      setValues(variant ? initialValues[0] : {})

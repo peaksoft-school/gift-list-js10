@@ -47,19 +47,27 @@ export const EditOrAddWishPage = () => {
       }))
    }
 
-   const onSubmit = async (values, file, holidayId) => {
+   // eslint-disable-next-line default-param-last
+   const onSubmit = async (values, file = null, holidayId) => {
       let image = wish?.wishImage
       if (file) {
-         const response = await uploadFile(file)
-         image = response.link
+         try {
+            const response = await uploadFile(file)
+            image = response.link
+         } catch (error) {
+            console.log(error)
+         }
       }
       const wishData = {
          nameWish: values.holidayName,
          image,
          linkToGift: values.link,
          description: values.description,
+         status: wish.wishStatus,
       }
-
+      if (!values.holidayName) {
+         return null
+      }
       if (state?.wishId) {
          return dispatch(
             putWish({
@@ -114,6 +122,7 @@ export const EditOrAddWishPage = () => {
                   link: wish?.linkToWish,
                   holiday: wish?.holidayName,
                   description: wish?.description,
+                  nameWish: wish?.nameWish,
                }
             }
             defaultHolidayId={defaultHolidayId}

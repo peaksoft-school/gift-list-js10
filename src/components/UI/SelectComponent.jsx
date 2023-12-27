@@ -34,7 +34,7 @@ export const SelectComponent = ({
 
    useEffect(() => {
       handleChange(name, value)
-   }, [onChange, value])
+   }, [onChange, value, value, name])
 
    return (
       <FormControl fullWidth>

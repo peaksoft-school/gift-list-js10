@@ -97,7 +97,7 @@ export const EditOrAddFormModal = ({
             <StyledForm
                component="form"
                onSubmit={handleSubmit((values) =>
-                  onSubmit(values, type, addNewHolidayModalState.holidayId)
+                  onSubmit(values, type, addNewHolidayModalState?.holidayId)
                )}
             >
                <StyledAddHolidayTitle variant="h1">

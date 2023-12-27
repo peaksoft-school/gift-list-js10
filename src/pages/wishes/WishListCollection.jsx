@@ -33,6 +33,7 @@ export const WishListCollection = ({ isList }) => {
    const onAddWish = () => {
       navigate('addWish')
    }
+   console.log(wishes[0])
 
    useEffect(() => {
       dispatch(getAllWishesByUserId(id))
