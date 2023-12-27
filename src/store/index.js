@@ -14,6 +14,7 @@ import { requestSlice } from './requests/requestSlice'
 import { wishSlice } from './wish/wishSlice'
 import { wishByIdSlice } from './wishesById/wishByIdSlice'
 import { mailingsSlice } from './mailing/mailingsSlice'
+import { searchSlice } from './search/searchSlice'
 
 export const store = configureStore({
    reducer: {
@@ -32,5 +33,6 @@ export const store = configureStore({
       [notificationSlice.name]: notificationSlice.reducer,
       [charitySlice.name]: charitySlice.reducer,
       [mailingsSlice.name]: mailingsSlice.reducer,
+      [searchSlice.name]: searchSlice.reducer,
    },
 })
